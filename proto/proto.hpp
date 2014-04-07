@@ -12,7 +12,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PROTO_HPp)
+#if !defined(UKACHULLDCS_08961_PROTO_HPP)
 
 #define UKACHULLDCS_08961_PROTO_HPP
 
