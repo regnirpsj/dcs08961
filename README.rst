@@ -4,13 +4,33 @@ dcs08961 README
 
 :Author: Jan P Springer <regnirpsj@gmail.com>
 
+.. contents::
+
+.. _OpenGL: http://opengl.org/
+.. _OGLplus: http://oglplus.org/
+.. _CMake: http://www.cmake.org/
+.. _Doxygen: http://www.doxygen.org/
+
 Introduction
 ============
 
-`dcs08961` is an infrastructure project to support the ``08961 Real-Time Graphics`` module at the ``Department of Computer Science, University of Hull``.
+``dcs08961`` is an infrastructure project to support the ``08961 Real-Time Graphics`` module at the ``Department of Computer Science, University of Hull``.
 
 Building and Installation
 =========================
+
+Quick Setup
+-----------
+
+::
+
+ # linux
+ $> mkdir build && cd build
+ $> cmake ..
+ $> make
+
+ # windows
+ $> 
 
 Overview
 --------
