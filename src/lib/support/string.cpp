@@ -20,7 +20,7 @@
 
 // includes, system
 
-#define GLIBCXX_NO_CODECVT 20131017
+#define GLIBCXX_NO_CODECVT 20131212
 
 #if !defined(__GLIBCXX__) || (defined(__GLIBCXX__) && (__GLIBCXX__ > GLIBCXX_NO_CODECVT))
 #  include <codecvt> // std::codecvt_utf8<>
