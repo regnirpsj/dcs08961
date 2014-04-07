@@ -107,5 +107,3 @@ namespace support {
   }
   
 } // namespace support {
-
-// $Id: type_info.cpp 576 2013-11-14 18:04:27Z regnirpsj $

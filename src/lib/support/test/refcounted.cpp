@@ -12,8 +12,6 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
-// $Id: refcounted.cpp 502 2013-08-03 08:14:33Z regnirpsj $
-
 // includes, system
 
 #include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
