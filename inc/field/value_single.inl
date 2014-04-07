@@ -89,6 +89,26 @@ namespace field {
 
       return result;
     }
+
+    template <typename T>
+    inline single<T>::operator single<T>::value_type const& () const
+    {
+      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::operator " +
+            "value_type const&");
+      
+      return get();
+    }
+
+    template <typename T>
+    inline single<T>&
+    single<T>::operator=(value_type const& a)
+    {
+      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::operator=");
+
+      set(a);
+      
+      return *this;
+    }
     
   } // namespace value {
   
