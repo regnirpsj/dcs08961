@@ -64,8 +64,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(value_multi_add, T, field::test::multi_types)
   test::container_multi<T>             c;
   value::multi<typename T::value_type> f(c, "f");
 
-  f.add(typename T::value_type());
-  
+  BOOST_CHECK(f.add(typename T::value_type()));
   BOOST_CHECK(1 == f.get().size());
 }
 
@@ -76,8 +75,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(value_multi_sub, T, field::test::multi_types)
   test::container_multi<T>             c;
   value::multi<typename T::value_type> f(c, "f", T(2));
 
-  f.sub(typename T::value_type());
-  
+  BOOST_CHECK(f.sub(typename T::value_type()));
   BOOST_CHECK(1 == f.get().size());
 }
 
