@@ -31,15 +31,15 @@ namespace field {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    template <typename T>
+    template <typename T, typename C = std::vector<T>>
     class multi : public base {
 
     public:
 
       typedef base                                                         inherited;
       typedef inherited::container_type                                    container_type;
-      typedef std::vector<T>                                               value_container_type;
-      typedef typename value_container_type::value_type                    value_type;
+      typedef C                                                            value_container_type;
+      typedef T                                                            value_type;
       typedef std::function<std::vector<T> const& ()>                      get_callback_type;
       typedef std::function<std::vector<T>        (std::vector<T> const&)> set_callback_type;
       typedef std::function<bool (T const&)>                               add_callback_type;
