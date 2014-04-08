@@ -23,14 +23,6 @@
 
 // internal unnamed namespace
 
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
-#if defined(UKACHULLDCS_USE_TRACE) || defined(UKACHULLDCS_ALL_TRACE)
-#  include <typeinfo>
-#  include <support/type_info.hpp>
-#endif
-
 namespace {
   
   // types, internal (class, enum, struct, union, typedef)
@@ -47,8 +39,6 @@ namespace {
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_get, T, field::test::single_types)
 {
-  TRACE("adapter_single_get<" + support::demangle(typeid(T)) + ">");
-
   using namespace field;
   
   test::container_single<T> c;
@@ -62,8 +52,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_get, T, field::test::single_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_set, T, field::test::single_types)
 {
-  TRACE("adapter_single_set<" + support::demangle(typeid(T)) + ">");
-
   using namespace field;
   
   test::container_single<T> c;
@@ -77,8 +65,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_set, T, field::test::single_types)
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_op_convert, T, field::test::single_types)
 {
-  TRACE("adapter_single_op_convert<" + support::demangle(typeid(T)) + ">");
-
   using namespace field;
   
   test::container_single<T> c;
@@ -92,8 +78,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_op_convert, T, field::test::single_
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_op_assign, T, field::test::single_types)
 {
-  TRACE("adapter_single_op_assign<" + support::demangle(typeid(T)) + ">");
-
   using namespace field;
   
   test::container_single<T> c;
