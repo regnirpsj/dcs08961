@@ -5,21 +5,3 @@
 # Copyright (C) 2014 University of Hull                                                            #
 #                                                                                                  #
 ####################################################################################################
-
-SET(LIB "scene")
-
-SET(SRC)
-
-LIST(APPEND SRC "node/base.cpp")
-
-LIST(APPEND SRC "object/base.cpp")
-
-LIST(APPEND SRC "visitor/base.cpp")
-
-SET(LIBS)
-LIST(APPEND LIBS field)
-LIST(APPEND LIBS support)
-
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
