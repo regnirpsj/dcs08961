@@ -38,7 +38,7 @@ namespace field {
       typedef base                      inherited;
       typedef inherited::container_type container_type;
       typedef C                         value_container_type;
-      typedef typename C::value_type    value_type;
+      typedef T                         value_type;
 
       explicit multi(container_type&             /* container */,
                      std::string const&          /* name */,
