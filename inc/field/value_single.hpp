@@ -27,8 +27,6 @@
 namespace field {
 
   namespace value {
-
-    class container;
     
     // types, exported (class, enum, struct, union, typedef)
 
