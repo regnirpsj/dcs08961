@@ -37,34 +37,42 @@ namespace {
 #include <boost/test/unit_test.hpp>
 #include <boost/test/test_case_template.hpp>
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_get, T, field::test::types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_get, T, field::test::single_types)
 {
-  field::test::container        c;
-  field::value::single<T> const f(c, "f");
+  using namespace field;
+  
+  test::container_single<T> c;
+  value::single<T> const    f(c, "f");
 
   BOOST_CHECK(T() == f.get());
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_set, T, field::test::types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_set, T, field::test::single_types)
 {
-  field::test::container  c;
-  field::value::single<T> f(c, "f");
+  using namespace field;
+  
+  test::container_single<T> c;
+  value::single<T>          f(c, "f");
   
   BOOST_CHECK(T() == f.set(T()));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_op_convert, T, field::test::types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_op_convert, T, field::test::single_types)
 {
-  field::test::container        c;
-  field::value::single<T> const f(c, "f");
+  using namespace field;
+  
+  test::container_single<T> c;
+  value::single<T> const    f(c, "f");
 
   BOOST_CHECK(T() == static_cast<T>(f));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_op_assign, T, field::test::types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_op_assign, T, field::test::single_types)
 {
-  field::test::container  c;
-  field::value::single<T> f(c, "f");
+  using namespace field;
+  
+  test::container_single<T> c;
+  value::single<T>          f(c, "f");
   
   BOOST_CHECK(T() == static_cast<T>(f = T()));
 }
