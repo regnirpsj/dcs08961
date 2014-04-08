@@ -37,4 +37,5 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_ctor)
 {
+  BOOST_CHECK(true);
 }
