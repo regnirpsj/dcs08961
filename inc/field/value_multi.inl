@@ -136,7 +136,7 @@ namespace field {
       auto const found(std::find(value_container_.begin(), value_container_.end(), a));
 
       if (value_container_.end() == found) {
-        value_container_.push_back(a);
+        value_container_.insert(value_container_.end(), a);
 
         changed();
 
