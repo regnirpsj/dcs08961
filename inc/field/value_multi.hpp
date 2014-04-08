@@ -27,20 +27,18 @@
 namespace field {
 
   namespace value {
-
-    class container;
     
     // types, exported (class, enum, struct, union, typedef)
 
-    template <typename T>
+    template <typename T, typename C = std::vector<T>>
     class multi : public base {
 
     public:
 
-      typedef base                                      inherited;
-      typedef inherited::container_type                 container_type;
-      typedef std::vector<T>                            value_container_type;
-      typedef typename value_container_type::value_type value_type;
+      typedef base                      inherited;
+      typedef inherited::container_type container_type;
+      typedef C                         value_container_type;
+      typedef typename C::value_type    value_type;
 
       explicit multi(container_type&             /* container */,
                      std::string const&          /* name */,
