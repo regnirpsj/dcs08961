@@ -69,6 +69,12 @@ namespace field {
       bool                        add(value_type const&);
       bool                        sub(value_type const&);
 
+      operator value_container_type const& () const;
+      multi& operator=(value_container_type const&);
+      multi& operator=(std::initializer_list<value_type>);
+      multi& operator+=(value_type const&);
+      multi& operator-=(value_type const&);
+      
     private:
 
       get_callback_type get_value_;

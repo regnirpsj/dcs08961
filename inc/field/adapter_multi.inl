@@ -154,7 +154,62 @@ namespace field {
 
       return result;
     }
+
+    template <typename T>
+    inline multi<T>::operator multi<T>::value_container_type const& () const
+    {
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + ">::operator " +
+            "value_container_type const&");
+
+      return get();
+    }
     
+    template <typename T>
+    inline multi<T>&
+    multi<T>::operator=(value_container_type const& a)
+    {
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + ">::operator=" +
+            "(value_container_type const&)");
+
+      set(a);
+      
+      return *this;
+    }
+    
+    template <typename T>
+    inline multi<T>&
+    multi<T>::operator=(std::initializer_list<value_type> a)
+    {
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + ">::operator=" +
+            "(std::initializer_list<value_type>)");
+
+      set(a);
+      
+      return *this;
+    }
+    
+    template <typename T>
+    inline multi<T>&
+    multi<T>::operator+=(value_type const& a)
+    {
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + ">::operator+=");
+
+      add(a);
+      
+      return *this;
+    }
+    
+    template <typename T>
+    inline multi<T>&
+    multi<T>::operator-=(value_type const& a)
+    {
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + ">::operator-=");
+
+      sub(a);
+      
+      return *this;
+    }
+
   } // namespace adapter {
   
 } // namespace field {
