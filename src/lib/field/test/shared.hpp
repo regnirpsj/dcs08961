@@ -75,15 +75,24 @@ namespace field {
     template <typename T>
     class container_multi : public container_single<T> {
 
+      typedef container_single<T> inherited;
+      
     public:
 
       inline bool cb_add(typename T::value_type const& a)
       {
         TRACE("field::test::container::add<" + support::demangle(typeid(T)) + ">");
 
-        container_single<T>::value_.insert(container_single<T>::value_.end(), a);
+        bool result(false);
+        auto found(std::find(inherited::value_.begin(), inherited::value_.end(), a));
         
-        return true;
+        if (inherited::value_.end() == found) {
+          inherited::value_.insert(inherited::value_.end(), a);
+          
+          result = true;
+        }
+        
+        return result;
       }
 
       inline bool cb_sub(typename T::value_type const& a)
@@ -91,12 +100,10 @@ namespace field {
         TRACE("field::test::container::sub<" + support::demangle(typeid(T)) + ">");
 
         bool result(false);
-        auto found(std::find(container_single<T>::value_.begin(),
-                             container_single<T>::value_.end(),
-                             a));
+        auto found(std::find(inherited::value_.begin(), inherited::value_.end(), a));
         
-        if (container_single<T>::value_.end() != found) {
-          container_single<T>::value_.erase(found);
+        if (inherited::value_.end() != found) {
+          inherited::value_.erase(found);
           
           result = true;
         }
