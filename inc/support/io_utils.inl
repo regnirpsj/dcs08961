@@ -200,7 +200,7 @@ namespace support {
         format_punct<CTy> const& fmt(get_facet<format_punct<CTy>>(os));
         
         if (fmt.formatted) {
-          basic_format_saver<CTy> const bfs(os);
+          //basic_format_saver<CTy> const bfs(os);
           
           os << fmt.delim_left << a.first << fmt.separator << a.second << fmt.delim_right;
         } else {
@@ -222,6 +222,8 @@ namespace support {
         format_punct<CTy> const& fmt(get_facet<format_punct<CTy>>(os));
 
         if (fmt.formatted) {
+          // basic_format_saver<CTy> const bfs(os);
+          
           os << fmt.delim_left << a.first << fmt.separator << a.second << fmt.delim_right;
         } else {
           os << a.first << fmt.space << a.second;
@@ -242,6 +244,8 @@ namespace support {
         format_punct<CTy> const& fmt(get_facet<format_punct<CTy>>(os));
 
         if (fmt.formatted) {
+          //basic_format_saver<CTy> const bfs(os);
+          
           os << fmt.delim_left << a.first << fmt.separator << a.second << fmt.delim_right;
         } else {
           os << a.first << fmt.space << a.second;
@@ -262,6 +266,8 @@ namespace support {
         format_punct<CTy> const& fmt(get_facet<format_punct<CTy>>(os));
 
         if (fmt.formatted) {
+          //basic_format_saver<CTy> const bfs(os);
+          
           os << fmt.delim_left << a.first << fmt.separator << a.second << fmt.delim_right;
         } else {
           os << a.first << fmt.space << a.second;
@@ -287,8 +293,12 @@ namespace support {
           for (auto e : a) {
             os << e << fmt.separator;
           }
-      
-          os << '\b' << fmt.delim_right;
+
+          if (!a.empty()) {
+            os << '\b';
+          }
+        
+          os << fmt.delim_right;
         } else {
           for (auto e : a) {
             os << e << fmt.space;
@@ -316,7 +326,11 @@ namespace support {
             os << e << fmt.separator;
           }
       
-          os << '\b' << fmt.delim_right;
+          if (!a.empty()) {
+            os << '\b';
+          }
+        
+          os << fmt.delim_right;
         } else {
           for (auto e : a) {
             os << e << fmt.space;
@@ -344,7 +358,11 @@ namespace support {
             os << e << fmt.separator;
           }
       
-          os << '\b' << fmt.delim_right;
+          if (!a.empty()) {
+            os << '\b';
+          }
+        
+          os << fmt.delim_right;
         } else {
           for (auto e : a) {
             os << e << fmt.space;
@@ -380,7 +398,11 @@ namespace support {
                << fmt.separator;
           }
       
-          os << '\b' << fmt.delim_right;
+          if (!a.empty()) {
+            os << '\b';
+          }
+        
+          os << fmt.delim_right;
         } else {
           for (auto e : a) {
             os << fmt.delim_left
@@ -415,7 +437,11 @@ namespace support {
                << fmt.separator;
           }
       
-          os << '\b' << fmt.delim_right;
+          if (!a.empty()) {
+            os << '\b';
+          }
+        
+          os << fmt.delim_right;
         } else {
           for (auto e : a) {
             os << fmt.delim_left
@@ -446,8 +472,12 @@ namespace support {
           for (auto e : a) {
             os << e << fmt.separator;
           }
-      
-          os << '\b' << fmt.delim_right;
+          
+          if (a.size()) {
+            os << '\b';
+          }
+        
+          os << fmt.delim_right;
         } else {
           for (auto e : a) {
             os << e << fmt.space;
