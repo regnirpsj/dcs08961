@@ -70,7 +70,7 @@ namespace field {
     prefix += ' ';
       
     for (auto f : field_list_) {
-      os << '\n' << prefix << *f;
+      os << '\n' << prefix << std::boolalpha << *f;
     }
       
     os << '\n' << ']';
@@ -106,7 +106,13 @@ namespace field {
   {
     TRACE("field::container::add");
 
-    field_list_.insert(field_list_.end(), a);
+    auto const found(std::find(field_list_.begin(), field_list_.end(), a));
+
+    if (field_list_.end() == found) {
+      field_list_.push_back(a);
+    } else {
+      throw std::logic_error("unable to register the same field twice!");
+    }
   }
   
   void
@@ -114,7 +120,13 @@ namespace field {
   {
     TRACE("field::container::sub");
 
-    field_list_.erase(a);
+    auto const found(std::find(field_list_.begin(), field_list_.end(), a));
+
+    if (field_list_.end() != found) {
+      field_list_.erase(found);
+    } else {
+      throw std::logic_error("unable to unregister non-existent field");
+    }
   }
   
 } // namespace field {

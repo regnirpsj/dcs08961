@@ -18,8 +18,7 @@
 
 // includes, system
 
-#include <iosfwd> // std::ostream (fwd)
-#include <set>    // std::set<>
+#include <vector> // std::vector<>
 
 // includes, project
 
@@ -51,7 +50,7 @@ namespace field {
 
     friend class base;
     
-    typedef std::set<base*> field_list_type;
+    typedef std::vector<base*> field_list_type;
 
     field_list_type field_list_;
 
