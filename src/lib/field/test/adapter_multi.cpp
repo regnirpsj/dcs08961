@@ -43,12 +43,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_get, T, field::test::multi_types)
   
   test::container_multi<T>                     c;
   adapter::multi<typename T::value_type> const f(c, "f",
-                                                 std::bind(&test::container_multi<T>::cb_get, c),
-                                                 std::bind(&test::container_multi<T>::cb_set, c,
+                                                 std::bind(&test::container_multi<T>::cb_get, &c),
+                                                 std::bind(&test::container_multi<T>::cb_set, &c,
                                                            std::placeholders::_1),
-                                                 std::bind(&test::container_multi<T>::cb_add, c,
+                                                 std::bind(&test::container_multi<T>::cb_add, &c,
                                                            std::placeholders::_1),
-                                                 std::bind(&test::container_multi<T>::cb_sub, c,
+                                                 std::bind(&test::container_multi<T>::cb_sub, &c,
                                                            std::placeholders::_1));
 
   BOOST_CHECK(T() == f.get());
@@ -60,12 +60,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_set, T, field::test::multi_types)
   
   test::container_multi<T>               c;
   adapter::multi<typename T::value_type> f(c, "f",
-                                           std::bind(&test::container_multi<T>::cb_get, c),
-                                           std::bind(&test::container_multi<T>::cb_set, c,
+                                           std::bind(&test::container_multi<T>::cb_get, &c),
+                                           std::bind(&test::container_multi<T>::cb_set, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_add, c,
+                                           std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_sub, c,
+                                           std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1));
   
   BOOST_CHECK(T() == f.set(T()));
@@ -77,12 +77,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_add, T, field::test::multi_types)
   
   test::container_multi<T>               c;
   adapter::multi<typename T::value_type> f(c, "f",
-                                           std::bind(&test::container_multi<T>::cb_get, c),
-                                           std::bind(&test::container_multi<T>::cb_set, c,
+                                           std::bind(&test::container_multi<T>::cb_get, &c),
+                                           std::bind(&test::container_multi<T>::cb_set, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_add, c,
+                                           std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_sub, c,
+                                           std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1));
 
   BOOST_CHECK(f.add(typename T::value_type()));
@@ -97,12 +97,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_sub, T, field::test::multi_types)
   
   test::container_multi<T>               c;
   adapter::multi<typename T::value_type> f(c, "f",
-                                           std::bind(&test::container_multi<T>::cb_get, c),
-                                           std::bind(&test::container_multi<T>::cb_set, c,
+                                           std::bind(&test::container_multi<T>::cb_get, &c),
+                                           std::bind(&test::container_multi<T>::cb_set, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_add, c,
+                                           std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_sub, c,
+                                           std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1),
                                            T(2));
 
@@ -116,12 +116,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_set_initlist, T, field::test::multi_
   
   test::container_multi<T>               c;
   adapter::multi<typename T::value_type> f(c, "f",
-                                           std::bind(&test::container_multi<T>::cb_get, c),
-                                           std::bind(&test::container_multi<T>::cb_set, c,
+                                           std::bind(&test::container_multi<T>::cb_get, &c),
+                                           std::bind(&test::container_multi<T>::cb_set, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_add, c,
+                                           std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_sub, c,
+                                           std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1));
   
   BOOST_CHECK(T() == f.set({ }));
@@ -133,12 +133,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_op_convert, T, field::test::multi_ty
   
   test::container_multi<T>                     c;
   adapter::multi<typename T::value_type> const f(c, "f",
-                                                 std::bind(&test::container_multi<T>::cb_get, c),
-                                                 std::bind(&test::container_multi<T>::cb_set, c,
+                                                 std::bind(&test::container_multi<T>::cb_get, &c),
+                                                 std::bind(&test::container_multi<T>::cb_set, &c,
                                                            std::placeholders::_1),
-                                                 std::bind(&test::container_multi<T>::cb_add, c,
+                                                 std::bind(&test::container_multi<T>::cb_add, &c,
                                                            std::placeholders::_1),
-                                                 std::bind(&test::container_multi<T>::cb_sub, c,
+                                                 std::bind(&test::container_multi<T>::cb_sub, &c,
                                                            std::placeholders::_1));
 
   BOOST_CHECK(T() == static_cast<T>(f));
@@ -150,12 +150,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_op_assign, T, field::test::multi_typ
   
   test::container_multi<T>               c;
   adapter::multi<typename T::value_type> f(c, "f",
-                                           std::bind(&test::container_multi<T>::cb_get, c),
-                                           std::bind(&test::container_multi<T>::cb_set, c,
+                                           std::bind(&test::container_multi<T>::cb_get, &c),
+                                           std::bind(&test::container_multi<T>::cb_set, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_add, c,
+                                           std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_sub, c,
+                                           std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1));
   
   BOOST_CHECK(T() == static_cast<T>(f = T()));
@@ -167,12 +167,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_op_assign_initlist, T, field::test::
   
   test::container_multi<T>               c;
   adapter::multi<typename T::value_type> f(c, "f",
-                                           std::bind(&test::container_multi<T>::cb_get, c),
-                                           std::bind(&test::container_multi<T>::cb_set, c,
+                                           std::bind(&test::container_multi<T>::cb_get, &c),
+                                           std::bind(&test::container_multi<T>::cb_set, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_add, c,
+                                           std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_sub, c,
+                                           std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1));
   
   BOOST_CHECK(T() == static_cast<T>(f = { }));
@@ -184,12 +184,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_op_add, T, field::test::multi_types)
   
   test::container_multi<T>               c;
   adapter::multi<typename T::value_type> f(c, "f",
-                                           std::bind(&test::container_multi<T>::cb_get, c),
-                                           std::bind(&test::container_multi<T>::cb_set, c,
+                                           std::bind(&test::container_multi<T>::cb_get, &c),
+                                           std::bind(&test::container_multi<T>::cb_set, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_add, c,
+                                           std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_sub, c,
+                                           std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1));
 
   f += typename T::value_type();
@@ -203,12 +203,12 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_op_sub, T, field::test::multi_types)
   
   test::container_multi<T>               c;
   adapter::multi<typename T::value_type> f(c, "f",
-                                           std::bind(&test::container_multi<T>::cb_get, c),
-                                           std::bind(&test::container_multi<T>::cb_set, c,
+                                           std::bind(&test::container_multi<T>::cb_get, &c),
+                                           std::bind(&test::container_multi<T>::cb_set, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_add, c,
+                                           std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_sub, c,
+                                           std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1),
                                            T(2));
 

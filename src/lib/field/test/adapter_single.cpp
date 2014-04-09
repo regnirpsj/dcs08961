@@ -43,8 +43,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_get, T, field::test::single_types)
   
   test::container_single<T> c;
   adapter::single<T> const  f(c, "f",
-                              std::bind(&test::container_single<T>::cb_get, c),
-                              std::bind(&test::container_single<T>::cb_set, c,
+                              std::bind(&test::container_single<T>::cb_get, &c),
+                              std::bind(&test::container_single<T>::cb_set, &c,
                                         std::placeholders::_1));
 
   BOOST_CHECK(T() == f.get());
@@ -56,8 +56,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_set, T, field::test::single_types)
   
   test::container_single<T> c;
   adapter::single<T>        f(c, "f",
-                              std::bind(&test::container_single<T>::cb_get, c),
-                              std::bind(&test::container_single<T>::cb_set, c,
+                              std::bind(&test::container_single<T>::cb_get, &c),
+                              std::bind(&test::container_single<T>::cb_set, &c,
                                         std::placeholders::_1));
   
   BOOST_CHECK(T() == f.set(T()));
@@ -69,8 +69,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_op_convert, T, field::test::single_
   
   test::container_single<T> c;
   adapter::single<T> const  f(c, "f",
-                              std::bind(&test::container_single<T>::cb_get, c),
-                              std::bind(&test::container_single<T>::cb_set, c,
+                              std::bind(&test::container_single<T>::cb_get, &c),
+                              std::bind(&test::container_single<T>::cb_set, &c,
                                         std::placeholders::_1));
 
   BOOST_CHECK(T() == static_cast<T>(f));
@@ -82,8 +82,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_op_assign, T, field::test::single_t
   
   test::container_single<T> c;
   adapter::single<T>        f(c, "f",
-                              std::bind(&test::container_single<T>::cb_get, c),
-                              std::bind(&test::container_single<T>::cb_set, c,
+                              std::bind(&test::container_single<T>::cb_get, &c),
+                              std::bind(&test::container_single<T>::cb_set, &c,
                                         std::placeholders::_1));
   
   BOOST_CHECK(T() == static_cast<T>(f = T()));
