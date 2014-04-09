@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/nodes.hpp                                                                 */
+/*  module     :  scene/node/dynamic.cpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_NODES_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_SCENE_NODES_HPP
+#include "scene/node/dynamic.hpp"
 
 // includes, system
 
@@ -22,29 +22,32 @@
 
 // includes, project
 
-#include <node/camera.hpp>
-#include <node/dynamic.hpp>
-#include <node/geometry.hpp>
-#include <node/global_light.hpp>
-#include <node/group.hpp>
-#include <node/local_light.hpp>
-#include <node/material_group.hpp>
-#include <node/mesh.hpp>
-#include <node/rotor.hpp>
-#include <node/select.hpp>
-#include <node/transform.hpp>
-#include <node/translator.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace scene {
-  
-  // types, exported (class, enum, struct, union, typedef)
 
-  // variables, exported (extern)
-
-  // functions, inlined (inline)
+  namespace node {
+    
+    // variables, exported
+    
+    // functions, exported
+    
+  } // namespace node {
   
-  // functions, exported (extern)
-  
-} // namespace ??? {
-
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_NODES_HPP)
+} // namespace scene {
