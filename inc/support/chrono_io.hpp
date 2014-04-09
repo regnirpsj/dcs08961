@@ -973,7 +973,7 @@ operator>>(basic_istream<_CharT, _Traits>& __is,
             }
             const time_get<_CharT>& tg = use_facet<time_get<_CharT> >(loc);
             const ctype<_CharT>& __ct = use_facet<ctype<_CharT> >(loc);
-            tm __tm = {0};
+            tm __tm = {0,0,0,0,0,0,0,0,0,0,0};
             typedef istreambuf_iterator<_CharT, _Traits> _I;
             if (pb == pe)
             {
