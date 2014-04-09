@@ -62,7 +62,7 @@ namespace field {
   {
     TRACE_NEVER("field::container::print_on");
 
-    std::string prefix(/* support::trace::prefix().length() */ 0, ' ');
+    std::string prefix(0, ' ');
       
     os << prefix << '['
        << support::demangle(typeid(*this)) << '@' << this << ',';
@@ -106,7 +106,7 @@ namespace field {
   {
     TRACE("field::container::add");
 
-    field_list_.insert(a);
+    field_list_.insert(field_list_.end(), a);
   }
   
   void

@@ -18,8 +18,8 @@
 
 // includes, system
 
-#include <iosfwd>        // std::ostream (fwd)
-#include <unordered_set> // std::unordered_set<>
+#include <iosfwd> // std::ostream (fwd)
+#include <set>    // std::set<>
 
 // includes, project
 
@@ -51,7 +51,7 @@ namespace field {
 
     friend class base;
     
-    typedef std::unordered_set<base*> field_list_type;
+    typedef std::set<base*> field_list_type;
 
     field_list_type field_list_;
 
