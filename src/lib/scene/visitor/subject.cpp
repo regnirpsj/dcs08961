@@ -6,34 +6,62 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/visitors.hpp                                                              */
+/*  module     :  scene/visitor/subject.cpp                                                       */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_VISITORS_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_SCENE_VISITORS_HPP
+#include "scene/visitor/subject.hpp"
 
 // includes, system
 
-//#include <>
+#include <stdexcept> // std::logic_error
 
 // includes, project
 
-#include <scene/visitor/subject.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace scene {
-  
-  // types, exported (class, enum, struct, union, typedef)
 
-  // variables, exported (extern)
-
-  // functions, inlined (inline)
+  namespace visitor {
+    
+    // variables, exported
   
-  // functions, exported (extern)
-  
-} // namespace ??? {
+    // functions, exported
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_VISITORS_HPP)
+    /* virtual */
+    subject::~subject()
+    {
+      TRACE("scene::visitor::subject::~subject");
+    }
+
+    /* virtual */ void
+    subject::accept(visitor::base&)
+    {
+      TRACE("scene::visitor::subject::accept");
+
+      throw std::logic_error("pure virtual function 'scene::visitor::subject::accept' called");
+    }
+    
+  } // namespace visitor {
+  
+} // namespace scene {
