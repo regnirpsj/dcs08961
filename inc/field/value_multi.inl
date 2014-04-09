@@ -70,8 +70,8 @@ namespace field {
     inline /* virtual */ void
     multi<T,C>::print_on(std::ostream& os) const
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::print_on");
+      TRACE_NEVER("field::value::multi<" + support::demangle(typeid(T)) + "," +
+                  support::demangle(typeid(C)) + ">::print_on");
 
       os << '[';
 
