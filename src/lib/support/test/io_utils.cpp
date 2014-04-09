@@ -98,6 +98,9 @@ namespace {
     using support::ostream::operator<<;
     
     os << '\n'
+       << demangle<CTy>(typeid(s)) << ": empty\n"
+       << support::ostream::formatted << Sequence()
+       << '\n'
        << demangle<CTy>(typeid(s)) << ": formatted\n"
        << support::ostream::formatted << s
        << '\n'
@@ -119,6 +122,9 @@ namespace {
     using support::ostream::operator<<;
     
     os << '\n'
+       << demangle<CTy>(typeid(s)) << ": empty\n"
+       << support::ostream::formatted << Sequence()
+       << '\n'
        << demangle<CTy>(typeid(s)) << ": formatted\n"
        << support::ostream::formatted << s
        << '\n'
