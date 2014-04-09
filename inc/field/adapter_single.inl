@@ -61,7 +61,7 @@ namespace field {
     inline /* virtual */ void
     single<T>::print_on(std::ostream& os) const
     {
-      TRACE("field::adapter::single<" + support::demangle(typeid(T)) + ">::print_on");
+      TRACE_NEVER("field::adapter::single<" + support::demangle(typeid(T)) + ">::print_on");
 
       os << '[';
       
