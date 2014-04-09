@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/object/base.cpp                                                           */
+/*  module     :  scene/object/positional_light.cpp                                               */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,11 +14,11 @@
 
 // include i/f header
 
-#include "scene/object/base.hpp"
+#include "scene/object/positional_light.hpp"
 
 // includes, system
 
-#include <ostream> // std::ostream
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
@@ -45,58 +45,40 @@ namespace scene {
   namespace object {
     
     // variables, exported
-  
-    // functions, exported
 
-    /* virtual */
-    base::~base()
-    {
-      TRACE("scene::object::base::~base");
-    }
+    /* static */ positional_light const positional_light::dflt_light("dflt_positional_light");
     
-    /* virtual */ void
-    base::print_on(std::ostream& os) const
-    {
-      TRACE_NEVER("scene::object::base::print_on");
-
-      os << '[';
-      
-      field::container::print_on(os);
-
-      os << ','
-         << "rc:" << get_ref()
-         << ']';
-    }
+    // functions, exported
     
     /* explicit */
-    base::base(std::string const& a)
-      : field::container   (),
-        support::refcounted(),
-        name               (*this, "name", a)
-    {
-      TRACE("scene::object::base::base");
+    positional_light::positional_light(std::string const& a, rep const& b)
+      : light_source(a, b),
+        position    (*this, "position",
+                     std::bind(&positional_light::cb_get_position, this),
+                     std::bind(&positional_light::cb_set_position, this, std::placeholders::_1),
+                     b.position)
+    {   
+      TRACE("scene::object::positional_light::positional_light");
     }
     
-    /* virtual */ void
-    base::evaluate()
+    glm::vec4 const&
+    positional_light::cb_get_position() const
     {
-      TRACE("scene::object::base::evaluate");
-
-      field::container::evaluate();
-    }
+      TRACE("scene::object::positional_light::cb_get_position");
+      
+      return rep_.position;
+    } 
     
-    /* virtual */ void
-    base::changed(field::base& f)
+    glm::vec4
+    positional_light::cb_set_position(glm::vec4 const& a)
     {
-      TRACE("scene::object::base::changed");
+      TRACE("scene::object::positional_light::cb_set_position");
+      
+      glm::vec4 const result(rep_.position);
 
-      if (&f == &name) {
-        // nothing to do
-      }
+      rep_.position = a;
 
-      else {
-        field::container::changed(f);
-      }
+      return result;
     }
     
   } // namespace object {

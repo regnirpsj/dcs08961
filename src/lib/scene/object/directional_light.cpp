@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/object/base.cpp                                                           */
+/*  module     :  scene/object/directional_light.cpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,11 +14,11 @@
 
 // include i/f header
 
-#include "scene/object/base.hpp"
+#include "scene/object/directional_light.hpp"
 
 // includes, system
 
-#include <ostream> // std::ostream
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
@@ -45,58 +45,40 @@ namespace scene {
   namespace object {
     
     // variables, exported
-  
-    // functions, exported
 
-    /* virtual */
-    base::~base()
-    {
-      TRACE("scene::object::base::~base");
-    }
+    /* static */ directional_light const directional_light::dflt_light("dflt_directional_light");
     
-    /* virtual */ void
-    base::print_on(std::ostream& os) const
-    {
-      TRACE_NEVER("scene::object::base::print_on");
-
-      os << '[';
-      
-      field::container::print_on(os);
-
-      os << ','
-         << "rc:" << get_ref()
-         << ']';
-    }
+    // functions, exported
     
     /* explicit */
-    base::base(std::string const& a)
-      : field::container   (),
-        support::refcounted(),
-        name               (*this, "name", a)
-    {
-      TRACE("scene::object::base::base");
+    directional_light::directional_light(std::string const& a, rep const& b)
+      : light_source(a, b),
+        direction   (*this, "direction",
+                     std::bind(&directional_light::cb_get_direction, this),
+                     std::bind(&directional_light::cb_set_direction, this, std::placeholders::_1),
+                     b.direction)
+    {   
+      TRACE("scene::object::directional_light::directional_light");
     }
     
-    /* virtual */ void
-    base::evaluate()
+    glm::vec3 const&
+    directional_light::cb_get_direction() const
     {
-      TRACE("scene::object::base::evaluate");
-
-      field::container::evaluate();
+      TRACE("scene::object::directional_light::cb_get_direction");
+      
+      return rep_.direction;
     }
     
-    /* virtual */ void
-    base::changed(field::base& f)
+    glm::vec3
+    directional_light::cb_set_direction(glm::vec3 const& a)
     {
-      TRACE("scene::object::base::changed");
+      TRACE("scene::object::directional_light::cb_set_direction");
 
-      if (&f == &name) {
-        // nothing to do
-      }
+      glm::vec3 const result(rep_.direction);
 
-      else {
-        field::container::changed(f);
-      }
+      rep_.direction = a;
+
+      return result;
     }
     
   } // namespace object {
