@@ -46,9 +46,12 @@ namespace {
 
     explicit container()
       : field::container(),
-        svf_bool        (*this, "svf_bool", true),
-        svf_string      (*this, "svf_string", "abcdefghijklmnopqrstuvwxyz"),
-        mvf_vec3        (*this, "mvf_vec3", {glm::vec3(1), glm::vec3(2)}),
+        svf_bool        (*this, "svf_bool",
+                         true),
+        svf_string      (*this, "svf_string",
+                         std::string("abcdefghijklmnopqrstuvwxyz")),
+        mvf_vec3        (*this, "mvf_vec3",
+                         { glm::vec3(1), glm::vec3(2) }),
         saf_unsigned    (*this, "saf_unsigned",
                          std::bind(&container::cb_get_saf_unsigned, this),
                          std::bind(&container::cb_set_saf_unsigned, this, std::placeholders::_1)),
@@ -60,7 +63,7 @@ namespace {
     {
       // 'field::adapter::[multi|single]<>::set' not working in initializer list
       saf_unsigned = 1;
-      maf_unsigned = {1,2,3,4};
+      maf_unsigned = { 1, 2, 3, 4 };
     }
     
   private:
