@@ -18,11 +18,11 @@
 
 // includes, system
 
-//#include <>
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
-//#include <>
+#include <scene/visitor/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -47,6 +47,50 @@ namespace scene {
     // variables, exported
     
     // functions, exported
+
+    /* explicit */
+    transform::transform(std::string const& a, glm::mat4 const& b)
+      : group(a),
+        xform(*this, "xform", b)
+    {
+      TRACE("scene::node::transform::transform");
+    }
+    
+    /* virtual */ void
+    transform::accept(visitor::base& v)
+    {
+      TRACE("scene::node::transform::accept");
+
+      v.visit(*this);
+    }
+
+    /* virtual */ glm::mat4
+    transform::absolute_xform() const
+    {
+      TRACE("scene::node::transform::absolute_xform");
+
+      glm::mat4 result(xform.get());
+      
+      if (nullptr != parent_) {
+        result = parent_->absolute_xform() * result;
+      } 
+
+      return result;
+    }
+
+    /* virtual */ void
+    transform::changed(field::base& f)
+    {
+      TRACE("scene::node::transform::changed");
+
+      if      (&f == &xform) {
+        invalidate_bounds();
+      }
+
+      else {
+        group::changed(f);
+      }
+    }
     
   } // namespace node {
   

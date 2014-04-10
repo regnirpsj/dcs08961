@@ -18,7 +18,7 @@
 
 // includes, system
 
-// #include <>
+#include <glm/glm.hpp> // glm::mat4
 
 // includes, project
 
@@ -30,6 +30,27 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
+    class transform : public group {
+
+    public:
+
+      typedef base subject_inherited;
+
+      field::value::single<glm::mat4> xform;
+
+      explicit transform(std::string const& /* name */,
+                         glm::mat4 const&   /* xform */ = glm::mat4());
+      
+      virtual void accept(visitor::base&);
+
+      virtual glm::mat4 absolute_xform() const;
+      
+    protected:
+
+      virtual void changed(field::base&);
+      
+    };
+    
     // variables, exported (extern)
 
     // functions, inlined (inline)

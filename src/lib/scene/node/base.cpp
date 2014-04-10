@@ -18,12 +18,11 @@
 
 // includes, system
 
-#include <ostream>   // std::ostream
-#include <stdexcept> // std::logic_error
+#include <glm/gtx/io.hpp> // glm::operator<<
+#include <ostream>        // std::ostream
 
 // includes, project
 
-#include <glm/gtx/io.hpp>
 #include <glm/gtx/limits.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -81,14 +80,6 @@ namespace scene {
 
       throw std::logic_error("pure virtual function 'scene::node::base::accept' called");
     }
-    
-    /* virtual */ void
-    base::print_on(std::ostream& os) const
-    {
-      TRACE_NEVER("scene::node::base::print_on");
-
-      object::base::print_on(os);
-    }
 
     /* virtual */ glm::mat4
     base::absolute_parent_xform() const
@@ -118,10 +109,10 @@ namespace scene {
         visitor::subject(),
         parent          (*this, "parent",
                          std::bind(&base::cb_get_parent, this),
-                         std::bind(&base::cb_set_parent, this, std::placeholders::_1),
-                         nullptr),
+                         std::bind(&base::cb_set_parent, this, std::placeholders::_1)),
         travmask        (*this, "travmask", static_cast<unsigned>(~0)),
-        bbox            (*this, "bbox",     bounds::invalid)
+        bbox            (*this, "bbox",     bounds::invalid),
+        parent_         (nullptr)
     {
       TRACE("scene::node::base::base");
     }
@@ -169,7 +160,7 @@ namespace scene {
       }
     }
 
-    base*
+    base::parent_type const&
     base::cb_get_parent() const
     {
       TRACE("scene::node::base::cb_get_parent");
@@ -177,12 +168,14 @@ namespace scene {
       return parent_;
     }
 
-    base*
-    base::cb_set_parent(base*)
+    base::parent_type
+    base::cb_set_parent(base::parent_type const&)
     {
-      TRACE("scene::node::base::cb_get_parent");
+      TRACE("scene::node::base::cb_set_parent");
 
-      throw std::logic_error("field 'scene::node::base::parent' cannot be set");
+      // nothing to do; 'parent_' bookkeeping is internally handled
+      
+      return parent_;
     }
 
     std::ostream&
@@ -193,6 +186,11 @@ namespace scene {
       std::ostream::sentry const cerberus(os);
 
       if (cerberus) {
+        glm::io::precision_guard const iopg;
+        
+        glm::io::precision()   = 2;
+        glm::io::value_width() = 1 + 2 + 1 + glm::io::precision();
+
         os << '['
            << a.min                  << ','
            << a.max                  << ','

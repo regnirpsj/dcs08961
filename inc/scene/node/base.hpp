@@ -63,8 +63,6 @@ namespace scene {
       virtual ~base() =0;
       
       virtual void accept(visitor::base&) =0;
-      
-      virtual void print_on(std::ostream&) const;
 
       virtual glm::mat4 absolute_parent_xform() const;
       virtual glm::mat4 absolute_xform() const;
@@ -83,9 +81,12 @@ namespace scene {
       virtual void invalidate_bounds();
       
     private:
+
+      typedef field::adapter::single<base*>          parent_field_type;
+      typedef typename parent_field_type::value_type parent_type;
       
-      base* cb_get_parent() const;
-      base* cb_set_parent(base*);
+      parent_type const& cb_get_parent() const;
+      parent_type        cb_set_parent(parent_type const&);
       
     };
     
