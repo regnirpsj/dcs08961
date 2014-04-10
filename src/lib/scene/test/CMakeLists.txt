@@ -9,6 +9,8 @@
 FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
 SET(SRC)
+LIST(APPEND SRC "node_group.cpp")
+LIST(APPEND SRC "node_transform.cpp")
 LIST(APPEND SRC "objects_light.cpp")
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
