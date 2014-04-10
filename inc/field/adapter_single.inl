@@ -42,12 +42,12 @@ namespace field {
     inline /* explicit */
     single<T>::single(container_type& a, std::string const& b,
                       get_callback_type c, set_callback_type d,
-                      value_type const& e)
+                      value_type const&)
       : base(a, b), get_value_(c), set_value_(d)
     {
       TRACE("field::adapter::single<" + support::demangle(typeid(T)) + ">::single");
 
-      set_value_(e);
+      // set_value_(e);
     }
 
     template <typename T>

@@ -43,13 +43,13 @@ namespace field {
     multi<T,C>::multi(container_type& a, std::string const& b,
                       get_callback_type c, set_callback_type d,
                       add_callback_type e, sub_callback_type f,
-                      value_container_type const& g)
+                      value_container_type const&)
       : base(a, b), get_value_(c), set_value_(d), add_value_(e), sub_value_(f)
     {
       TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::multi(value_container_type)");
 
-      set_value_(g);
+      // set_value_(g);
     }
 
     template <typename T, typename C>
@@ -57,14 +57,14 @@ namespace field {
     multi<T,C>::multi(container_type& a, std::string const& b,
                       get_callback_type c, set_callback_type d,
                       add_callback_type e, sub_callback_type f,
-                      std::initializer_list<value_type> g)
+                      std::initializer_list<value_type>)
       : base(a, b), get_value_(c), set_value_(d), add_value_(e), sub_value_(f)
     {
       TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::multi(std::initializer_list<" +
             support::demangle(typeid(T)) + ">)");
 
-      set_value_(g);
+      // set_value_(g);
     }
 
     template <typename T, typename C>
