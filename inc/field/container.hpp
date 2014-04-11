@@ -18,6 +18,7 @@
 
 // includes, system
 
+#include <memory> // std::unique_ptr<>
 #include <vector> // std::vector<>
 
 // includes, project
@@ -33,6 +34,23 @@ namespace field {
   class container : public support::printable {
 
   public:
+
+    class manager : public support::printable {
+
+    public:
+
+      virtual ~manager() =0;
+
+      virtual void print_on(std::ostream&) const;
+
+      virtual bool schedule(container*);
+      virtual bool unschedule(container*);
+      
+    protected:
+      
+      std::vector<container*> container_list_;
+      
+    };
     
     virtual void touch();
 
@@ -52,6 +70,8 @@ namespace field {
     
     typedef std::vector<base*> field_list_type;
 
+    static std::unique_ptr<manager> mgr;
+    
     field_list_type field_list_;
 
     void add(base*);

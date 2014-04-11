@@ -25,10 +25,11 @@
 // includes, project
 
 #include <field/base.hpp>
+#include <support/io_utils.hpp>
 #include <support/type_info.hpp>
 
-#define DCSHULLACUK_USE_TRACE
-#undef DCSHULLACUK_USE_TRACE
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 // internal unnamed namespace
@@ -37,6 +38,17 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
+  class default_container_manager : public field::container::manager {
+
+  public:
+
+    virtual ~default_container_manager()
+    {
+      TRACE("field::<unnamed>::default_container_manager::~default_container_manager");
+    }
+    
+  };
+  
   // variables, internal
   
   // functions, internal
@@ -46,17 +58,69 @@ namespace {
 namespace field {
   
   // variables, exported
-  
-  // functions, exported
 
+  /* static */ std::unique_ptr<container::manager> container::mgr(new default_container_manager);
+    
+  // functions, exported
+  
+  /* virtual */
+  container::manager::~manager()
+  {
+    TRACE("field::container::manager::~manager");
+  }
+
+  /* virtual */ void
+  container::manager::print_on(std::ostream& os) const
+  {
+    TRACE_NEVER("field::container::manager::print_on");
+
+    using support::ostream::operator<<;
+      
+    os << container_list_;
+  }
+
+  /* virtual */ bool
+  container::manager::schedule(container* a)
+  {
+    TRACE("field::container::manager::schedule");
+
+    bool       result(false);
+    auto const found(std::find(container_list_.begin(), container_list_.end(), a));
+
+    if (mgr->container_list_.end() == found) {
+      container_list_.push_back(a);
+
+      result = true;
+    }
+
+    return result;
+  }
+  
+  /* virtual */ bool
+  container::manager::unschedule(container* a)
+  {
+    TRACE("field::container::manager::unschedule");
+
+    bool       result(false);
+    auto const found(std::find(container_list_.begin(), container_list_.end(), a));
+
+    if (mgr->container_list_.end() != found) {
+      container_list_.erase(found);
+
+      result = true;
+    }
+
+    return result;
+  }
+  
   /* virtual */ void
   container::touch()
   {
     TRACE("field::container::touch");
 
-    // schedule_for_evaluation();
+    mgr->schedule(this);
   }
-
+  
   /* virtual */ void
   container::print_on(std::ostream& os) const
   {
@@ -73,12 +137,15 @@ namespace field {
       os << '\n' << prefix << std::boolalpha << *f;
     }
       
-    os << '\n' << ']';
+    os << '\n'
+       << prefix << "mgr:" << *mgr
+       << ']';
   }
   
   /* explicit */
   container::container()
-    : field_list_()
+    : support::printable(),
+      field_list_       ()
   {
     TRACE("field::container::container");
   }
@@ -87,6 +154,8 @@ namespace field {
   container::~container()
   {
     TRACE("field::container::~container");
+
+    mgr->unschedule(this);
   }
   
   /* virtual */ void
@@ -99,6 +168,8 @@ namespace field {
   container::changed(base&)
   {
     TRACE("field::container::changed");
+
+    touch();
   }
   
   void

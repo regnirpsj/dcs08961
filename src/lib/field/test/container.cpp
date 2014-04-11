@@ -14,6 +14,7 @@
 
 // includes, system
 
+#include <array>          // std::array<>
 #include <algorithm>      // std::find<>
 #include <glm/glm.hpp>    // glm::vec3
 #include <glm/gtx/io.hpp> // glm::operator<<
@@ -140,13 +141,29 @@ BOOST_AUTO_TEST_CASE(container_ctor)
 {
   container const c;
   
-  BOOST_CHECK(true == c.svf_bool.get());
+  BOOST_CHECK(true == c.svf_bool);
 }
 
 BOOST_AUTO_TEST_CASE(container_print_on)
 {
   container const c;
   
-  BOOST_CHECK(true == c.svf_bool.get());
+  BOOST_CHECK(true == c.svf_bool);
+  BOOST_CHECK(std::string("abcdefghijklmnopqrstuvwxyz").length() == c.svf_string.get().length());
   BOOST_MESSAGE(std::boolalpha << c);
+}
+
+BOOST_AUTO_TEST_CASE(container_mgr)
+{
+  std::array<container, 5> const c = {
+    {
+      container(), container(), container(), container(), container(),
+    }
+  };
+
+  for (auto const& a : c){
+    BOOST_CHECK(true == a.svf_bool);
+  }
+  
+  BOOST_MESSAGE(std::boolalpha << c[c.size()-1]);
 }
