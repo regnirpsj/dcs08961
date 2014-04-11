@@ -6,14 +6,18 @@
 #                                                                                                  #
 ####################################################################################################
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS filesystem program_options)
-
-SET(LIB "gli")
+FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
 SET(SRC)
+LIST(APPEND SRC "io.cpp")
 
-LIST(APPEND SRC "gtx/io.cpp")
+SET(LIBS)
+LIST(APPEND LIBS ${LIB})
+LIST(APPEND LIBS support)
+LIST(APPEND LIBS ${Boost_LIBRARIES})
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES)
+IF(UNIX)
+  LIST(APPEND LIBS rt)
+ENDIF()
 
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
