@@ -6,6 +6,8 @@
 #                                                                                                  #
 ####################################################################################################
 
+FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS filesystem)
+
 SET(LIB "scene")
 
 SET(SRC)
@@ -31,6 +33,7 @@ LIST(APPEND SRC "object/light_source.cpp")
 LIST(APPEND SRC "object/material.cpp")
 LIST(APPEND SRC "object/positional_light.cpp")
 LIST(APPEND SRC "object/spot_light.cpp")
+LIST(APPEND SRC "object/texture.cpp")
 
 LIST(APPEND SRC "primitive/cube.cpp")
 LIST(APPEND SRC "primitive/cylinder.cpp")
@@ -44,7 +47,9 @@ LIST(APPEND SRC "visitor/subject.cpp")
 
 SET(LIBS)
 LIST(APPEND LIBS field)
+LIST(APPEND LIBS gli)
 LIST(APPEND LIBS support)
+LIST(APPEND LIBS ${Boost_LIBRARIES})
 
 LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
 

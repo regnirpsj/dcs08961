@@ -12,6 +12,7 @@ SET(SRC)
 LIST(APPEND SRC "node_group.cpp")
 LIST(APPEND SRC "node_transform.cpp")
 LIST(APPEND SRC "objects_light.cpp")
+LIST(APPEND SRC "objects_texture.cpp")
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 

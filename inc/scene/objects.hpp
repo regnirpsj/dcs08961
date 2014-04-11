@@ -27,6 +27,7 @@
 #include <scene/object/material.hpp>
 #include <scene/object/positional_light.hpp>
 #include <scene/object/spot_light.hpp>
+#include <scene/object/texture.hpp>
 
 namespace scene {
   
