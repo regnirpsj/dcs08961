@@ -25,8 +25,8 @@
 
 #include <field/container.hpp>
 
-#define DCSHULLACUK_USE_TRACE
-#undef DCSHULLACUK_USE_TRACE
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 // internal unnamed namespace
