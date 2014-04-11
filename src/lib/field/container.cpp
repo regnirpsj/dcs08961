@@ -44,7 +44,7 @@ namespace {
 
     virtual ~default_container_manager()
     {
-      TRACE("field::<unnamed>::default_container_manager::~default_container_manager");
+      TRACE("field::container::<unnamed>::default_container_manager::~default_container_manager");
     }
     
   };
