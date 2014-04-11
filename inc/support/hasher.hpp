@@ -30,25 +30,21 @@ namespace std {
   // types, exported (class, enum, struct, union, typedef)
 
   template <typename T1, typename T2>
-  struct hash<std::pair<T1, T2>> {
+  struct hash<pair<T1, T2>> {
       
-    std::size_t operator()(std::pair<T1, T2> const& a) const;
+    size_t operator()(pair<T1, T2> const& a) const;
       
   };
 
-#if (defined(_MSC_VER) && (_MSC_VER <= 1700))
-  /**
-   *  MSVC 17.0 claims that the following doesn't exist
-   *
-   *  'error C2338: The C++ Standard doesn't provide a hash for this type.'
-   */
   template <>
-  struct hash<std::string const> {
-      
-    std::size_t operator()(std::string const& a) const;
+  struct hash<string const> {
+    
+    size_t operator()(string const& a) const
+    {
+      return hash<string>()(a);
+    }
     
   };
-#endif
   
   // variables, exported (extern)
 

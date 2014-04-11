@@ -30,20 +30,11 @@ namespace std {
   // functions, inlined (inline)
 
   template <typename T1, typename T2>
-  inline std::size_t
-  hash<std::pair<T1, T2>>::operator()(std::pair<T1, T2> const& a) const
+  inline size_t
+  hash<pair<T1, T2>>::operator()(pair<T1, T2> const& a) const
   {
     return boost::hash_value(a);
-  } 
-
-#if (defined(_MSC_VER) && (_MSC_VER <= 1700))
-  template <>
-  inline std::size_t
-  hash<std::string const>::operator()(std::string const& a) const
-  {
-    return hash<std::string>()(a);
   }
-#endif
   
 } // namespace std {
 
