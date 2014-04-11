@@ -47,9 +47,11 @@ namespace field {
       virtual void print_on(std::ostream&) const;
     
       value_type const& get() const;
+      value_type&       get();
       value_type        set(value_type const&);
 
       operator value_type const& () const;
+      operator value_type&       ();
       single& operator=(value_type const&);
       
     private:

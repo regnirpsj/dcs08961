@@ -40,11 +40,22 @@ namespace {
 BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_get, T, field::test::single_types)
 {
   using namespace field;
-  
-  test::container_single<T> c;
-  value::single<T> const    f(c, "f");
 
-  BOOST_CHECK(T() == f.get());
+  {
+    test::container_single<T> c;
+    value::single<T> const    f(c, "f");
+
+    BOOST_CHECK(T() == f.get());
+  }
+
+  {
+    test::container_single<T> c;
+    value::single<T>          f(c, "f");
+
+    f.get() = T();
+    
+    BOOST_CHECK(T() == f.get());
+  }
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_set, T, field::test::single_types)
@@ -60,11 +71,22 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_set, T, field::test::single_types)
 BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_op_convert, T, field::test::single_types)
 {
   using namespace field;
-  
-  test::container_single<T> c;
-  value::single<T> const    f(c, "f");
 
-  BOOST_CHECK(T() == static_cast<T>(f));
+  {
+    test::container_single<T> c;
+    value::single<T> const    f(c, "f");
+
+    BOOST_CHECK(T() == static_cast<T const&>(f));
+  }
+
+  {
+    test::container_single<T> c;
+    value::single<T>          f(c, "f");
+
+    static_cast<T&>(f) = T();
+    
+    BOOST_CHECK(T() == static_cast<T const&>(f));
+  }
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_op_assign, T, field::test::single_types)
@@ -74,5 +96,5 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(value_single_op_assign, T, field::test::single_typ
   test::container_single<T> c;
   value::single<T>          f(c, "f");
   
-  BOOST_CHECK(T() == static_cast<T>(f = T()));
+  BOOST_CHECK(T() == static_cast<T const&>(f = T()));
 }

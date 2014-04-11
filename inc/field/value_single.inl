@@ -70,11 +70,20 @@ namespace field {
     inline typename single<T>::value_type const&
     single<T>::get() const
     {
+      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::get(const)");
+    
+      return value_;
+    }
+
+    template <typename T>
+    inline typename single<T>::value_type&
+    single<T>::get()
+    {
       TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::get");
     
       return value_;
     }
-  
+    
     template <typename T>
     inline typename single<T>::value_type
     single<T>::set(value_type const& a)
@@ -99,6 +108,15 @@ namespace field {
       return get();
     }
 
+    template <typename T>
+    inline single<T>::operator single<T>::value_type& ()
+    {
+      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::operator " +
+            "value_type&");
+      
+      return get();
+    }
+    
     template <typename T>
     inline single<T>&
     single<T>::operator=(value_type const& a)
