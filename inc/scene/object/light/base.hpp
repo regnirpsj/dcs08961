@@ -85,9 +85,8 @@ namespace scene {
 
         explicit base(std::string const& /* name */,
                       rep const&         /* rep */ = rep());
-      
-        void evaluate();
-        void changed(field::base&);
+        
+        virtual void do_changed(field::base&);
 
       private:
 

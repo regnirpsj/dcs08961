@@ -118,17 +118,9 @@ namespace scene {
     }
 
     /* virtual */ void
-    base::evaluate()
+    base::do_changed(field::base& f)
     {
-      TRACE("scene::node::base::evaluate");
-
-      object::base::evaluate();
-    }
-
-    /* virtual */ void
-    base::changed(field::base& f)
-    {
-      TRACE("scene::node::base::changed");
+      TRACE("scene::node::base::do_changed");
 
       if      (&f == &parent) {
         // nothing to do
@@ -142,7 +134,7 @@ namespace scene {
       }
 
       else {
-        object::base::changed(f);
+        object::base::do_changed(f);
       }
     }
 

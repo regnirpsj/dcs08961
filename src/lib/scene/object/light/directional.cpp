@@ -69,24 +69,16 @@ namespace scene {
       {   
         TRACE("scene::object::light::directional::directional");
       }
-    
-      void
-      directional::evaluate()
-      {
-        TRACE("scene::object::light::directional::evaluate");
-        
-        base::evaluate();
-      }
       
-      void
-      directional::changed(field::base& f)
+      /* virtual */ void
+      directional::do_changed(field::base& f)
       {
-        TRACE("scene::object::light::directional::changed");
+        TRACE("scene::object::light::directional::do_changed");
         
         if (&f == &direction) { rep_list_[0].direction = direction.get(); }
         
         else {
-          base::changed(f);
+          base::do_changed(f);
         }
       }
 

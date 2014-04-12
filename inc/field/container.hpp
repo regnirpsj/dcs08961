@@ -52,8 +52,10 @@ namespace field {
       
     };
     
-    virtual void touch();
-
+    void touch();
+    void evaluate();
+    void changed(base&);
+    
     virtual void print_on(std::ostream&) const;
     
   protected:
@@ -61,8 +63,9 @@ namespace field {
     explicit container();
     virtual ~container() =0;
 
-    virtual void evaluate();
-    virtual void changed(base&);
+    virtual void do_touch();
+    virtual void do_evaluate();
+    virtual void do_changed(base&);
     
   private:
 

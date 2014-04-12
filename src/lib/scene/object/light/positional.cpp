@@ -69,24 +69,16 @@ namespace scene {
       {   
         TRACE("scene::object::light::positional::positional");
       }
-    
-      void
-      positional::evaluate()
-      {
-        TRACE("scene::object::light::positional::evaluate");
-        
-        base::evaluate();
-      }
       
-      void
-      positional::changed(field::base& f)
+      /* virtual */ void
+      positional::do_changed(field::base& f)
       {
         TRACE("scene::object::light::positional::changed");
         
         if (&f == &position) { rep_list_[0].position.xyz() = position.get(); }
         
         else {
-          base::changed(f);
+          base::do_changed(f);
         }
       }
 

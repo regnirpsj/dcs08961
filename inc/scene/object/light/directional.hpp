@@ -45,9 +45,8 @@ namespace scene {
         explicit directional(std::string const& /* name */);
       
       protected:
-
-        void evaluate();
-        void changed(field::base&);
+        
+        virtual void do_changed(field::base&);
       
       };
     

@@ -76,20 +76,20 @@ namespace scene {
         rebuild();
       }
     
-      void
-      area::evaluate()
+      /* virtual */ void
+      area::do_evaluate()
       {
-        TRACE("scene::object::light::area::evaluate");
+        TRACE("scene::object::light::area::do_evaluate");
         
         spot::evaluate();
 
         rebuild();
       }
       
-      void
-      area::changed(field::base& f)
+      /* virtual */ void
+      area::do_changed(field::base& f)
       {
-        TRACE("scene::object::light::area::changed");
+        TRACE("scene::object::light::area::do_changed");
         
         if      (&f == &active)      { rep_.active         = active.get();      rebuild_ = true; }
         else if (&f == &ambient)     { rep_.ambient        = ambient.get();     rebuild_ = true; }

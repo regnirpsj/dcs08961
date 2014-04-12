@@ -78,24 +78,16 @@ namespace scene {
     }
     
     /* virtual */ void
-    base::evaluate()
+    base::do_changed(field::base& f)
     {
-      TRACE("scene::object::base::evaluate");
-
-      field::container::evaluate();
-    }
-    
-    /* virtual */ void
-    base::changed(field::base& f)
-    {
-      TRACE("scene::object::base::changed");
+      TRACE("scene::object::base::do_changed");
 
       if (&f == &name) {
         // nothing to do
       }
 
       else {
-        field::container::changed(f);
+        field::container::do_changed(f);
       }
     }
     

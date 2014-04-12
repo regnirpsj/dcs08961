@@ -49,8 +49,8 @@ namespace scene {
       
       protected:
 
-        void evaluate();
-        void changed(field::base&);
+        virtual void do_evaluate();
+        virtual void do_changed(field::base&);
         
       };
     

@@ -73,26 +73,26 @@ namespace scene {
         TRACE("scene::object::light::spot::spot");
       }
     
-      void
-      spot::evaluate()
+      /* virtual */ void
+      spot::do_evaluate()
       {
-        TRACE("scene::object::light::spot::evaluate");
+        TRACE("scene::object::light::spot::do_evaluate");
         
-        directional::evaluate();
-        positional::evaluate();
+        directional::do_evaluate();
+        positional::do_evaluate();
       }
       
-      void
-      spot::changed(field::base& f)
+      /* virtual */ void
+      spot::do_changed(field::base& f)
       {
-        TRACE("scene::object::light::spot::changed");
+        TRACE("scene::object::light::spot::do_changed");
         
         if      (&f == &exponent) { rep_list_[0].exponent = exponent.get(); }
         else if (&f == &cutoff)   { rep_list_[0].cutoff   = cutoff.get();   }
         
         else {
-          directional::changed(f);
-          positional::changed(f);
+          directional::do_changed(f);
+          positional::do_changed(f);
         }
       }
 

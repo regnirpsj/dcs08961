@@ -74,9 +74,8 @@ namespace scene {
       base* parent_;
       
       explicit base(std::string const& /* name */);
-
-      virtual void evaluate();
-      virtual void changed(field::base&);
+      
+      virtual void do_changed(field::base&);
 
       virtual void invalidate_bounds();
       

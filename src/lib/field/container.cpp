@@ -113,12 +113,32 @@ namespace field {
     return result;
   }
   
-  /* virtual */ void
+  void
   container::touch()
   {
     TRACE("field::container::touch");
 
+    do_touch();
+    
     mgr->schedule(this);
+  }
+
+  void
+  container::evaluate()
+  {
+    TRACE("field::container::evaluate");
+
+    do_evaluate();
+  }
+
+  void
+  container::changed(base& f)
+  {
+    TRACE("field::container::changed");
+
+    do_changed(f);
+    
+    touch();
   }
   
   /* virtual */ void
@@ -157,19 +177,23 @@ namespace field {
 
     mgr->unschedule(this);
   }
+
+  /* virtual */ void
+  container::do_touch()
+  {
+    TRACE("field::container::do_touch");
+  }
   
   /* virtual */ void
-  container::evaluate()
+  container::do_evaluate()
   {
-    TRACE("field::container::evaluate");
+    TRACE("field::container::do_evaluate");
   }
-
+  
   /* virtual */ void
-  container::changed(base&)
+  container::do_changed(base&)
   {
-    TRACE("field::container::changed");
-
-    touch();
+    TRACE("field::container::do_changed");
   }
   
   void

@@ -47,7 +47,7 @@ namespace scene {
       
     protected:
 
-      virtual void changed(field::base&);
+      virtual void do_changed(field::base&);
       
     };
     

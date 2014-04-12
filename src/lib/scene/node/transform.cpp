@@ -79,16 +79,16 @@ namespace scene {
     }
 
     /* virtual */ void
-    transform::changed(field::base& f)
+    transform::do_changed(field::base& f)
     {
-      TRACE("scene::node::transform::changed");
+      TRACE("scene::node::transform::do_changed");
 
       if      (&f == &xform) {
         invalidate_bounds();
       }
 
       else {
-        group::changed(f);
+        group::do_changed(f);
       }
     }
     

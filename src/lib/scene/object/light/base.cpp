@@ -92,19 +92,11 @@ namespace scene {
       {   
         TRACE("scene::object::light::base::base");
       }
-
-      void
-      base::evaluate()
-      {
-        TRACE("scene::object::light::base::evaluate");
-        
-        object::base::evaluate();
-      }
       
-      void
-      base::changed(field::base& f)
+      /* virtual */ void
+      base::do_changed(field::base& f)
       {
-        TRACE("scene::object::light::base::changed");
+        TRACE("scene::object::light::base::do_changed");
         
         if      (&f == &active)      { rep_list_[0].active      = active.get();      }
         else if (&f == &ambient)     { rep_list_[0].ambient     = ambient.get();     }
@@ -113,7 +105,7 @@ namespace scene {
         else if (&f == &attenuation) { rep_list_[0].attenuation = attenuation.get(); }
         
         else {
-          object::base::changed(f);
+          object::base::do_changed(f);
         }
       }
 
