@@ -35,10 +35,9 @@ namespace field {
 
     public:
 
-      typedef base                      inherited;
-      typedef inherited::container_type container_type;
-      typedef C                         value_container_type;
-      typedef T                         value_type;
+      typedef base::container_type container_type;
+      typedef C                    value_container_type;
+      typedef T                    value_type;
 
       explicit multi(container_type&             /* container */,
                      std::string const&          /* name */,
@@ -51,12 +50,14 @@ namespace field {
       virtual void print_on(std::ostream&) const;
     
       value_container_type const& get() const;
+      value_container_type&       get();
       value_container_type        set(value_container_type const&);
       value_container_type        set(std::initializer_list<value_type>);
       bool                        add(value_type const&);
       bool                        sub(value_type const&);
 
       operator value_container_type const& () const;
+      operator value_container_type&       ();
       multi& operator=(value_container_type const&);
       multi& operator=(std::initializer_list<value_type>);
       multi& operator+=(value_type const&);

@@ -41,10 +41,21 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(value_multi_get, T, field::test::multi_types)
 {
   using namespace field;
   
-  test::container_multi<T>                   c;
-  value::multi<typename T::value_type> const f(c, "f");
+  {
+    test::container_multi<T>                   c;
+    value::multi<typename T::value_type> const f(c, "f");
 
-  BOOST_CHECK(T() == f.get());
+    BOOST_CHECK(T() == f.get());
+  }
+
+  {
+    test::container_multi<T>             c;
+    value::multi<typename T::value_type> f(c, "f");
+
+    f.get() = T();
+    
+    BOOST_CHECK(T() == f.get());
+  }
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(value_multi_set, T, field::test::multi_types)
@@ -92,11 +103,22 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(value_multi_set_initlist, T, field::test::multi_ty
 BOOST_AUTO_TEST_CASE_TEMPLATE(value_multi_op_convert, T, field::test::multi_types)
 {
   using namespace field;
-  
-  test::container_multi<T>                   c;
-  value::multi<typename T::value_type> const f(c, "f");
 
-  BOOST_CHECK(T() == static_cast<T>(f));
+  {
+    test::container_multi<T>                   c;
+    value::multi<typename T::value_type> const f(c, "f");
+
+    BOOST_CHECK(T() == static_cast<T const&>(f));
+  }
+
+  {
+    test::container_multi<T>             c;
+    value::multi<typename T::value_type> f(c, "f");
+
+    static_cast<T&>(f) = T();
+    
+    BOOST_CHECK(T() == static_cast<T const&>(f));
+  }
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(value_multi_op_assign, T, field::test::multi_types)

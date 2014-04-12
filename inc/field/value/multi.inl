@@ -87,11 +87,21 @@ namespace field {
     multi<T,C>::get() const
     {
       TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+            support::demangle(typeid(C)) + ">::get(const)");
+
+      return value_container_;
+    }
+
+    template <typename T, typename C>
+    inline typename multi<T,C>::value_container_type&
+    multi<T,C>::get()
+    {
+      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::get");
 
       return value_container_;
     }
-  
+    
     template <typename T, typename C>
     inline typename multi<T,C>::value_container_type
     multi<T,C>::set(value_container_type const& a)
@@ -172,6 +182,15 @@ namespace field {
     {
       TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::operator value_container_type const&");
+
+      return get();
+    }
+
+    template <typename T, typename C>
+    inline multi<T,C>::operator multi<T,C>::value_container_type& ()
+    {
+      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+            support::demangle(typeid(C)) + ">::operator value_container_type&");
 
       return get();
     }
