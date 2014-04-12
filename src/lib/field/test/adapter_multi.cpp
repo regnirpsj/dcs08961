@@ -103,11 +103,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_sub, T, field::test::multi_types)
                                            std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
                                            std::bind(&test::container_multi<T>::cb_sub, &c,
-                                                     std::placeholders::_1),
-                                           T(2));
+                                                     std::placeholders::_1));
 
+  BOOST_CHECK(f.add(typename T::value_type()));
   BOOST_CHECK(f.sub(typename T::value_type()));
-  BOOST_CHECK(1 == f.get().size());
+  BOOST_CHECK(true == f.get().empty());
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_set_initlist, T, field::test::multi_types)
@@ -209,10 +209,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_multi_op_sub, T, field::test::multi_types)
                                            std::bind(&test::container_multi<T>::cb_add, &c,
                                                      std::placeholders::_1),
                                            std::bind(&test::container_multi<T>::cb_sub, &c,
-                                                     std::placeholders::_1),
-                                           T(2));
+                                                     std::placeholders::_1));
 
+  f += typename T::value_type();
   f -= typename T::value_type();
   
-  BOOST_CHECK(1 == f.get().size());
+  BOOST_CHECK(true == f.get().empty());
 }
