@@ -78,7 +78,7 @@ namespace field {
 
       return get_value_();
     }
-
+    
     template <typename T>
     inline typename single<T>::value_type
     single<T>::set(value_type const& a)
@@ -100,7 +100,7 @@ namespace field {
       
       return get();
     }
-
+    
     template <typename T>
     inline single<T>&
     single<T>::operator=(value_type const& a)

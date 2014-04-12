@@ -36,8 +36,7 @@ namespace field {
 
     public:
 
-      typedef base                                                         inherited;
-      typedef inherited::container_type                                    container_type;
+      typedef base::container_type                                         container_type;
       typedef C                                                            value_container_type;
       typedef T                                                            value_type;
       typedef std::function<std::vector<T> const& ()>                      get_callback_type;

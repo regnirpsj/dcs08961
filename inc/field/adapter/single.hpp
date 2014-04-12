@@ -34,9 +34,8 @@ namespace field {
     class single : public base {
 
     public:
-
-      typedef base                               inherited;
-      typedef inherited::container_type          container_type;
+      
+      typedef base::container_type               container_type;
       typedef T                                  value_type;
       typedef std::function<T const& ()>         get_callback_type;
       typedef std::function<T        (T const&)> set_callback_type;
