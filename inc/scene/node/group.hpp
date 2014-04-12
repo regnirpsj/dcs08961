@@ -22,7 +22,7 @@
 
 // includes, project
 
-#include <field/adapter_multi.hpp>
+#include <field/adapter/multi.hpp>
 #include <scene/node/base.hpp>
 
 namespace scene {

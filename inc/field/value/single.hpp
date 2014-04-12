@@ -6,19 +6,19 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/value_multi.hpp                                                           */
+/*  module     :  field/value/single.hpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_FIELD_VALUE_MULTI_HPP)
+#if !defined(UKACHULLDCS_08961_FIELD_VALUE_SINGLE_HPP)
 
-#define UKACHULLDCS_08961_FIELD_VALUE_MULTI_HPP
+#define UKACHULLDCS_08961_FIELD_VALUE_SINGLE_HPP
 
 // includes, system
 
-#include <vector> // std::vector<>
+// #include <>
 
 // includes, project
 
@@ -30,41 +30,33 @@ namespace field {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    template <typename T, typename C = std::vector<T>>
-    class multi : public base {
+    template <typename T>
+    class single : public base {
 
     public:
 
       typedef base                      inherited;
       typedef inherited::container_type container_type;
-      typedef C                         value_container_type;
       typedef T                         value_type;
-
-      explicit multi(container_type&             /* container */,
-                     std::string const&          /* name */,
-                     value_container_type const& /* init */ = value_container_type());
-      explicit multi(container_type&                   /* container */,
-                     std::string const&                /* name */,
-                     std::initializer_list<value_type> /* init */);
-      virtual ~multi();
+    
+      explicit single(container_type&    /* container */,
+                      std::string const& /* name */,
+                      value_type const&  /* init */ = value_type());
+      virtual ~single();
 
       virtual void print_on(std::ostream&) const;
     
-      value_container_type const& get() const;
-      value_container_type        set(value_container_type const&);
-      value_container_type        set(std::initializer_list<value_type>);
-      bool                        add(value_type const&);
-      bool                        sub(value_type const&);
+      value_type const& get() const;
+      value_type&       get();
+      value_type        set(value_type const&);
 
-      operator value_container_type const& () const;
-      multi& operator=(value_container_type const&);
-      multi& operator=(std::initializer_list<value_type>);
-      multi& operator+=(value_type const&);
-      multi& operator-=(value_type const&);
+      operator value_type const& () const;
+      operator value_type&       ();
+      single& operator=(value_type const&);
       
     private:
 
-      value_container_type value_container_;
+      value_type value_;
     
     };
     
@@ -75,9 +67,9 @@ namespace field {
     // functions, exported (extern)
 
   } // namespace value {
-  
+
 } // namespace field {
 
-#include <field/value_multi.inl>
+#include <field/value/single.inl>
 
-#endif // #if !defined(UKACHULLDCS_08961_FIELD_VALUE_MULTI_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_FIELD_VALUE_SINGLE_HPP)

@@ -21,11 +21,9 @@
 
 // includes, project
 
-#include <field/adapter_multi.hpp>
-#include <field/adapter_single.hpp>
+#include <field/adapters.hpp>
 #include <field/container.hpp>
-#include <field/value_multi.hpp>
-#include <field/value_single.hpp>
+#include <field/values.hpp>
 
 // internal unnamed namespace
 

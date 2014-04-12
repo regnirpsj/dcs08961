@@ -23,7 +23,7 @@
 
 // includes, project
 
-#include <field/adapter_single.hpp>
+#include <field/adapter/single.hpp>
 #include <scene/object/base.hpp>
 
 namespace scene {

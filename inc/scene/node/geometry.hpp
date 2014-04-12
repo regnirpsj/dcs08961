@@ -23,7 +23,7 @@
 
 // includes, project
 
-#include <field/value_multi.hpp>
+#include <field/value/multi.hpp>
 #include <scene/node/base.hpp>
 
 namespace scene {

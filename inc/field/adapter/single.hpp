@@ -6,19 +6,19 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/value_single.hpp                                                          */
+/*  module     :  field/adapter/single.hpp                                                        */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_FIELD_VALUE_SINGLE_HPP)
+#if !defined(UKACHULLDCS_08961_FIELD_ADAPTER_SINGLE_HPP)
 
-#define UKACHULLDCS_08961_FIELD_VALUE_SINGLE_HPP
+#define UKACHULLDCS_08961_FIELD_ADAPTER_SINGLE_HPP
 
 // includes, system
 
-// #include <>
+#include <functional> // std::function<>
 
 // includes, project
 
@@ -26,7 +26,7 @@
 
 namespace field {
 
-  namespace value {
+  namespace adapter {
     
     // types, exported (class, enum, struct, union, typedef)
 
@@ -35,29 +35,32 @@ namespace field {
 
     public:
 
-      typedef base                      inherited;
-      typedef inherited::container_type container_type;
-      typedef T                         value_type;
-    
+      typedef base                               inherited;
+      typedef inherited::container_type          container_type;
+      typedef T                                  value_type;
+      typedef std::function<T const& ()>         get_callback_type;
+      typedef std::function<T        (T const&)> set_callback_type;
+      
       explicit single(container_type&    /* container */,
                       std::string const& /* name */,
+                      get_callback_type  /* get_cb */,
+                      set_callback_type  /* set_cb */,
                       value_type const&  /* init */ = value_type());
       virtual ~single();
 
       virtual void print_on(std::ostream&) const;
-    
+      
       value_type const& get() const;
-      value_type&       get();
       value_type        set(value_type const&);
 
       operator value_type const& () const;
-      operator value_type&       ();
       single& operator=(value_type const&);
       
     private:
 
-      value_type value_;
-    
+      get_callback_type get_value_;
+      set_callback_type set_value_;
+      
     };
     
     // variables, exported (extern)
@@ -66,10 +69,10 @@ namespace field {
   
     // functions, exported (extern)
 
-  } // namespace value {
-
+  } // namespace adapter {
+  
 } // namespace field {
 
-#include <field/value_single.inl>
+#include <field/adapter/single.inl>
 
-#endif // #if !defined(UKACHULLDCS_08961_FIELD_VALUE_SINGLE_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_FIELD_ADAPTER_SINGLE_HPP)

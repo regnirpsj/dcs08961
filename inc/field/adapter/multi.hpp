@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/adapter_multi.hpp                                                         */
+/*  module     :  field/adapter/multi.hpp                                                         */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -94,6 +94,6 @@ namespace field {
   
 } // namespace field {
 
-#include <field/adapter_multi.inl>
+#include <field/adapter/multi.inl>
 
 #endif // #if !defined(UKACHULLDCS_08961_FIELD_ADAPTER_MULTI_HPP)

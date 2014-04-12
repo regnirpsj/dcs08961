@@ -6,20 +6,19 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/value_multi.inl                                                           */
+/*  module     :  field/adapter/multi.inl                                                         */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_FIELD_VALUE_MULTI_INL)
+#if !defined(UKACHULLDCS_08961_FIELD_ADAPTER_MULTI_INL)
 
-#define UKACHULLDCS_08961_FIELD_VALUE_MULTI_INL
+#define UKACHULLDCS_08961_FIELD_ADAPTER_MULTI_INL
 
 // includes, system
 
-#include <algorithm> // std::find<>
-#include <ostream>   // std::ostream
+#include <ostream> // std::ostream
 
 // includes, project
 
@@ -35,34 +34,44 @@
 
 namespace field {
 
-  namespace value {
+  namespace adapter {
     
     // functions, inlined (inline)
 
     template <typename T, typename C>
     inline /* explicit */
-    multi<T,C>::multi(container_type& a, std::string const& b, value_container_type const& c)
-      : base(a, b), value_container_(c)
+    multi<T,C>::multi(container_type& a, std::string const& b,
+                      get_callback_type c, set_callback_type d,
+                      add_callback_type e, sub_callback_type f,
+                      value_container_type const&)
+      : base(a, b), get_value_(c), set_value_(d), add_value_(e), sub_value_(f)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::multi(value_container_type)");
+
+      // set_value_(g);
     }
 
     template <typename T, typename C>
     inline /* explicit */
-    multi<T,C>::multi(container_type& a, std::string const& b, std::initializer_list<value_type> c)
-      : base(a, b), value_container_(c)
+    multi<T,C>::multi(container_type& a, std::string const& b,
+                      get_callback_type c, set_callback_type d,
+                      add_callback_type e, sub_callback_type f,
+                      std::initializer_list<value_type>)
+      : base(a, b), get_value_(c), set_value_(d), add_value_(e), sub_value_(f)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::multi(std::initializer_list<" +
             support::demangle(typeid(T)) + ">)");
+
+      // set_value_(g);
     }
-  
+
     template <typename T, typename C>
     inline /* virtual */
     multi<T,C>::~multi()
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::~multi");
     }
 
@@ -70,7 +79,7 @@ namespace field {
     inline /* virtual */ void
     multi<T,C>::print_on(std::ostream& os) const
     {
-      TRACE_NEVER("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE_NEVER("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
                   support::demangle(typeid(C)) + ">::print_on");
 
       os << '[';
@@ -79,29 +88,27 @@ namespace field {
 
       using support::ostream::operator<<;
       
-      os << ',' << value_container_ << "]";
+      os << ',' << get_value_() << "]";
     }
-  
+    
     template <typename T, typename C>
     inline typename multi<T,C>::value_container_type const&
     multi<T,C>::get() const
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::get");
 
-      return value_container_;
+      return get_value_();
     }
   
     template <typename T, typename C>
     inline typename multi<T,C>::value_container_type
     multi<T,C>::set(value_container_type const& a)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::set(value_container_type)");
 
-      value_container_type const result(value_container_);
-    
-      value_container_ = a;
+      value_container_type const result(set_value_(a));
 
       changed();
 
@@ -112,13 +119,11 @@ namespace field {
     inline typename multi<T,C>::value_container_type
     multi<T,C>::set(std::initializer_list<value_type> a)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::set" +
-            "(std::initializer_list<" + support::demangle(typeid(T)) + ">)");
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
+            support::demangle(typeid(C)) + ">::set(std::initializer_list<" +
+            support::demangle(typeid(T)) + ">)");
 
-      value_container_type const result(value_container_);
-    
-      value_container_ = a;
+      value_container_type const result(set_value_(a));
 
       changed();
 
@@ -129,18 +134,13 @@ namespace field {
     inline bool
     multi<T,C>::add(value_type const& a)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::add");
 
-      bool       result(false);
-      auto const found(std::find(value_container_.begin(), value_container_.end(), a));
+      bool const result(add_value_(a));
 
-      if (value_container_.end() == found) {
-        value_container_.insert(value_container_.end(), a);
-
+      if (result) {
         changed();
-
-        result = true;
       }
 
       return result;
@@ -150,18 +150,13 @@ namespace field {
     inline bool
     multi<T,C>::sub(value_type const& a)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::sub");
 
-      bool       result(false);
-      auto const found(std::find(value_container_.begin(), value_container_.end(), a));
+      bool const result(sub_value_(a));
 
-      if (value_container_.end() != found) {
-        value_container_.erase(found);
-        
+      if (result) {
         changed();
-
-        result = true;
       }
 
       return result;
@@ -170,8 +165,9 @@ namespace field {
     template <typename T, typename C>
     inline multi<T,C>::operator multi<T,C>::value_container_type const& () const
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::operator value_container_type const&");
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
+            support::demangle(typeid(C)) + ">::operator " +
+            "value_container_type const&");
 
       return get();
     }
@@ -180,8 +176,9 @@ namespace field {
     inline multi<T,C>&
     multi<T,C>::operator=(value_container_type const& a)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::operator=(value_container_type const&)");
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
+            support::demangle(typeid(C)) + ">::operator=" +
+            "(value_container_type const&)");
 
       set(a);
       
@@ -192,8 +189,9 @@ namespace field {
     inline multi<T,C>&
     multi<T,C>::operator=(std::initializer_list<value_type> a)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::operator=(std::initializer_list<value_type>)");
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
+            support::demangle(typeid(C)) + ">::operator=" +
+            "(std::initializer_list<value_type>)");
 
       set(a);
       
@@ -204,7 +202,7 @@ namespace field {
     inline multi<T,C>&
     multi<T,C>::operator+=(value_type const& a)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::operator+=");
 
       add(a);
@@ -216,20 +214,20 @@ namespace field {
     inline multi<T,C>&
     multi<T,C>::operator-=(value_type const& a)
     {
-      TRACE("field::value::multi<" + support::demangle(typeid(T)) + "," +
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::operator-=");
 
       sub(a);
       
       return *this;
     }
-    
-  } // namespace value {
 
+  } // namespace adapter {
+  
 } // namespace field {
 
 #if defined(UKACHULLDCS_USE_TRACE)
 #  undef UKACHULLDCS_USE_TRACE
 #endif
 
-#endif // #if !defined(UKACHULLDCS_08961_FIELD_VALUE_MULTI_INL)
+#endif // #if !defined(UKACHULLDCS_08961_FIELD_ADAPTER_MULTI_INL)

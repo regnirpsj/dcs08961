@@ -18,7 +18,7 @@
 
 // includes, project
 
-#include <field/adapter_multi.hpp>
+#include <field/adapter/multi.hpp>
 #include <shared.hpp>
 
 // internal unnamed namespace

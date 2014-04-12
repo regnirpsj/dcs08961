@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/adapter_single.cpp                                                        */
+/*  module     :  field/adapter/multi.cpp                                                         */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,7 +14,7 @@
 
 // include i/f header
 
-#include "field/adapter_single.hpp"
+#include "field/adapter/multi.hpp"
 
 // includes, system
 

@@ -6,60 +6,44 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/object/base.hpp                                                           */
+/*  module     :  field/value/single.cpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_BASE_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_SCENE_OBJECT_BASE_HPP
+#include "field/value/single.hpp"
 
 // includes, system
 
-#include <string> // std::string
+//#include <>
 
 // includes, project
 
-#include <field/container.hpp>
-#include <field/value/single.hpp>
-#include <support/refcounted.hpp>
+//#include <>
 
-namespace scene {
+// internal unnamed namespace
 
-  namespace object {
-    
-    // types, exported (class, enum, struct, union, typedef)
-
-    class base : public field::container,
-                 public support::refcounted {
-
-    public:
-
-      field::value::single<std::string> name;
-      
-      virtual ~base() =0;
-      
-      virtual void print_on(std::ostream&) const;
-      
-    protected:
-      
-      explicit base(std::string const& /* name */);
-
-      virtual void evaluate();
-      virtual void changed(field::base&);
-      
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+namespace {
   
-    // functions, exported (extern)
+  // types, internal (class, enum, struct, union, typedef)
 
-  } // namespace object {
+  // variables, internal
+  
+  // functions, internal
 
-} // namespace scene {
+} // namespace {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_BASE_HPP)
+namespace field {
+
+  namespace value {
+    
+  // variables, exported
+  
+  // functions, exported
+
+  } // namespace value {
+  
+} // namespace field {

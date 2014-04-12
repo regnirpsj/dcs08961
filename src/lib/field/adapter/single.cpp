@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/value_multi.cpp                                                           */
+/*  module     :  field/adapter/single.cpp                                                        */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,7 +14,7 @@
 
 // include i/f header
 
-#include "field/value_multi.hpp"
+#include "field/adapter/single.hpp"
 
 // includes, system
 
@@ -38,12 +38,12 @@ namespace {
 
 namespace field {
 
-  namespace value {
+  namespace adapter {
     
   // variables, exported
   
   // functions, exported
 
-  } // namespace value {
+  } // namespace adapter {
   
 } // namespace field {

@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/adapter_multi.cpp                                                         */
+/*  module     :  field/values.hpp                                                                */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-// include i/f header
+#if !defined(UKACHULLDCS_08961_FIELD_VALUES_HPP)
 
-#include "field/adapter_multi.hpp"
+#define UKACHULLDCS_08961_FIELD_VALUES_HPP
 
 // includes, system
 
@@ -22,28 +22,19 @@
 
 // includes, project
 
-//#include <>
-
-// internal unnamed namespace
-
-namespace {
-  
-  // types, internal (class, enum, struct, union, typedef)
-
-  // variables, internal
-  
-  // functions, internal
-
-} // namespace {
+#include <field/value/multi.hpp>
+#include <field/value/single.hpp>
 
 namespace field {
-
-  namespace adapter {
-    
-  // variables, exported
   
-  // functions, exported
+  // types, exported (class, enum, struct, union, typedef)
 
-  } // namespace adapter {
+  // variables, exported (extern)
+
+  // functions, inlined (inline)
+  
+  // functions, exported (extern)
   
 } // namespace field {
+
+#endif // #if !defined(UKACHULLDCS_08961_FIELD_VALUES_HPP)
