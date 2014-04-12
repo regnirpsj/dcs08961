@@ -25,12 +25,18 @@ Quick Setup
 ::
 
  # linux
+ $> cd <src-dir>
  $> mkdir build && cd build
  $> cmake ..
- $> make
+ $> make -j4
+ $> make -j4 test_all
 
  # windows
- $> 
+ $> cd <src-dir>
+ $> mkdir build && cd build
+ $> cmake ..
+ $> msbuild.exe DCS08961.sln /nologo /v:q /m:4
+ $> msbuild.exe DCS08961.sln /nologo /v:q /m:4 /t:"Tests\test_all"
 
 Overview
 --------
@@ -44,4 +50,4 @@ Acknowledgements
 License
 =======
 
-Copyright 2014 Jan P Springer. Distributed under the LGPLv2.1 (see the accompanying file LICENSE).
+Copyright 2014  University of Hull. Distributed under the LGPLv2.1 (see the accompanying file LICENSE).
