@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/object/positional_light.hpp                                               */
+/*  module     :  scene/object/light/positional.hpp                                               */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_POSITIONAL_LIGHT_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_LIGHT_POSITIONAL_HPP)
 
-#define UKACHULLDCS_08961_SCENE_OBJECT_POSITIONAL_LIGHT_HPP
+#define UKACHULLDCS_08961_SCENE_OBJECT_LIGHT_POSITIONAL_HPP
 
 // includes, system
 
@@ -22,42 +22,45 @@
 
 // includes, project
 
-#include <scene/object/light_source.hpp>
+#include <scene/object/light/base.hpp>
 
 namespace scene {
 
   namespace object {
+
+    namespace light {
+      
+      // types, exported (class, enum, struct, union, typedef)
+
+      struct positional : virtual public base {
+
+      public:      
+
+        typedef base::rep rep;
+      
+        static positional const dflt_light;
+
+        field::value::single<glm::vec3> position; ///< light position (in wc?)
+      
+        explicit positional(std::string const& /* name */);
+      
+      protected:
+
+        void evaluate();
+        void changed(field::base&);
+      
+      };
     
-    // types, exported (class, enum, struct, union, typedef)
+      // variables, exported (extern)
 
-    struct positional_light : virtual public light_source {
-
-    public:      
-
-      typedef light_source::rep rep;
-      
-      static positional_light const dflt_light;
-
-      field::adapter::single<glm::vec4> position;
-      
-      explicit positional_light(std::string const& /* name */,
-                                rep const&         /* rep */ = rep());
-      
-    protected:
-
-      glm::vec4 const& cb_get_position() const;
-      glm::vec4        cb_set_position(glm::vec4 const&);
-      
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+      // functions, inlined (inline)
   
-    // functions, exported (extern)
+      // functions, exported (extern)
+
+    } // namespace light {
     
   } // namespace object {
   
 } // namespace scene {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_POSITIONAL_LIGHT_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_LIGHT_POSITIONAL_HPP)

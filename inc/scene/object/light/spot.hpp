@@ -6,58 +6,64 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/object/directional_light.hpp                                              */
+/*  module     :  scene/object/light/spot.hpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_DIRECTIONAL_LIGHT_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_LIGHT_SPOT_HPP)
 
-#define UKACHULLDCS_08961_SCENE_OBJECT_DIRECTIONAL_LIGHT_HPP
+#define UKACHULLDCS_08961_SCENE_OBJECT_LIGHT_SPOT_HPP
 
 // includes, system
 
-// #include <>
+//#include <>
 
 // includes, project
 
-#include <scene/object/light_source.hpp>
+#include <scene/object/light/directional.hpp>
+#include <scene/object/light/positional.hpp>
 
 namespace scene {
 
   namespace object {
+
+    namespace light {
+      
+      // types, exported (class, enum, struct, union, typedef)
+
+      struct spot : public directional,
+                    public positional {
+
+      public:      
+
+        typedef base::rep rep;
+      
+        static spot const dflt_light;
+
+        field::value::single<float> exponent; ///< spot exponent [0,127]
+        field::value::single<float> cutoff;   ///< spot cutoff   [0,90]|180
+      
+        explicit spot(std::string const& /* name */);
+      
+      protected:
+
+        void evaluate();
+        void changed(field::base&);
+        
+      };
     
-    // types, exported (class, enum, struct, union, typedef)
+      // variables, exported (extern)
 
-    struct directional_light : virtual public light_source {
-
-    public:      
-
-      typedef light_source::rep rep;
-      
-      static directional_light const dflt_light;
-
-      field::adapter::single<glm::vec3> direction;
-      
-      explicit directional_light(std::string const& /* name */,
-                                 rep const&         /* rep */ = rep());
-      
-    protected:
-
-      glm::vec3 const& cb_get_direction() const;
-      glm::vec3        cb_set_direction(glm::vec3 const&);
-      
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+      // functions, inlined (inline)
   
-    // functions, exported (extern)
+      // functions, exported (extern)
+
+    } // namespace light {
     
   } // namespace object {
   
 } // namespace scene {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_DIRECTIONAL_LIGHT_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_LIGHT_SPOT_HPP)

@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/object/area_light.hpp                                                     */
+/*  module     :  scene/object/light/area.hpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_AREA_LIGHT_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_LIGHT_AREA_HPP)
 
-#define UKACHULLDCS_08961_SCENE_OBJECT_AREA_LIGHT_HPP
+#define UKACHULLDCS_08961_SCENE_OBJECT_LIGHT_AREA_HPP
 
 // includes, system
 
@@ -22,45 +22,53 @@
 
 // includes, project
 
-#include <scene/object/spot_light.hpp>
+#include <scene/object/light/spot.hpp>
 
 namespace scene {
 
   namespace object {
+
+    namespace light {
+      
+      // types, exported (class, enum, struct, union, typedef)
+
+      struct area : public spot {
+
+      public:      
+
+        typedef base::rep rep;
+      
+        static area const dflt_light;
+
+        field::value::single<glm::uvec2> size;    ///< size.xy
+        field::value::single<glm::uvec2> samples; ///< samples.xy
+      
+        explicit area(std::string const& /* name */);
+      
+      protected:
+
+        void evaluate();
+        void changed(field::base&);
+
+      private:
+
+        rep  rep_;
+        bool rebuild_;
+
+        void rebuild();
+        
+      };
     
-    // types, exported (class, enum, struct, union, typedef)
+      // variables, exported (extern)
 
-    struct area_light : public spot_light {
-
-    public:      
-
-      typedef light_source::rep rep;
-      
-      static area_light const dflt_light;
-
-      field::adapter::single<glm::vec2>  size;
-      field::adapter::single<glm::uvec2> samples;
-      
-      explicit area_light(std::string const& /* name */,
-                          rep const&         /* rep */ = rep());
-      
-    protected:
-
-      glm::vec2 const&  cb_get_size   () const;
-      glm::vec2         cb_set_size   (glm::vec2 const&);
-      glm::uvec2 const& cb_get_samples() const;
-      glm::uvec2        cb_set_samples(glm::uvec2 const&);
-      
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+      // functions, inlined (inline)
   
-    // functions, exported (extern)
+      // functions, exported (extern)
+
+    } // namespace light {
     
   } // namespace object {
   
 } // namespace scene {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_AREA_LIGHT_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_LIGHT_AREA_HPP)
