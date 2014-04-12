@@ -47,17 +47,24 @@ namespace field {
     class container_single : public field::container {
 
     public:
+
+      explicit container_single()
+        : field::container(),
+          value_          ()
+      {
+        TRACE("field::test::container_single::container_single");
+      }
       
       inline T const& cb_get() const
       {
-        TRACE("field::test::container::get<" + support::demangle(typeid(T)) + ">");
+        TRACE("field::test::container_single::get<" + support::demangle(typeid(T)) + ">");
 
         return value_;
       }
 
       inline T cb_set(T const& a) 
       {
-        TRACE("field::test::container::set<" + support::demangle(typeid(T)) + ">");
+        TRACE("field::test::container_single::set<" + support::demangle(typeid(T)) + ">");
 
         T const result(value_);
         
@@ -79,12 +86,18 @@ namespace field {
       
     public:
 
+      explicit container_multi()
+        : container_single<T>()
+      {
+        TRACE("field::test::container_single::container_single");
+      }
+      
       inline bool cb_add(typename T::value_type const& a)
       {
-        TRACE("field::test::container::add<" + support::demangle(typeid(T)) + ">");
+        TRACE("field::test::container_multi::add<" + support::demangle(typeid(T)) + ">");
 
-        bool result(false);
-        auto found(std::find(inherited::value_.begin(), inherited::value_.end(), a));
+        bool       result(false);
+        auto const found(std::find(inherited::value_.begin(), inherited::value_.end(), a));
         
         if (inherited::value_.end() == found) {
           inherited::value_.insert(inherited::value_.end(), a);
@@ -97,10 +110,10 @@ namespace field {
 
       inline bool cb_sub(typename T::value_type const& a)
       {
-        TRACE("field::test::container::sub<" + support::demangle(typeid(T)) + ">");
+        TRACE("field::test::container_multi::sub<" + support::demangle(typeid(T)) + ">");
 
-        bool result(false);
-        auto found(std::find(inherited::value_.begin(), inherited::value_.end(), a));
+        bool       result(false);
+        auto const found(std::find(inherited::value_.begin(), inherited::value_.end(), a));
         
         if (inherited::value_.end() != found) {
           inherited::value_.erase(found);
@@ -115,6 +128,7 @@ namespace field {
 
     typedef boost::mpl::list<
        bool
+#if 1
       ,signed   char
       ,unsigned char
       ,char16_t
@@ -133,10 +147,12 @@ namespace field {
       ,std::string
       ,glm::mat4
       ,glm::vec3
+#endif
       > single_types;
 
     typedef boost::mpl::list<
        std::vector<bool>
+#if 1
       ,std::vector<signed   char>
       ,std::vector<unsigned char>
       ,std::vector<char16_t>
@@ -155,6 +171,7 @@ namespace field {
       ,std::vector<std::string>
       ,std::vector<glm::mat4>
       ,std::vector<glm::vec3>
+#endif
       > multi_types;
     
     // variables, exported (extern)
