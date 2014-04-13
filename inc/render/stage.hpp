@@ -6,34 +6,69 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  proto.hpp                                                                       */
+/*  module     :  render_stage.hpp                                                                */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PROTO_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_STAGE_HPP)
 
-#define UKACHULLDCS_08961_PROTO_HPP
+#define UKACHULLDCS_08961_RENDER_STAGE_HPP
 
 // includes, system
 
-#include <>
+//#include <>
 
-// includes, project
+//// includes, project
 
-#include <>
+#include <support/printable.hpp>
+#include <support/refcounted.hpp>
 
-namespace ??? {
+namespace render {
+
+  template <typename T> class context;
   
-  // types, exported (class, enum, struct, union, typedef)
+  namespace stage {
+    
+    // types, exported (class, enum, struct, union, typedef)
 
-  // variables, exported (extern)
+    template <typename T>
+    class base : public support::refcounted,
+                 public support::printable {
 
-  // functions, inlined (inline)
+    public: 
+      
+      virtual ~base() =0;
+      
+      void execute();      
+                   
+      bool active() const;
+      bool active(bool);
+
+      virtual void print_on(std::ostream&) const;
+
+    protected:
+
+      typedef context<T> context_type;
+      
+      context_type& context_;
+      bool          active_;
+
+      explicit base(context_type&);
+
+      virtual void do_execute() =0;
+      
+    };
+    
+    // variables, exported (extern)
+
+    // functions, inlined (inline)
   
-  // functions, exported (extern)
-  
-} // namespace ??? {
+    // functions, exported (extern)
 
-#endif // #if !defined(UKACHULLDCS_08961_PROTO_HPP)
+  } // namespace stage {
+  
+} // namespace render {
+
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_STAGE_HPP)
