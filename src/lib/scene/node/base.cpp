@@ -178,12 +178,11 @@ namespace scene {
       std::ostream::sentry const cerberus(os);
 
       if (cerberus) {
-        glm::io::precision_guard const iopg;
-        
-        glm::io::precision()   = 2;
-        glm::io::value_width() = 1 + 2 + 1 + glm::io::precision();
+        glm::io::format_saver const iofs(os);
 
-        os << '['
+        os << glm::io::precision(2)
+           << glm::io::width(1 + 2 + 1 + os.precision())
+           << '['
            << a.min                  << ','
            << a.max                  << ','
            << ((a.valid) ? "" : "!") << "valid"

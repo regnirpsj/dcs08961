@@ -154,7 +154,7 @@ namespace scene {
         a.tangent.w   = (0.0 > glm::dot(glm::cross(a.normal, t.first), t.second)) ? -1.0f : 1.0f;
       }
 #else
-#  pragma message "please fix 'scene::node::geometry::compute_tangents' implementation"
+#  pragma message("please fix 'scene::node::geometry::compute_tangents' implementation")
 #endif
     }
 
@@ -175,12 +175,11 @@ namespace scene {
       std::ostream::sentry const cerberus(os);
 
       if (cerberus) {
-        glm::io::precision_guard const iopg;
-        
-        glm::io::precision()   = 2;
-        glm::io::value_width() = 1 + 2 + 1 + glm::io::precision();
-        
-        os << '['
+        glm::io::format_saver const iofs(os);
+
+        os << glm::io::precision(2)
+           << glm::io::width(1 + 2 + 1 + os.precision())
+           << '['
            << "v:"  << a.position << ','
            << "n:"  << a.normal   << ','
            << "tc:" << a.tcoord   << ','
