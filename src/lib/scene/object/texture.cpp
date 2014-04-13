@@ -84,7 +84,7 @@ namespace {
       std::string const ext(bfs::path(fname).extension().string());
 
 #if 1
-#  pragma message "buggy gli::storage::op=, not using load_dds"
+#  pragma message("buggy gli::storage::op=, not using load_dds")
 #else
       result = suffix_map.at(ext)(const_cast<char*>(fname.c_str()));
 #endif
