@@ -32,9 +32,9 @@ SET(BOOST_MINIMUM_VERSION "1.53.0")
 # defaults for 3rd-party tools
 IF(UNIX)
   # GLM
-  SET(GLM_INCLUDE_DIR "~/Projects/others/glm-git")
+  SET(GLM_INCLUDE_DIR "~/Projects/others/glm-regnirpsj-git")
   # GLI
-  SET(GLI_INCLUDE_DIR "~/Projects/others/gli-git")
+  SET(GLI_INCLUDE_DIR "~/Projects/others/gli-regnirpsj-git")
 ENDIF()
 
 IF(WIN32 OR WIN64)
