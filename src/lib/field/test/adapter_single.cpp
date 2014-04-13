@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_op_convert, T, field::test::single_
                                         std::placeholders::_1));
     
   BOOST_CHECK(T() == static_cast<T const&>(f));
-  BOOST_CHECK(T() == static_cast<T>(f));
+  // BOOST_CHECK(T() == static_cast<T>(f));
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_op_assign, T, field::test::single_types)
@@ -87,5 +87,5 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(adapter_single_op_assign, T, field::test::single_t
                               std::bind(&test::container_single<T>::cb_set, &c,
                                         std::placeholders::_1));
   
-  BOOST_CHECK(T() == static_cast<T>(f = T()));
+  BOOST_CHECK(T() == static_cast<T const&>(f = T()));
 }
