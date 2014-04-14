@@ -44,7 +44,7 @@ namespace support {
     static duration const resolution;
     
     static time_point now() throw();
-
+    
   };
 
   class timer : private boost::noncopyable {
@@ -61,7 +61,7 @@ namespace support {
     duration lapse() const;
 
   private:
-
+    
     time_point start_;
 
   };

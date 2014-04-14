@@ -40,19 +40,22 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_clock)
 {
+  static unsigned const width(7);
+  
   using namespace support;
   
   BOOST_CHECK(true == clock::is_monotonic);
-  BOOST_TEST_MESSAGE("clock monotonic: "
-                     << std::boolalpha
-                     << clock::is_monotonic);
+  BOOST_TEST_MESSAGE("clock monotonic:\t"
+                     << std::right << std::setw(width)
+                     << std::boolalpha << clock::is_monotonic);
   
-  using std::chrono::duration_fmt;
-  using std::chrono::prefix;
-  using std::chrono::symbol;
-  
-  BOOST_TEST_MESSAGE("clock resolution: "
-                     << duration_fmt(symbol) << clock::resolution);
+  BOOST_TEST_MESSAGE("clock resolution:\t"
+                     << std::right << std::setw(width)
+                     << std::chrono::duration_fmt(std::chrono::symbol) << clock::resolution);
+
+  BOOST_TEST_MESSAGE("clock now:\t\t"
+                     << std::right << std::setw(width)
+                     << clock::now());
 }
 
 BOOST_AUTO_TEST_CASE(test_timer)
@@ -112,7 +115,7 @@ BOOST_AUTO_TEST_CASE(test_sleep)
                        << std::fixed << std::right << std::setfill(' ')
                        << duration_cast<dsec>(d));
     
-    for (unsigned loop(0); loop < 3; ++loop) {
+    for (unsigned loop(0); loop < 2; ++loop) {
       clock::duration const start(t.lapse());
       {
         sleep(d);

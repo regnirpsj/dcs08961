@@ -269,7 +269,7 @@ namespace support {
   // variables, exported
 
   /* static */ bool const            clock::is_monotonic(true);
-  /* static */ clock::duration const clock::resolution(clock_resolution());
+  /* static */ clock::duration const clock::resolution  (clock_resolution());
   
   // functions, exported
 
@@ -280,7 +280,7 @@ namespace support {
 
     ::clock_gettime(CLOCK_MONOTONIC, &now);
     
-    return time_point(std::chrono::seconds(now.tv_sec) +
+    return time_point(std::chrono::seconds    (now.tv_sec) +
                       std::chrono::nanoseconds(now.tv_nsec));
   }
 
@@ -359,17 +359,19 @@ namespace support {
     return result;
   }
 
+  namespace {
+
+    static clock::time_point const null(clock::now().time_since_epoch());
+    
+  }
+  
   std::ostream&
   operator<<(std::ostream& os, clock::time_point const& a)
   {
     typename std::ostream::sentry const cerberus(os);
     
     if (cerberus) {
-      using std::chrono::duration_fmt;
-      using std::chrono::prefix;
-      using std::chrono::symbol;
-      
-      os << duration_fmt(symbol) << a;
+      os << std::chrono::duration_fmt(std::chrono::symbol) << (a - null);
     }
     
     return os;
