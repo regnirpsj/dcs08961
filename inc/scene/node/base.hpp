@@ -73,7 +73,7 @@ namespace scene {
       
       base* parent_;
       
-      explicit base(std::string const& /* name */);
+      explicit base();
       
       virtual void do_changed(field::base&);
 

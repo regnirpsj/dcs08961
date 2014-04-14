@@ -38,7 +38,7 @@ namespace scene {
 
       field::value::single<unsigned> index;
       
-      explicit select(std::string const& /* name */);
+      explicit select();
 
       virtual void accept(visitor::base&);
 

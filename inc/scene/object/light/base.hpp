@@ -83,8 +83,7 @@ namespace scene {
         
         rep_list_type rep_list_;
 
-        explicit base(std::string const& /* name */,
-                      rep const&         /* rep */ = rep());
+        explicit base(rep const& /* rep */ = rep());
         
         virtual void do_changed(field::base&);
 

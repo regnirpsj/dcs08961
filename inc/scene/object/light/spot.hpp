@@ -45,7 +45,7 @@ namespace scene {
         field::value::single<float> exponent; ///< spot exponent [0,127]
         field::value::single<float> cutoff;   ///< spot cutoff   [0,90]|180
       
-        explicit spot(std::string const& /* name */);
+        explicit spot();
       
       protected:
 

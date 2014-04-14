@@ -36,7 +36,7 @@ namespace scene {
 
       typedef node::geometry subject_inherited;
 
-      explicit octahedron(std::string const& /* name */);
+      explicit octahedron();
       
       virtual void accept(visitor::base&);
       

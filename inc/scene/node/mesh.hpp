@@ -36,7 +36,7 @@ namespace scene {
 
       typedef geometry subject_inherited;
 
-      explicit mesh(std::string const& /* name */);
+      explicit mesh();
       
       virtual void accept(visitor::base&);
 

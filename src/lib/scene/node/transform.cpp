@@ -49,9 +49,9 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    transform::transform(std::string const& a, glm::mat4 const& b)
-      : group(a),
-        xform(*this, "xform", b)
+    transform::transform(glm::mat4 const& a)
+      : group(),
+        xform(*this, "xform", a)
     {
       TRACE("scene::node::transform::transform");
     }

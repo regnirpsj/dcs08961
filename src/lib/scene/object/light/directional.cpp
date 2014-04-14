@@ -58,13 +58,13 @@ namespace scene {
       
       // variables, exported
 
-      /* static */ directional const directional::dflt_light("dflt_directional_light");
+      /* static */ directional const directional::dflt_light;
     
       // functions, exported
     
       /* explicit */
-      directional::directional(std::string const& a)
-        : base     (a, dflt_rep),
+      directional::directional()
+        : base     (dflt_rep),
           direction(*this, "direction", dflt_rep.direction)
       {   
         TRACE("scene::object::light::directional::directional");

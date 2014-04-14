@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(node_group_ctor)
 {
   using namespace scene::node;
   
-  group const g("group");
+  group const g;
   
   BOOST_CHECK(true == g.children.get().empty());
 
@@ -52,9 +52,9 @@ BOOST_AUTO_TEST_CASE(node_group_set_children)
 {
   using namespace scene::node;
   
-  group  g0("grp0");
-  group* g1(new group("grp1"));
-  group* g2(new group("grp2"));
+  group  g0;
+  group* g1(new group);
+  group* g2(new group);
 
   BOOST_CHECK(true == g0.children.get().empty());
   
@@ -65,8 +65,8 @@ BOOST_AUTO_TEST_CASE(node_group_set_children)
   BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(1 + 1 + 1 + 1)
                 << g0 << '\n' << *g1 << '\n' << *g2 << '\n');
   
-  group* g3(new group("grp3"));
-  group* g4(new group("grp4"));
+  group* g3(new group);
+  group* g4(new group);
   
   auto const old(g0.children.set({ g3, g4 }));
 

@@ -159,8 +159,8 @@ namespace scene {
     }
 
     /* explicit */
-    geometry::geometry(std::string const& a)
-      : base      (a),
+    geometry::geometry()
+      : base      (),
         attributes(*this, "attributes"),
         indices   (*this, "indices")
     {

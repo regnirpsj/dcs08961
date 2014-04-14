@@ -49,8 +49,8 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    icosahedron::icosahedron(std::string const& a)
-      : node::geometry(a)
+    icosahedron::icosahedron()
+      : node::geometry()
     {
       TRACE("scene::primitive::icosahedron::icosahedron");
     }

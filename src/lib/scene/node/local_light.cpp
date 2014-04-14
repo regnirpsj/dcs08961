@@ -22,7 +22,8 @@
 
 // includes, project
 
-//#include <>
+#include <scene/object/light/positional.hpp>
+#include <scene/visitor/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -47,6 +48,22 @@ namespace scene {
     // variables, exported
     
     // functions, exported
+
+    /* explicit */
+    local_light::local_light()
+      : group (),
+        source(*this, "source", new object::light::positional)
+    {
+      TRACE("scene::node::local_light::local_light");
+    }
+    
+    /* virtual */ void
+    local_light::accept(visitor::base& v)
+    {
+      TRACE("scene::node::local_light::accept");
+
+      v.visit(*this);
+    }
     
   } // namespace node {
   

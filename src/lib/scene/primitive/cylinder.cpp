@@ -49,8 +49,8 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    cylinder::cylinder(std::string const& a)
-      : node::geometry(a)
+    cylinder::cylinder()
+      : node::geometry()
     {
       TRACE("scene::primitive::cylinder::cylinder");
     }

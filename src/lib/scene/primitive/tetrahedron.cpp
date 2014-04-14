@@ -49,8 +49,8 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    tetrahedron::tetrahedron(std::string const& a)
-      : node::geometry(a)
+    tetrahedron::tetrahedron()
+      : node::geometry()
     {
       TRACE("scene::primitive::tetrahedron::tetrahedron");
     }

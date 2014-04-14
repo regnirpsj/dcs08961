@@ -18,11 +18,11 @@
 
 // includes, system
 
-//#include <>
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
-//#include <>
+#include <scene/visitor/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -47,6 +47,48 @@ namespace scene {
     // variables, exported
     
     // functions, exported
+
+    /* explicit */
+    translator::translator(glm::vec3 const& a)
+      : dynamic  (),
+        direction(*this, "direction", glm::normalize(a)),
+        speed    (*this, "speed",     glm::length(a))
+    {
+      TRACE("scene::node::translator::translator(glm::vec3)");
+    }
+    
+    /* explicit */
+    translator::translator(float a, glm::vec3 const& b)
+      : dynamic  (),
+        direction(*this, "direction", glm::normalize(b)),
+        speed    (*this, "speed",     a)
+    {
+      TRACE("scene::node::translator::translator(float,glm::vec3)");
+    }
+
+    /* virtual */ void
+    translator::accept(visitor::base& v)
+    {
+      TRACE("scene::node::translator::accept");
+
+      v.visit(*this);
+    }
+
+    /* virtual */ void
+    translator::do_changed(field::base& f)
+    {
+      TRACE("scene::node::translator::");
+
+      if      (&f == &direction) {
+      }
+
+      else if (&f == &speed) {
+      }
+
+      else {
+        dynamic::do_changed(f);
+      }
+    }
     
   } // namespace node {
   

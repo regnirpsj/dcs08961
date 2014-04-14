@@ -50,9 +50,9 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    global_light::global_light(std::string const& a)
-      : base  (a),
-        source(*this, "source", new object::light::directional(a))
+    global_light::global_light()
+      : base  (),
+        source(*this, "source", new object::light::directional)
     {
       TRACE("scene::node::global_light::global_light");
     }

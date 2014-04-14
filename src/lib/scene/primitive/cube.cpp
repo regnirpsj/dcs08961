@@ -49,8 +49,8 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    cube::cube(std::string const& a)
-      : node::geometry(a)
+    cube::cube()
+      : node::geometry()
     {
       TRACE("scene::primitive::cube::cube");
     }

@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <scene/visitor/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -47,6 +47,36 @@ namespace scene {
     // variables, exported
     
     // functions, exported
+
+    /* explicit */
+    select::select()
+      : group(),
+        index(*this, "index", 0)
+    {
+      TRACE("scene::node::select::select");
+    }
+    
+    /* virtual */ void
+    select::accept(visitor::base& v)
+    {
+      TRACE("scene::node::select::accept");
+
+      v.visit(*this);
+    }
+
+    /* virtual */ void
+    select::do_changed(field::base& f)
+    {
+      TRACE("scene::object::select::do_changed");
+
+      if (&f == &index) {
+        // nothing to do
+      }
+
+      else {
+        group::do_changed(f);
+      }
+    }
     
   } // namespace node {
   

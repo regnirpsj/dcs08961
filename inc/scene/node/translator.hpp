@@ -39,8 +39,9 @@ namespace scene {
       field::value::single<glm::vec3> direction; ///< direction [(1,0,0)]
       field::value::single<float>     speed;     ///< speed     [1.0]
       
-      explicit translator(std::string const& /* name */);
-
+      explicit translator(glm::vec3 const&   /* velocity */  = glm::vec3(1,0,0));
+      explicit translator(float              /* speed */,
+                          glm::vec3 const&   /* direction */ = glm::vec3(1,0,0));
       virtual void accept(visitor::base&);
 
     protected:

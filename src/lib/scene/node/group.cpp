@@ -49,8 +49,8 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    group::group(std::string const& a)
-      : base          (a),
+    group::group()
+      : base          (),
         children      (*this, "children",
                        std::bind(&group::cb_get_children, this),
                        std::bind(&group::cb_set_children, this, std::placeholders::_1),

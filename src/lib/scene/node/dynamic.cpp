@@ -64,8 +64,8 @@ namespace scene {
     }
     
     /* explicit */
-    dynamic::dynamic(std::string const& a)
-      : transform   (a),
+    dynamic::dynamic()
+      : transform   (),
         update      (*this, "update", support::clock::now()),
         last_update_(update.get())
     {

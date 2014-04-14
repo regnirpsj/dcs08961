@@ -69,26 +69,24 @@ namespace {
     using namespace scene::node;
     using namespace scene::primitive;
     
-    group* root(new group("root"));
+    group* root(new group);
 
 #if 0
     {
-      group* g(new group("cameras"));
+      group* g(new group);
 
       {
         std::array<camera::base*, 2> const cameras = {
           {
-            new camera::perspective ("pcam"),
-            new camera::orthographic("ocam"),
+            new camera::perspective,
+            new camera::orthographic,
           }
         };
 
         std::array<transform*, 2> const xforms = {
           {
-            new transform("view-z",
-                          glm::lookAt(glm::vec3(0,0,1), glm::vec3(0,0,0), glm::vec3(0,1, 0))),
-            new transform("view-y",
-                          glm::lookAt(glm::vec3(0,1,0), glm::vec3(0,0,0), glm::vec3(0,0,-1))),
+            new transform(glm::lookAt(glm::vec3(0,0,1), glm::vec3(0,0,0), glm::vec3(0,1, 0))),
+            new transform(glm::lookAt(glm::vec3(0,1,0), glm::vec3(0,0,0), glm::vec3(0,0,-1))),
           }
         };
         
@@ -104,16 +102,16 @@ namespace {
 #endif
     
     {
-      group* g(new group("lights"));
+      group* g(new group);
 
       {
         std::array<global_light*, 5> const lights = {
           {
-            new global_light("gl01"),
-            new global_light("gl02"),
-            new global_light("gl03"),
-            new global_light("gl04"),
-            new global_light("gl05"),
+            new global_light,
+            new global_light,
+            new global_light,
+            new global_light,
+            new global_light,
           }
         };
         
@@ -126,14 +124,14 @@ namespace {
     }
 
     {
-      group* g(new group("nodes"));
+      group* g(new group);
 
       {
         std::array<transform*, 3> const transforms = {
           {
-            new transform("xform01", glm::translate(glm::vec3(-10.0f, 0.0f, 0.0f))),
-            new rotor    ("rotor00" /* , 2.0f, glm::vec3(1.0f, 1.0f, 1.0f) */),
-            new transform("xform02", glm::translate(glm::vec3(+10.0f, 0.0f, 0.0f))),
+            new transform(glm::translate(glm::vec3(-10.0f, 0.0f, 0.0f))),
+            new rotor    (2.0f, glm::vec3(1.0f, 1.0f, 1.0f)),
+            new transform(glm::translate(glm::vec3(+10.0f, 0.0f, 0.0f))),
           }
         };
 
@@ -141,9 +139,9 @@ namespace {
           {
             std::array<material_group*, 3> const materials = {
               {
-                new material_group("material1"),
-                new material_group("material2"),
-                new material_group("material3"),
+                new material_group,
+                new material_group,
+                new material_group,
               }
             };
             
@@ -151,9 +149,9 @@ namespace {
               {
                 std::array<geometry*, 3> const primitives = {
                   {
-                    new cube       ("cube"),
-                    new sphere     ("sphere"),
-                    new tetrahedron("tetra"),
+                    new cube,
+                    new sphere,
+                    new tetrahedron,
                   }
                 };
                 

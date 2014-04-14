@@ -104,8 +104,8 @@ namespace scene {
     }
 
     /* explicit */
-    base::base(std::string const& a)
-      : object::base    (a),
+    base::base()
+      : object::base    (),
         visitor::subject(),
         parent          (*this, "parent",
                          std::bind(&base::cb_get_parent, this),

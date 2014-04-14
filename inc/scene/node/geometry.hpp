@@ -68,7 +68,7 @@ namespace scene {
       
     protected:
 
-      explicit geometry(std::string const& /* name */);
+      explicit geometry();
       
     };
     

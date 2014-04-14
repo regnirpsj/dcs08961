@@ -63,7 +63,7 @@ namespace scene {
                      bool             /* back */         = false);
       };
 
-      static material const default_material;
+      static material const dflt_material;
 
       field::adapter::single<glm::vec3> ambient;
       field::adapter::single<glm::vec3> diffuse;
@@ -76,8 +76,7 @@ namespace scene {
       field::adapter::single<bool>      front;
       field::adapter::single<bool>      back;
       
-      explicit material(std::string const& /* name */,
-                        rep const&         /* material rep */ = rep());
+      explicit material(rep const& /* material rep */ = rep());
 
       operator rep const& () const;
       

@@ -69,10 +69,10 @@ namespace scene {
     }
     
     /* explicit */
-    base::base(std::string const& a)
+    base::base()
       : field::container   (),
         support::refcounted(),
-        name               (*this, "name", a)
+        name               (*this, "name", "")
     {
       TRACE("scene::object::base::base");
     }

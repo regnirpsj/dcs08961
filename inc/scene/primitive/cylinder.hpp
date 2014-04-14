@@ -36,7 +36,7 @@ namespace scene {
 
       typedef node::geometry subject_inherited;
 
-      explicit cylinder(std::string const& /* name */);
+      explicit cylinder();
       
       virtual void accept(visitor::base&);
       

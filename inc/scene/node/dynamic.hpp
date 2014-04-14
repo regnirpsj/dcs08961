@@ -48,7 +48,7 @@ namespace scene {
 
       time_point last_update_;
       
-      explicit dynamic(std::string const&);
+      explicit dynamic();
       
     };
     

@@ -45,7 +45,7 @@ namespace scene {
       
     protected:
       
-      explicit base(std::string const& /* name */);
+      explicit base();
       
       virtual void do_changed(field::base&);
       

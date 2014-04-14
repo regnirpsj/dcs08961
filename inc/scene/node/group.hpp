@@ -41,7 +41,7 @@ namespace scene {
 
       children_field_type children;
 
-      explicit group(std::string const& /* name */);
+      explicit group();
       virtual ~group();
       
       virtual void accept(visitor::base&);

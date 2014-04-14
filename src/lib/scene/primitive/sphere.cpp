@@ -49,8 +49,8 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    sphere::sphere(std::string const& a)
-      : node::geometry(a)
+    sphere::sphere()
+      : node::geometry()
     {
       TRACE("scene::primitive::sphere::sphere");
     }

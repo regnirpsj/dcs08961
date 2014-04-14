@@ -47,7 +47,7 @@ namespace scene {
     
     // variables, exported
 
-    /* static */ material const material::default_material("default_material");
+    /* static */ material const material::dflt_material;
     
     // functions, exported
     
@@ -62,8 +62,8 @@ namespace scene {
     }
 
     /* explicit */
-    material::material(std::string const& a, material::rep const& b)
-      : base        (a),
+    material::material(rep const& a)
+      : base        (),
         ambient     (*this, "ambient",
                      std::bind(&material::cb_get_ambient, this),
                      std::bind(&material::cb_set_ambient, this, std::placeholders::_1)),
@@ -94,7 +94,7 @@ namespace scene {
         back        (*this, "back",
                      std::bind(&material::cb_get_back, this),
                      std::bind(&material::cb_set_back, this, std::placeholders::_1)),
-        rep_        (b)
+        rep_        (a)
     {
       TRACE("scene::object::material::material");
     }

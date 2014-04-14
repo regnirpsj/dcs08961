@@ -58,15 +58,15 @@ namespace scene {
       
       // variables, exported
 
-      /* static */ spot const spot::dflt_light("dflt_spot_light");
+      /* static */ spot const spot::dflt_light;
     
       // functions, exported
     
       /* explicit */
-      spot::spot(std::string const& a)
-        : base       (a, dflt_rep),
-          directional(a),
-          positional (a),
+      spot::spot()
+        : base       (dflt_rep),
+          directional(),
+          positional (),
           exponent   (*this, "exponent", dflt_rep.exponent),
           cutoff     (*this, "cutoff",   dflt_rep.cutoff)
       {   

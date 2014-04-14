@@ -58,13 +58,13 @@ namespace scene {
       
       // variables, exported
 
-      /* static */ positional const positional::dflt_light("dflt_positional_light");
+      /* static */ positional const positional::dflt_light;
     
       // functions, exported
     
       /* explicit */
-      positional::positional(std::string const& a)
-        : base    (a, dflt_rep),
+      positional::positional()
+        : base    (dflt_rep),
           position(*this, "position", dflt_rep.position.xyz())
       {   
         TRACE("scene::object::light::positional::positional");

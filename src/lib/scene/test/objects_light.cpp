@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(object_light_source_rep)
 
 BOOST_AUTO_TEST_CASE(object_directional_light)
 {
-  scene::object::light::directional const l("directional_light");
+  scene::object::light::directional const l;
   
   BOOST_CHECK(false == l.active);
   BOOST_MESSAGE(l << '\n');
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(object_directional_light)
 
 BOOST_AUTO_TEST_CASE(object_positional_light)
 {
-  scene::object::light::positional const l("positional_light");
+  scene::object::light::positional const l;
   
   BOOST_CHECK(false == l.active);
   BOOST_MESSAGE(l << '\n');
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(object_positional_light)
 
 BOOST_AUTO_TEST_CASE(object_spot_light)
 {
-  scene::object::light::spot const l("spot_light");
+  scene::object::light::spot const l;
   
   BOOST_CHECK(false == l.active);
   BOOST_MESSAGE(l << '\n');
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(object_spot_light)
 
 BOOST_AUTO_TEST_CASE(object_area_light)
 {
-  scene::object::light::area l("area_light");
+  scene::object::light::area l;
 
   l.exponent.set(1);
   l.cutoff.  set(12.5);

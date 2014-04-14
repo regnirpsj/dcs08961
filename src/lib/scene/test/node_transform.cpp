@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(node_transform_ctor)
 {
   using namespace scene::node;
   
-  transform const x("transform");
+  transform const x;
   
   BOOST_CHECK(true == x.children.get().empty());
   BOOST_MESSAGE(x << '\n');

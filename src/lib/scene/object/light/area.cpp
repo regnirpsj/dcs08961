@@ -58,14 +58,14 @@ namespace scene {
       
       // variables, exported
 
-      /* static */ area const area::dflt_light("dflt_area_light");
+      /* static */ area const area::dflt_light;
     
       // functions, exported
     
       /* explicit */
-      area::area(std::string const& a)
-        : base    (a, dflt_rep),
-          spot    (a),
+      area::area()
+        : base    (dflt_rep),
+          spot    (),
           size    (*this, "size",    glm::uvec2(0, 0)),
           samples (*this, "samples", glm::uvec2(1, 1)),
           rep_    (dflt_rep),

@@ -38,8 +38,7 @@ namespace scene {
 
       field::value::single<glm::mat4> xform;
 
-      explicit transform(std::string const& /* name */,
-                         glm::mat4 const&   /* xform */ = glm::mat4());
+      explicit transform(glm::mat4 const& /* xform */ = glm::mat4());
       
       virtual void accept(visitor::base&);
 

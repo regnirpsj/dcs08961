@@ -42,7 +42,7 @@ namespace scene {
       
     protected:
       
-      explicit texture(std::string const&);
+      explicit texture();
       
     };
 
@@ -50,13 +50,12 @@ namespace scene {
 
     public:
       
-      explicit texture_1d(std::string const& /* name */,
-                          unsigned const&    /* size */  = default_size.x,
+      explicit texture_1d(unsigned const&    /* size */  = default_size.x,
                           glm::uvec4 const&  /* color */ = default_color);
       virtual ~texture_1d();
 
       virtual void print_on(std::ostream&) const;
-
+      
     private:
 
       gli::texture1D tdata_;
@@ -67,15 +66,13 @@ namespace scene {
 
     public:
       
-      explicit texture_2d(std::string const& /* name */,
-                          glm::uvec2 const&  /* size */  = default_size.xy(),
+      explicit texture_2d(glm::uvec2 const&  /* size */  = default_size.xy(),
                           glm::uvec4 const&  /* color */ = default_color);
-      explicit texture_2d(std::string const& /* name */,
-                          std::string const& /* file */);
+      explicit texture_2d(std::string const& /* file */);
       virtual ~texture_2d();
 
       virtual void print_on(std::ostream&) const;
-
+      
     private:
 
       gli::texture2D tdata_;
@@ -86,8 +83,7 @@ namespace scene {
 
     public:
       
-      explicit texture_3d(std::string const& /* name */,
-                          glm::uvec3 const&  /* size */  = default_size.xyz(),
+      explicit texture_3d(glm::uvec3 const&  /* size */  = default_size.xyz(),
                           glm::uvec4 const&  /* color */ = default_color);
       virtual ~texture_3d();
 

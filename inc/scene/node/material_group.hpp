@@ -39,9 +39,7 @@ namespace scene {
 
       field::value::single<boost::intrusive_ptr<object::material>> material;
       
-      explicit material_group(std::string const&           /* name */,
-                              object::material::rep const& /* rep */ =
-                              object::material::default_material);
+      explicit material_group();
 
       virtual void accept(visitor::base&);
       

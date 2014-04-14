@@ -115,20 +115,20 @@ namespace scene {
     }
     
     /* explicit */
-    texture::texture(std::string const& a)
-      : base(a)
+    texture::texture()
+      : base()
     {
       TRACE("scene::object::texture::texture");
     }
     
     /* explicit */
-    texture_1d::texture_1d(std::string const& a, unsigned const& b, glm::uvec4 const& c)
-      : texture(a),
-        tdata_ (1, gli::RGBA8_UNORM, gli::texture1D::dimensions_type(b))
+    texture_1d::texture_1d(unsigned const& a, glm::uvec4 const& b)
+      : texture(),
+        tdata_ (1, gli::RGBA8_UNORM, gli::texture1D::dimensions_type(a))
     {
       TRACE("scene::object::texture_1d::texture_1d");
 
-      fill(tdata_, glm::u8vec4(c));
+      fill(tdata_, glm::u8vec4(b));
     }
 
     /* virtual */
@@ -148,19 +148,19 @@ namespace scene {
     }
 
     /* explicit */
-    texture_2d::texture_2d(std::string const& a, glm::uvec2 const& b, glm::uvec4 const& c)
-      : texture(a),
-        tdata_ (1, gli::RGBA8_UNORM, gli::texture2D::dimensions_type(b.x, b.y))
+    texture_2d::texture_2d(glm::uvec2 const& a, glm::uvec4 const& b)
+      : texture(),
+        tdata_ (1, gli::RGBA8_UNORM, gli::texture2D::dimensions_type(a.x, a.y))
     {
       TRACE("scene::object::texture_2d::texture_2d(fill)");
 
-      fill(tdata_, glm::u8vec4(c));
+      fill(tdata_, glm::u8vec4(b));
     }
 
     /* explicit */
-    texture_2d::texture_2d(std::string const& a, std::string const& b)
-      : texture(a),
-        tdata_ (load(b))
+    texture_2d::texture_2d(std::string const& a)
+      : texture(),
+        tdata_ (load(a))
     {
       TRACE("scene::object::texture_2d::texture_2d(file)");
     }
@@ -182,13 +182,13 @@ namespace scene {
     }
 
     /* explicit */
-    texture_3d::texture_3d(std::string const& a, glm::uvec3 const& b, glm::uvec4 const& c)
-      : texture(a),
-        tdata_ (1, gli::RGBA8_UNORM, gli::texture3D::dimensions_type(b.x, b.y, b.z))
+    texture_3d::texture_3d(glm::uvec3 const& a, glm::uvec4 const& b)
+      : texture(),
+        tdata_ (1, gli::RGBA8_UNORM, gli::texture3D::dimensions_type(a.x, a.y, a.z))
     {
       TRACE("scene::object::texture_3d::texture_3d");
 
-      fill(tdata_, glm::u8vec4(c));
+      fill(tdata_, glm::u8vec4(b));
     }
 
     /* virtual */

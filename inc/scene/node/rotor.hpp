@@ -39,7 +39,8 @@ namespace scene {
       field::value::single<glm::vec3> axis; ///< rotation axis          [(0,1,0)]
       field::value::single<float>     rpm;  ///< revolutions per minute [1.0]
       
-      explicit rotor(std::string const& /* name */);
+      explicit rotor(float            /* rpm */  = 1.0,
+                     glm::vec3 const& /* axis */ = glm::vec3(0,1,0));
 
       virtual void accept(visitor::base&);
 

@@ -49,17 +49,17 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    material_group::material_group(std::string const& a, object::material::rep const& b)
-      : group   (a),
-        material(*this, "material", new object::material(a, b))
+    material_group::material_group()
+      : group   (),
+        material(*this, "material", new object::material)
     {
-      TRACE("scene::node::global_light::global_light");
+      TRACE("scene::node::material_group::material_group");
     }
     
     /* virtual */ void
     material_group::accept(visitor::base& v)
     {
-      TRACE("scene::node::global_light::accept");
+      TRACE("scene::node::material_group::accept");
 
       v.visit(*this);
     }

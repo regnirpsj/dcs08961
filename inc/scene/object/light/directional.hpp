@@ -42,7 +42,7 @@ namespace scene {
 
         field::value::single<glm::vec3> direction; ///< light direction
       
-        explicit directional(std::string const& /* name */);
+        explicit directional();
       
       protected:
         

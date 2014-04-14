@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <scene/visitor/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -47,6 +47,27 @@ namespace scene {
     // variables, exported
     
     // functions, exported
+
+    /* explicit */
+    mesh::mesh()
+      : geometry()
+    {
+      TRACE("scene::node::mesh::mesh");
+    }
+    
+    /* virtual */ void
+    mesh::accept(visitor::base& v)
+    {
+      TRACE("scene::node::mesh::accept");
+
+      v.visit(*this);
+    }
+
+    void
+    mesh::compute_normals()
+    {
+      TRACE("scene::node::mesh::accept");
+    }
     
   } // namespace node {
   

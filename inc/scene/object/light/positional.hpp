@@ -42,7 +42,7 @@ namespace scene {
 
         field::value::single<glm::vec3> position; ///< light position (in wc?)
       
-        explicit positional(std::string const& /* name */);
+        explicit positional();
       
       protected:
         

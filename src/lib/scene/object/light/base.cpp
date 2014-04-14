@@ -76,19 +76,19 @@ namespace scene {
       }
 
       /* explicit */
-      base::base(std::string const& a, rep const& b)
-        : object::base  (a),
+      base::base(rep const& a)
+        : object::base  (),
           representation(*this, "representation",
                          std::bind(&base::cb_get_rep_list, this),
                          std::bind(&base::cb_set_rep_list, this, std::placeholders::_1),
                          std::bind(&base::cb_add_rep,      this, std::placeholders::_1),
                          std::bind(&base::cb_sub_rep,      this, std::placeholders::_1)),
-          active        (*this, "active",      b.active),
-          ambient       (*this, "ambient",     b.ambient),
-          diffuse       (*this, "diffuse",     b.diffuse),
-          specular      (*this, "specular",    b.specular),
-          attenuation   (*this, "attenuation", b.attenuation),
-          rep_list_     (1, b)
+          active        (*this, "active",      a.active),
+          ambient       (*this, "ambient",     a.ambient),
+          diffuse       (*this, "diffuse",     a.diffuse),
+          specular      (*this, "specular",    a.specular),
+          attenuation   (*this, "attenuation", a.attenuation),
+          rep_list_     (1, a)
       {   
         TRACE("scene::object::light::base::base");
       }

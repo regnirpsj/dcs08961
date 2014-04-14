@@ -43,7 +43,7 @@ namespace scene {
         field::value::single<glm::uvec2> size;    ///< size.xy
         field::value::single<glm::uvec2> samples; ///< samples.xy
       
-        explicit area(std::string const& /* name */);
+        explicit area();
       
       protected:
 

@@ -125,8 +125,7 @@ namespace scene {
 
         typedef base inherited;
       
-        explicit orthographic(std::string const&   /* name */,
-                              viewport_type const& /* viewport */ = viewport_type(),
+        explicit orthographic(viewport_type const& /* viewport */ = viewport_type(),
                               glm::vec2 const&     /* near/far */ = glm::vec2(frustum().near,
                                                                               frustum().far));
 
@@ -148,8 +147,7 @@ namespace scene {
 
         typedef base inherited;      
 
-        explicit perspective(std::string const&   /* name */,
-                             float                /* fovy */     = 60,
+        explicit perspective(float                /* fovy */     = 60,
                              viewport_type const& /* viewport */ = viewport_type(),
                              glm::vec2 const&     /* near/far */ = glm::vec2(frustum().near,
                                                                              frustum().far));

@@ -51,10 +51,10 @@ namespace scene {
     // functions, exported
     
     /* explicit */
-    rotor::rotor(std::string const& a)
-      : dynamic(a),
-        axis   (*this, "axis", glm::vec3(0, 1, 0)),
-        rpm    (*this, "rpm",  1.0)
+    rotor::rotor(float a, glm::vec3 const& b)
+      : dynamic(),
+        axis   (*this, "axis", glm::normalize(b)),
+        rpm    (*this, "rpm",  a)
     {
       TRACE("scene::node::rotot::rotor");
     }

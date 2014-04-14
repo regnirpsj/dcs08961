@@ -36,7 +36,7 @@ namespace scene {
 
       typedef node::geometry subject_inherited;
 
-      explicit cube(std::string const& /* name */);
+      explicit cube();
       
       virtual void accept(visitor::base&);
       

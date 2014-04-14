@@ -39,7 +39,7 @@ namespace scene {
 
       field::value::single<boost::intrusive_ptr<object::light::base>> source;
       
-      explicit global_light(std::string const& /* name */);
+      explicit global_light();
 
       virtual void accept(visitor::base&);
       
