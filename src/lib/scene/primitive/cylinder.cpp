@@ -48,10 +48,17 @@ namespace scene {
     
     // functions, exported
 
+    /* explicit */
+    cylinder::cylinder(std::string const& a)
+      : node::geometry(a)
+    {
+      TRACE("scene::primitive::cylinder::cylinder");
+    }
+    
     /* virtual */ void
     cylinder::accept(visitor::base& v)
     {
-      TRACE("scene::node::cylinder::accept");
+      TRACE("scene::primitive::cylinder::accept");
 
       v.visit(*this);
     }

@@ -22,6 +22,7 @@
 
 // includes, project
 
+#include <scene/visitor/print.hpp>
 #include <scene/visitor/subject.hpp>
 
 namespace scene {

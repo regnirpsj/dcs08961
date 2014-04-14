@@ -29,6 +29,7 @@
 
 // includes, project
 
+#include <support/chrono_io.hpp>
 #include <support/thread.hpp>
 
 // internal unnamed namespace
@@ -356,6 +357,22 @@ namespace support {
     }
 
     return result;
+  }
+
+  std::ostream&
+  operator<<(std::ostream& os, clock::time_point const& a)
+  {
+    typename std::ostream::sentry const cerberus(os);
+    
+    if (cerberus) {
+      using std::chrono::duration_fmt;
+      using std::chrono::prefix;
+      using std::chrono::symbol;
+      
+      os << duration_fmt(symbol) << a;
+    }
+    
+    return os;
   }
   
 } // namespace support {

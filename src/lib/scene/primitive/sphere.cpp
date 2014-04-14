@@ -48,10 +48,17 @@ namespace scene {
     
     // functions, exported
 
+    /* explicit */
+    sphere::sphere(std::string const& a)
+      : node::geometry(a)
+    {
+      TRACE("scene::primitive::sphere::sphere");
+    }
+    
     /* virtual */ void
     sphere::accept(visitor::base& v)
     {
-      TRACE("scene::node::sphere::accept");
+      TRACE("scene::primitive::sphere::accept");
 
       v.visit(*this);
     }

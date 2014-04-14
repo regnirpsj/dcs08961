@@ -18,11 +18,11 @@
 
 // includes, system
 
-//#include <>
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
-//#include <>
+#include <scene/visitor/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -47,6 +47,22 @@ namespace scene {
     // variables, exported
     
     // functions, exported
+
+    /* explicit */
+    material_group::material_group(std::string const& a, object::material::rep const& b)
+      : group   (a),
+        material(*this, "material", new object::material(a, b))
+    {
+      TRACE("scene::node::global_light::global_light");
+    }
+    
+    /* virtual */ void
+    material_group::accept(visitor::base& v)
+    {
+      TRACE("scene::node::global_light::accept");
+
+      v.visit(*this);
+    }
     
   } // namespace node {
   

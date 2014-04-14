@@ -48,10 +48,17 @@ namespace scene {
     
     // functions, exported
 
+    /* explicit */
+    icosahedron::icosahedron(std::string const& a)
+      : node::geometry(a)
+    {
+      TRACE("scene::primitive::icosahedron::icosahedron");
+    }
+    
     /* virtual */ void
     icosahedron::accept(visitor::base& v)
     {
-      TRACE("scene::node::icosahedron::accept");
+      TRACE("scene::primitive::icosahedron::accept");
 
       v.visit(*this);
     }

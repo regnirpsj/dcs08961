@@ -48,10 +48,17 @@ namespace scene {
     
     // functions, exported
 
+    /* explicit */
+    tetrahedron::tetrahedron(std::string const& a)
+      : node::geometry(a)
+    {
+      TRACE("scene::primitive::tetrahedron::tetrahedron");
+    }
+    
     /* virtual */ void
     tetrahedron::accept(visitor::base& v)
     {
-      TRACE("scene::node::tetrahedron::accept");
+      TRACE("scene::primitive::tetrahedron::accept");
 
       v.visit(*this);
     }

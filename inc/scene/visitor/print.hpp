@@ -6,43 +6,57 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/node/global_light.hpp                                                     */
+/*  module     :  scene/visitor/print.hpp                                                         */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_NODE_GLOBAL_LIGHT_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_VISITOR_PRINT_HPP)
 
-#define UKACHULLDCS_08961_SCENE_NODE_GLOBAL_LIGHT_HPP
+#define UKACHULLDCS_08961_SCENE_VISITOR_PRINT_HPP
 
 // includes, system
 
-#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
+#include <iosfwd> // std::ostream (fwd)
 
 // includes, project
 
-#include <scene/node/base.hpp>
-#include <scene/object/light/base.hpp>
+#include <scene/visitor/bfs.hpp>
+#include <scene/visitor/dfs.hpp>
 
 namespace scene {
 
-  namespace node {
+  namespace visitor {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class global_light : public base {
+    class print : public bfs,
+                  public dfs {
 
     public:
 
-      typedef base subject_inherited;
+      enum class order { bfs, dfs, };
+    
+      explicit print(std::ostream&, order = order::dfs);
+      virtual ~print();
 
-      field::value::single<boost::intrusive_ptr<object::light::base>> source;
+      virtual void visit(node::base&);
+      virtual void visit(node::group&);
       
-      explicit global_light(std::string const& /* name */);
-
-      virtual void accept(visitor::base&);
+      virtual void print_on(std::ostream&) const;
       
+    private:
+    
+      std::ostream& os_;
+      order         order_;
+      unsigned      indent_;
+      char          crlf_;
+      
+      virtual void visit(subject&);
+      
+      template <typename T> void visit_helper(T&);
+    
     };
     
     // variables, exported (extern)
@@ -51,8 +65,8 @@ namespace scene {
   
     // functions, exported (extern)
 
-  } // namespace node {
+  } // namespace visitor {
   
 } // namespace scene {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_NODE_GLOBAL_LIGHT_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_VISITOR_PRINT_HPP)

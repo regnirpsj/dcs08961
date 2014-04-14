@@ -18,11 +18,12 @@
 
 // includes, system
 
-//#include <>
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
-//#include <>
+#include <scene/visitor/base.hpp>
+#include <support/chrono_io.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -47,6 +48,29 @@ namespace scene {
     // variables, exported
     
     // functions, exported
+
+    /* virtual */
+    dynamic::~dynamic()
+    {
+      TRACE("scene::node::dynamic::~dynamic");
+    }
+    
+    /* virtual */ void
+    dynamic::accept(visitor::base& v)
+    {
+      TRACE("scene::node::dynamic::accept");
+
+      v.visit(*this);
+    }
+    
+    /* explicit */
+    dynamic::dynamic(std::string const& a)
+      : transform   (a),
+        update      (*this, "update", support::clock::now()),
+        last_update_(update.get())
+    {
+      TRACE("scene::node::dynamic::dynamic");
+    }
     
   } // namespace node {
   

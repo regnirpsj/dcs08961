@@ -6,53 +6,44 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/node/global_light.hpp                                                     */
+/*  module     :  glm/gtx/limits.cpp                                                              */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_NODE_GLOBAL_LIGHT_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_SCENE_NODE_GLOBAL_LIGHT_HPP
+#include "glm/gtx/limits.hpp"
 
 // includes, system
 
-#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
+//#include <>
 
 // includes, project
 
-#include <scene/node/base.hpp>
-#include <scene/object/light/base.hpp>
+//#include <>
 
-namespace scene {
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
 
-  namespace node {
-    
-    // types, exported (class, enum, struct, union, typedef)
+// internal unnamed namespace
 
-    class global_light : public base {
-
-    public:
-
-      typedef base subject_inherited;
-
-      field::value::single<boost::intrusive_ptr<object::light::base>> source;
-      
-      explicit global_light(std::string const& /* name */);
-
-      virtual void accept(visitor::base&);
-      
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+namespace {
   
-    // functions, exported (extern)
+  // types, internal (class, enum, struct, union, typedef)
 
-  } // namespace node {
+  // variables, internal
   
-} // namespace scene {
+  // functions, internal
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_NODE_GLOBAL_LIGHT_HPP)
+} // namespace {
+
+namespace glm {
+  
+  // variables, exported
+  
+  // functions, exported
+  
+} // namespace glm {

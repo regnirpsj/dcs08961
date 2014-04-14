@@ -44,7 +44,7 @@ namespace scene {
       virtual void accept(visitor::base&);
 
     protected:
-
+      
       virtual void do_changed(field::base&);
       
     };

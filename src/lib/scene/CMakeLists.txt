@@ -45,11 +45,13 @@ LIST(APPEND SRC "primitive/tetrahedron.cpp")
 LIST(APPEND SRC "visitor/base.cpp")
 LIST(APPEND SRC "visitor/bfs.cpp")
 LIST(APPEND SRC "visitor/dfs.cpp")
+LIST(APPEND SRC "visitor/print.cpp")
 LIST(APPEND SRC "visitor/subject.cpp")
 
 SET(LIBS)
 LIST(APPEND LIBS field)
 LIST(APPEND LIBS gli)
+LIST(APPEND LIBS glm)
 LIST(APPEND LIBS support)
 LIST(APPEND LIBS ${Boost_LIBRARIES})
 

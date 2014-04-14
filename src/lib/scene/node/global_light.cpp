@@ -22,7 +22,8 @@
 
 // includes, project
 
-//#include <>
+#include <scene/object/light/directional.hpp>
+#include <scene/visitor/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -47,6 +48,22 @@ namespace scene {
     // variables, exported
     
     // functions, exported
+
+    /* explicit */
+    global_light::global_light(std::string const& a)
+      : base  (a),
+        source(*this, "source", new object::light::directional(a))
+    {
+      TRACE("scene::node::global_light::global_light");
+    }
+    
+    /* virtual */ void
+    global_light::accept(visitor::base& v)
+    {
+      TRACE("scene::node::global_light::accept");
+
+      v.visit(*this);
+    }
     
   } // namespace node {
   

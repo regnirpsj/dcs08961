@@ -20,6 +20,7 @@
 
 #include <boost/noncopyable.hpp> // boost::noncopyable
 #include <chrono>                // std::chrono::*
+#include <iosfwd>                // std::ostream (fwd)
 #include <string>                // std::string
 
 // includes, project
@@ -73,6 +74,8 @@ namespace support {
 
   void        sleep(clock::duration const&);
   std::string date_time_iso8601();
+
+  std::ostream& operator<<(std::ostream&, clock::time_point const&);
   
 } // namespace support {
 

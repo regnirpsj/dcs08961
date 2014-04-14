@@ -48,10 +48,17 @@ namespace scene {
     
     // functions, exported
 
+    /* explicit */
+    octahedron::octahedron(std::string const& a)
+      : node::geometry(a)
+    {
+      TRACE("scene::primitive::octahedron::octahedron");
+    }
+    
     /* virtual */ void
     octahedron::accept(visitor::base& v)
     {
-      TRACE("scene::node::octahedron::accept");
+      TRACE("scene::primitive::octahedron::accept");
 
       v.visit(*this);
     }
