@@ -251,9 +251,8 @@ BOOST_AUTO_TEST_CASE(visitor_print_dfs)
   BOOST_CHECK(nullptr != g);
   
   visitor::print pv(output, visitor::print::order::dfs);
-  
   g->accept(pv);
-
+  
 #if 0
   visitor::print pv1(std::cout, visitor::print::order::dfs);
   g->accept(pv1);
