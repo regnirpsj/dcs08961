@@ -30,6 +30,24 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
+    class select : public group {
+
+    public:
+
+      typedef group subject_inherited;
+
+      field::value::single<unsigned> index;
+      
+      explicit select(std::string const& /* name */);
+
+      virtual void accept(visitor::base&);
+
+    protected:
+
+      virtual void do_changed(field::base&);
+      
+    };
+    
     // variables, exported (extern)
 
     // functions, inlined (inline)

@@ -38,8 +38,7 @@ namespace scene {
       
     } // namespace camera
     
-    class cube;
-    class cylinder;
+    
     class dynamic;
     class geometry;
     class global_light;
@@ -47,15 +46,23 @@ namespace scene {
     class local_light;
     class material_group;
     class mesh;
-    class octahedron;
     class rotor;
     class select;
-    class sphere;
-    class tetrahedron;
     class transform;
     class translator;
     
   } // namespace node {
+
+  namespace primitive {
+
+    class cube;
+    class cylinder;
+    class icosahedron;
+    class octahedron;
+    class sphere;
+    class tetrahedron;
+    
+  } // namespace primitive {
   
   namespace visitor {
 
@@ -73,8 +80,6 @@ namespace scene {
       virtual void visit(node::camera::base&);
       virtual void visit(node::camera::orthographic&);
       virtual void visit(node::camera::perspective&);
-      virtual void visit(node::cube&);
-      virtual void visit(node::cylinder&);
       virtual void visit(node::dynamic&);
       virtual void visit(node::geometry&);
       virtual void visit(node::global_light&);
@@ -82,13 +87,16 @@ namespace scene {
       virtual void visit(node::local_light&);
       virtual void visit(node::material_group&);
       virtual void visit(node::mesh&);
-      virtual void visit(node::octahedron&);
       virtual void visit(node::rotor&);
       virtual void visit(node::select&);
-      virtual void visit(node::sphere&);
-      virtual void visit(node::tetrahedron&);
       virtual void visit(node::transform&);
       virtual void visit(node::translator&);
+      virtual void visit(primitive::cube&);
+      virtual void visit(primitive::cylinder&);
+      virtual void visit(primitive::icosahedron&);
+      virtual void visit(primitive::octahedron&);
+      virtual void visit(primitive::sphere&);
+      virtual void visit(primitive::tetrahedron&);
       
       virtual void print_on(std::ostream&) const;
       

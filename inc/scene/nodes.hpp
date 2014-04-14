@@ -22,18 +22,18 @@
 
 // includes, project
 
-#include <node/camera.hpp>
-#include <node/dynamic.hpp>
-#include <node/geometry.hpp>
-#include <node/global_light.hpp>
-#include <node/group.hpp>
-#include <node/local_light.hpp>
-#include <node/material_group.hpp>
-#include <node/mesh.hpp>
-#include <node/rotor.hpp>
-#include <node/select.hpp>
-#include <node/transform.hpp>
-#include <node/translator.hpp>
+#include <scene/node/camera.hpp>
+#include <scene/node/dynamic.hpp>
+#include <scene/node/geometry.hpp>
+#include <scene/node/global_light.hpp>
+#include <scene/node/group.hpp>
+#include <scene/node/local_light.hpp>
+#include <scene/node/material_group.hpp>
+#include <scene/node/mesh.hpp>
+#include <scene/node/rotor.hpp>
+#include <scene/node/select.hpp>
+#include <scene/node/transform.hpp>
+#include <scene/node/translator.hpp>
 
 namespace scene {
   
@@ -45,6 +45,6 @@ namespace scene {
   
   // functions, exported (extern)
   
-} // namespace ??? {
+} // namespace scene {
 
 #endif // #if !defined(UKACHULLDCS_08961_SCENE_NODES_HPP)

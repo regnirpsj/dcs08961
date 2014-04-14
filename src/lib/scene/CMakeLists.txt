@@ -43,6 +43,8 @@ LIST(APPEND SRC "primitive/sphere.cpp")
 LIST(APPEND SRC "primitive/tetrahedron.cpp")
 
 LIST(APPEND SRC "visitor/base.cpp")
+LIST(APPEND SRC "visitor/bfs.cpp")
+LIST(APPEND SRC "visitor/dfs.cpp")
 LIST(APPEND SRC "visitor/subject.cpp")
 
 SET(LIBS)

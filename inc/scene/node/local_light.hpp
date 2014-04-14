@@ -18,11 +18,12 @@
 
 // includes, system
 
-// #include <>
+#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
 
 // includes, project
 
 #include <scene/node/group.hpp>
+#include <scene/object/light/directional.hpp>
 
 namespace scene {
 
@@ -30,6 +31,20 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
+    class local_light : public group {
+
+    public:
+
+      typedef group subject_inherited;
+
+      field::value::single<boost::intrusive_ptr<object::light::base>> source;
+      
+      explicit local_light(std::string const& /* name */);
+
+      virtual void accept(visitor::base&);
+      
+    };
+    
     // variables, exported (extern)
 
     // functions, inlined (inline)

@@ -33,6 +33,10 @@ namespace scene {
     class icosahedron : public node::geometry {
 
     public:
+
+      typedef node::geometry subject_inherited;
+
+      virtual void accept(visitor::base&);
       
     };
     

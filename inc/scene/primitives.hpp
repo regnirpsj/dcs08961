@@ -22,12 +22,12 @@
 
 // includes, project
 
-#include <primitive/cube.hpp>
-#include <primitive/cylinder.hpp>
-#include <primitive/icosahedron.hpp>
-#include <primitive/octahedron.hpp>
-#include <primitive/sphere.hpp>
-#include <primitive/tetrahedron.hpp>
+#include <scene/primitive/cube.hpp>
+#include <scene/primitive/cylinder.hpp>
+#include <scene/primitive/icosahedron.hpp>
+#include <scene/primitive/octahedron.hpp>
+#include <scene/primitive/sphere.hpp>
+#include <scene/primitive/tetrahedron.hpp>
 
 namespace scene {
   
@@ -39,6 +39,6 @@ namespace scene {
   
   // functions, exported (extern)
   
-} // namespace ??? {
+} // namespace scene {
 
 #endif // #if !defined(UKACHULLDCS_08961_SCENE_PRIMITIVES_HPP)

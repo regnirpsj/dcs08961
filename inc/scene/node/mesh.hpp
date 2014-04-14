@@ -22,7 +22,7 @@
 
 // includes, project
 
-#include <scene/node/base.hpp>
+#include <scene/node/geometry.hpp>
 
 namespace scene {
 
@@ -30,6 +30,20 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
+    class mesh : public geometry {
+
+    public:
+
+      typedef geometry subject_inherited;
+
+      explicit mesh(std::string const& /* name */);
+      
+      virtual void accept(visitor::base&);
+
+      void compute_normals();
+      
+    };
+    
     // variables, exported (extern)
 
     // functions, inlined (inline)

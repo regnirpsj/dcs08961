@@ -6,56 +6,65 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/primitive/cylinder.cpp                                                    */
+/*  module     :  scene/vistor/bfs.hpp                                                            */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-// include i/f header
+#if !defined(UKACHULLDCS_08961_SCENE_VISTOR_BFS_HPP)
 
-#include "scene/primitive/cylinder.hpp"
+#define UKACHULLDCS_08961_SCENE_VISTOR_BFS_HPP
 
 // includes, system
 
-//#include <>
+#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
+#include <queue>                   // std::queue<>
 
 // includes, project
 
 #include <scene/visitor/base.hpp>
 
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
-
-// internal unnamed namespace
-
-namespace {
-  
-  // types, internal (class, enum, struct, union, typedef)
-
-  // variables, internal
-  
-  // functions, internal
-
-} // namespace {
-
 namespace scene {
 
-  namespace primitive {
+  namespace visitor {
     
-    // variables, exported
-    
-    // functions, exported
+    // types, exported (class, enum, struct, union, typedef)
 
-    /* virtual */ void
-    cylinder::accept(visitor::base& v)
-    {
-      TRACE("scene::node::cylinder::accept");
+    class bfs : virtual public base {
 
-      v.visit(*this);
-    }
+    public:
+      
+      virtual ~bfs() =0;
+      
+      virtual void visit(node::group&);
+      
+      virtual void print_on(std::ostream&) const;      
+
+    protected:
+
+      typedef std::queue<boost::intrusive_ptr<node::base>> node_queue_type;
+
+      node_queue_type node_queue_;
+      
+      explicit bfs();
+
+      virtual void flush();
+      
+    private:
+
+      virtual void visit(subject&);
+      
+    };
     
-  } // namespace primitive {
+    // variables, exported (extern)
+
+    // functions, inlined (inline)
+  
+    // functions, exported (extern)
+
+  } // namespace visitor {
   
 } // namespace scene {
+
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_VISTOR_BFS_HPP)

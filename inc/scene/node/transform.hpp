@@ -34,7 +34,7 @@ namespace scene {
 
     public:
 
-      typedef base subject_inherited;
+      typedef group subject_inherited;
 
       field::value::single<glm::mat4> xform;
 

@@ -18,7 +18,7 @@
 
 // includes, system
 
-// #include <>
+#include <glm/glm.hpp> // glm::vec3
 
 // includes, project
 
@@ -30,6 +30,25 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
+    class rotor : public dynamic {
+
+    public:
+
+      typedef dynamic subject_inherited;
+
+      field::value::single<glm::vec3> axis; ///< rotation axis          [(0,1,0)]
+      field::value::single<float>     rpm;  ///< revolutions per minute [1.0]
+      
+      explicit rotor(std::string const& /* name */);
+
+      virtual void accept(visitor::base&);
+
+    protected:
+
+      virtual void do_changed(field::base&);
+      
+    };
+    
     // variables, exported (extern)
 
     // functions, inlined (inline)

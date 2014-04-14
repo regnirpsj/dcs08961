@@ -23,6 +23,7 @@
 // includes, project
 
 #include <scene/node/group.hpp>
+#include <scene/object/material.hpp>
 
 namespace scene {
 
@@ -30,6 +31,22 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
+    class material_group : public group {
+
+    public:
+
+      typedef group subject_inherited;
+
+      field::value::single<boost::intrusive_ptr<object::material>> material;
+      
+      explicit material_group(std::string const&           /* name */,
+                              object::material::rep const& /* rep */ =
+                              object::material::default_material);
+
+      virtual void accept(visitor::base&);
+      
+    };
+    
     // variables, exported (extern)
 
     // functions, inlined (inline)

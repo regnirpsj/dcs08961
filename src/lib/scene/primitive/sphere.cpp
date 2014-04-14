@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <scene/visitor/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -47,6 +47,14 @@ namespace scene {
     // variables, exported
     
     // functions, exported
+
+    /* virtual */ void
+    sphere::accept(visitor::base& v)
+    {
+      TRACE("scene::node::sphere::accept");
+
+      v.visit(*this);
+    }
     
   } // namespace primitive {
   

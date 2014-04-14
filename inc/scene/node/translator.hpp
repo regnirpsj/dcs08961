@@ -18,7 +18,7 @@
 
 // includes, system
 
-// #include <>
+#include <glm/glm.hpp> // glm::vec3
 
 // includes, project
 
@@ -30,6 +30,25 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
+    class translator : public dynamic {
+
+    public:
+
+      typedef dynamic subject_inherited;
+      
+      field::value::single<glm::vec3> direction; ///< direction [(1,0,0)]
+      field::value::single<float>     speed;     ///< speed     [1.0]
+      
+      explicit translator(std::string const& /* name */);
+
+      virtual void accept(visitor::base&);
+
+    protected:
+
+      virtual void do_changed(field::base&);
+      
+    };
+    
     // variables, exported (extern)
 
     // functions, inlined (inline)

@@ -33,6 +33,10 @@ namespace scene {
     class octahedron : public node::geometry {
 
     public:
+
+      typedef node::geometry subject_inherited;
+
+      virtual void accept(visitor::base&);
       
     };
     

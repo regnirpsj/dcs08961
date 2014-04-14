@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/primitive/cylinder.cpp                                                    */
+/*  module     :  scene/visitor/dfs.cpp                                                           */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,19 +14,23 @@
 
 // include i/f header
 
-#include "scene/primitive/cylinder.hpp"
+#include "scene/visitor/dfs.hpp"
 
 // includes, system
 
-//#include <>
+#include <string> // std::string
 
 // includes, project
 
-#include <scene/visitor/base.hpp>
+#include <scene/node/group.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
+#if defined(UKACHULLDCS_USE_TRACE) || defined(UKACHULLDCS_ALL_TRACE)
+#  include <typeinfo>
+#  include <support/type_info.hpp>
+#endif
 
 // internal unnamed namespace
 
@@ -38,24 +42,60 @@ namespace {
   
   // functions, internal
 
+  template <typename L>
+  inline void
+  visit_helper(L const& l, scene::visitor::dfs& v)
+  {
+    TRACE("<unnamed>::scene::visitor::dfs::visit_helper(" + support::demangle(typeid(l)) + ")");
+
+    for (auto c : l) {
+      c->accept(v);
+    }
+  }
+  
 } // namespace {
 
 namespace scene {
 
-  namespace primitive {
+  namespace visitor {
     
     // variables, exported
-    
+  
     // functions, exported
 
-    /* virtual */ void
-    cylinder::accept(visitor::base& v)
+    /* virtual */
+    dfs::~dfs()
     {
-      TRACE("scene::node::cylinder::accept");
+      TRACE("scene::visitor::dfs::~dfs");
+    }
 
-      v.visit(*this);
+    /* virtual */ void
+    dfs::visit(node::group& a)
+    {
+      TRACE("scene::visitor::dfs::visit(node::group)");
+
+      visit_helper(a.children.get(), *this);
+    }
+
+    /* virtual */ void
+    dfs::print_on(std::ostream&) const
+    {
+      TRACE_NEVER("scene::visitor::dfs::print_on");
+    }
+
+    /* explicit */
+    dfs::dfs()
+      : base()
+    {
+      TRACE("scene::visitor::dfs::dfs");
+    }
+
+    /* virtual */ void
+    dfs::visit(subject&)
+    {
+      TRACE("scene::visitor::dfs::visit(subject)");
     }
     
-  } // namespace primitive {
+  } // namespace visitor {
   
 } // namespace scene {

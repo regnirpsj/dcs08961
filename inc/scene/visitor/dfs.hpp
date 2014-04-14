@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/primitive/cylinder.cpp                                                    */
+/*  module     :  scene/vistor/dfs.hpp                                                            */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-// include i/f header
+#if !defined(UKACHULLDCS_08961_SCENE_VISTOR_DFS_HPP)
 
-#include "scene/primitive/cylinder.hpp"
+#define UKACHULLDCS_08961_SCENE_VISTOR_DFS_HPP
 
 // includes, system
 
@@ -24,38 +24,40 @@
 
 #include <scene/visitor/base.hpp>
 
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
-
-// internal unnamed namespace
-
-namespace {
-  
-  // types, internal (class, enum, struct, union, typedef)
-
-  // variables, internal
-  
-  // functions, internal
-
-} // namespace {
-
 namespace scene {
 
-  namespace primitive {
+  namespace visitor {
     
-    // variables, exported
-    
-    // functions, exported
+    // types, exported (class, enum, struct, union, typedef)
 
-    /* virtual */ void
-    cylinder::accept(visitor::base& v)
-    {
-      TRACE("scene::node::cylinder::accept");
+    class dfs : virtual public base {
 
-      v.visit(*this);
-    }
+    public:
+      
+      virtual ~dfs() =0;
+      
+      virtual void visit(node::group&);
+      
+      virtual void print_on(std::ostream&) const;      
+
+    protected:
+
+      explicit dfs();
+
+    private:
+
+      virtual void visit(subject&);
+      
+    };
     
-  } // namespace primitive {
+    // variables, exported (extern)
+
+    // functions, inlined (inline)
+  
+    // functions, exported (extern)
+
+  } // namespace visitor {
   
 } // namespace scene {
+
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_VISTOR_DFS_HPP)
