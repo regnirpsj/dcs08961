@@ -6,10 +6,16 @@
 #                                                                                                  #
 ####################################################################################################
 
-ADD_SUBDIRECTORY(common)
-ADD_SUBDIRECTORY(deferred)
-ADD_SUBDIRECTORY(lighting)
-ADD_SUBDIRECTORY(postprocess)
-ADD_SUBDIRECTORY(projection)
-ADD_SUBDIRECTORY(shading)
-ADD_SUBDIRECTORY(shadows)
+MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+
+SET(APP "projection")
+
+SET(SRC)
+
+LIST(APPEND SRC "main.cpp")
+
+SET(LIBS)
+
+LIST(APPEND LIBS support)
+
+APPLICATION_SETUP(${APP} SOURCES ${SRC} DEPENDENCIES ${LIBS})
