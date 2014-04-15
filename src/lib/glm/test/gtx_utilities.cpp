@@ -105,15 +105,15 @@ BOOST_AUTO_TEST_CASE(test_utilities_convert_transform)
   glm::vec3::value_type const angle(45_deg);
 #endif
   
-  glm::mat4 const ir(glm::rotate   (angle, glm::vec3(glm::gaussRand(0.0, 20.0),
-                                                     glm::gaussRand(0.0, 20.0),
-                                                     glm::gaussRand(0.0, 20.0))));
-  glm::mat4 const is(glm::scale    (       glm::vec3(glm::linearRand(0.1, 10.0),
-                                                     glm::linearRand(0.1, 10.0),
-                                                     glm::linearRand(0.1, 10.0))));
-  glm::mat4 const it(glm::translate(       glm::vec3(glm::linearRand(-1.0, 1.0),
-                                                     glm::linearRand(-1.0, 1.0),
-                                                     glm::linearRand(-1.0, 1.0))));
+  glm::mat4 const ir(glm::rotate   (angle, glm::vec3(glm::gaussRand(  0.0, 20.0),
+                                                     glm::gaussRand(  0.0, 20.0),
+                                                     glm::gaussRand(  0.0, 20.0))));
+  glm::mat4 const is(glm::scale    (       glm::vec3(glm::linearRand( 0.1, 10.0),
+                                                     glm::linearRand( 0.1, 10.0),
+                                                     glm::linearRand( 0.1, 10.0))));
+  glm::mat4 const it(glm::translate(       glm::vec3(glm::linearRand(-1.0,  1.0),
+                                                     glm::linearRand(-1.0,  1.0),
+                                                     glm::linearRand(-1.0,  1.0))));
   
   std::array<std::pair<glm::mat4, std::string>, 7> const input_xform_list = {
     {
@@ -145,12 +145,15 @@ BOOST_AUTO_TEST_CASE(test_utilities_convert_transform)
       glm::mat4 const   x(glm::convert::transform(i.first, e.first, r, s, t));
       matrix_pair const p(std::make_pair(i.first, x));
 
-      BOOST_MESSAGE(i.second << ':' << std::string(43 - i.second.length(), ' ') << e.second << ':'
-                    << p << '\n');
+      BOOST_MESSAGE(glm::io::precision(7) << glm::io::width(1 + 1 + 1 + 7)
+                    << i.second << ':' << std::string(47 - i.second.length(), ' ')
+                    << e.second << ':' << p << '\n');
 
+      static float const epsilon(9 * std::numeric_limits<float>::epsilon());
+      
       for (unsigned i(0); i < 4; ++i) {
         for (unsigned j(0); j < 4; ++j) {
-          BOOST_CHECK(std::abs(p.first[i][j] - p.second[i][j]) < 5E-6);
+          BOOST_CHECK(std::abs(p.first[i][j] - p.second[i][j]) < epsilon);
         }
       }
     }
