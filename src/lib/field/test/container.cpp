@@ -165,3 +165,18 @@ BOOST_AUTO_TEST_CASE(container_mgr)
   
   BOOST_MESSAGE(std::boolalpha << c[c.size()-1]);
 }
+
+BOOST_AUTO_TEST_CASE(container_fields)
+{
+  container const c;
+  
+  BOOST_CHECK(true == c.svf_bool);
+
+  container::field_list_type const& flist(c.fields());
+  
+  for (unsigned i(0); i < flist.size(); ++i){
+    BOOST_MESSAGE(std::right << std::setw(2) << i << ':' << *(flist[i]));
+  }
+  
+  BOOST_MESSAGE("evalmgr: " << c.eval_manager());
+}
