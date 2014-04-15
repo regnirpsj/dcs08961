@@ -6,6 +6,8 @@
 #                                                                                                  #
 ####################################################################################################
 
+MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+
 SET(LIB "field")
 
 SET(SRC)

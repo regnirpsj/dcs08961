@@ -6,6 +6,8 @@
 #                                                                                                  #
 ####################################################################################################
 
+MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+
 FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS filesystem program_options)
 
 SET(LIB "gli")
