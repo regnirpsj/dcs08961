@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/objects.hpp                                                               */
+/*  module     :  scene/object/textures.hpp                                                       */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_TEXTURES_HPP)
 
-#define UKACHULLDCS_08961_SCENE_OBJECTS_HPP
+#define UKACHULLDCS_08961_SCENE_OBJECT_TEXTURES_HPP
 
 // includes, system
 
@@ -22,9 +22,9 @@
 
 // includes, project
 
-#include <scene/object/lights.hpp>
-#include <scene/object/material.hpp>
-#include <scene/object/textures.hpp>
+#include <scene/object/texture/d1.hpp>
+#include <scene/object/texture/d2.hpp>
+#include <scene/object/texture/d3.hpp>
 
 namespace scene {
   
@@ -38,4 +38,4 @@ namespace scene {
   
 } // namespace ??? {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_TEXTURES_HPP)

@@ -6,36 +6,58 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/objects.hpp                                                               */
+/*  module     :  scene/object/texture/d3.hpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_TEXTURE_D3_HPP)
 
-#define UKACHULLDCS_08961_SCENE_OBJECTS_HPP
+#define UKACHULLDCS_08961_SCENE_OBJECT_TEXTURE_D3_HPP
 
 // includes, system
 
-//#include <>
+#include <gli/gli.hpp> // gli::texture?D
 
 // includes, project
 
-#include <scene/object/lights.hpp>
-#include <scene/object/material.hpp>
-#include <scene/object/textures.hpp>
+#include <scene/object/texture/base.hpp>
 
 namespace scene {
-  
-  // types, exported (class, enum, struct, union, typedef)
 
-  // variables, exported (extern)
+  namespace object {
 
-  // functions, inlined (inline)
-  
-  // functions, exported (extern)
-  
-} // namespace ??? {
+    namespace texture {
+      
+      // types, exported (class, enum, struct, union, typedef)
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+      class d3 : public base {
+
+      public:
+
+        explicit d3(glm::uvec3 const& /* size */  = default_size.xyz(),
+                    glm::uvec4 const& /* color */ = default_color);
+        virtual ~d3();
+
+        virtual bool empty() const;
+      
+      private:
+
+        gli::texture3D tdata_;
+        
+      };
+      
+      // variables, exported (extern)
+      
+      // functions, inlined (inline)
+      
+      // functions, exported (extern)
+
+    } // namespace texture {
+
+  } // namespace object {
+  
+} // namespace scene {
+
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_TEXTURE_D3_HPP)

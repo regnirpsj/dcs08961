@@ -6,36 +6,50 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/objects.hpp                                                               */
+/*  module     :  scene_object_texture_shared.hpp                                                 */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_TEXTURE_SHARED_HPP)
 
-#define UKACHULLDCS_08961_SCENE_OBJECTS_HPP
+#define UKACHULLDCS_08961_SCENE_OBJECT_TEXTURE_SHARED_HPP
 
 // includes, system
 
-//#include <>
+#include <string> // std::string
 
 // includes, project
 
-#include <scene/object/lights.hpp>
-#include <scene/object/material.hpp>
-#include <scene/object/textures.hpp>
+//#include <>
+
+namespace gli {
+
+  class storage;
+  
+} // namespace gli {
 
 namespace scene {
-  
-  // types, exported (class, enum, struct, union, typedef)
 
-  // variables, exported (extern)
+  namespace object {
 
-  // functions, inlined (inline)
+    namespace texture {
   
-  // functions, exported (extern)
-  
-} // namespace ??? {
+      // types, exported (class, enum, struct, union, typedef)
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
+      
+      // functions, exported (extern)
+
+      gli::storage load(std::string const& /* file name */);
+      
+    } // namespace texture {
+    
+  } // namespace object {
+  
+} // namespace scene {
+
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_TEXTURE_SHARED_HPP)

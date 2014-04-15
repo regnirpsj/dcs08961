@@ -19,8 +19,7 @@
 
 // includes, project
 
-// #include <gli/gtx/io.hpp>
-#include <scene/object/texture.hpp>
+#include <scene/object/textures.hpp>
 #include <support/type_info.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -44,9 +43,9 @@ namespace {
 #include <boost/test/test_case_template.hpp>
 #include <boost/mpl/list.hpp>
 
-typedef boost::mpl::list<scene::object::texture_1d,
-                         scene::object::texture_2d,
-                         scene::object::texture_3d> tex_types_fill;
+typedef boost::mpl::list<scene::object::texture::d1,
+                         scene::object::texture::d2,
+                         scene::object::texture::d3> tex_types_fill;
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_ctor_fill, T, tex_types_fill)
 {
@@ -57,7 +56,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_ctor_fill, T, tex_types_fill)
   BOOST_MESSAGE(support::demangle(typeid(T)) << ':' << t);
 }
 
-typedef boost::mpl::list<scene::object::texture_2d> tex_types_file;
+typedef boost::mpl::list<scene::object::texture::d2> tex_types_file;
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_ctor_file, T, tex_types_file)
 {

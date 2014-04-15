@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/objects.hpp                                                               */
+/*  module     :  scene/object/texture/fill.cpp                                                   */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_SCENE_OBJECTS_HPP
+#include "object/texture/fill.hpp"
 
 // includes, system
 
@@ -22,20 +22,36 @@
 
 // includes, project
 
-#include <scene/object/lights.hpp>
-#include <scene/object/material.hpp>
-#include <scene/object/textures.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace scene {
-  
-  // types, exported (class, enum, struct, union, typedef)
 
-  // variables, exported (extern)
+  namespace object {
 
-  // functions, inlined (inline)
-  
-  // functions, exported (extern)
-  
-} // namespace ??? {
+    namespace texture {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+      // variables, exported
+  
+      // functions, exported
+  
+    } // namespace texture {
+    
+  } // namespace object {
+  
+} // namespace scene {
