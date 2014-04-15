@@ -77,7 +77,7 @@ namespace field {
     TRACE_NEVER("field::base::print_on");
 
     os << '['
-       << std::right << std::setw(16) << name_ << '@' << this << ',' << &container_
+       << std::right << std::setw(16) << name_ << '@' << this << "->" << &container_
        << ']';
   }
   
