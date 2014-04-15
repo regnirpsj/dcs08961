@@ -38,11 +38,6 @@ namespace glm {
     mat4 scale;
     mat4 translation;
     
-    //quat rotation_value;
-    //vec3 scale_factor;
-    //quat scale_orientation;
-    //vec3 translation_value;
-    
     explicit decompose(mat4 const&);
     
   };
@@ -52,7 +47,7 @@ namespace glm {
   namespace convert {
 
     /**
-     * \brief transformtion to be left multiplied to an opengl projection matrix to be used in a
+     * \brief transformtion to be left multiplied to an opengl projection matrix for in a
      *        d3d11 pipeline
      */
     extern mat4 const opengl_to_d3d;
