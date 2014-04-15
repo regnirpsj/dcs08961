@@ -25,7 +25,7 @@
 
 // includes, project
 
-// #include <>
+#include <support/type_info.hpp>
 
 namespace support {
 
@@ -188,6 +188,20 @@ namespace support {
 
       return os;
     }
+
+    template <typename CTy, typename CTr,
+              typename ResultTy, typename... ArgTy>
+    inline std::basic_ostream<CTy,CTr>&
+    operator<<(std::basic_ostream<CTy,CTr>& os, std::function<ResultTy(ArgTy...)> const& a)
+    {
+      typename std::basic_ostream<CTy,CTr>::sentry const cerberus(os);
+    
+      if (cerberus) {
+        os << support::demangle(typeid(a)) << "@" << &a;
+      }
+
+      return os;
+    }
     
     template <typename CTy, typename CTr,
               typename T>
@@ -200,8 +214,6 @@ namespace support {
         format_punct<CTy> const& fmt(get_facet<format_punct<CTy>>(os));
         
         if (fmt.formatted) {
-          //basic_format_saver<CTy> const bfs(os);
-          
           os << fmt.delim_left << a.first << fmt.separator << a.second << fmt.delim_right;
         } else {
           os << a.first << fmt.space << a.second;
@@ -222,8 +234,6 @@ namespace support {
         format_punct<CTy> const& fmt(get_facet<format_punct<CTy>>(os));
 
         if (fmt.formatted) {
-          // basic_format_saver<CTy> const bfs(os);
-          
           os << fmt.delim_left << a.first << fmt.separator << a.second << fmt.delim_right;
         } else {
           os << a.first << fmt.space << a.second;
@@ -244,8 +254,6 @@ namespace support {
         format_punct<CTy> const& fmt(get_facet<format_punct<CTy>>(os));
 
         if (fmt.formatted) {
-          //basic_format_saver<CTy> const bfs(os);
-          
           os << fmt.delim_left << a.first << fmt.separator << a.second << fmt.delim_right;
         } else {
           os << a.first << fmt.space << a.second;
@@ -266,8 +274,6 @@ namespace support {
         format_punct<CTy> const& fmt(get_facet<format_punct<CTy>>(os));
 
         if (fmt.formatted) {
-          //basic_format_saver<CTy> const bfs(os);
-          
           os << fmt.delim_left << a.first << fmt.separator << a.second << fmt.delim_right;
         } else {
           os << a.first << fmt.space << a.second;

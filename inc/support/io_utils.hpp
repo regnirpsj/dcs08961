@@ -20,10 +20,11 @@
 
 #include <boost/io_fwd.hpp>      // basic_ios_all_saver<> (fwd)
 #include <boost/noncopyable.hpp> // boost::noncopyable
+#include <functional>            // std::function<>
 #include <iosfwd>                // std::basic_istream<>, std::basic_iostream<>,
                                  // std::basic_ostream<> (fwd decl), std::streampos
 #include <locale>                // std::locale, std::locale::facet, std::locale::id
-#include <utility>               // std::par<>
+#include <utility>               // std::pair<>
 
 // includes, project
 
@@ -187,6 +188,11 @@ namespace support {
     
     template <typename CTy, typename CTr = std::char_traits<CTy>>
     std::basic_ostream<CTy, CTr>& operator<<(std::basic_ostream<CTy, CTr>&, delimeter<CTy> const&);
+
+    template <typename CTy, typename CTr,
+              typename ResultTy, typename... ArgTy>
+    std::basic_ostream<CTy,CTr>& operator<<(std::basic_ostream<CTy,CTr>&,
+                                            std::function<ResultTy(ArgTy...)> const&);
     
     template <typename CTy, typename CTr,
               typename T>
