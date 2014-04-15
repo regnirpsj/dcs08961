@@ -26,6 +26,7 @@
 
 #include <field/base.hpp>
 #include <support/io_utils.hpp>
+#include <support/thread.hpp>
 #include <support/type_info.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -38,14 +39,63 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class default_container_manager : public field::container::manager {
+  class dflt_cntnr_mgr : public field::container::manager {
 
   public:
 
-    virtual ~default_container_manager()
+    explicit dflt_cntnr_mgr()
+      : field::container::manager(),
+        container_list_lock_     ()
     {
-      TRACE("field::container::<unnamed>::default_container_manager::~default_container_manager");
+      TRACE("field::container::<unnamed>::dflt_cntnr_mgr::dflt_cntnr_mgr");
     }
+    
+    virtual ~dflt_cntnr_mgr()
+    {
+      TRACE("field::container::<unnamed>::dflt_cntnr_mgr::~dflt_cntnr_mgr");
+    }
+
+    virtual void print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("field::container::<unnamed>::dflt_cntnr_mgr::print_on");
+
+      support::simple_lock_guard const lg(container_list_lock_);
+
+      field::container::manager::print_on(os);
+    }
+
+    virtual void evaluate()
+    {
+      TRACE("field::container::<unnamed>::dflt_cntnr_mgr::evaluate");
+
+      support::simple_lock_guard const lg(container_list_lock_);
+
+      return field::container::manager::evaluate();
+    }
+
+  protected:
+
+    virtual bool schedule(field::container* a)
+    {
+      TRACE("field::container::<unnamed>::dflt_cntnr_mgr::schedule");
+
+      support::simple_lock_guard const lg(container_list_lock_);
+
+      return field::container::manager::schedule(a);
+    }
+    
+    virtual bool unschedule(field::container* a)
+    {
+      TRACE("field::container::<unnamed>::dflt_cntnr_mgr::unschedule");
+
+      support::simple_lock_guard const lg(container_list_lock_);
+
+      return field::container::manager::unschedule(a);
+    }
+    
+  private:
+
+    mutable support::simple_lock container_list_lock_;
     
   };
   
@@ -59,7 +109,7 @@ namespace field {
   
   // variables, exported
 
-  /* static */ std::unique_ptr<container::manager> container::mgr(new default_container_manager);
+  /* static */ std::unique_ptr<container::manager> container::mgr(new dflt_cntnr_mgr);
     
   // functions, exported
   
@@ -73,10 +123,30 @@ namespace field {
   container::manager::print_on(std::ostream& os) const
   {
     TRACE_NEVER("field::container::manager::print_on");
-
+    
     using support::ostream::operator<<;
       
     os << container_list_;
+  }
+
+  /* virtual */ void
+  container::manager::evaluate()
+  {
+    TRACE("field::container::manager::evaluate");
+    
+    for (auto c : container_list_) {
+      c->evaluate();
+    }
+
+    container_list_.clear();
+  }
+  
+  /* explicit */
+  container::manager::manager()
+    : support::printable  (),
+      container_list_     ()
+  {
+    TRACE("field::container::manager::manager");
   }
 
   /* virtual */ bool
@@ -87,7 +157,7 @@ namespace field {
     bool       result(false);
     auto const found(std::find(container_list_.begin(), container_list_.end(), a));
 
-    if (mgr->container_list_.end() == found) {
+    if (container_list_.end() == found) {
       container_list_.push_back(a);
 
       result = true;
@@ -104,13 +174,29 @@ namespace field {
     bool       result(false);
     auto const found(std::find(container_list_.begin(), container_list_.end(), a));
 
-    if (mgr->container_list_.end() != found) {
+    if (container_list_.end() != found) {
       container_list_.erase(found);
 
       result = true;
     }
 
     return result;
+  }
+  
+  /* static */ container::manager&
+  container::eval_manager()
+  {
+    TRACE("field::container::manager::eval_manager");
+
+    return *mgr;
+  }
+
+  container::field_list_type const&
+  container::fields() const
+  {
+    TRACE("field::container::manager::fields");
+
+    return field_list_;
   }
   
   void
@@ -153,7 +239,7 @@ namespace field {
 
     prefix += ' ';
       
-    for (auto f : field_list_) {
+    for (auto const f : field_list_) {
       os << '\n' << prefix << std::boolalpha << *f;
     }
       

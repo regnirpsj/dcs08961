@@ -43,14 +43,26 @@ namespace field {
 
       virtual void print_on(std::ostream&) const;
 
-      virtual bool schedule(container*);
-      virtual bool unschedule(container*);
+      virtual void evaluate();
       
     protected:
+
+      friend class container;
       
       std::vector<container*> container_list_;
+
+      explicit manager();
+
+      virtual bool schedule  (container*);
+      virtual bool unschedule(container*);
       
     };
+
+    typedef std::vector<base*> field_list_type;
+    
+    static manager& eval_manager();
+
+    field_list_type const& fields() const;
     
     void touch();
     void evaluate();
@@ -70,8 +82,6 @@ namespace field {
   private:
 
     friend class base;
-    
-    typedef std::vector<base*> field_list_type;
 
     static std::unique_ptr<manager> mgr;
     
