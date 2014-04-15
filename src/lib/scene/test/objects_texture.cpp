@@ -64,21 +64,25 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_ctor_file, T, tex_types_file)
 #if defined(WIN32)
   static std::string const prefix("c:/tools/gli/gli-git");
 #else
-  static std::string const prefix("/home/jsd/Projects/others/gli-git");
+  static std::string const prefix("/home/jsd/Projects/others/gli-regnirpsj-git");
 #endif
   
-  std::array<std::string const, 3> const file_list = {
+  std::array<std::string const, 7> const file_list = {
     {
-      prefix + "/test_bc1.dds",
-      prefix + "/test_dxt1.dds",
-      prefix + "/test_rgb8.dds",
+      prefix + "/data/array.dds",
+      prefix + "/data/cube.dds",
+      prefix + "/data/test-rgb8-256a.dds",
+      prefix + "/data/test-rgb8-256b.dds",
+      prefix + "/data/test_bc1.dds",
+      prefix + "/data/test_dxt1.dds",
+      prefix + "/data/test_rgb8.dds",
     }
   };
 
   for (auto const& f : file_list) {
     T const t(f);
     
-    BOOST_CHECK(true);
+    BOOST_CHECK(!t.empty());
     
     BOOST_MESSAGE(support::demangle(typeid(T)) << ':' << t);
   }

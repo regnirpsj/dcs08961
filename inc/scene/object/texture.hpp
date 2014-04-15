@@ -39,6 +39,8 @@ namespace scene {
       static glm::uvec4 const default_color; // (1,1,1,1)
       
       virtual ~texture() =0;
+
+      virtual bool empty() const =0;
       
     protected:
       
@@ -54,6 +56,8 @@ namespace scene {
                           glm::uvec4 const&  /* color */ = default_color);
       virtual ~texture_1d();
 
+      virtual bool empty() const;
+      
       virtual void print_on(std::ostream&) const;
       
     private:
@@ -71,6 +75,8 @@ namespace scene {
       explicit texture_2d(std::string const& /* file */);
       virtual ~texture_2d();
 
+      virtual bool empty() const;
+      
       virtual void print_on(std::ostream&) const;
       
     private:
@@ -87,6 +93,8 @@ namespace scene {
                           glm::uvec4 const&  /* color */ = default_color);
       virtual ~texture_3d();
 
+      virtual bool empty() const;
+      
       virtual void print_on(std::ostream&) const;
 
     private:

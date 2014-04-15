@@ -20,14 +20,16 @@
 
 #include <array>                // std::array<>
 #include <boost/filesystem.hpp> // boost::filesystem::path
-#include <functional>           // std::function
+#include <functional>           // std::function<>
 #include <ostream>              // std::ostream
+#include <stdexcept>            // std::logic_error
 #include <unordered_map>        // std::unordered_map<>
 
 // includes, project
 
 #include <gli/gtx/io.hpp>
 #include <support/hasher.hpp>
+#include <support/io_utils.hpp>
 #include <support/string.hpp>
 #include <support/type_info.hpp>
 
@@ -66,7 +68,7 @@ namespace {
   {
     TRACE("scene::object::texture::<unnamed>::load");
 
-    typedef std::function<gli::storage (char*)>                       load_function_type;
+    typedef std::function<gli::storage (char const*)>                 load_function_type;
     typedef std::unordered_map<std::string const, load_function_type> suffix_map_type;
 
     static std::array<std::pair<std::string const, load_function_type>, 1> const suffix_array = {
@@ -83,11 +85,23 @@ namespace {
       
       std::string const ext(bfs::path(fname).extension().string());
 
-#if 1
-#  pragma message("buggy gli::storage::op=, not using load_dds")
-#else
-      result = suffix_map.at(ext)(const_cast<char*>(fname.c_str()));
+#if 0
+      {
+        using support::ostream::operator<<;
+        
+        std::cout << support::trace::prefix() << "scene::object::texture::<unnamed>::load: "
+                  << "fname: " << fname      << ", "
+                  << "ext: "   << ext        << ", "
+                  << "map: "   << suffix_map
+                  << '\n';
+      }
 #endif
+      
+      gli::storage const tmp(suffix_map.at(ext)(fname.c_str()));
+
+      if (!tmp.empty()) {
+        result = tmp;
+      }
     }
     
     catch (std::exception&) { /* */ }
@@ -120,6 +134,16 @@ namespace scene {
     {
       TRACE("scene::object::texture::texture");
     }
+
+    /* virtual */ bool
+    texture::empty() const
+    {
+      TRACE("scene::object::texture::empty");
+
+      throw std::logic_error("pure virtual function 'scene::object::texture::empty' called");
+
+      return false;
+    }
     
     /* explicit */
     texture_1d::texture_1d(unsigned const& a, glm::uvec4 const& b)
@@ -137,6 +161,14 @@ namespace scene {
       TRACE("scene::object::texture_1d::~texture_1d");
     }
 
+    /* virtual */ bool
+    texture_1d::empty() const
+    {
+      TRACE("scene::object::texture_1d::empty");
+
+      return tdata_.empty();
+    }
+    
     /* virtual */ void
     texture_1d::print_on(std::ostream& os) const
     {
@@ -163,6 +195,10 @@ namespace scene {
         tdata_ (load(a))
     {
       TRACE("scene::object::texture_2d::texture_2d(file)");
+
+      if (!empty()) {
+        name = a;
+      }
     }
     
     /* virtual */
@@ -171,6 +207,14 @@ namespace scene {
       TRACE("scene::object::texture_2d::~texture_2d");
     }
 
+    /* virtual */ bool
+    texture_2d::empty() const
+    {
+      TRACE("scene::object::texture_2d::empty");
+
+      return tdata_.empty();
+    }
+    
     /* virtual */ void
     texture_2d::print_on(std::ostream& os) const
     {
@@ -197,6 +241,14 @@ namespace scene {
       TRACE("scene::object::texture_3d::~texture_3d");
     }
 
+    /* virtual */ bool
+    texture_3d::empty() const
+    {
+      TRACE("scene::object::texture_3d::empty");
+
+      return tdata_.empty();
+    }
+    
     /* virtual */ void
     texture_3d::print_on(std::ostream& os) const
     {
