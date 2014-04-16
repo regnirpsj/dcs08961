@@ -82,7 +82,7 @@ namespace scene {
     private:
 
       typedef field::adapter::single<base*>          parent_field_type;
-      typedef typename parent_field_type::value_type parent_type;
+      typedef /*typename*/ parent_field_type::value_type parent_type;
       
       parent_type const& cb_get_parent() const;
       parent_type        cb_set_parent(parent_type const&);

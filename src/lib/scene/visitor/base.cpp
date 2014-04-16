@@ -18,7 +18,8 @@
 
 // includes, system
 
-#include <stdexcept> // std::logic_error
+#include <glm/gtx/io.hpp> // glm::operator<<
+#include <stdexcept>      // std::logic_error
 
 // includes, project
 

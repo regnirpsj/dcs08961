@@ -100,9 +100,9 @@ BOOST_AUTO_TEST_CASE(test_utilities_convert_transform)
   typedef std::pair<glm::mat4 const, glm::mat4 const> matrix_pair;
   
 #if defined(_MSC_VER) && (_MSC_VER <= 1700)
-  glm::vec3::value_type const angle(45 _deg);
+  glm::vec3::value_type const angle(float(45 _deg));
 #else
-  glm::vec3::value_type const angle(45_deg);
+  glm::vec3::value_type const angle(float(45_deg));
 #endif
   
   glm::mat4 const ir(glm::rotate   (angle, glm::vec3(glm::gaussRand(  0.0, 20.0),
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE(test_utilities_convert_transform)
                     << i.second << ':' << std::string(47 - i.second.length(), ' ')
                     << e.second << ':' << p << '\n');
 
-      static float const epsilon(9 * std::numeric_limits<float>::epsilon());
+      static float const epsilon(13 * std::numeric_limits<float>::epsilon());
       
       for (unsigned i(0); i < 4; ++i) {
         for (unsigned j(0); j < 4; ++j) {

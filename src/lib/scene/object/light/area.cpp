@@ -121,7 +121,11 @@ namespace scene {
           if ((0 < size.get().x)    && (0 < size.get().y) &&
               (0 < samples.get().x) && (0 < samples.get().y)) {
             if ((2 > samples.get().x) && (2 > samples.get().y)) {
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
               rep_list_ = { rep_ };
+#else
+              rep_list_ = rep_list_type(1, rep_);
+#endif
             } else {
               glm::vec2 const stride(glm::vec2(size.get()) / glm::vec2(samples.get()));
               glm::vec2 const start (-(glm::vec2(size.get()) / float(2.0)) + (stride / float(2.0)));
@@ -147,7 +151,11 @@ namespace scene {
               }
             }
           } else {
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
             rep_list_ = { rep_ };
+#else
+            rep_list_ = rep_list_type(1, rep_);
+#endif
           }
           
           rebuild_ = false;

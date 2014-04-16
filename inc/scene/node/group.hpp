@@ -32,13 +32,12 @@ namespace scene {
     // types, exported (class, enum, struct, union, typedef)
 
     class group : public base {
-
-      typedef field::adapter::multi<boost::intrusive_ptr<base>> children_field_type;
       
     public:
 
-      typedef base subject_inherited;
-
+      typedef base                                              subject_inherited;
+      typedef field::adapter::multi<boost::intrusive_ptr<base>> children_field_type;
+      
       children_field_type children;
 
       explicit group();
@@ -48,8 +47,8 @@ namespace scene {
 
     protected:
       
-      typedef typename children_field_type::value_container_type children_list_type;
-      typedef typename children_field_type::value_type           children_type;
+      typedef /*typename*/ children_field_type::value_container_type children_list_type;
+      typedef /*typename*/ children_field_type::value_type           children_type;
 
       children_list_type children_list_;
       

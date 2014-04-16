@@ -51,6 +51,7 @@ namespace field {
                      add_callback_type           /* add_cb */,
                      sub_callback_type           /* sub_cb */,
                      value_container_type const& /* init */ = value_container_type());
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
       explicit multi(container_type&                   /* container */,
                      std::string const&                /* name */,
                      get_callback_type                 /* get_cb */,
@@ -58,19 +59,24 @@ namespace field {
                      add_callback_type                 /* add_cb */,
                      sub_callback_type                 /* sub_cb */,
                      std::initializer_list<value_type> /* init */);
+#endif
       virtual ~multi();
 
       virtual void print_on(std::ostream&) const;
       
       value_container_type const& get() const;
       value_container_type        set(value_container_type const&);
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
       value_container_type        set(std::initializer_list<value_type>);
+#endif
       bool                        add(value_type const&);
       bool                        sub(value_type const&);
 
       operator value_container_type const& () const;
       multi& operator=(value_container_type const&);
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
       multi& operator=(std::initializer_list<value_type>);
+#endif
       multi& operator+=(value_type const&);
       multi& operator-=(value_type const&);
       

@@ -100,7 +100,7 @@ namespace field {
     }
 
     template <typename T>
-    inline single<T>::operator single<T>::value_type const& () const
+    inline single<T>::operator /*single<T>::*/value_type const& () const
     {
       TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::operator " +
             "value_type const&");
@@ -109,7 +109,7 @@ namespace field {
     }
 
     template <typename T>
-    inline single<T>::operator single<T>::value_type& ()
+    inline single<T>::operator /*single<T>::*/value_type& ()
     {
       TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::operator " +
             "value_type&");

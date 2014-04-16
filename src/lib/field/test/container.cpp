@@ -50,7 +50,12 @@ namespace {
         svf_string      (*this, "svf_string",
                          std::string("abcdefghijklmnopqrstuvwxyz")),
         mvf_vec3        (*this, "mvf_vec3",
-                         { glm::vec3(1), glm::vec3(2) }),
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+                         { glm::vec3(1), glm::vec3(2) }
+#else
+                         std::vector<glm::vec3>(2, glm::vec3(1))
+#endif
+                         ),
         saf_unsigned    (*this, "saf_unsigned",
                          std::bind(&container::cb_get_saf_unsigned, this),
                          std::bind(&container::cb_set_saf_unsigned, this, std::placeholders::_1)),
@@ -62,7 +67,11 @@ namespace {
     {
       // 'field::adapter::[multi|single]<>::set' not working in initializer list
       saf_unsigned = 1;
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
       maf_unsigned = { 1, 2, 3, 4 };
+#else
+      maf_unsigned = unsigned_list_type(4, 1);
+#endif
     }
     
   private:
@@ -98,7 +107,7 @@ namespace {
       return result;
     }
     
-    bool cb_add_maf_unsigned(typename unsigned_list_type::value_type const& a)
+    bool cb_add_maf_unsigned(/*typename*/ unsigned_list_type::value_type const& a)
     {
       bool result(false);
       auto found(std::find(value_list_.begin(), value_list_.end(), a));
@@ -111,7 +120,7 @@ namespace {
       return result;
     }
     
-    bool cb_sub_maf_unsigned(typename unsigned_list_type::value_type const& a)
+    bool cb_sub_maf_unsigned(/*typename*/ unsigned_list_type::value_type const& a)
     {
       bool result(false);
       auto found(std::find(value_list_.begin(), value_list_.end(), a));

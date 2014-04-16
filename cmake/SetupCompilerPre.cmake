@@ -154,6 +154,8 @@ IF(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
   LIST(APPEND DISABLED_WARNINGS " /wd4351") # new behavior: elements of array '*' will be default
                                             # initialized
   LIST(APPEND DISABLED_WARNINGS " /wd4512") # assignment operator could not be generated
+  LIST(APPEND DISABLED_WARNINGS " /wd4519") # default template arguments are only allowed on a
+                                            # class template
   LIST(APPEND DISABLED_WARNINGS " /wd4702") # unreachable code (somewhere in boost)
 
   SET(GLOBAL_COMPILER_FLAGS)
@@ -192,7 +194,7 @@ IF(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
   # ADD_DEFINITIONS("-DBOOST_ALL_DYN_LINK")
   
   # GLM
-  ADD_DEFINITIONS("-DGLM_FORCE_CXX11")
+  # ADD_DEFINITIONS("-DGLM_FORCE_CXX11")
   ADD_DEFINITIONS("-DGLM_FORCE_INLINE")
   # ADD_DEFINITIONS("-DGLM_FORCE_ONLY_XYZW")
   ADD_DEFINITIONS("-DGLM_FORCE_RADIANS")

@@ -368,7 +368,7 @@ namespace support {
   std::ostream&
   operator<<(std::ostream& os, clock::time_point const& a)
   {
-    typename std::ostream::sentry const cerberus(os);
+    std::ostream::sentry const cerberus(os);
     
     if (cerberus) {
       os << std::chrono::duration_fmt(std::chrono::symbol) << (a - null);

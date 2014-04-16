@@ -14,16 +14,17 @@
 
 // includes, system
 
-#include <array>         // std::array<>
-#include <cstdlib>       // EXIT_SUCCESS
-#include <forward_list>  // std::forward_list<>
-#include <iostream>      // std::cout, std::endl
-#include <list>          // std::list<>
-#include <map>           // std::map<>
-#include <set>           // std::set<>
-#include <typeinfo>      // typeid usage
-#include <unordered_map> // std::unordered_map<>
-#include <vector>        // std::vector<>
+#include <array>                   // std::array<>
+#include <boost/concept_check.hpp> // boost::ignore_unused_variable_warning<>
+#include <cstdlib>                 // EXIT_SUCCESS
+#include <forward_list>            // std::forward_list<>
+#include <iostream>                // std::cout, std::endl
+#include <list>                    // std::list<>
+#include <map>                     // std::map<>
+#include <set>                     // std::set<>
+#include <typeinfo>                // typeid usage
+#include <unordered_map>           // std::unordered_map<>
+#include <vector>                  // std::vector<>
 
 // includes, project
 
@@ -172,6 +173,8 @@ namespace {
          << support::ostream::unformatted << ' ' << s
          << std::endl;
     }
+#else
+    boost::ignore_unused_variable_warning(os);
 #endif
   }
   

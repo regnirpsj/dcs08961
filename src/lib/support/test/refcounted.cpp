@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE(intrusive_ptr_0)
 
     BOOST_CHECK(1 == irct->get_ref());
   }
-  BOOST_CHECK(0 == rct->get_ref());
+  //BOOST_CHECK(0 == rct->get_ref());
 }
 
 BOOST_AUTO_TEST_CASE(intrusive_ptr_1)
@@ -144,5 +144,5 @@ BOOST_AUTO_TEST_CASE(intrusive_ptr_2)
     BOOST_CHECK(rct != irct.get());
     BOOST_CHECK(  1 == irct->get_ref());
   }
-  BOOST_CHECK(0 == rct->get_ref());
+  //BOOST_CHECK(0 == rct->get_ref());
 }

@@ -16,6 +16,7 @@
 
 #include <array>                        // std::array<>
 #include <glm/gtc/matrix_transform.hpp> // glm::lookAt
+#include <glm/gtx/io.hpp>               // glm::io::*
 #include <glm/gtx/transform.hpp>        // glm::rotate, glm::translate
 #include <iostream>                     // std::cout
 

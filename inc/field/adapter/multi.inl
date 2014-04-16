@@ -52,6 +52,7 @@ namespace field {
       // set_value_(g);
     }
 
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     template <typename T, typename C>
     inline /* explicit */
     multi<T,C>::multi(container_type& a, std::string const& b,
@@ -66,7 +67,8 @@ namespace field {
 
       // set_value_(g);
     }
-
+#endif
+    
     template <typename T, typename C>
     inline /* virtual */
     multi<T,C>::~multi()
@@ -115,6 +117,7 @@ namespace field {
       return result;
     }
 
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     template <typename T, typename C>
     inline typename multi<T,C>::value_container_type
     multi<T,C>::set(std::initializer_list<value_type> a)
@@ -129,7 +132,8 @@ namespace field {
 
       return result;
     }
-  
+#endif
+    
     template <typename T, typename C>
     inline bool
     multi<T,C>::add(value_type const& a)
@@ -163,7 +167,7 @@ namespace field {
     }
 
     template <typename T, typename C>
-    inline multi<T,C>::operator multi<T,C>::value_container_type const& () const
+    inline multi<T,C>::operator /*multi<T,C>::*/value_container_type const& () const
     {
       TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::operator " +
@@ -184,7 +188,8 @@ namespace field {
       
       return *this;
     }
-    
+
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     template <typename T, typename C>
     inline multi<T,C>&
     multi<T,C>::operator=(std::initializer_list<value_type> a)
@@ -197,6 +202,7 @@ namespace field {
       
       return *this;
     }
+#endif
     
     template <typename T, typename C>
     inline multi<T,C>&

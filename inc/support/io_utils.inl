@@ -189,6 +189,7 @@ namespace support {
       return os;
     }
 
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     template <typename CTy, typename CTr,
               typename ResultTy, typename... ArgTy>
     inline std::basic_ostream<CTy,CTr>&
@@ -202,6 +203,7 @@ namespace support {
 
       return os;
     }
+#endif
     
     template <typename CTy, typename CTr,
               typename T>

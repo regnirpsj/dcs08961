@@ -189,10 +189,12 @@ namespace support {
     template <typename CTy, typename CTr = std::char_traits<CTy>>
     std::basic_ostream<CTy, CTr>& operator<<(std::basic_ostream<CTy, CTr>&, delimeter<CTy> const&);
 
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     template <typename CTy, typename CTr,
               typename ResultTy, typename... ArgTy>
     std::basic_ostream<CTy,CTr>& operator<<(std::basic_ostream<CTy,CTr>&,
                                             std::function<ResultTy(ArgTy...)> const&);
+#endif
     
     template <typename CTy, typename CTr,
               typename T>

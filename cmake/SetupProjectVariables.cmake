@@ -53,10 +53,10 @@ IF(WIN32 OR WIN64)
   ENDIF()
 
   # GLM
-  SET(GLM_INCLUDE_DIR "C:/Tools/glm/0.9.4.1")
+  SET(GLM_INCLUDE_DIR "C:/Tools/glm/regnirpsj-git")
 
   # GLI
-  SET(GLI_INCLUDE_DIR "C:/Tools/gli/gli-git")
+  SET(GLI_INCLUDE_DIR "C:/Tools/gli/regnirpsj-git")
 ENDIF()
 
 IF(DCSC08961_TRACE_ALL)

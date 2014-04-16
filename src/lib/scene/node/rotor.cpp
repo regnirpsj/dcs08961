@@ -80,9 +80,9 @@ namespace scene {
         
         if (support::clock::resolution <= diff) {
 #if defined(_MSC_VER) && (_MSC_VER <= 1700)
-          static float const full_circle(360 _deg);
+          static float const full_circle(float(360 _deg));
 #else
-          static float const full_circle(360_deg);
+          static float const full_circle(float(360_deg));
 #endif
 
           using namespace std::chrono;
