@@ -47,7 +47,7 @@ typedef boost::mpl::list<scene::object::texture::d1,
                          scene::object::texture::d2,
                          scene::object::texture::d3> tex_types_fill;
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_ctor_fill, T, tex_types_fill)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_scene_object_texture_ctor_fill, T, tex_types_fill)
 {
   T const t;
 
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_ctor_fill, T, tex_types_fill)
 
 typedef boost::mpl::list<scene::object::texture::d2> tex_types_file;
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_ctor_file, T, tex_types_file)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_scene_object_texture_ctor_file, T, tex_types_file)
 {
 #if defined(WIN32)
   static std::string const prefix("c:/tools/gli/gli-git");

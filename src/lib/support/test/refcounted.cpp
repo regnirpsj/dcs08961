@@ -60,7 +60,7 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(add_ref)
+BOOST_AUTO_TEST_CASE(test_support_refcounted_add_ref)
 {
   refcounted_test a;
 
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(add_ref)
   BOOST_CHECK(1 == a.get_ref());
 }
 
-BOOST_AUTO_TEST_CASE(sub_ref)
+BOOST_AUTO_TEST_CASE(test_support_refcounted_sub_ref)
 {
   refcounted_test a;
 
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE(sub_ref)
   BOOST_CHECK(1 == a.get_ref());
 }
 
-BOOST_AUTO_TEST_CASE(user)
+BOOST_AUTO_TEST_CASE(test_support_refcounted_user)
 {
   refcounted_test* a(new refcounted_test);
   refcount_user    b(a);
@@ -94,9 +94,9 @@ BOOST_AUTO_TEST_CASE(user)
   BOOST_CHECK(1 == a->get_ref());
 }
 
-//BOOST_AUTO_TEST_CASE_EXPECTED_FAILURES(intrusive_ptr_0, 1);
+//BOOST_AUTO_TEST_CASE_EXPECTED_FAILURES(test_support_refcounted_intrusive_ptr_0, 1);
 
-BOOST_AUTO_TEST_CASE(intrusive_ptr_0)
+BOOST_AUTO_TEST_CASE(test_support_refcounted_intrusive_ptr_0)
 {
   refcounted_test* rct(new refcounted_test);
   
@@ -106,10 +106,10 @@ BOOST_AUTO_TEST_CASE(intrusive_ptr_0)
 
     BOOST_CHECK(1 == irct->get_ref());
   }
-  //BOOST_CHECK(0 == rct->get_ref());
+  BOOST_CHECK(0 == rct->get_ref());
 }
 
-BOOST_AUTO_TEST_CASE(intrusive_ptr_1)
+BOOST_AUTO_TEST_CASE(test_support_refcounted_intrusive_ptr_1)
 {
   refcounted_test* rct(new refcounted_test);
 
@@ -126,9 +126,9 @@ BOOST_AUTO_TEST_CASE(intrusive_ptr_1)
   rct->sub_ref();
 }
 
-//BOOST_AUTO_TEST_CASE_EXPECTED_FAILURES(intrusive_ptr_2, 1);
+//BOOST_AUTO_TEST_CASE_EXPECTED_FAILURES(test_support_refcounted_intrusive_ptr_2, 1);
 
-BOOST_AUTO_TEST_CASE(intrusive_ptr_2)
+BOOST_AUTO_TEST_CASE(test_support_refcounted_intrusive_ptr_2)
 {  
   refcounted_test* rct(new refcounted_test);
 
@@ -144,5 +144,5 @@ BOOST_AUTO_TEST_CASE(intrusive_ptr_2)
     BOOST_CHECK(rct != irct.get());
     BOOST_CHECK(  1 == irct->get_ref());
   }
-  //BOOST_CHECK(0 == rct->get_ref());
+  BOOST_CHECK(0 == rct->get_ref());
 }

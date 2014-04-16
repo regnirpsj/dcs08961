@@ -38,7 +38,7 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(test_clock)
+BOOST_AUTO_TEST_CASE(test_support_clock)
 {
   static unsigned const width(7);
   
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(test_clock)
                      << clock::now());
 }
 
-BOOST_AUTO_TEST_CASE(test_timer)
+BOOST_AUTO_TEST_CASE(test_support_timer)
 {
   using namespace support;
   using namespace std::chrono;
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(test_timer)
   BOOST_CHECK(d2 >= d1);
 }
 
-BOOST_AUTO_TEST_CASE(test_sleep)
+BOOST_AUTO_TEST_CASE(test_support_sleep)
 {
   using namespace support;
   using namespace std::chrono;

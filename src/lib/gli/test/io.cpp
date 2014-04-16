@@ -42,7 +42,7 @@ typedef boost::mpl::list<gli::texture1D,
                          gli::texture2D,
                          gli::texture3D> tex_types;
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(gli_gtx_io, T, tex_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_gli_gtx_io, T, tex_types)
 {
   using namespace gli;
   
@@ -50,5 +50,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(gli_gtx_io, T, tex_types)
 
   BOOST_CHECK(!t.empty());
   
-  BOOST_MESSAGE(support::demangle(typeid(T)) << ':' << t);
+  BOOST_MESSAGE(support::demangle(typeid(T)) << ':'
+                << glm::io::precision(0) << glm::io::width(0 + 2 + 0 + 0)
+                << t);
 }

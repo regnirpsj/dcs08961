@@ -181,7 +181,7 @@ namespace {
 #include <boost/test/unit_test.hpp>
 #include <boost/test/output_test_stream.hpp>
 
-BOOST_AUTO_TEST_CASE(visitor_simple_bfs)
+BOOST_AUTO_TEST_CASE(test_scene_visitor_print_simple_bfs)
 {
   using namespace scene;
   
@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_CASE(visitor_simple_bfs)
   delete g;
 }
 
-BOOST_AUTO_TEST_CASE(visitor_simple_dfs)
+BOOST_AUTO_TEST_CASE(test_scene_visitor_print_simple_dfs)
 {
   using namespace scene;
   
@@ -211,7 +211,7 @@ BOOST_AUTO_TEST_CASE(visitor_simple_dfs)
   delete g;
 }
 
-BOOST_AUTO_TEST_CASE(visitor_print_bfs)
+BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_bfs)
 {
   boost::test_tools::output_test_stream output;
   
@@ -239,7 +239,7 @@ BOOST_AUTO_TEST_CASE(visitor_print_bfs)
   // BOOST_CHECK( output.check_length(6356, false));
 }
 
-BOOST_AUTO_TEST_CASE(visitor_print_dfs)
+BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_dfs)
 {
   boost::test_tools::output_test_stream output;
   

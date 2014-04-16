@@ -144,14 +144,14 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(container_ctor)
+BOOST_AUTO_TEST_CASE(test_field_container_ctor)
 {
   container const c;
   
   BOOST_CHECK(true == c.svf_bool);
 }
 
-BOOST_AUTO_TEST_CASE(container_print_on)
+BOOST_AUTO_TEST_CASE(test_field_container_print_on)
 {
   container const c;
   
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE(container_print_on)
   BOOST_MESSAGE(std::boolalpha << c);
 }
 
-BOOST_AUTO_TEST_CASE(container_mgr)
+BOOST_AUTO_TEST_CASE(test_field_container_mgr)
 {
   std::array<container, 5> const c = {
     {
@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE(container_mgr)
   BOOST_MESSAGE(std::boolalpha << c[c.size()-1]);
 }
 
-BOOST_AUTO_TEST_CASE(container_fields)
+BOOST_AUTO_TEST_CASE(test_field_container_fields)
 {
   container const c;
   

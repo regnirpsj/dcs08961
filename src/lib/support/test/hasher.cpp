@@ -39,7 +39,7 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(test_hasher)
+BOOST_AUTO_TEST_CASE(test_support_hasher)
 {
   typedef std::pair<unsigned, double>                           pair_type;
   typedef unsigned                                              mapped_type;

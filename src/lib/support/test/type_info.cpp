@@ -59,7 +59,7 @@ typedef boost::mpl::list<bool,
                          udt_derived,
                          string_list_type> types;
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(type_info_demangle, T, types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_support_type_info_demangle, T, types)
 {
   BOOST_CHECK(typeid(T) == typeid(T));
 

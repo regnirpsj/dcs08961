@@ -35,20 +35,18 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(node_group_ctor)
+BOOST_AUTO_TEST_CASE(test_scene_node_group_ctor)
 {
   using namespace scene::node;
   
   group const g;
   
   BOOST_CHECK(true == g.children.get().empty());
-
-  //glm::io::format_saver const iofs(std::cout);
   BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(1 + 1 + 1 + 1)
                 << g << '\n');
 }
 
-BOOST_AUTO_TEST_CASE(node_group_set_children)
+BOOST_AUTO_TEST_CASE(test_scene_node_group_set_children)
 {
   using namespace scene::node;
   

@@ -87,7 +87,7 @@ namespace {
   }
   
   template <typename Sequence, typename CTy, typename CTr>
-  void
+  bool
   test_sequence(std::basic_ostream<CTy, CTr>& os)
   {
     TRACE("<unnamed>::test_sequence");
@@ -108,10 +108,12 @@ namespace {
        << demangle<CTy>(typeid(s)) << ": unformatted\n"
        << support::ostream::unformatted << ' ' << s
        << std::endl;
+
+    return !s.empty();
   }
 
   template <typename Sequence, typename CTy, typename CTr>
-  void
+  bool
   test_associative(std::basic_ostream<CTy, CTr>& os)
   {
     TRACE("<unnamed>::test_associative");
@@ -132,10 +134,12 @@ namespace {
        << demangle<CTy>(typeid(s)) << ": unformatted\n"
        << support::ostream::unformatted << ' ' << s
        << std::endl;
+
+    return !s.empty();
   }
 
   template <typename CTy, typename CTr>
-  void
+  bool
   test_initializer_list(std::basic_ostream<CTy, CTr>& os)
   {
     TRACE("<unnamed>::test_initializer_list");
@@ -176,46 +180,39 @@ namespace {
 #else
     boost::ignore_unused_variable_warning(os);
 #endif
+
+    return true;
   }
   
 } // namespace {
 
-// variables, exported
-  
-// functions, exported
-  
-int
-main(int /* argc */, char* /* argv */[])
+#define BOOST_TEST_MAIN
+#include <boost/test/unit_test.hpp>
+#include <boost/test/test_case_template.hpp>
+#include <boost/mpl/list.hpp>
+
+typedef boost::mpl::list<std::forward_list<unsigned>,
+                         std::list<unsigned>,
+                         std::set<unsigned>,
+                         std::vector<unsigned>> seq_types;
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_support_io_utils_seq_types, T, seq_types)
 {
-  TRACE("main");
+  BOOST_CHECK(test_sequence<T>(std::cout));
+  BOOST_CHECK(test_sequence<T>(std::wcout));
+}
 
-  {
-    std::cout << "\n======== std::cout ========\n";
-    
-    test_sequence   <std::forward_list<unsigned>>        (std::cout);
-    test_sequence   <std::list<unsigned>>                (std::cout);
-    test_sequence   <std::set<unsigned>>                 (std::cout);
-    test_sequence   <std::vector<unsigned>>              (std::cout);
-  
-    test_associative<std::map<unsigned,double>>          (std::cout);
-    test_associative<std::unordered_map<unsigned,double>>(std::cout);
+typedef boost::mpl::list<std::map<unsigned,double>,
+                         std::unordered_map<unsigned,double>> assoc_types;
 
-    test_initializer_list                                (std::cout);
-  }
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_support_io_utils_assoc_types, T, assoc_types)
+{
+  BOOST_CHECK(test_associative<T>(std::cout));
+  BOOST_CHECK(test_associative<T>(std::wcout));
+}
 
-  {
-    std::cout << "\n======== std::wcout =======\n";
-    
-    test_sequence   <std::forward_list<unsigned>>        (std::wcout);
-    test_sequence   <std::list<unsigned>>                (std::wcout);
-    test_sequence   <std::set<unsigned>>                 (std::wcout);
-    test_sequence   <std::vector<unsigned>>              (std::wcout);
-  
-    test_associative<std::map<unsigned,double>>          (std::wcout);
-    test_associative<std::unordered_map<unsigned,double>>(std::wcout);
-
-    test_initializer_list                                (std::wcout);
-  }
-  
-  return EXIT_SUCCESS;
+BOOST_AUTO_TEST_CASE(test_support_io_utils_initializer_list)
+{
+  BOOST_CHECK(test_initializer_list(std::cout));
+  BOOST_CHECK(test_initializer_list(std::wcout));
 }

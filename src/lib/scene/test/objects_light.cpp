@@ -35,7 +35,7 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(object_light_source_rep)
+BOOST_AUTO_TEST_CASE(test_scene_object_light_base_rep)
 {
   scene::object::light::base::rep const lr;
   
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(object_light_source_rep)
   BOOST_MESSAGE("object_light_source_rep:" << lr << '\n');
 }
 
-BOOST_AUTO_TEST_CASE(object_directional_light)
+BOOST_AUTO_TEST_CASE(test_scene_object_light_directional)
 {
   scene::object::light::directional const l;
   
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(object_directional_light)
   BOOST_MESSAGE(l << '\n');
 }
 
-BOOST_AUTO_TEST_CASE(object_positional_light)
+BOOST_AUTO_TEST_CASE(test_scene_object_light_positional)
 {
   scene::object::light::positional const l;
   
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(object_positional_light)
   BOOST_MESSAGE(l << '\n');
 }
 
-BOOST_AUTO_TEST_CASE(object_spot_light)
+BOOST_AUTO_TEST_CASE(test_scene_object_light_spot)
 {
   scene::object::light::spot const l;
   
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE(object_spot_light)
   BOOST_MESSAGE(l << '\n');
 }
 
-BOOST_AUTO_TEST_CASE(object_area_light)
+BOOST_AUTO_TEST_CASE(test_scene_object_light_area)
 {
   scene::object::light::area l;
 

@@ -82,7 +82,7 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(trace)
+BOOST_AUTO_TEST_CASE(test_support_trace)
 {
   TRACE_FUNC;
 

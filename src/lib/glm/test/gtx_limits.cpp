@@ -70,14 +70,14 @@ namespace {
 typedef boost::mpl::list<glm::dmat2, glm::dmat3, glm::dmat4,
                          glm::mat2,  glm::mat3,  glm::mat4> mat_types;
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_limits_mat, T, mat_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_limits_mat, T, mat_types)
 {
   check_epsilon<T>();
 }
 
 typedef boost::mpl::list<glm::quat, glm::fquat, glm::dquat> quat_types;
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_limits_quat, T, quat_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_limits_quat, T, quat_types)
 {
   check_epsilon<T>();
 }
@@ -88,7 +88,7 @@ typedef boost::mpl::list<glm::bvec2, glm::bvec3, glm::bvec4,
                          glm::ivec2, glm::ivec3, glm::ivec4,
                          glm::uvec2, glm::uvec3, glm::uvec4> vec_types;
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_limits_vec, T, vec_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_limits_vec, T, vec_types)
 {
   check_epsilon<T>();
 }
