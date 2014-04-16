@@ -29,15 +29,24 @@ ENDIF()
 # Boost
 SET(BOOST_MINIMUM_VERSION "1.53.0")
 
-# defaults for 3rd-party tools
+# defaults
 IF(UNIX)
+  # install: DESTDIR + CMAKE_INSTALL_PREFIX (CMAKE_INSTALL_PREFIX must be absolute!)
+  STRING(TOLOWER ${CMAKE_PROJECT_NAME} PREFIX)
+  SET(CMAKE_INSTALL_PREFIX "/usr")
+
   # GLM
   SET(GLM_INCLUDE_DIR "~/Projects/others/glm-regnirpsj-git")
   # GLI
+
   SET(GLI_INCLUDE_DIR "~/Projects/others/gli-regnirpsj-git")
 ENDIF()
 
 IF(WIN32 OR WIN64)
+  # install: CMAKE_INSTALL_PREFIX
+  STRING(TOLOWER ${CMAKE_PROJECT_NAME} PREFIX)
+  SET(CMAKE_INSTALL_PREFIX "C:/Tools/${PREFIX}")
+
   # AntTweakBar
   SET(ATB_ROOT_DIR "C:/Tools/anttweakbar/1.16")
 
@@ -61,4 +70,16 @@ ENDIF()
 
 IF(DCSC08961_TRACE_ALL)
   ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
+ENDIF()
+
+IF(VERBOSE)
+  MESSAGE(STATUS "Project ${CMAKE_PROJECT_NAME} defaults:\n"
+    "   ARCH                  = ${ARCH}\n"
+    "   CMAKE_INSTALL_PREFIX  = ${CMAKE_INSTALL_PREFIX}\n"
+    "   ATB_ROOT_DIR          = ${ATB_ROOT_DIR}\n"
+    "   BOOST_MINIMUM_VERSION = ${BOOST_MINIMUM_VERSION}\n"
+    "   BOOST_ROOT            = ${BOOST_ROOT}\n"
+    "   GLM_INCLUDE_DIR       = ${GLM_INCLUDE_DIR}\n"
+    "   GLI_INCLUDE_DIR       = ${GLI_INCLUDE_DIR}\n"
+    "   DCSC08961_TRACE_ALL   = ${DCSC08961_TRACE_ALL}")
 ENDIF()
