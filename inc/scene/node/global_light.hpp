@@ -35,13 +35,18 @@ namespace scene {
 
     public:
 
-      typedef base subject_inherited;
-
-      field::value::single<boost::intrusive_ptr<object::light::base>> source;
+      typedef base                                      subject_inherited;
+      typedef boost::intrusive_ptr<object::light::base> source_ptr_type;
+      
+      field::value::single<source_ptr_type> source;
       
       explicit global_light();
 
       virtual void accept(visitor::base&);
+
+    protected:
+
+      virtual void do_changed(field::base&);
       
     };
     

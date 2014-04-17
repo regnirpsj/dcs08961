@@ -35,9 +35,10 @@ namespace scene {
 
     public:
 
-      typedef group subject_inherited;
-
-      field::value::single<boost::intrusive_ptr<object::light::base>> source;
+      typedef group                                     subject_inherited;
+      typedef boost::intrusive_ptr<object::light::base> source_ptr_type;
+      
+      field::value::single<source_ptr_type> source;
       
       explicit local_light();
 

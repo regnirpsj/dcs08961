@@ -22,6 +22,7 @@
 
 // includes, project
 
+#include <scene/object/light/area.hpp>
 #include <scene/object/light/directional.hpp>
 #include <scene/visitor/base.hpp>
 
@@ -63,6 +64,28 @@ namespace scene {
       TRACE("scene::node::global_light::accept");
 
       v.visit(*this);
+    }
+
+    /* virtual */ void
+    global_light::do_changed(field::base& f)
+    {
+      TRACE("scene::node::global_light::do_changed");
+
+      if (&f == &source) {
+        object::light::area* const al(dynamic_cast<object::light::area*>(source.get().get()));
+        
+        if (nullptr != al) {
+          glm::vec2 const xy(glm::vec2(al->size.get()) * 0.5f);
+          
+          bbox = bounds(glm::vec3(-xy,0), glm::vec3( xy,0), true);
+        } else {
+          bbox = bounds(glm::vec3(0,0,0), glm::vec3(0,0,0), true);
+        }
+      }
+
+      else {
+        base::do_changed(f);
+      }
     }
     
   } // namespace node {
