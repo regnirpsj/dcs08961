@@ -22,8 +22,8 @@
 
 // includes, project
 
+#include <glm/gtx/utilities.hpp>
 #include <scene/object/camera/base.hpp>
-#include <scene/object/camera/frustum.hpp>
 
 namespace scene {
 
@@ -39,10 +39,10 @@ namespace scene {
 
         typedef base subject_inherited;
 
-        explicit perspective(float                /* fovy */     = 60,
+        explicit perspective(float                /* fovy */     = 60_deg,
                              viewport_type const& /* viewport */ = viewport_type(),
-                             glm::vec2 const&     /* near/far */ = glm::vec2(frustum().near,
-                                                                             frustum().far));
+                             glm::vec2 const&     /* near/far */ = glm::vec2(frustum_type().near,
+                                                                             frustum_type().far));
         virtual ~perspective();
 
         field::value::single<float> fovy; ///< vertical field-of-view

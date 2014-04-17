@@ -70,10 +70,10 @@ namespace scene {
 
         if (&f == &viewport) {
           viewport_type const& vp(viewport.get());
-          
-          projection = glm::ortho(vp.x, vp.x + vp.width,
-                                  vp.y, vp.y + vp.height,
-                                  near_far_.x, near_far_.y);
+
+          frustum_    = compute_frustum(vp, glm::vec2(frustum_.near, frustum_.far));
+          projection_ = glm::ortho(vp.x, vp.x + vp.width, vp.y, vp.y + vp.height,
+                                   frustum_.near, frustum_.far);
         }
 
         else {

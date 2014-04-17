@@ -23,7 +23,6 @@
 // includes, project
 
 #include <scene/object/camera/base.hpp>
-#include <scene/object/camera/frustum.hpp>
 
 namespace scene {
 
@@ -40,8 +39,8 @@ namespace scene {
         typedef base subject_inherited;
 
         explicit orthographic(viewport_type const& /* viewport */ = viewport_type(),
-                              glm::vec2 const&     /* near/far */ = glm::vec2(frustum().near,
-                                                                              frustum().far));
+                              glm::vec2 const&     /* near/far */ = glm::vec2(frustum_type().near,
+                                                                              frustum_type().far));
         virtual ~orthographic();
 
       protected:
