@@ -66,25 +66,9 @@ namespace scene {
     }
     
     /* virtual */ void
-    base::visit(node::camera::base& a)
+    base::visit(node::camera& a)
     {
-      TRACE("scene::visitor::base::visit(node::camera::base)");
-
-      visit_base(a);
-    }
-
-    /* virtual */ void
-    base::visit(node::camera::orthographic& a)
-    {
-      TRACE("scene::visitor::base::visit(node::camera::orthographic)");
-
-      visit_base(a);
-    }
-
-    /* virtual */ void
-    base::visit(node::camera::perspective& a)
-    {
-      TRACE("scene::visitor::base::visit(node::camera::perspective)");
+      TRACE("scene::visitor::base::visit(node::camera)");
 
       visit_base(a);
     }

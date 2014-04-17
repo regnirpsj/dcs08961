@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/objects.hpp                                                               */
+/*  module     :  scene/object/cameras.hpp                                                        */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_OBJECT_CAMERAS_HPP)
 
-#define UKACHULLDCS_08961_SCENE_OBJECTS_HPP
+#define UKACHULLDCS_08961_SCENE_OBJECT_CAMERAS_HPP
 
 // includes, system
 
@@ -22,10 +22,10 @@
 
 // includes, project
 
-#include <scene/object/cameras.hpp>
-#include <scene/object/lights.hpp>
-#include <scene/object/material.hpp>
-#include <scene/object/textures.hpp>
+#include <scene/object/camera/frustum.hpp>
+#include <scene/object/camera/orthographic.hpp>
+#include <scene/object/camera/perspective.hpp>
+#include <scene/object/camera/viewport.hpp>
 
 namespace scene {
   
@@ -39,4 +39,4 @@ namespace scene {
   
 } // namespace ??? {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECTS_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_OBJECT_CAMERAS_HPP)

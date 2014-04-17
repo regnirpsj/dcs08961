@@ -29,16 +29,7 @@ namespace scene {
   namespace node {
 
     class base;
-
-    namespace camera {
-
-      class base;
-      class orthographic;
-      class perspective;
-      
-    } // namespace camera
-    
-    
+    class camera;
     class dynamic;
     class geometry;
     class global_light;
@@ -77,9 +68,7 @@ namespace scene {
       virtual ~base() =0;
 
       virtual void visit(node::base&);
-      virtual void visit(node::camera::base&);
-      virtual void visit(node::camera::orthographic&);
-      virtual void visit(node::camera::perspective&);
+      virtual void visit(node::camera&);
       virtual void visit(node::dynamic&);
       virtual void visit(node::geometry&);
       virtual void visit(node::global_light&);

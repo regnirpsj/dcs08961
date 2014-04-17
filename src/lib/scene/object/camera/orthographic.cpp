@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/node/camera.cpp                                                           */
+/*  module     :  scene/object/camera/orthographic.cpp                                            */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,15 +14,15 @@
 
 // include i/f header
 
-#include "scene/node/camera.hpp"
+#include "scene/object/camera/orthographic.hpp"
 
 // includes, system
 
-#include <glm/gtx/io.hpp> // glm::operator<<
+#include <glm/gtc/matrix_transform.hpp> // glm::ortho
 
 // includes, project
 
-#include <scene/visitor/base.hpp>
+//#include <>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -42,49 +42,47 @@ namespace {
 
 namespace scene {
 
-  namespace node {
-    
-    // variables, exported
-    
-    // functions, exported
+  namespace object {
 
-    /* explicit */
-    camera::camera(object::camera::base* a)
-      : base  (),
-        object(*this, "object", a),
-        view  (*this, "view",
-               std::bind(&camera::cb_get_view, this),
-               std::bind(&camera::cb_set_view, this, std::placeholders::_1))
-    {
-      TRACE("scene::node::camera::camera");
-
-      bbox = bounds(glm::vec3(0,0,0), glm::vec3(0,0,0), true);
-    }
+    namespace camera {
+      
+      // variables, exported
     
-    /* virtual */ void
-    camera::accept(visitor::base& v)
-    {
-      TRACE("scene::node::camera::accept");
+      // functions, exported
 
-      v.visit(*this);
-    }
-    
-    glm::mat4
-    camera::cb_get_view() const
-    {
-      TRACE("scene::node::camera::cb_get_view");
+      /* explicit */
+      orthographic::orthographic(viewport_type const& a, glm::vec2 const& b)
+        : base(glm::ortho(a.x, a.x + a.width, a.y, a.y + a.height, b.x, b.y), a, b)
+      {
+        TRACE("scene::object::camera::orthographic::orthographic");
+      }
 
-      return glm::inverse(absolute_xform());
-    }
-    
-    glm::mat4
-    camera::cb_set_view(glm::mat4 const&)
-    {
-      TRACE("scene::node::camera::cb_set_view");
+      /* virtual */
+      orthographic::~orthographic()
+      {
+        TRACE("scene::object::camera::orthographic::~orthographic");
+      }
 
-      return cb_get_view();
-    }
+      /* virtual */ void
+      orthographic::do_changed(field::base& f)
+      {
+        TRACE("scene::object::camera::orthographic::do_changed");
+
+        if (&f == &viewport) {
+          viewport_type const& vp(viewport.get());
+          
+          projection = glm::ortho(vp.x, vp.x + vp.width,
+                                  vp.y, vp.y + vp.height,
+                                  near_far_.x, near_far_.y);
+        }
+
+        else {
+          base::do_changed(f);
+        }
+      }
+      
+    } // namespace camera {
     
-  } // namespace node {
+  } // namespace object {
   
 } // namespace scene {

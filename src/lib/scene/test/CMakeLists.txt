@@ -10,7 +10,7 @@ FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framew
 
 SET(SRC)
 
-# LIST(APPEND SRC "node_camera.cpp")
+LIST(APPEND SRC "node_camera.cpp")
 LIST(APPEND SRC "node_global_light.cpp")
 LIST(APPEND SRC "node_group.cpp")
 LIST(APPEND SRC "node_local_light.cpp")
@@ -21,6 +21,7 @@ LIST(APPEND SRC "node_select.cpp")
 LIST(APPEND SRC "node_transform.cpp")
 LIST(APPEND SRC "node_translator.cpp")
 
+LIST(APPEND SRC "objects_camera.cpp")
 LIST(APPEND SRC "objects_light.cpp")
 LIST(APPEND SRC "objects_material.cpp")
 LIST(APPEND SRC "objects_texture.cpp")

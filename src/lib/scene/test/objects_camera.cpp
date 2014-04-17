@@ -6,15 +6,11 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/node/camera.cpp                                                           */
+/*  module     :  field/test/objects_camera.cpp                                                   */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
-
-// include i/f header
-
-#include "scene/node/camera.hpp"
 
 // includes, system
 
@@ -22,69 +18,51 @@
 
 // includes, project
 
-#include <scene/visitor/base.hpp>
-
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
+#include <scene/objects.hpp>
 
 // internal unnamed namespace
 
 namespace {
   
   // types, internal (class, enum, struct, union, typedef)
-
+  
   // variables, internal
   
   // functions, internal
 
 } // namespace {
 
-namespace scene {
+#define BOOST_TEST_MAIN
+#include <boost/test/unit_test.hpp>
 
-  namespace node {
-    
-    // variables, exported
-    
-    // functions, exported
-
-    /* explicit */
-    camera::camera(object::camera::base* a)
-      : base  (),
-        object(*this, "object", a),
-        view  (*this, "view",
-               std::bind(&camera::cb_get_view, this),
-               std::bind(&camera::cb_set_view, this, std::placeholders::_1))
-    {
-      TRACE("scene::node::camera::camera");
-
-      bbox = bounds(glm::vec3(0,0,0), glm::vec3(0,0,0), true);
-    }
-    
-    /* virtual */ void
-    camera::accept(visitor::base& v)
-    {
-      TRACE("scene::node::camera::accept");
-
-      v.visit(*this);
-    }
-    
-    glm::mat4
-    camera::cb_get_view() const
-    {
-      TRACE("scene::node::camera::cb_get_view");
-
-      return glm::inverse(absolute_xform());
-    }
-    
-    glm::mat4
-    camera::cb_set_view(glm::mat4 const&)
-    {
-      TRACE("scene::node::camera::cb_set_view");
-
-      return cb_get_view();
-    }
-    
-  } // namespace node {
+BOOST_AUTO_TEST_CASE(test_scene_object_camera_frustum)
+{
+  scene::object::camera::frustum const f;
   
-} // namespace scene {
+  BOOST_CHECK(true);
+  BOOST_MESSAGE("scene::object::camera::frustum: " << f << '\n');
+}
+
+BOOST_AUTO_TEST_CASE(test_scene_object_camera_viewport)
+{
+  scene::object::camera::viewport const v;
+  
+  BOOST_CHECK(true);
+  BOOST_MESSAGE("scene::object::camera::viewport: " << v << '\n');
+}
+
+BOOST_AUTO_TEST_CASE(test_scene_object_camera_orthographic)
+{
+  scene::object::camera::orthographic const oc;
+  
+  BOOST_CHECK(true);
+  BOOST_MESSAGE(oc << '\n');
+}
+
+BOOST_AUTO_TEST_CASE(test_scene_object_camera_perspective)
+{
+  scene::object::camera::perspective const pc;
+  
+  BOOST_CHECK(true);
+  BOOST_MESSAGE(pc << '\n');
+}

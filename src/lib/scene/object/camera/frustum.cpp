@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/node/camera.cpp                                                           */
+/*  module     :  scene/object/camera/frustum.cpp                                                 */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,15 +14,15 @@
 
 // include i/f header
 
-#include "scene/node/camera.hpp"
+#include "scene/object/camera/frustum.hpp"
 
 // includes, system
 
-#include <glm/gtx/io.hpp> // glm::operator<<
+#include <ostream> // std::ostream
 
 // includes, project
 
-#include <scene/visitor/base.hpp>
+//#include <>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -42,49 +42,44 @@ namespace {
 
 namespace scene {
 
-  namespace node {
-    
-    // variables, exported
-    
-    // functions, exported
+  namespace object {
 
-    /* explicit */
-    camera::camera(object::camera::base* a)
-      : base  (),
-        object(*this, "object", a),
-        view  (*this, "view",
-               std::bind(&camera::cb_get_view, this),
-               std::bind(&camera::cb_set_view, this, std::placeholders::_1))
-    {
-      TRACE("scene::node::camera::camera");
-
-      bbox = bounds(glm::vec3(0,0,0), glm::vec3(0,0,0), true);
-    }
+    namespace camera {
+      
+      // variables, exported
     
-    /* virtual */ void
-    camera::accept(visitor::base& v)
-    {
-      TRACE("scene::node::camera::accept");
+      // functions, exported
 
-      v.visit(*this);
-    }
-    
-    glm::mat4
-    camera::cb_get_view() const
-    {
-      TRACE("scene::node::camera::cb_get_view");
+      /* explicit */
+      frustum::frustum(float a, float b, float c, float d, float e, float f)
+        : left(a), right(b), bottom(c), top(d), near(e), far(f)
+      { 
+        TRACE("scene::object::camera::frustum::frustum");
+      }
 
-      return glm::inverse(absolute_xform());
-    }
-    
-    glm::mat4
-    camera::cb_set_view(glm::mat4 const&)
-    {
-      TRACE("scene::node::camera::cb_set_view");
+      std::ostream&
+      operator<<(std::ostream& os, frustum const& a)
+      {
+        TRACE_NEVER("scene::object::camera::operator<<(frustum)");
+        
+        std::ostream::sentry const cerberus(os);
 
-      return cb_get_view();
-    }
+        if (cerberus) {
+          os << '['
+             << "l:" << a.left   << ','
+             << "r:" << a.right  << ','
+             << "b:" << a.bottom << ','
+             << "t:" << a.top    << ','
+             << "n:" << a.near   << ','
+             << "f:" << a.far
+             << ']'; 
+        }
+
+        return os;
+      }
+      
+    } // namespace camera {
     
-  } // namespace node {
+  } // namespace object {
   
 } // namespace scene {

@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/node/camera.cpp                                                           */
+/*  module     :  scene/object/camera/perspective.cpp                                             */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,15 +14,15 @@
 
 // include i/f header
 
-#include "scene/node/camera.hpp"
+#include "scene/object/camera/perspective.hpp"
 
 // includes, system
 
-#include <glm/gtx/io.hpp> // glm::operator<<
+#include <glm/gtc/matrix_transform.hpp> // glm::perspectiveFov
 
 // includes, project
 
-#include <scene/visitor/base.hpp>
+//#include <>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -42,49 +42,48 @@ namespace {
 
 namespace scene {
 
-  namespace node {
-    
-    // variables, exported
-    
-    // functions, exported
+  namespace object {
 
-    /* explicit */
-    camera::camera(object::camera::base* a)
-      : base  (),
-        object(*this, "object", a),
-        view  (*this, "view",
-               std::bind(&camera::cb_get_view, this),
-               std::bind(&camera::cb_set_view, this, std::placeholders::_1))
-    {
-      TRACE("scene::node::camera::camera");
-
-      bbox = bounds(glm::vec3(0,0,0), glm::vec3(0,0,0), true);
-    }
+    namespace camera {
+      
+      // variables, exported
     
-    /* virtual */ void
-    camera::accept(visitor::base& v)
-    {
-      TRACE("scene::node::camera::accept");
+      // functions, exported
 
-      v.visit(*this);
-    }
-    
-    glm::mat4
-    camera::cb_get_view() const
-    {
-      TRACE("scene::node::camera::cb_get_view");
+      /* explicit */
+      perspective::perspective(float a, viewport_type const& b, glm::vec2 const& c)
+        : base(glm::perspectiveFov(a, b.width, b.height, c.x, c.y), b, c),
+          fovy(*this, "fovy", a)
+      {
+        TRACE("scene::object::camera::perspective::perspective");
+      }
 
-      return glm::inverse(absolute_xform());
-    }
-    
-    glm::mat4
-    camera::cb_set_view(glm::mat4 const&)
-    {
-      TRACE("scene::node::camera::cb_set_view");
+      /* virtual */
+      perspective::~perspective()
+      {
+        TRACE("scene::object::camera::perspective::~perspective");
+      }
 
-      return cb_get_view();
-    }
+      /* virtual */ void
+      perspective::do_changed(field::base& f)
+      {
+        TRACE("scene::object::camera::perspective::do_changed");
+
+        if ((&f == &viewport) || (&f == &fovy)) {
+          viewport_type const& vp(viewport.get());
+          
+          projection = glm::perspectiveFov(fovy.get(),
+                                           vp.width,    vp.height,
+                                           near_far_.x, near_far_.y);
+        }
+
+        else {
+          base::do_changed(f);
+        }
+      }
+      
+    } // namespace camera {
     
-  } // namespace node {
+  } // namespace object {
   
 } // namespace scene {

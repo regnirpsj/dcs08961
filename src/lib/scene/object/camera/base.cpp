@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/node/camera.cpp                                                           */
+/*  module     :  scene/object/camera/base.cpp                                                    */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,7 +14,7 @@
 
 // include i/f header
 
-#include "scene/node/camera.hpp"
+#include "scene/object/camera/base.hpp"
 
 // includes, system
 
@@ -22,7 +22,7 @@
 
 // includes, project
 
-#include <scene/visitor/base.hpp>
+//#include <>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -42,49 +42,45 @@ namespace {
 
 namespace scene {
 
-  namespace node {
-    
-    // variables, exported
-    
-    // functions, exported
+  namespace object {
 
-    /* explicit */
-    camera::camera(object::camera::base* a)
-      : base  (),
-        object(*this, "object", a),
-        view  (*this, "view",
-               std::bind(&camera::cb_get_view, this),
-               std::bind(&camera::cb_set_view, this, std::placeholders::_1))
-    {
-      TRACE("scene::node::camera::camera");
-
-      bbox = bounds(glm::vec3(0,0,0), glm::vec3(0,0,0), true);
-    }
+    namespace camera {
+      
+      // variables, exported
     
-    /* virtual */ void
-    camera::accept(visitor::base& v)
-    {
-      TRACE("scene::node::camera::accept");
+      // functions, exported
 
-      v.visit(*this);
-    }
-    
-    glm::mat4
-    camera::cb_get_view() const
-    {
-      TRACE("scene::node::camera::cb_get_view");
+      /* virtual */
+      base::~base()
+      {
+        TRACE("scene::object::camera::base::~base");
+      }
 
-      return glm::inverse(absolute_xform());
-    }
-    
-    glm::mat4
-    camera::cb_set_view(glm::mat4 const&)
-    {
-      TRACE("scene::node::camera::cb_set_view");
+      /* explicit */
+      base::base(matrix_type const& a, viewport_type const& b, glm::vec2 const& c)
+        : object::base(),
+          projection  (*this, "projection", a),
+          viewport    (*this, "viewport",   b),
+          near_far_   (c)
+      {
+        TRACE("scene::object::camera::base::base");
+      }
 
-      return cb_get_view();
-    }
+      /* virtual */ void
+      base::do_changed(field::base& f)
+      {
+        TRACE("scene::object::camera::base::do_changed");
+
+        if      (&f == &projection) {}
+        else if (&f == &viewport)   {}
+
+        else {
+          object::base::do_changed(f);
+        }
+      }
+      
+    } // namespace camera {
     
-  } // namespace node {
+  } // namespace object {
   
 } // namespace scene {
