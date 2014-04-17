@@ -6,6 +6,12 @@
 #                                                                                                  #
 ####################################################################################################
 
+SET(ARCH "unknown")
+
+IF(UNIX)
+  EXECUTE_PROCESS(COMMAND uname -m OUTPUT_VARIABLE ARCH OUTPUT_STRIP_TRAILING_WHITESPACE)
+ENDIF()
+
 # 32-bit vs. 64-bit platform
 # unfortunatly, M$ are completely inconsistent in how they name directories (e.g., x64 vs. amd64),
 # which is why no architecture variable is set here as well
@@ -22,8 +28,6 @@ IF(WIN32 OR WIN64)
   IF(WIN64)
     SET(ARCH x64)
   ENDIF()
-
-  MESSAGE(STATUS "Setting architecture to ${ARCH}")
 ENDIF()
 
 # Boost
@@ -72,7 +76,7 @@ IF(DCSC08961_TRACE_ALL)
   ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
 ENDIF()
 
-IF(VERBOSE)
+IF(TRUE OR VERBOSE)
   MESSAGE(STATUS "Project ${CMAKE_PROJECT_NAME} defaults:\n"
     "   ARCH                  = ${ARCH}\n"
     "   CMAKE_INSTALL_PREFIX  = ${CMAKE_INSTALL_PREFIX}\n"
