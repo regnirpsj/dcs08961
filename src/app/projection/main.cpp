@@ -29,6 +29,8 @@
 // includes, project
 
 #include <glm/gtx/utilities.hpp>
+#include <scene/object/camera/frustum.hpp>
+#include <scene/object/camera/viewport.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -40,38 +42,12 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  struct frustum_t  { float l, r, b, t,  n,  f; };
-  struct viewport_t { float x, y, w, h, dn, df; };
+  typedef scene::object::camera::frustum  frustum_t;
+  typedef scene::object::camera::viewport viewport_t;
   
   // variables, internal
   
   // functions, internal
-
-  std::ostream&
-  operator<<(std::ostream& os, frustum_t const& a)
-  {
-    std::ostream::sentry const cerberus(os);
-    
-    if (cerberus) {
-      os << '[' << "l:" << a.l << ',' << "r:" << a.r << ',' << "b:" << a.b << ','
-         << "t:" << a.t << ',' << "n:" << a.n << ',' << "f:" << a.f << ']';
-    }    
-    
-    return os;
-  }
-  
-  std::ostream&
-  operator<<(std::ostream& os, viewport_t const& a)
-  {
-    std::ostream::sentry const cerberus(os);
-    
-    if (cerberus) {
-      os << '[' << "x:"  << a.x  << ',' << "y:"  << a.y  << ',' << "w:"  << a.w  << ','
-         << "h:"  << a.h  << ',' << "dn:" << a.dn << ',' << "df:" << a.df << ']';
-    }    
-    
-    return os;
-  }
 
   std::string
   pipeline_result(glm::vec3 const& obj, glm::vec4 const& clp, glm::vec3 const& ndc,
@@ -117,8 +93,8 @@ namespace ogl {
 #else
     // assuming v.df:1 and v.dn:0
     result    = p * 0.5f + 0.5f;
-    result.x *= v.w + v.x;
-    result.y *= v.h + v.y;
+    result.x *= v.width  + v.x;
+    result.y *= v.height + v.y;
 #endif
     
     return result;
@@ -148,9 +124,9 @@ namespace d3d {
     glm::vec3 result;
   
     // http://msdn.microsoft.com/en-us/library/windows/desktop/bb205126%28v=vs.85%29.aspx
-    result.x = ((p.x + 1) * (v.w / 2.0f)) + v.x;
-    result.y = ((1 - p.y) * (v.h / 2.0f)) + v.y;
-    result.z = ( p.z * (v.df - v.dn))     + v.dn; 
+    result.x = ((p.x + 1) * (v.width  / 2.0f)) + v.x;
+    result.y = ((1 - p.y) * (v.height / 2.0f)) + v.y;
+    result.z = ( p.z * (v.far - v.near))       + v.near; 
    
     return result;
   }
@@ -176,9 +152,9 @@ namespace {
   
   // variables, internal
 
-  float const      fov(80.0);
-  viewport_t const viewport = { 0, 0, 500, 500, 0,     1    };
-  frustum_t const  frustum  = {-1, 1,  -1,   1, 0.1f, 10.0f };
+  float const      fov     (80.0);
+  viewport_t const viewport( 0, 0, 500, 500, 0,     1   );
+  frustum_t const  frustum (-1, 1,  -1,   1, 0.1f, 10.0f);
   
   std::array<glm::vec3, 3> const box = {
     {
@@ -203,9 +179,11 @@ namespace {
   void
   test_ogl_native(glm::mat4 const& model, glm::mat4 const& view, bool terse)
   {
-    glm::mat4 const proj1(glm::frustum(frustum.l, frustum.r, frustum.b, frustum.t,
-                                       frustum.n, frustum.f));
-    glm::mat4 const proj2(glm::perspective(fov, (viewport.w / viewport.h), frustum.n, frustum.f));
+    glm::mat4 const proj1(glm::frustum(frustum.left, frustum.right, frustum.bottom, frustum.top,
+                                       frustum.near, frustum.far));
+    glm::mat4 const proj2(glm::perspective(fov,
+                                           (viewport.width / viewport.height),
+                                           frustum.near, frustum.far));
     glm::mat4 const mvp1 (proj1 * view * model);
     glm::mat4 const mvp2 (proj2 * view * model);
 
@@ -249,8 +227,8 @@ namespace {
       using namespace DirectX;
 
       XMMATRIX const xmmat(XMMatrixPerspectiveFovLH(glm::radians(fov),
-                                                    (viewport.w / viewport.h),
-                                                    frustum.n, frustum.f));
+                                                    (viewport.width / viewport.height),
+                                                    frustum.near, frustum.far));
       XMFLOAT4X4     xmflt;
     
       XMStoreFloat4x4(&xmflt, xmmat);
@@ -266,8 +244,8 @@ namespace {
       using namespace DirectX;
 
       XMMATRIX const xmmat(XMMatrixPerspectiveFovRH(glm::radians(fov),
-                                                    (viewport.w / viewport.h),
-                                                    frustum.n, frustum.f));
+                                                    (viewport.width / viewport.height),
+                                                    frustum.near, frustum.far));
       XMFLOAT4X4     xmflt;
    
       XMStoreFloat4x4(&xmflt, xmmat);
@@ -320,10 +298,12 @@ namespace {
   test_ogl_over_d3d_proj(glm::mat4 const& model, glm::mat4 const& view, bool terse)
   {
     glm::mat4 const proj1(glm::convert::opengl_to_d3d *
-                          glm::frustum(frustum.l, frustum.r, frustum.b, frustum.t,
-                                       frustum.n, frustum.f));
+                          glm::frustum(frustum.left, frustum.right, frustum.bottom, frustum.top,
+                                       frustum.near, frustum.far));
     glm::mat4 const proj2(glm::convert::opengl_to_d3d *
-                          glm::perspective(fov, (viewport.w / viewport.h), frustum.n, frustum.f));
+                          glm::perspective(fov,
+                                           (viewport.width / viewport.height),
+                                           frustum.near, frustum.far));
     glm::mat4 const mvp1 (proj1 * view * model);
     glm::mat4 const mvp2 (proj2 * view * model);
 
@@ -332,7 +312,7 @@ namespace {
     matrix_pair const mvp_pair (std::make_pair(mvp1, mvp2));
 
     std::cout << '\n'
-              << "OGL over D3D (projective)"
+              << "OGL over D3D (perspective)"
               << '\n';
     
     if (!terse) {
@@ -361,8 +341,8 @@ namespace {
   void
   test_ogl_over_d3d_ortho(glm::mat4 const& model, glm::mat4 const& view, bool terse)
   {
-    glm::mat4 const proj1(glm::ortho(frustum.l, frustum.r, frustum.b, frustum.t,
-                                     frustum.n, frustum.f));
+    glm::mat4 const proj1(glm::ortho(frustum.left, frustum.right, frustum.bottom, frustum.top,
+                                     frustum.near, frustum.far));
     glm::mat4 const proj2(glm::convert::opengl_to_d3d * proj1);
     glm::mat4 const mvp1 (proj1 * view * model);
     glm::mat4 const mvp2 (proj2 * view * model);
