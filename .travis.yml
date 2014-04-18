@@ -15,3 +15,6 @@ before_install:
 script:
   - c++ --version
   - cmake --version
+  - apt-cache gencaches
+  - apt-cache search .
+  - find /usr/bin -name cmake\*
