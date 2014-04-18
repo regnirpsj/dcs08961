@@ -4,14 +4,7 @@ compiler:
   - clang
 before_install:
   - sudo apt-get update -qq
-  - sudo apt-get install -qq lcov
+  - sudo apt-get install -qq cmake lcov
   - gem install coveralls-lcov
 script:
-  - mkdir build
-  - cd build
-  - cmake -DVERBOSE=1 -DDCSC08961_PROFILE=ON -DDCSC08961_BLD_UTEST=ON -DDCSC08961_RUN_CTEST=ON ..
-  - make check
-after_success:
-  - lcov --directory . --base-directory .. --capture --output-file coverage.info
-  - lcov --remove coverage.info '/usr*' -o coverage.info
-  - cd .. && coveralls-lcov build/coverage.info
+  - cmake --version
