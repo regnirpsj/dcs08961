@@ -6,57 +6,51 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/adapter/single.hpp                                                        */
+/*  module     :  field/single/base.hpp                                                           */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_FIELD_ADAPTER_SINGLE_HPP)
+#if !defined(UKACHULLDCS_08961_FIELD_SINGLE_BASE_HPP)
 
-#define UKACHULLDCS_08961_FIELD_ADAPTER_SINGLE_HPP
+#define UKACHULLDCS_08961_FIELD_SINGLE_BASE_HPP
 
 // includes, system
 
-#include <functional> // std::function<>
+//#include <>
 
 // includes, project
 
-#include <field/single/base.hpp>
+#include <field/base.hpp>
 
 namespace field {
 
-  namespace adapter {
+  namespace single {
     
     // types, exported (class, enum, struct, union, typedef)
-    
+
     template <typename T>
-    class single : public ::field::single::base<T> {
+    class base : public ::field::base {
 
     public:
 
-      typedef ::field::single::base<T>           inherited;
-      typedef typename inherited::container_type container_type;
-      typedef typename inherited::value_type     value_type;
-      typedef std::function<T const& ()>         get_callback_type;
-      typedef std::function<T        (T const&)> set_callback_type;
-      
-      explicit single(container_type&    /* container */,
-                      std::string const& /* name */,
-                      get_callback_type  /* get_cb */,
-                      set_callback_type  /* set_cb */);
-      virtual ~single();
-      
-      virtual value_type const& get() const;
-      virtual value_type        set(value_type const&);
+      typedef ::field::base             inherited;
+      typedef inherited::container_type container_type;
+      typedef T                         value_type;
 
-      using inherited::operator*;
-      using inherited::operator=;
+      virtual void print_on(std::ostream&) const;
+    
+      virtual value_type const& get() const            =0;
+      virtual value_type        set(value_type const&) =0;
       
-    private:
+      value_type const& operator*() const;
+      base&             operator=(value_type const&);
 
-      get_callback_type get_value_;
-      set_callback_type set_value_;
+    protected:
+
+      explicit base(container_type&    /* container */,
+                    std::string const& /* name */);
       
     };
     
@@ -66,10 +60,10 @@ namespace field {
   
     // functions, exported (extern)
 
-  } // namespace adapter {
+  } // namespace single {
   
 } // namespace field {
 
-#include <field/adapter/single.inl>
+#include <field/single/base.inl>
 
-#endif // #if !defined(UKACHULLDCS_08961_FIELD_ADAPTER_SINGLE_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_FIELD_SINGLE_BASE_HPP)

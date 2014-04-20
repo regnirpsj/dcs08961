@@ -71,6 +71,25 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_set, T, field::test::mult
   BOOST_CHECK(T() == f.set(T()));
 }
 
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_set_initlist, T, field::test::multi_types)
+{
+  using namespace field;
+  
+  test::container_multi<T>               c;
+  adapter::multi<typename T::value_type> f(c, "f",
+                                           std::bind(&test::container_multi<T>::cb_get, &c),
+                                           std::bind(&test::container_multi<T>::cb_set, &c,
+                                                     std::placeholders::_1),
+                                           std::bind(&test::container_multi<T>::cb_add, &c,
+                                                     std::placeholders::_1),
+                                           std::bind(&test::container_multi<T>::cb_sub, &c,
+                                                     std::placeholders::_1));
+
+  BOOST_CHECK(T() == f.set({ }));
+}
+#endif
+
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_add, T, field::test::multi_types)
 {
   using namespace field;
@@ -110,26 +129,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_sub, T, field::test::mult
   BOOST_CHECK(true == f.get().empty());
 }
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_set_initlist, T, field::test::multi_types)
-{
-  using namespace field;
-  
-  test::container_multi<T>               c;
-  adapter::multi<typename T::value_type> f(c, "f",
-                                           std::bind(&test::container_multi<T>::cb_get, &c),
-                                           std::bind(&test::container_multi<T>::cb_set, &c,
-                                                     std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_add, &c,
-                                                     std::placeholders::_1),
-                                           std::bind(&test::container_multi<T>::cb_sub, &c,
-                                                     std::placeholders::_1));
 
-  BOOST_CHECK(T() == f.set({ }));
-}
-#endif
-
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_op_convert, T, field::test::multi_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_op_dereference, T, field::test::multi_types)
 {
   using namespace field;
   
@@ -143,7 +144,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_op_convert, T, field::tes
                                                  std::bind(&test::container_multi<T>::cb_sub, &c,
                                                            std::placeholders::_1));
 
-  BOOST_CHECK(T() == static_cast<T>(f));
+  BOOST_CHECK(T() == *f);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_op_assign, T, field::test::multi_types)
@@ -160,7 +161,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_op_assign, T, field::test
                                            std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1));
   
-  BOOST_CHECK(T() == static_cast<T>(f = T()));
+  BOOST_CHECK(T() == *(f = T()));
 }
 
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
@@ -179,7 +180,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_multi_op_assign_initlist, T,
                                            std::bind(&test::container_multi<T>::cb_sub, &c,
                                                      std::placeholders::_1));
   
-  BOOST_CHECK(T() == static_cast<T>(f = { }));
+  BOOST_CHECK(T() == *(f = { }));
 }
 #endif
 

@@ -17,6 +17,8 @@ LIST(APPEND SRC "adapter/single.cpp")
 LIST(APPEND SRC "base.cpp")
 LIST(APPEND SRC "container.cpp")
 LIST(APPEND SRC "defaults.cpp")
+LIST(APPEND SRC "multi/base.cpp")
+LIST(APPEND SRC "single/base.cpp")
 LIST(APPEND SRC "value/multi.cpp")
 LIST(APPEND SRC "value/single.cpp")
 

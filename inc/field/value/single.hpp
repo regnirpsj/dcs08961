@@ -22,7 +22,7 @@
 
 // includes, project
 
-#include <field/base.hpp>
+#include <field/single/base.hpp>
 
 namespace field {
 
@@ -31,27 +31,24 @@ namespace field {
     // types, exported (class, enum, struct, union, typedef)
 
     template <typename T>
-    class single : public base {
+    class single : public ::field::single::base<T> {
 
     public:
 
-      typedef base::container_type container_type;
-      typedef T                    value_type;
+      typedef ::field::single::base<T>           inherited;
+      typedef typename inherited::container_type container_type;
+      typedef typename inherited::value_type     value_type;
     
       explicit single(container_type&    /* container */,
                       std::string const& /* name */,
                       value_type const&  /* init */ = value_type());
       virtual ~single();
-
-      virtual void print_on(std::ostream&) const;
     
-      value_type const& get() const;
-      value_type&       get();
-      value_type        set(value_type const&);
+      virtual value_type const& get() const;
+      virtual value_type        set(value_type const&);
 
-      operator value_type const& () const;
-      operator value_type&       ();
-      single& operator=(value_type const&);
+      using inherited::operator*;
+      using inherited::operator=;
       
     private:
 

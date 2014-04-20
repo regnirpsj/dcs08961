@@ -6,62 +6,44 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/base.hpp                                                                  */
+/*  module     :  field/multi/base.cpp                                                            */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_FIELD_BASE_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_FIELD_BASE_HPP
+#include "field/multi/base.hpp"
 
 // includes, system
 
-#include <string> // std::string
+//#include <>
 
 // includes, project
 
-#include <support/printable.hpp>
+//#include <>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace field {
 
-  class container;
+  namespace multi {
+    
+  // variables, exported
   
-  // types, exported (class, enum, struct, union, typedef)
+  // functions, exported
 
-  class base : public support::printable {
-
-  public:
-
-    typedef ::field::container container_type;
-    
-    container_type const& container() const;
-    std::string const&    name() const;
-    
-    void touch();
-    
-    virtual void print_on(std::ostream&) const;
-    
-  protected:
-
-    container_type& container_;
-    std::string     name_;
-    
-    explicit base(container_type&, std::string const&);
-    virtual ~base() =0;
-
-    void changed();
-    void notify();
-    
-  };
-  
-  // variables, exported (extern)
-
-  // functions, inlined (inline)
-  
-  // functions, exported (extern)
+  } // namespace multi {
   
 } // namespace field {
-
-#endif // #if !defined(UKACHULLDCS_08961_FIELD_BASE_HPP)

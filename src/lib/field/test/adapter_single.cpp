@@ -63,18 +63,18 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_single_set, T, field::test::sin
   BOOST_CHECK(T() == f.set(T()));
 }
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_single_op_convert, T, field::test::single_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_single_op_dereference, T,
+                              field::test::single_types)
 {
   using namespace field;
-
+  
   test::container_single<T> c;
   adapter::single<T> const  f(c, "f",
                               std::bind(&test::container_single<T>::cb_get, &c),
                               std::bind(&test::container_single<T>::cb_set, &c,
                                         std::placeholders::_1));
-    
-  BOOST_CHECK(T() == static_cast<T const&>(f));
-  // BOOST_CHECK(T() == static_cast<T>(f));
+
+  BOOST_CHECK(T() == *f);
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_single_op_assign, T, field::test::single_types)
@@ -87,5 +87,5 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_adapter_single_op_assign, T, field::tes
                               std::bind(&test::container_single<T>::cb_set, &c,
                                         std::placeholders::_1));
   
-  BOOST_CHECK(T() == static_cast<T const&>(f = T()));
+  BOOST_CHECK(T() == *(f = T()));
 }

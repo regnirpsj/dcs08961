@@ -91,7 +91,7 @@ namespace scene {
           float const angle(full_circle * (rpm.get() / 60.0f / 1000.0f / 1000.0f) *
                             duration_cast<microseconds>(diff).count());
 
-          xform.get() *= glm::rotate(angle, axis.get());
+          xform.set(xform.get() * glm::rotate(angle, axis.get()));
         
 #if 0
           {    

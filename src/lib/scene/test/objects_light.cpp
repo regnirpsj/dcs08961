@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE(test_scene_object_light_directional)
 {
   scene::object::light::directional const l;
   
-  BOOST_CHECK(false == l.active);
+  BOOST_CHECK(false == *l.active);
   BOOST_MESSAGE(l << '\n');
 }
 
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(test_scene_object_light_positional)
 {
   scene::object::light::positional const l;
   
-  BOOST_CHECK(false == l.active);
+  BOOST_CHECK(false == *l.active);
   BOOST_MESSAGE(l << '\n');
 }
 
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(test_scene_object_light_spot)
 {
   scene::object::light::spot const l;
   
-  BOOST_CHECK(false == l.active);
+  BOOST_CHECK(false == *l.active);
   BOOST_MESSAGE(l << '\n');
 }
 
@@ -86,6 +86,6 @@ BOOST_AUTO_TEST_CASE(test_scene_object_light_area)
   l.size.    set(glm::uvec2( 6, 3));
   l.samples. set(glm::uvec2(10, 5));
   
-  BOOST_CHECK(false == l.active);
+  BOOST_CHECK(false == *l.active);
   BOOST_MESSAGE(l << '\n');
 }

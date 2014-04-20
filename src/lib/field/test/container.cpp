@@ -148,14 +148,14 @@ BOOST_AUTO_TEST_CASE(test_field_container_ctor)
 {
   container const c;
   
-  BOOST_CHECK(true == c.svf_bool);
+  BOOST_CHECK(true == *c.svf_bool);
 }
 
 BOOST_AUTO_TEST_CASE(test_field_container_print_on)
 {
   container const c;
   
-  BOOST_CHECK(true == c.svf_bool);
+  BOOST_CHECK(true == *c.svf_bool);
   BOOST_CHECK(std::string("abcdefghijklmnopqrstuvwxyz").length() == c.svf_string.get().length());
   BOOST_MESSAGE(std::boolalpha << c);
 }
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE(test_field_container_mgr)
   };
 
   for (auto const& a : c){
-    BOOST_CHECK(true == a.svf_bool);
+    BOOST_CHECK(true == *a.svf_bool);
   }
   
   BOOST_MESSAGE(std::boolalpha << c[c.size()-1]);
@@ -179,7 +179,7 @@ BOOST_AUTO_TEST_CASE(test_field_container_fields)
 {
   container const c;
   
-  BOOST_CHECK(true == c.svf_bool);
+  BOOST_CHECK(true == *c.svf_bool);
 
   container::field_list_type const& flist(c.fields());
   

@@ -18,11 +18,11 @@
 
 // includes, system
 
-#include <ostream> // std::ostream
+//#include <>
 
 // includes, project
 
-// #include <>
+//#include <>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -41,7 +41,8 @@ namespace field {
     template <typename T>
     inline /* explicit */
     single<T>::single(container_type& a, std::string const& b, value_type const& c)
-      : base(a, b), value_(c)
+      : inherited(a, b),
+        value_   (c)
     {
       TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::single");
     }
@@ -52,32 +53,10 @@ namespace field {
     {
       TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::~single");
     }
-
-    template <typename T>
-    inline /* virtual */ void
-    single<T>::print_on(std::ostream& os) const
-    {
-      TRACE_NEVER("field::value::single<" + support::demangle(typeid(T)) + ">::print_on");
-
-      os << '[';
-
-      base::print_on(os);
-
-      os << ',' << value_ << ']';
-    }
   
     template <typename T>
-    inline typename single<T>::value_type const&
+    inline /* virtual */ typename single<T>::value_type const&
     single<T>::get() const
-    {
-      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::get(const)");
-    
-      return value_;
-    }
-
-    template <typename T>
-    inline typename single<T>::value_type&
-    single<T>::get()
     {
       TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::get");
     
@@ -85,7 +64,7 @@ namespace field {
     }
     
     template <typename T>
-    inline typename single<T>::value_type
+    inline /* virtual */ typename single<T>::value_type
     single<T>::set(value_type const& a)
     {
       TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::set");
@@ -94,38 +73,9 @@ namespace field {
     
       value_ = a;
 
-      changed();
+      inherited::changed();
 
       return result;
-    }
-
-    template <typename T>
-    inline single<T>::operator /*single<T>::*/value_type const& () const
-    {
-      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::operator " +
-            "value_type const&");
-      
-      return get();
-    }
-
-    template <typename T>
-    inline single<T>::operator /*single<T>::*/value_type& ()
-    {
-      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::operator " +
-            "value_type&");
-      
-      return get();
-    }
-    
-    template <typename T>
-    inline single<T>&
-    single<T>::operator=(value_type const& a)
-    {
-      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::operator=");
-
-      set(a);
-      
-      return *this;
     }
     
   } // namespace value {

@@ -23,7 +23,7 @@
 
 // includes, project
 
-#include <field/base.hpp>
+#include <field/multi/base.hpp>
 
 namespace field {
 
@@ -32,54 +32,40 @@ namespace field {
     // types, exported (class, enum, struct, union, typedef)
 
     template <typename T, typename C = std::vector<T>>
-    class multi : public base {
+    class multi : public ::field::multi::base<T,C> {
 
     public:
 
-      typedef base::container_type                                         container_type;
-      typedef C                                                            value_container_type;
-      typedef T                                                            value_type;
-      typedef std::function<std::vector<T> const& ()>                      get_callback_type;
-      typedef std::function<std::vector<T>        (std::vector<T> const&)> set_callback_type;
-      typedef std::function<bool (T const&)>                               add_callback_type;
-      typedef std::function<bool (T const&)>                               sub_callback_type;
+      typedef ::field::multi::base<T,C>                inherited;
+      typedef typename inherited::container_type       container_type;
+      typedef typename inherited::value_container_type value_container_type;
+      typedef typename inherited::value_type           value_type;
+      typedef std::function<C const& ()>               get_callback_type;
+      typedef std::function<C (C const&)>              set_callback_type;
+      typedef std::function<bool (T const&)>           add_callback_type;
+      typedef std::function<bool (T const&)>           sub_callback_type;
       
-      explicit multi(container_type&             /* container */,
-                     std::string const&          /* name */,
-                     get_callback_type           /* get_cb */,
-                     set_callback_type           /* set_cb */,
-                     add_callback_type           /* add_cb */,
-                     sub_callback_type           /* sub_cb */,
-                     value_container_type const& /* init */ = value_container_type());
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
-      explicit multi(container_type&                   /* container */,
-                     std::string const&                /* name */,
-                     get_callback_type                 /* get_cb */,
-                     set_callback_type                 /* set_cb */,
-                     add_callback_type                 /* add_cb */,
-                     sub_callback_type                 /* sub_cb */,
-                     std::initializer_list<value_type> /* init */);
-#endif
+      explicit multi(container_type&    /* container */,
+                     std::string const& /* name */,
+                     get_callback_type  /* get_cb */,
+                     set_callback_type  /* set_cb */,
+                     add_callback_type  /* add_cb */,
+                     sub_callback_type  /* sub_cb */);
       virtual ~multi();
-
-      virtual void print_on(std::ostream&) const;
       
-      value_container_type const& get() const;
-      value_container_type        set(value_container_type const&);
+      virtual value_container_type const& get() const;
+      virtual value_container_type        set(value_container_type const&);
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
-      value_container_type        set(std::initializer_list<value_type>);
+      virtual value_container_type        set(std::initializer_list<value_type>);
 #endif
-      bool                        add(value_type const&);
-      bool                        sub(value_type const&);
+      virtual bool                        add(value_type const&);
+      virtual bool                        sub(value_type const&);
 
-      operator value_container_type const& () const;
-      multi& operator=(value_container_type const&);
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
-      multi& operator=(std::initializer_list<value_type>);
-#endif
-      multi& operator+=(value_type const&);
-      multi& operator-=(value_type const&);
-      
+      using inherited::operator*;
+      using inherited::operator=;
+      using inherited::operator+=;
+      using inherited::operator-=;
+        
     private:
 
       get_callback_type get_value_;
