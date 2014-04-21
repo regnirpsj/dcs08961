@@ -23,7 +23,7 @@
 
 // includes, project
 
-#include <field/value/multi.hpp>
+#include <field/adapter/multi.hpp>
 #include <scene/node/base.hpp>
 
 namespace scene {
@@ -37,7 +37,7 @@ namespace scene {
     public:
 
       typedef base subject_inherited;
-
+      
       struct attribute {
 
       public:
@@ -55,9 +55,14 @@ namespace scene {
                            glm::vec4 const& /* color */    = glm::vec4(1.0));
         
       };
+
+      typedef field::adapter::multi<attribute>           attribute_field_type;
+      typedef attribute_field_type::value_container_type attribute_list_type;
+      typedef field::adapter::multi<unsigned>            index_field_type;
+      typedef index_field_type::value_container_type     index_list_type;
       
-      field::value::multi<attribute> attributes;
-      field::value::multi<unsigned>  indices;
+      attribute_field_type const attributes; ///< attributes
+      index_field_type const     indices;    ///< indices
 
       virtual ~geometry() =0;
 
@@ -68,7 +73,22 @@ namespace scene {
       
     protected:
 
+      attribute_list_type attribute_list_;
+      index_list_type     index_list_;
+      
       explicit geometry();
+
+    private:
+
+      attribute_list_type const& cb_get_attributes() const;
+      attribute_list_type        cb_set_attributes(attribute_list_type const&);
+      bool                       cb_add_attribute (attribute const&);
+      bool                       cb_sub_attribute (attribute const&);
+      
+      index_list_type const&     cb_get_indices() const;
+      index_list_type            cb_set_indices(index_list_type const&);
+      bool                       cb_add_index  (unsigned);
+      bool                       cb_sub_index  (unsigned);
       
     };
     

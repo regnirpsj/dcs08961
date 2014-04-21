@@ -18,6 +18,7 @@
 
 // includes, system
 
+#include <algorithm>      // std::remove<>
 #include <glm/gtx/io.hpp> // glm::operator<<
 #include <ostream>        // std::ostream
 
@@ -100,24 +101,21 @@ namespace scene {
     geometry::compute_tangents()
     {
       TRACE("scene::node::geometry::compute_tangents");
-
-      auto&       attr_list(attributes.get());
-      auto const& idx_list(indices.get());
       
-      std::vector<std::pair<glm::vec3, glm::vec3>> tarray(idx_list.size());
+      std::vector<std::pair<glm::vec3, glm::vec3>> tarray(index_list_.size());
         
-      for (unsigned i(0); i < idx_list.size(); i += 3) {
-        unsigned const i1(idx_list[i+0]);
-        unsigned const i2(idx_list[i+1]);
-        unsigned const i3(idx_list[i+2]);
+      for (unsigned i(0); i < index_list_.size(); i += 3) {
+        unsigned const i1(index_list_[i+0]);
+        unsigned const i2(index_list_[i+1]);
+        unsigned const i3(index_list_[i+2]);
         
-        glm::vec3 const& v1(attr_list[i1].position);
-        glm::vec3 const& v2(attr_list[i2].position);
-        glm::vec3 const& v3(attr_list[i3].position);
+        glm::vec3 const& v1(attribute_list_[i1].position);
+        glm::vec3 const& v2(attribute_list_[i2].position);
+        glm::vec3 const& v3(attribute_list_[i3].position);
 
-        glm::vec2 const& w1(attr_list[i1].tcoord);
-        glm::vec2 const& w2(attr_list[i2].tcoord);
-        glm::vec2 const& w3(attr_list[i3].tcoord);
+        glm::vec2 const& w1(attribute_list_[i1].tcoord);
+        glm::vec2 const& w2(attribute_list_[i2].tcoord);
+        glm::vec2 const& w3(attribute_list_[i3].tcoord);
         
         float const x1(v2.x - v1.x);
         float const x2(v3.x - v1.x);
@@ -145,26 +143,115 @@ namespace scene {
         }
       }
 
-#if 0
-      for (auto idx : idx_list) {
-        auto&       a(attr_list[idx]);
+      for (auto idx : index_list_) {
+        auto&       a(attribute_list_[idx]);
         auto const& t(tarray[idx]);
         
-        a.tangent.xyz = glm::normalize(t.first - a.normal * glm::dot(a.normal, t.first));
-        a.tangent.w   = (0.0 > glm::dot(glm::cross(a.normal, t.first), t.second)) ? -1.0f : 1.0f;
+        a.tangent = glm::vec4(glm::normalize(t.first - a.normal * glm::dot(a.normal, t.first)),
+                              ((0.0 > glm::dot(glm::cross(a.normal, t.first), t.second))
+                               ? -1.0f : 1.0f));
       }
-#else
-#  pragma message("please fix 'scene::node::geometry::compute_tangents' implementation")
-#endif
     }
 
     /* explicit */
     geometry::geometry()
-      : base      (),
-        attributes(*this, "attributes"),
-        indices   (*this, "indices")
+      : base           (),
+        attributes     (*this, "attributes",
+                        std::bind(&geometry::cb_get_attributes, this),
+                        std::bind(&geometry::cb_set_attributes, this, std::placeholders::_1),
+                        std::bind(&geometry::cb_add_attribute,  this, std::placeholders::_1),
+                        std::bind(&geometry::cb_sub_attribute,  this, std::placeholders::_1)),
+        indices        (*this, "indices",
+                        std::bind(&geometry::cb_get_indices, this),
+                        std::bind(&geometry::cb_set_indices, this, std::placeholders::_1),
+                        std::bind(&geometry::cb_add_index,   this, std::placeholders::_1),
+                        std::bind(&geometry::cb_sub_index,   this, std::placeholders::_1)),
+        attribute_list_(),
+        index_list_    ()
     {
       TRACE("scene::node::geometry::geometry");
+    }
+
+    geometry::attribute_list_type const&
+    geometry::cb_get_attributes() const
+    {
+      TRACE("scene::node::geometry::cb_get_attributes");
+
+      return attribute_list_;
+    }
+    
+    geometry::attribute_list_type
+    geometry::cb_set_attributes(attribute_list_type const& a)
+    {
+      TRACE("scene::node::geometry::cb_set_attributes");
+
+      attribute_list_type const result(attribute_list_);
+      
+      attribute_list_ = a;
+
+      return result;
+    }
+
+    bool
+    geometry::cb_add_attribute(attribute const& a)
+    {
+      TRACE("scene::node::geometry::cb_add_attribute");
+
+      attribute_list_.insert(attribute_list_.end(), a);
+
+      return true;
+    }
+    
+    bool
+    geometry::cb_sub_attribute(attribute const& a)
+    {
+      TRACE("scene::node::geometry::cb_sub_attribute");
+
+      attribute_list_.erase(std::remove(attribute_list_.begin(), attribute_list_.end(), a),
+                            attribute_list_.end());
+
+      return true;
+    }
+    
+    geometry::index_list_type const&
+    geometry::cb_get_indices() const
+    {
+      TRACE("scene::node::geometry::cb_get_indices");
+
+      return index_list_;
+    }
+    
+    geometry::index_list_type
+    geometry::cb_set_indices(index_list_type const& a)
+    {
+      TRACE("scene::node::geometry::cb_set_indices");
+
+      index_list_type const result(index_list_);
+      
+      index_list_ = a;
+
+      return result;
+    }
+
+    bool
+    geometry::cb_add_index(unsigned a)
+    {
+      TRACE("scene::node::geometry::cb_add_index");
+
+      index_list_.insert(index_list_.end(), a);
+
+      return true;
+    }
+
+    bool
+    geometry::cb_sub_index(unsigned a)
+    {
+      TRACE("scene::node::geometry::cb_sub_index");
+
+      index_list_.erase(std::remove(index_list_.begin(), index_list_.end(), a),
+                        index_list_.end());
+
+      return true;
     }
     
     std::ostream&
