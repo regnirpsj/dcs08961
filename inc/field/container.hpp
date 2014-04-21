@@ -81,7 +81,7 @@ namespace field {
     
   private:
 
-    friend class base;
+    friend class ::field::base;
 
     static std::unique_ptr<manager> mgr;
     
