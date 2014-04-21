@@ -56,9 +56,9 @@ namespace scene {
       };
       
       
-      field::adapter::single<base*>  parent;
-      field::value::single<unsigned> travmask;
-      field::value::single<bounds>   bbox;
+      field::adapter::single<base*> const parent;   ///< parent node
+      field::value::single<unsigned>      travmask; ///< traversal mask
+      field::value::single<bounds>        bbox;     ///< bounding box
 
       virtual ~base() =0;
       

@@ -180,8 +180,7 @@ namespace scene {
       if (cerberus) {
         glm::io::format_saver const iofs(os);
 
-        os << glm::io::precision(2)
-           << glm::io::width(1 + 2 + 1 + os.precision())
+        os << glm::io::precision(2) << glm::io::width(4)
            << '['
            << a.min                  << ','
            << a.max                  << ','
