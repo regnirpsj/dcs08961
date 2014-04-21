@@ -37,8 +37,14 @@ namespace scene {
       typedef node::geometry subject_inherited;
 
       explicit sphere();
+
+      field::value::single<unsigned> subdivision; ///< sub-disviion levels
       
       virtual void accept(visitor::base&);
+
+    protected:
+
+      virtual void do_changed(field::base&);
       
     };
     

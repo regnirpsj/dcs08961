@@ -38,6 +38,13 @@ namespace {
   
   // functions, internal
 
+  void
+  make_icosahedron(scene::node::geometry::attribute_list_type& /* attr_list */,
+                   scene::node::geometry::index_list_type&     /* index_list */)
+  {
+    TRACE("scene::primitive::icosahedron::<unnamed>::make_icosahedron");
+  }
+  
 } // namespace {
 
 namespace scene {
@@ -53,6 +60,11 @@ namespace scene {
       : node::geometry()
     {
       TRACE("scene::primitive::icosahedron::icosahedron");
+
+      make_icosahedron(attribute_list_, index_list_);
+      
+      compute_bounds();
+      compute_tangents();
     }
     
     /* virtual */ void

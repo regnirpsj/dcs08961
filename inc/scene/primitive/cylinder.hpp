@@ -36,9 +36,15 @@ namespace scene {
 
       typedef node::geometry subject_inherited;
 
-      explicit cylinder();
+      explicit cylinder(unsigned = 36);
+
+      field::value::single<unsigned> sides; ///< sides
       
       virtual void accept(visitor::base&);
+
+    protected:
+
+      virtual void do_changed(field::base&);
       
     };
     

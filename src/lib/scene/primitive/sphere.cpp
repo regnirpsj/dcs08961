@@ -18,10 +18,20 @@
 
 // includes, system
 
-//#include <>
+#include <array>                   // std::array<>
+#include <cmath>                   // std::abs, std::acos, std::atan2
+#include <glm/core/setup.hpp>
+#if (GLM_VERSION > 93)
+#  include <glm/gtc/constants.hpp> // glm::pi
+#else
+#  include <glm/gtx/constants.hpp> // glm::pi
+#endif
+
 
 // includes, project
 
+#include <glm/gtx/limits.hpp>
+#include <scene/primitive/octahedron.hpp>
 #include <scene/visitor/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -38,6 +48,77 @@ namespace {
   
   // functions, internal
 
+  glm::vec2
+  calc_sphere_tcoords(glm::vec3 const& n)
+  {
+    TRACE("scene::primitive::sphere::<unnamed>::calc_sphere_tcoords");
+    
+    static float const pi(glm::pi<float>());
+    
+    float const t((pi - std::acos(n.x)) / pi);
+    float       s(std::atan2(-n.z, n.x) - (pi / 2.0f));
+
+    if (s <= -std::numeric_limits<glm::vec4>::epsilon()) {
+      s += 2.0f * pi;
+    }
+    
+    s /= 2.0f * pi;
+    
+    return glm::vec2(s, std::abs(t));
+  }
+
+  void
+  add_point(glm::vec3 const& pnt, scene::node::geometry::attribute_list_type& alist)
+  {
+    TRACE("scene::primitive::sphere::<unnamed>::add_point");
+    
+    glm::vec3 const n(-glm::normalize(pnt));
+    glm::vec3 const p(n.xyz() * -0.5f);
+
+    using scene::node::geometry;
+    
+    alist.push_back(geometry::attribute(p, n, calc_sphere_tcoords(n)));
+  }
+  
+  void
+  subdivide_triangle(unsigned i1, unsigned i2, unsigned i3,
+                     unsigned                                    depth,
+                     scene::node::geometry::attribute_list_type& alist,
+                     scene::node::geometry::index_list_type&     ilist,
+                     unsigned&                                   z)
+  {
+    TRACE("scene::primitive::sphere::<unnamed>::subdivide_triangle");
+    
+    if (0 == depth) {
+      ilist.push_back(i1);
+      ilist.push_back(i2);
+      ilist.push_back(i3);
+    } else {
+      glm::vec3 const p1(alist[i1].position);
+      glm::vec3 const p2(alist[i2].position);
+      glm::vec3 const p3(alist[i3].position);
+      
+      glm::vec3 const p12(p1 + ((p2 - p1) * 0.5f));
+      glm::vec3 const p23(p2 + ((p3 - p2) * 0.5f));
+      glm::vec3 const p31(p3 + ((p1 - p3) * 0.5f));
+
+      unsigned const i12(z++);
+      unsigned const i23(z++);
+      unsigned const i31(z++);
+
+      add_point(p12, alist);
+      add_point(p23, alist);
+      add_point(p31, alist);
+
+      --depth;
+      
+      subdivide_triangle( i1, i12, i31, depth, alist, ilist, z);
+      subdivide_triangle( i2, i23, i12, depth, alist, ilist, z);
+      subdivide_triangle( i3, i31, i23, depth, alist, ilist, z);
+      subdivide_triangle(i12, i23, i31, depth, alist, ilist, z);
+    }
+  }
+  
 } // namespace {
 
 namespace scene {
@@ -50,9 +131,12 @@ namespace scene {
 
     /* explicit */
     sphere::sphere()
-      : node::geometry()
+      : node::geometry(),
+        subdivision   (*this, "subdivision", 4)
     {
       TRACE("scene::primitive::sphere::sphere");
+
+      subdivision.touch();
     }
     
     /* virtual */ void
@@ -61,6 +145,35 @@ namespace scene {
       TRACE("scene::primitive::sphere::accept");
 
       v.visit(*this);
+    }
+
+    /* virtual */ void
+    sphere::do_changed(field::base& f)
+    {
+      if (&f == &subdivision) {
+        attribute_list_.clear();
+        index_list_.clear();
+
+        octahedron oct;
+        
+        for (auto a : *oct.attributes) {
+          add_point(a.position, attribute_list_);
+        }
+
+        unsigned running_idx(unsigned((*oct.attributes).size()));
+      
+        for (unsigned i(0); i < (*oct.indices).size(); i += 3) {
+          subdivide_triangle((*oct.indices)[i+0], (*oct.indices)[i+1], (*oct.indices)[i+2],
+                             *subdivision, attribute_list_, index_list_, running_idx);
+        }
+      
+        compute_bounds();
+        compute_tangents();
+      }
+
+      else {
+        node::geometry::do_changed(f);
+      }
     }
     
   } // namespace primitive {

@@ -38,6 +38,14 @@ namespace {
   
   // functions, internal
 
+  void
+  make_cylinder(unsigned                                    /* sides */,
+                scene::node::geometry::attribute_list_type& /* attr_list */,
+                scene::node::geometry::index_list_type&     /* index_list */)
+  {
+    TRACE("scene::primitive::cylinder::<unnamed>::make_cylinder");
+  }
+  
 } // namespace {
 
 namespace scene {
@@ -49,10 +57,13 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    cylinder::cylinder()
-      : node::geometry()
+    cylinder::cylinder(unsigned a)
+      : node::geometry(),
+        sides         (*this, "sides", a)
     {
       TRACE("scene::primitive::cylinder::cylinder");
+      
+      sides.touch();
     }
     
     /* virtual */ void
@@ -61,6 +72,21 @@ namespace scene {
       TRACE("scene::primitive::cylinder::accept");
 
       v.visit(*this);
+    }
+
+    /* virtual */ void
+    cylinder::do_changed(field::base& f)
+    {
+      if (&f == &sides) {
+        make_cylinder(*sides, attribute_list_, index_list_);
+        
+        compute_bounds();
+        compute_tangents();
+      }
+
+      else {
+        node::geometry::do_changed(f);
+      }
     }
     
   } // namespace primitive {
