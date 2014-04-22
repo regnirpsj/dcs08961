@@ -6,11 +6,14 @@
 #                                                                                                  #
 ####################################################################################################
 
+MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+
 FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
 SET(SRC)
 LIST(APPEND SRC "adapter_multi.cpp")
 LIST(APPEND SRC "adapter_single.cpp")
+LIST(APPEND SRC "connection.cpp")
 LIST(APPEND SRC "container.cpp")
 LIST(APPEND SRC "value_multi.cpp")
 LIST(APPEND SRC "value_single.cpp")
