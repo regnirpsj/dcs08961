@@ -18,7 +18,7 @@
 #include <glm/gtc/constants.hpp> // glm::pi
 #include <glm/gtc/random.hpp>    // glm::*Rand
 #include <glm/gtx/io.hpp>        // glm::operator<<
-#include <glm/gtx/transform.hpp> // glm::rotate, gm::scale, glm::translate>
+#include <glm/gtx/transform.hpp> // glm::rotate, glm::scale, glm::translate>
 
 // includes, project
 
