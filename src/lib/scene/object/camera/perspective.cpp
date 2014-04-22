@@ -19,6 +19,7 @@
 // includes, system
 
 #include <glm/gtc/matrix_transform.hpp> // glm::infinitePerspective, glm::perspectiveFov
+#include <glm/gtx/io.hpp>               // glm::operator<<
 
 // includes, project
 

@@ -71,27 +71,27 @@ BOOST_AUTO_TEST_CASE(test_scene_object_camera_perspective)
 {
   using namespace scene::object::camera;
 
-  float const       angle(45_deg);
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+  float const       angle(float(45_deg));
+#else
+  float const       angle(float(45 _deg));
+#endif
   perspective const pc   (angle, viewport(1, 1, 2879, 1799),
                           glm::vec2(frustum().near, 10));
   
   BOOST_CHECK(angle == pc.fovy.get());
   BOOST_MESSAGE(glm::io::precision(4) << pc << '\n');
-
-#if 0
-  // expected compile error:
-  // passing 'const field::adapter::single<T>' as 'this' argument of
-  // 'field::adapter::single<T>::set(const value_type&)' discards qualifiers
-  BOOST_CHECK(glm::mat4() == pc.projection.set(glm::mat4()));
-  BOOST_MESSAGE(pc << '\n');
-#endif
 }
 
 BOOST_AUTO_TEST_CASE(test_scene_object_camera_perspective_infty)
 {
   using namespace scene::object::camera;
 
-  float const       angle(45_deg);
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+  float const       angle(float(45_deg));
+#else
+  float const       angle(float(45 _deg));
+#endif
   perspective const pc   (angle, viewport(1, 1, 2879, 1799),
                           glm::vec2(frustum().near, std::numeric_limits<float>::infinity()));
   

@@ -19,6 +19,7 @@
 // includes, system
 
 #include <glm/gtc/matrix_transform.hpp> // glm::ortho
+#include <glm/gtx/io.hpp>               // glm::operator<<
 
 // includes, project
 

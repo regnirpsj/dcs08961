@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <array> // std::array<>
 
 // includes, project
 
