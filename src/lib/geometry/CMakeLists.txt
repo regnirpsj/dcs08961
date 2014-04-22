@@ -6,15 +6,19 @@
 #                                                                                                  #
 ####################################################################################################
 
-IF(DCSC08961_BLD_UTEST)
-  ADD_CUSTOM_TARGET(test_libs)
-  SET_PROPERTY(TARGET test_libs PROPERTY FOLDER "Tests")
-  ADD_DEPENDENCIES(test_all test_libs)
-ENDIF()
+MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
 
-ADD_SUBDIRECTORY(field)
-ADD_SUBDIRECTORY(geometry)
-ADD_SUBDIRECTORY(gli)
-ADD_SUBDIRECTORY(glm)
-ADD_SUBDIRECTORY(scene)
-ADD_SUBDIRECTORY(support)
+SET(LIB "geometry")
+
+SET(SRC)
+
+LIST(APPEND SRC "lattice.cpp")
+LIST(APPEND SRC "triangle.cpp")
+
+SET(LIBS)
+LIST(APPEND LIBS glm)
+LIST(APPEND LIBS support)
+
+LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+
+ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
