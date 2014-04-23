@@ -32,6 +32,12 @@ namespace {
   // types, internal (class, enum, struct, union, typedef)
 
   // variables, internal
+
+#if !defined(_MSC_VER) || (_MSC_VER > 1700)
+  constexpr unsigned const dflt[3] = { 5, 3, 2 };
+#else
+            unsigned const dflt[3] = { 5, 3, 2 };
+#endif
   
   // functions, internal
 
@@ -44,8 +50,33 @@ BOOST_AUTO_TEST_CASE(test_geometry_lattice_ctor)
 {
   using namespace geometry;
 
-  lattice<glm::vec3, 4, 3, 2> const l;
+  typedef lattice<glm::vec3, dflt[0], dflt[1], dflt[2]> ltype;
+
+  glm::vec3 const v(0,1,2);
+  ltype const     l(v);
   
-  BOOST_CHECK(true);
-  BOOST_MESSAGE(l << '\n');
+  BOOST_CHECK(v == l.at(0,0,0));
+  BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(4) << l);
+}
+
+BOOST_AUTO_TEST_CASE(test_geometry_lattice_at)
+{
+  using namespace geometry;
+
+  typedef lattice<glm::vec3, dflt[0], dflt[1], dflt[2]> ltype;
+  
+  {
+    ltype const l;
+    
+    BOOST_CHECK(ltype::value_type() == l.at(0,0,0));
+  }
+
+  {
+    glm::vec3 const v(1,-1,1);
+    ltype           l;
+
+    l.at(0,0,0) = v;
+    
+    BOOST_CHECK(v == l.at(0,0,0));
+  }
 }

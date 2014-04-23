@@ -18,7 +18,7 @@
 
 // includes, system
 
-#include <array> // std::array<>
+#include <vector> // std::vector<>
 
 // includes, project
 
@@ -33,13 +33,18 @@ namespace geometry {
 
   public:
 
-    explicit lattice();
+    typedef T value_type;
+    
+    explicit lattice(value_type const& = value_type());
     
     virtual void print_on(std::ostream&) const;
+
+    value_type const& at(unsigned, unsigned, unsigned) const;
+    value_type&       at(unsigned, unsigned, unsigned);
     
   protected:
-
-    std::array<std::array<std::array<T, Z>, Y>, X> data_;
+    
+    std::vector<std::vector<std::vector<value_type>>> data_;
     
   };
   

@@ -38,22 +38,43 @@ namespace geometry {
 
   template <typename T, unsigned X, unsigned Y, unsigned Z>
   inline /* explicit */
-  lattice<T,X,Y,Z>::lattice()
+  lattice<T,X,Y,Z>::lattice(value_type const& a)
     : support::printable(),
-      data_             ()
+      data_             (X, std::vector<std::vector<T>>(Y, std::vector<T>(Z, a)))
   {
-    TRACE("geometry::lattice<T,D>::lattice");
+    TRACE("geometry::lattice<T,X,Y,Z>::lattice");
   }
 
   template <typename T, unsigned X, unsigned Y, unsigned Z>
   inline /* virtual */ void
   lattice<T,X,Y,Z>::print_on(std::ostream& os) const
   {
-    TRACE_NEVER("geometry::lattice<T,D>::print_on");
+    TRACE_NEVER("geometry::lattice<T,X,Y,Z>::print_on");
 
     using support::ostream::operator<<;
     
-    os << data_;
+    os << '{'
+       << data_.size() << 'x' << data_[0].size() << 'x' << data_[0][0].size() << ':'
+       << data_
+       << '}';
+  }
+
+  template <typename T, unsigned X, unsigned Y, unsigned Z>
+  inline typename lattice<T,X,Y,Z>::value_type const&
+  lattice<T,X,Y,Z>::at(unsigned x, unsigned y, unsigned z) const
+  {
+    TRACE("geometry::lattice<T,X,Y,Z>::at(const)");
+    
+    return data_[x][y][z];
+  }
+  
+  template <typename T, unsigned X, unsigned Y, unsigned Z>
+  inline typename lattice<T,X,Y,Z>::value_type&
+  lattice<T,X,Y,Z>::at(unsigned x, unsigned y, unsigned z)
+  {
+    TRACE("geometry::lattice<T,X,Y,Z>::at");
+    
+    return data_[x][y][z];
   }
   
 } // namespace geometry {
