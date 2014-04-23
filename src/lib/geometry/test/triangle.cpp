@@ -45,20 +45,20 @@ BOOST_AUTO_TEST_CASE(test_geometry_triangle_ctor)
 {
   using namespace geometry;
 
-  triangle const t;
+  triangle const t(glm::vec3(1,2,3), glm::vec3(4,5,6), glm::vec3(7,8,9));
   
-  BOOST_CHECK(glm::vec3(0,0,0) == t.p0);
-  BOOST_CHECK(glm::vec3(1,0,0) == t.p1);
-  BOOST_CHECK(glm::vec3(0,1,0) == t.p2);
+  BOOST_CHECK(glm::vec3(1,2,3) == t.p0);
+  BOOST_CHECK(glm::vec3(4,5,6) == t.p1);
+  BOOST_CHECK(glm::vec3(7,8,9) == t.p2);
 }
 
 BOOST_AUTO_TEST_CASE(test_geometry_triangle_area)
 {
   using namespace geometry;
 
-  triangle const t;
+  triangle const t(glm::vec3(0,0,0), glm::vec3(2,0,0), glm::vec3(0,2,0));
   
-  BOOST_CHECK(std::numeric_limits<float>::epsilon() > std::abs((0.5 * std::sqrt(2)) - t.area()));
+  BOOST_CHECK(std::numeric_limits<float>::epsilon() > std::abs(2.0 - t.area()));
 }
 
 BOOST_AUTO_TEST_CASE(test_geometry_triangle_normal)
@@ -67,7 +67,8 @@ BOOST_AUTO_TEST_CASE(test_geometry_triangle_normal)
 
   triangle const t;
   
-  BOOST_CHECK(glm::vec3(0,0,-1) == t.normal());
+  BOOST_CHECK(glm::vec3(0,0,1) == t.normal());
+  BOOST_CHECK(glm::length(glm::vec3(0,0,1)) == glm::length(t.normal()));
 }
 
 BOOST_AUTO_TEST_CASE(test_geometry_triangle_op_assign_mult)
@@ -81,4 +82,29 @@ BOOST_AUTO_TEST_CASE(test_geometry_triangle_op_assign_mult)
   BOOST_CHECK(glm::vec3( 0, 0,0) == t.p0);
   BOOST_CHECK(glm::vec3(-1, 0,0) == t.p1);
   BOOST_CHECK(glm::vec3( 0,-1,0) == t.p2);
+}
+
+BOOST_AUTO_TEST_CASE(test_geometry_triangle_op_mult)
+{
+  using namespace geometry;
+
+  glm::mat4 const xform(glm::scale(glm::vec3(-1,-1,-1)));
+  
+  {
+    triangle t(triangle() * xform);
+  
+    BOOST_CHECK(glm::vec3( 0, 0,0) == t.p0);
+    BOOST_CHECK(glm::vec3(-1, 0,0) == t.p1);
+    BOOST_CHECK(glm::vec3( 0,-1,0) == t.p2);
+    BOOST_CHECK(std::numeric_limits<float>::epsilon() > std::abs(0.5 - t.area()));
+  }
+  
+  {
+    triangle t(xform * triangle());
+  
+    BOOST_CHECK(glm::vec3( 0, 0,0) == t.p0);
+    BOOST_CHECK(glm::vec3(-1, 0,0) == t.p1);
+    BOOST_CHECK(glm::vec3( 0,-1,0) == t.p2);
+    BOOST_CHECK(std::numeric_limits<float>::epsilon() > std::abs(0.5 - t.area()));
+  }
 }

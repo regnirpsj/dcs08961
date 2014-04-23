@@ -70,7 +70,7 @@ namespace geometry {
   {
     TRACE("geometry::triangle::area");
 
-    return 0.5f * glm::length(p1 - p0) * glm::length(p1 - p2);
+    return 0.5f * glm::length(glm::cross(p1 - p2, p1 - p0));
   }
 
   glm::vec3
@@ -78,7 +78,7 @@ namespace geometry {
   {
     TRACE("geometry::triangle::normal");
 
-    return glm::cross(p1 - p0, p1 - p2);
+    return glm::normalize(glm::cross(p1 - p2, p1 - p0));
   }
 
   triangle&
