@@ -6,9 +6,9 @@
 #                                                                                                  #
 ####################################################################################################
 
-# testing
+# unit testing
 OPTION(DCSC08961_BLD_UTEST "Enable unit-test building by default"                          ON)
-OPTION(DCSC08961_RUN_CTEST "Enable unit-test execution using CTest by default"            OFF)
+OPTION(DCSC08961_RUN_CTEST "Enable unit-test execution using CTest by default"             ON)
 OPTION(DCSC08961_RUN_UTEST "Enable unit-test execution using the build system by default" OFF)
 
 # coverage testing
