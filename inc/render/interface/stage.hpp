@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/pass.hpp                                                                 */
+/*  module     :  render/interface/stage.hpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_PASS_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_STAGE_HPP)
 
-#define UKACHULLDCS_08961_RENDER_PASS_HPP
+#define UKACHULLDCS_08961_RENDER_STAGE_HPP
 
 // includes, system
 
@@ -29,17 +29,17 @@ namespace render {
   // types, exported (class, enum, struct, union, typedef)
 
   template <api::type A>
-  class pass : public api::traits<A>::pass {
+  class stage : public api::traits<A>::stage {
 
   public:
 
-    typedef typename api::traits<A>::pass inherited;
+    typedef typename api::traits<A>::stage inherited;
 
     static api::type const api_type;
     
   };
 
-  template <api::type A> /* static */ api::type const pass<A>::api_type = A;
+  template <api::type A> /* static */ api::type const stage<A>::api_type = A;
   
   // variables, exported (extern)
 
@@ -49,4 +49,4 @@ namespace render {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_PASS_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_STAGE_HPP)

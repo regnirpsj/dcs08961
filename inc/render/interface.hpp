@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/context.hpp                                                              */
+/*  module     :  render/interface.hpp                                                            */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_CONTEXT_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_HPP)
 
-#define UKACHULLDCS_08961_RENDER_CONTEXT_HPP
+#define UKACHULLDCS_08961_RENDER_INTERFACE_HPP
 
 // includes, system
 
@@ -22,31 +22,20 @@
 
 // includes, project
 
-#include <render/api.hpp>
+#include <render/interface/context.hpp>
+#include <render/interface/pass.hpp>
+#include <render/interface/stage.hpp>
 
 namespace render {
   
-  // types, exported (class, enum, struct, union, typedef)
-
-  template <api::type A>
-  class context : public api::traits<A>::context {
-
-  public:
-
-    typedef typename api::traits<A>::context inherited;
-
-    static api::type const api_type;
-    
-  };
-
-  template <api::type A> /* static */ api::type const context<A>::api_type = A;
+    // types, exported (class, enum, struct, union, typedef)
   
-  // variables, exported (extern)
+    // variables, exported (extern)
 
-  // functions, inlined (inline)
+    // functions, inlined (inline)
   
-  // functions, exported (extern)
+    // functions, exported (extern)
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_CONTEXT_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_HPP)

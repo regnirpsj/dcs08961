@@ -19,12 +19,10 @@
 
 // includes, project
 
-#include <render/context.hpp>
 #include <render/d3d.hpp>
+#include <render/interface.hpp>
 #include <render/null.hpp>
 #include <render/ogl.hpp>
-#include <render/pass.hpp>
-#include <render/stage.hpp>
 
 #include <support/type_info.hpp>
 
