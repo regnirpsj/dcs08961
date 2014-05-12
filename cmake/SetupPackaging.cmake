@@ -8,7 +8,6 @@
 
 INCLUDE(InstallRequiredSystemLibraries)
 
-
 STRING(TOLOWER ${CMAKE_PROJECT_NAME} PACKAGE_PREFIX)
 
 SET(CPACK_PACKAGE_NAME                "${PACKAGE_PREFIX}")
