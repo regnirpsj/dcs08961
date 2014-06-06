@@ -77,14 +77,16 @@ namespace field {
     TRACE_NEVER("field::base::print_on");
 
     os << '['
-       << std::right << std::setw(16) << name_ << '@' << this << "->" << &container_
+       << std::right << std::setw(16) << name_ << '@' << this
+       << "->" << &container_ << ':' << changed_
        << ']';
   }
   
   /* explicit */
   base::base(container_type& a, std::string const& b)
     : container_(a),
-      name_     (b)
+      name_     (b),
+      changed_  (support::clock::now())
   {
     TRACE("field::base::base");
 
@@ -104,6 +106,8 @@ namespace field {
   {
     TRACE("field::base::changed");
 
+    changed_ = support::clock::now();
+    
     container_.changed(*this);
     
     notify();

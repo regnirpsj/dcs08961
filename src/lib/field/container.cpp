@@ -215,14 +215,18 @@ namespace field {
     TRACE("field::container::evaluate");
 
     do_evaluate();
+
+    evaluated_ = support::clock::now();
   }
 
   void
   container::changed(base& f)
   {
     TRACE("field::container::changed");
-
+    
     do_changed(f);
+
+    changed_ = support::clock::now();
     
     touch();
   }
@@ -235,7 +239,10 @@ namespace field {
     std::string prefix(0, ' ');
       
     os << prefix << '['
-       << support::demangle(typeid(*this)) << '@' << this << ',';
+       << support::demangle(typeid(*this)) << '@' << this
+       << ":["
+       << changed_ << ':' << evaluated_
+       << "],";
 
     prefix += ' ';
       
@@ -251,6 +258,8 @@ namespace field {
   /* explicit */
   container::container()
     : support::printable(),
+      changed_          (support::clock::now()),
+      evaluated_        (changed_),
       field_list_       ()
   {
     TRACE("field::container::container");

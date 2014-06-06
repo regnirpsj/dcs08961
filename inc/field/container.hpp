@@ -23,6 +23,7 @@
 
 // includes, project
 
+#include <support/chrono.hpp>
 #include <support/printable.hpp>
 
 namespace field {
@@ -71,6 +72,9 @@ namespace field {
     virtual void print_on(std::ostream&) const;
     
   protected:
+
+    support::clock::time_point changed_;
+    support::clock::time_point evaluated_;
     
     explicit container();
     virtual ~container() =0;

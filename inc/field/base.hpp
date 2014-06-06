@@ -22,6 +22,7 @@
 
 // includes, project
 
+#include <support/chrono.hpp>
 #include <support/printable.hpp>
 
 namespace field {
@@ -45,8 +46,9 @@ namespace field {
     
   protected:
 
-    container_type& container_;
-    std::string     name_;
+    container_type&            container_;
+    std::string                name_;
+    support::clock::time_point changed_;
     
     explicit base(container_type&, std::string const&);
     virtual ~base() =0;
