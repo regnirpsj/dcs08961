@@ -13,6 +13,8 @@ FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framew
 SET(SRC)
 LIST(APPEND SRC "adapter_multi.cpp")
 LIST(APPEND SRC "adapter_single.cpp")
+LIST(APPEND SRC "connection_simple.cpp")
+LIST(APPEND SRC "connection_transform.cpp")
 LIST(APPEND SRC "container.cpp")
 LIST(APPEND SRC "value_multi.cpp")
 LIST(APPEND SRC "value_single.cpp")
