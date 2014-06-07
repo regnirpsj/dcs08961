@@ -41,8 +41,8 @@ IF(UNIX)
 
   # GLM
   SET(GLM_INCLUDE_DIR "~/Projects/others/glm-regnirpsj-git")
-  # GLI
 
+  # GLI
   SET(GLI_INCLUDE_DIR "~/Projects/others/gli-regnirpsj-git")
 ENDIF()
 
