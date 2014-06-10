@@ -94,6 +94,21 @@ BOOST_AUTO_TEST_CASE(test_support_refcounted_user)
   BOOST_CHECK(1 == a->get_ref());
 }
 
+BOOST_AUTO_TEST_CASE(test_support_refcounted_guard)
+{
+  refcounted_test* a(new refcounted_test);
+
+  a->add_ref();
+  
+  {
+    support::refcounted::guard const rcg(a);
+  
+    BOOST_CHECK(2 == a->get_ref());
+  }
+
+  BOOST_CHECK(1 == a->get_ref());
+}
+
 //BOOST_AUTO_TEST_CASE_EXPECTED_FAILURES(test_support_refcounted_intrusive_ptr_0, 1);
 
 BOOST_AUTO_TEST_CASE(test_support_refcounted_intrusive_ptr_0)

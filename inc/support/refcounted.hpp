@@ -39,6 +39,19 @@ namespace support {
 
   public:
 
+    class guard : private boost::noncopyable {
+
+    public:
+
+      explicit guard(refcounted const*);
+              ~guard();
+
+    private:
+      
+      refcounted const* refcnt_;
+      
+    };
+    
     void   add_ref() const;
     void   sub_ref() const;
     signed get_ref() const;

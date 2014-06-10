@@ -48,6 +48,23 @@ namespace support {
   
   // functions, exported
 
+  /* explicit */
+  refcounted::guard::guard(refcounted const* a)
+    : boost::noncopyable(),
+      refcnt_           (a)
+  {
+    TRACE("support::refcounted::guard::guard");
+
+    refcnt_->add_ref();
+  }
+  
+  refcounted::guard::~guard()
+  {
+    TRACE("support::refcounted::guard::~guard");
+
+    refcnt_->sub_ref();
+  }
+  
   void
   refcounted::add_ref() const
   {
