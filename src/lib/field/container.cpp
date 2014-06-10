@@ -216,7 +216,7 @@ namespace field {
 
     do_evaluate();
 
-    evaluated_ = support::clock::now();
+    last_evaluate_ = support::clock::now();
   }
 
   void
@@ -226,7 +226,7 @@ namespace field {
     
     do_changed(f);
 
-    changed_ = support::clock::now();
+    last_change_ = support::clock::now();
     
     touch();
   }
@@ -241,7 +241,7 @@ namespace field {
     os << prefix << '['
        << support::demangle(typeid(*this)) << '@' << this
        << ":["
-       << changed_ << ':' << evaluated_
+       << last_change_ << ':' << last_evaluate_
        << "],";
 
     prefix += ' ';
@@ -258,8 +258,8 @@ namespace field {
   /* explicit */
   container::container()
     : support::printable(),
-      changed_          (support::clock::now()),
-      evaluated_        (changed_),
+      last_change_      (support::clock::now()),
+      last_evaluate_    (last_change_),
       field_list_       ()
   {
     TRACE("field::container::container");

@@ -73,8 +73,8 @@ namespace field {
     
   protected:
 
-    support::clock::time_point changed_;
-    support::clock::time_point evaluated_;
+    support::clock::time_point last_change_;
+    support::clock::time_point last_evaluate_;
     
     explicit container();
     virtual ~container() =0;
