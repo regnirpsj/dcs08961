@@ -54,37 +54,83 @@ namespace {
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_transform_single, T, field::test::single_types)
 {
   using namespace field;
-  
-  test::container_single<T>               c;
-  value::single<T> const                  f1(c, "f1");
-  value::single<T>                        f2(c, "f2");
 
-  typedef value::single<T> field_type;
-  typedef assign<T>        xform_type;
-  
-  connection::transform<field_type,field_type,xform_type> r(f1, f2, xform_type());
+  typedef test::container_single<T>                               container_type;
+  typedef value::single<T>                                        field_type;
+  typedef assign<T>                                               xform_type;
+  typedef connection::transform<field_type,field_type,xform_type> connection_type;
 
-  r.update();
+  {
+    container_type   c;
+    field_type const f1(c, "f1");
+    field_type       f2(c, "f2");
+    connection_type  r (f1, f2, xform_type());
+
+    r.update();
   
-  BOOST_CHECK(f2.get() == f1.get());
-  BOOST_MESSAGE(r);
+    BOOST_CHECK(f2.get() == f1.get());
+    BOOST_MESSAGE(&r << ':' << r);
+  }
+
+  {
+    container_type   c;
+    field_type       f1(c, "f1");
+    field_type       f2(c, "f2");
+    connection_type* r (new connection_type(f1, f2, xform_type()));
+    
+    BOOST_CHECK(f1.connection_add(r));
+    BOOST_CHECK(!f1.connection_add(r));
+    
+    f1.touch();
+    
+    BOOST_CHECK(f2.get() == f1.get());
+
+    BOOST_MESSAGE(r << ':' << *r);
+
+    BOOST_CHECK(f1.connection_sub(r));
+
+    delete r;
+  }
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_transform_multi, T, field::test::multi_types)
 {
   using namespace field;
-  
-  test::container_multi<T>               c;
-  value::multi<T> const                  f1(c, "f1");
-  value::multi<T>                        f2(c, "f2");
 
-  typedef value::multi<T>                                   field_type;
-  typedef assign<typename field_type::value_container_type> xform_type;
+  typedef test::container_multi<T>                                container_type;
+  typedef value::multi<T>                                         field_type;
+  typedef assign<typename field_type::value_container_type>       xform_type;
+  typedef connection::transform<field_type,field_type,xform_type> connection_type;
   
-  connection::transform<field_type,field_type,xform_type> r(f1, f2, xform_type());
+  {
+    container_type   c;
+    field_type const f1(c, "f1");
+    field_type       f2(c, "f2");
+    connection_type  r (f1, f2, xform_type());
 
-  r.update();
+    r.update();
   
-  BOOST_CHECK(f2.get() == f1.get());
-  BOOST_MESSAGE(r);
+    BOOST_CHECK(f2.get() == f1.get());
+    BOOST_MESSAGE(&r << ':' << r);
+  }
+
+  {
+    container_type   c;
+    field_type       f1(c, "f1");
+    field_type       f2(c, "f2");
+    connection_type* r (new connection_type(f1, f2, xform_type()));
+    
+    BOOST_CHECK(f1.connection_add(r));
+    BOOST_CHECK(!f1.connection_add(r));
+    
+    f1.touch();
+    
+    BOOST_CHECK(f2.get() == f1.get());
+
+    BOOST_MESSAGE(r << ':' << *r);
+
+    BOOST_CHECK(f1.connection_sub(r));
+
+    delete r;
+  }
 }

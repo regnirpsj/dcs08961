@@ -43,11 +43,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_simple_single, T, field::tes
 {
   using namespace field;
 
+  typedef test::container_single<T>       container_type;
+  typedef value::single<T>                field_type;
+  typedef connection::simple<field_type>  connection_type;
+  
   {
-    test::container_single<T>            c;
-    value::single<T> const               f1(c, "f1");
-    value::single<T>                     f2(c, "f2");
-    connection::simple<value::single<T>> r (f1, f2);
+    container_type   c;
+    field_type const f1(c, "f1");
+    field_type       f2(c, "f2");
+    connection_type  r (f1, f2);
 
     r.update();
   
@@ -56,13 +60,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_simple_single, T, field::tes
   }
 
   {
-    test::container_single<T> c;
-    value::single<T>          f1(c, "f1");
-    value::single<T>          f2(c, "f2");
-
-    typedef connection::simple<value::single<T>> connection_type;
-
-    connection_type* r(new connection_type(f1, f2));
+    container_type   c;
+    field_type       f1(c, "f1");
+    field_type       f2(c, "f2");
+    connection_type* r (new connection_type(f1, f2));
     
     BOOST_CHECK(f1.connection_add(r));
     BOOST_CHECK(!f1.connection_add(r));
@@ -83,11 +84,15 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_simple_multi, T, field::test
 {
   using namespace field;
 
+  typedef test::container_multi<T>       container_type;
+  typedef value::multi<T>                field_type;
+  typedef connection::simple<field_type> connection_type;
+  
   {
-    test::container_multi<T>            c;
-    value::multi<T> const               f1(c, "f1");
-    value::multi<T>                     f2(c, "f2");
-    connection::simple<value::multi<T>> r (f1, f2);
+    container_type   c;
+    field_type const f1(c, "f1");
+    field_type       f2(c, "f2");
+    connection_type  r (f1, f2);
 
     r.update();
   
@@ -96,13 +101,10 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_simple_multi, T, field::test
   }
 
   {
-    test::container_multi<T> c;
-    value::multi<T>          f1(c, "f1");
-    value::multi<T>          f2(c, "f2");
-
-    typedef connection::simple<value::multi<T>> connection_type;
-
-    connection_type* r(new connection_type(f1, f2));
+    container_type   c;
+    field_type       f1(c, "f1");
+    field_type       f2(c, "f2");
+    connection_type* r (new connection_type(f1, f2));
     
     BOOST_CHECK(f1.connection_add(r));
     BOOST_CHECK(!f1.connection_add(r));
