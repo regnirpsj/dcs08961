@@ -42,8 +42,10 @@ namespace field {
       explicit simple(source_type const&, destination_type&,
                       update_policy const& = update_policy::push);
       virtual ~simple();
-      
-      virtual void update();
+
+      virtual destination_type const& destination() const;
+      virtual source_type const&      source() const;
+      virtual void                    update();
       
       virtual void print_on(std::ostream&) const;
 

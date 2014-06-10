@@ -62,6 +62,22 @@ namespace field {
 
       return policy_;
     }
+
+    /* virtual */ ::field::base const&
+    base::destination() const
+    {
+      TRACE("field::connection::base::destination");
+
+      throw std::logic_error("pure virtual function 'field::connection::base::destination' called");
+    }
+    
+    /* virtual */ ::field::base const&
+    base::source() const
+    {
+      TRACE("field::connection::base::source");
+
+      throw std::logic_error("pure virtual function 'field::connection::base::source' called");
+    }
     
     /* virtual */ void
     base::update()

@@ -26,6 +26,8 @@
 
 namespace field {
 
+  class base;
+  
   namespace connection {
 
     // types, exported (class, enum, struct, union, typedef)
@@ -39,8 +41,10 @@ namespace field {
       virtual ~base();
 
       update_policy const& policy() const;
-      
-      virtual void update() =0;
+
+      virtual ::field::base const& destination() const =0;
+      virtual ::field::base const& source() const      =0;
+      virtual void                 update()            =0;
       
       virtual void print_on(std::ostream&) const;
 

@@ -58,7 +58,29 @@ namespace field {
             support::demangle(typeid(T1)) + "," + support::demangle(typeid(T2)) +
             ">::~simple");
     }
-      
+
+    template <typename T1, typename T2>
+    inline /* virtual */ typename simple<T1,T2>::destination_type const&
+    simple<T1,T2>::destination() const
+    {
+      TRACE("field::connection::simple<" +
+            support::demangle(typeid(T1)) + "," + support::demangle(typeid(T2)) +
+            ">::destination");
+
+      return dst_;
+    }
+
+    template <typename T1, typename T2>
+    inline /* virtual */ typename simple<T1,T2>::source_type const&
+    simple<T1,T2>::source() const
+    {
+      TRACE("field::connection::simple<" +
+            support::demangle(typeid(T1)) + "," + support::demangle(typeid(T2)) +
+            ">::source");
+
+      return src_;
+    }
+    
     template <typename T1, typename T2>
     inline /* virtual */ void
     simple<T1,T2>::update()
