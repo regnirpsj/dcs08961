@@ -18,6 +18,7 @@
 
 // includes, system
 
+#include <list>   // std::list<>
 #include <string> // std::string
 
 // includes, project
@@ -28,6 +29,12 @@
 namespace field {
 
   class container;
+
+  namespace connection {
+
+    class base;
+    
+  } // namespace connection {
   
   // types, exported (class, enum, struct, union, typedef)
 
@@ -41,14 +48,20 @@ namespace field {
     std::string const&    name() const;
     
     void touch();
+
+    bool connection_add(connection::base*);
+    bool connection_sub(connection::base*);
     
     virtual void print_on(std::ostream&) const;
     
   protected:
 
+    typedef std::list<connection::base*> connection_list_type;
+    
     container_type&            container_;
     std::string                name_;
-    support::clock::time_point changed_;
+    support::clock::time_point last_change_;
+    connection_list_type       connection_list_;
     
     explicit base(container_type&, std::string const&);
     virtual ~base() =0;
