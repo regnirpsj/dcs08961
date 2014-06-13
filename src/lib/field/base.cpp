@@ -24,7 +24,7 @@
 
 // includes, project
 
-#include <field/connection/base.hpp>
+#include <field/connection/manager.hpp>
 #include <field/container.hpp>
 #include <support/io_utils.hpp>
 
@@ -73,40 +73,6 @@ namespace field {
 
     changed();
   }
-
-  bool
-  base::connection_add(connection::base* a)
-  {
-    TRACE("field::base::connection_add(connection::base)");
-
-    bool result(false);
-    auto found (std::find(connection_list_.begin(), connection_list_.end(), a));
-
-    if (connection_list_.end() == found) {
-      connection_list_.push_back(a);
-
-      result = true;
-    }
-    
-    return result;
-  }
-  
-  bool
-  base::connection_sub(connection::base* a)
-  {
-    TRACE("field::base::connection_sub(connection::base)");
-
-    bool result(false);
-    auto found (std::find(connection_list_.begin(), connection_list_.end(), a));
-
-    if (connection_list_.end() != found) {
-      connection_list_.erase(found);
-
-      result = true;
-    }
-
-    return result;
-  }
   
   /* virtual */ void
   base::print_on(std::ostream& os) const
@@ -117,7 +83,7 @@ namespace field {
     
     os << '['
        << std::right << std::setw(16) << name_ << '@' << this
-       << "->" << &container_ << ':' << last_change_ << ':' << connection_list_
+       << "->" << &container_ << ':' << last_change_
        << ']';
   }
   
@@ -125,8 +91,7 @@ namespace field {
   base::base(container_type& a, std::string const& b)
     : container_      (a),
       name_           (b),
-      last_change_    (support::clock::now()),
-      connection_list_()
+      last_change_    (support::clock::now())
   {
     TRACE("field::base::base");
 
@@ -138,6 +103,8 @@ namespace field {
   {
     TRACE("field::base::~base");
 
+    connection::manager::instance->disconnect(this);
+    
     container_.sub(this);
   }
 
@@ -157,12 +124,6 @@ namespace field {
   base::notify()
   {
     TRACE("field::base::notify");
-
-    for (auto c : connection_list_) {
-      if (connection::base::push == c->policy()) {
-        c->update();
-      }
-    }
   }
   
 } // namespace field {

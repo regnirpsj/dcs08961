@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/test/connection_transform.cpp                                             */
+/*  module     :  field/test/connection_manager.cpp                                               */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,12 +14,12 @@
 
 // includes, system
 
-//#include <>
+// #include <>
 
 // includes, project
 
-#include <field/connection/transform.hpp>
-#include <field/value/multi.hpp>
+#include <field/connection/manager.hpp>
+#include <field/container.hpp>
 #include <field/value/single.hpp>
 #include <shared.hpp>
 
@@ -27,7 +27,7 @@
 
 namespace {
   
-  // types, internal (class, enum, struct, union, typedef)
+  // types, internal (class, enum, struct, union, typedef)  
   
   // variables, internal
   
@@ -37,20 +37,40 @@ namespace {
 
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
-#include <boost/test/test_case_template.hpp>
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_transform_single, T, field::test::single_types)
+BOOST_AUTO_TEST_CASE(test_field_connection_manager_print)
 {
   using namespace field;
 
-  typedef test::container_single<T>                               container_type;
-  typedef value::single<T>                                        field_type;
-}
+  connection::manager::lease cml;
+  
+  BOOST_CHECK(&cml);
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_transform_multi, T, field::test::multi_types)
-{
-  using namespace field;
+  {
+    test::container_single<bool> c;
+    value::single<bool>          f1(c, "f1");
+    value::single<bool>          f2(c, "f2");
+    value::single<bool>          f3(c, "f3");
 
-  typedef test::container_multi<T>                                container_type;
-  typedef value::multi<T>                                         field_type;
+    BOOST_CHECK( cml->connect(&f1, &f2));
+    BOOST_CHECK(!cml->connect(&f1, &f2));
+    BOOST_CHECK( cml->connect(&f1, &f3));
+
+    cml->print_on(std::cout); std::cout << std::endl;
+    
+    {
+      BOOST_CHECK(!cml->connect(&f3, &f3));
+      
+      value::single<bool> f4(c, "f4");
+      
+      BOOST_CHECK( cml->connect(&f3, &f4));
+      BOOST_CHECK(!cml->connect(&f4, &f3));
+      
+      cml->print_on(std::cout); std::cout << std::endl;
+    }
+
+    cml->print_on(std::cout); std::cout << std::endl;
+  }
+  
+  cml->print_on(std::cout); std::cout << std::endl;
 }
