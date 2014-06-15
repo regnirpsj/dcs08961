@@ -49,7 +49,8 @@ namespace field {
       bool connect   (::field::base* const /* src */, ::field::base* const /* dst */,
                       update_function_type);
       bool disconnect(::field::base* const /* src/dst */);
-
+      bool update    (::field::base* const /* src */);
+      
       std::string status() const;
       
       virtual void print_on(std::ostream&) const;

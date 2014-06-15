@@ -29,6 +29,11 @@
 #undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
+#define UKACHULLDCS_FIELD_CONNECTION_MANAGER_VERBOSE
+#if !defined(UKACHULLDCS_USE_TRACE)
+#  undef UKACHULLDCS_FIELD_CONNECTION_MANAGER_VERBOSE
+#endif
+
 // internal unnamed namespace
 
 namespace {
@@ -70,43 +75,56 @@ namespace field {
           auto const inserted(connection_map_.insert(sd));
 
           if (true == (result = inserted.second)) {
-            (*inserted.first).get<upd>()();
+            inserted.first->get<upd>()();
           }
+
+#if defined(UKACHULLDCS_FIELD_CONNECTION_MANAGER_VERBOSE)
+          std::cout << support::trace::prefix() << "field::connection::manager::connect: "
+                      << "added ("
+                      << inserted.first->get<src>()->name()
+                      << ':'
+                      << inserted.first->get<dst>()->name()
+                      << ':'
+                      << &inserted.first->get<upd>()
+                      << ')'
+                      << '\n';
+#endif
         }
-#if 0
+#if defined(UKACHULLDCS_FIELD_CONNECTION_MANAGER_VERBOSE)
         else {
           std::cout << support::trace::prefix() << "field::connection::manager::connect: "
-                    << '('
+                    << "rejected ("
                     << sd.get<src>()->name()
                     << ':'
                     << sd.get<dst>()->name()
                     << ':'
-            //<< support::demangle(sd.get<upd>().target_type()) << '@' << &sd.get<upd>()
+            //<< support::demangle(sd.get<upd>().target_type()) << '@'
+                    << &sd.get<upd>()
                     << ')';
 
           if (connection_map_.end() != found_sd) {
             std::cout << " =?= "
                       << '('
-                      << (*found_sd).get<src>()->name()
+                      << found_sd->get<src>()->name()
                       << ':'
-                      << (*found_sd).get<dst>()->name()
+                      << found_sd->get<dst>()->name()
                       << ':'
-              //<< support::demangle((*found_sd).get<upd>().target_type()) << '@'
-                      << &(*found_sd).get<upd>()
+              //<< support::demangle(found_sd->get<upd>().target_type()) << '@'
+                      << &found_sd->get<upd>()
                       << ')';
           }
 
           if (connection_map_.end() != found_ds) {
             std::cout << " =?= "
                       << '('
-                      << (*found_ds).get<src>()->name()
+                      << found_ds->get<src>()->name()
                       << ':'
-                      << (*found_ds).get<dst>()->name()
+                      << found_ds->get<dst>()->name()
                       << ':'
-              //<< support::demangle((*found_ds).get<upd>().target_type()) << '@'
-                      << &(*found_ds).get<upd>()
+              //<< support::demangle(found_ds->get<upd>().target_type()) << '@'
+                      << &found_ds->get<upd>()
                       << ')';
-              }
+          }
           
           std::cout << '\n';
         }
@@ -121,26 +139,96 @@ namespace field {
     {
       TRACE("field::connection::manager::disconnect");
 
-      bool       result(false);
-      auto const found_src(connection_map_.by<src>().find(f));
+      bool result(false);
 
-      if (connection_map_.by<src>().end() != found_src) {
-        connection_map_.by<src>().erase(found_src);
+      {
+        auto found(connection_map_.by<src>().find(f));
 
-        result |= true;
+        while (connection_map_.by<src>().end() != found) {
+          if (found->get<src>() == f) {
+#if defined(UKACHULLDCS_FIELD_CONNECTION_MANAGER_VERBOSE)
+            std::cout << support::trace::prefix() << "field::connection::manager::disconnect: "
+                      << "removing source ("
+                      << found->get<src>()->name()
+                      << ':'
+                      << found->get<dst>()->name()
+                      << ':'
+                      << &found->get<upd>()
+                      << ')'
+                      << '\n';
+#endif
+
+            found = connection_map_.by<src>().erase(found);
+            
+            result |= true;
+          } else {
+            ++found;
+          }
+        }
       }
+      
+      {
+        auto found(connection_map_.by<dst>().find(f));
+        
+        while (connection_map_.by<dst>().end() != found) {
+          if (found->get<dst>() == f) {
+#if defined(UKACHULLDCS_FIELD_CONNECTION_MANAGER_VERBOSE)
+            std::cout << support::trace::prefix() << "field::connection::manager::disconnect: "
+                      << "removing destination ("
+                      << found->get<src>()->name()
+                      << ':'
+                      << found->get<dst>()->name()
+                      << ':'
+                      << &found->get<upd>()
+                      << ')'
+                      << '\n';
+#endif
 
-      auto const found_dst(connection_map_.by<dst>().find(f));
-
-      if (connection_map_.by<dst>().end() != found_dst) {
-        connection_map_.by<dst>().erase(found_dst);
-
-        result |= true;
+            found = connection_map_.by<dst>().erase(found);
+            
+            result |= true;
+          } else {
+            ++found;
+          }
+        }
       }
-
+      
       return result;
     }
 
+    bool
+    manager::update(::field::base* const s)
+    {
+      TRACE("field::connection::manager::update");
+
+      bool result(false);
+      auto found (connection_map_.by<src>().find(s));
+
+      while (connection_map_.by<src>().end() != found) {
+        if (found->get<src>() == s) {
+#if defined(UKACHULLDCS_FIELD_CONNECTION_MANAGER_VERBOSE)
+          std::cout << support::trace::prefix() << "field::connection::manager::update: "
+                    << "source ("
+                    << found->get<src>()->name()
+                    << ':'
+                    << found->get<dst>()->name()
+                    << ':'
+                    << &found->get<upd>()
+                    << ')'
+                    << '\n';
+#endif
+            
+          found->get<upd>()();
+          
+          result |= true;
+        }
+
+        ++found;
+      }
+      
+      return result;
+    }
+    
     std::string
     manager::status() const
     {
@@ -166,7 +254,7 @@ namespace field {
         
         print_helper<src, dst>(f.get<src>(), ostr);
 
-#if 1
+#if defined(UKACHULLDCS_FIELD_CONNECTION_MANAGER_VERBOSE)
         ostr << std::string(std::max(static_cast<unsigned long>(60), ostr.str().length()+1) -
                             ostr.str().length(), ' ');
     
@@ -183,7 +271,7 @@ namespace field {
         
         print_helper<dst, src>(f.get<dst>(), ostr);
 
-#if 1
+#if defined(UKACHULLDCS_FIELD_CONNECTION_MANAGER_VERBOSE)
         ostr << std::string(std::max(static_cast<unsigned long>(60), ostr.str().length()+1) -
                             ostr.str().length(), ' ');
     

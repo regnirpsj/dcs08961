@@ -124,6 +124,8 @@ namespace field {
   base::notify()
   {
     TRACE("field::base::notify");
+
+    connection::manager::instance->update(this);
   }
   
 } // namespace field {
