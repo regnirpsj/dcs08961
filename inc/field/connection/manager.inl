@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field/connection/transform.inl                                                  */
+/*  module     :  field/connection/manager.inl                                                    */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_FIELD_CONNECTION_TRANSFORM_INL)
+#if !defined(UKACHULLDCS_08961_FIELD_CONNECTION_MANAGER_INL)
 
-#define UKACHULLDCS_08961_FIELD_CONNECTION_TRANSFORM_INL
+#define UKACHULLDCS_08961_FIELD_CONNECTION_MANAGER_INL
 
 // includes, system
 
@@ -33,12 +33,27 @@
 #endif
 
 namespace field {
+  
+  // functions, inlined (inline)
 
-  namespace connection {
+  template <typename T1, typename T2>
+  inline bool
+  connect(T1* const a, T2* const b, std::function<void (T1* const, T2* const)> c)
+  {
+    TRACE("field::connect<" + support::demangle(typeid(T1)) + "," + support::demangle(typeid(T2)) +
+          ">");
+
+    return connection::manager::instance->connect(a, b, std::bind(c, a, b));
+  }
+
+  template <typename T>
+  inline bool
+  disconnect(T const* const a)
+  {
+    TRACE("field::disconnect<" + support::demangle(typeid(T)) + ">");
     
-    // functions, inlined (inline)
-
-  } // namespace connection {
+    return connection::manager::instance->disconnect(a);
+  }
   
 } // namespace field {
 
@@ -46,4 +61,4 @@ namespace field {
 #  undef UKACHULLDCS_USE_TRACE
 #endif
 
-#endif // #if !defined(UKACHULLDCS_08961_FIELD_CONNECTION_TRANSFORM_INL)
+#endif // #if !defined(UKACHULLDCS_08961_FIELD_CONNECTION_MANAGER_INL)

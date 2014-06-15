@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  field_connection_transform.cpp                                                  */
+/*  module     :  field/connection/update.hpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-// include i/f header
+#if !defined(UKACHULLDCS_08961_FIELD_CONNECTION_UPDATE_HPP)
 
-#include "field/connection/transform.hpp"
+#define UKACHULLDCS_08961_FIELD_CONNECTION_UPDATE_HPP
 
 // includes, system
 
@@ -22,32 +22,40 @@
 
 // includes, project
 
-//#include <>
-
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
-
-// internal unnamed namespace
-
-namespace {
-  
-  // types, internal (class, enum, struct, union, typedef)
-
-  // variables, internal
-  
-  // functions, internal
-
-} // namespace {
+// #include <>
 
 namespace field {
-
-  namespace connection {
-    
-    // variables, exported
   
-    // functions, exported
+  namespace connection {
 
+    namespace update {
+      
+      // types, exported (class, enum, struct, union, typedef)
+      
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
+
+      template <typename T1, typename T2>
+      void assign(T1* const /* src */, T2* const /* dst */);
+
+      template <typename T1, typename T2>
+      void average(T1* const /* src */, T2* const /* dst */);
+      
+      template <typename T1, typename T2>
+      void append(T1* const /* src */, T2* const /* dst */);
+
+      template <typename T1, typename T2>
+      void prepend(T1* const /* src */, T2* const /* dst */);
+      
+      // functions, exported (extern)
+
+    } // namespace update {
+      
   } // namespace connection {
   
 } // namespace field {
+
+#include <field/connection/update.inl>
+
+#endif // #if !defined(UKACHULLDCS_08961_FIELD_CONNECTION_UPDATE_HPP)
