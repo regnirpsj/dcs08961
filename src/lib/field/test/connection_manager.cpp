@@ -34,6 +34,13 @@ namespace {
   
   // functions, internal
 
+  template <typename T1, typename T2>
+  std::function<void (T1* const, T2* const)>
+  make_function(T1 const&, T2 const&, void (*f)(T1* const, T2* const))
+  {
+    return f;
+  }
+  
 } // namespace {
 
 #define BOOST_TEST_MAIN
@@ -51,10 +58,10 @@ BOOST_AUTO_TEST_CASE(test_field_connection_manager_print)
   BOOST_MESSAGE(cml->status());
   
   {
-    test::container_single<bool> c;
-    value::single<bool>          f1(c, "f1");
-    value::single<bool>          f2(c, "f2");
-    value::single<bool>          f3(c, "f3");
+    test::container_single<unsigned> c;
+    value::single<unsigned>          f1(c, "f1");
+    value::single<signed>            f2(c, "f2");
+    value::single<unsigned>          f3(c, "f3");
 
     BOOST_CHECK( connect(&f1, &f2));
     BOOST_CHECK(!connect(&f1, &f2));
@@ -67,7 +74,7 @@ BOOST_AUTO_TEST_CASE(test_field_connection_manager_print)
     {
       BOOST_CHECK(!connect(&f3, &f3));
       
-      value::single<bool> f4(c, "f4");
+      value::single<unsigned> f4(c, "f4");
       
       BOOST_CHECK( connect(&f3, &f4));
       BOOST_CHECK(!connect(&f4, &f3));
@@ -85,18 +92,14 @@ BOOST_AUTO_TEST_CASE(test_field_connection_manager_print)
     }
 
     {
+      using connection::update::average;
+      using connection::update::append;
+      
       test::container_single<float> cf;
       value::multi<float>           f6(cf, "f6");
-
-      std::function<void (value::multi<float>* const, value::single<bool>* const)> upd_f6_f3 =
-        connection::update::average<value::multi<float>,value::single<bool>>;
       
-      BOOST_CHECK( connect(&f6, &f3, upd_f6_f3));
-
-      std::function<void (value::single<bool>* const, value::multi<float>* const)> upd_f3_f6 =
-                    connection::update::append<value::single<bool>,value::multi<float>>;
-      
-      BOOST_CHECK(!connect(&f3, &f6, upd_f3_f6));
+      BOOST_CHECK( connect(&f6, &f3, make_function(f6, f3, average)));
+      BOOST_CHECK(!connect(&f3, &f6, make_function(f3, f6, append)));
 
       f6.touch();
       

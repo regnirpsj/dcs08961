@@ -99,7 +99,7 @@ namespace field {
   bool connect   (T1* const /* src */, T2* const /* dst */,
                   std::function<void (T1* const, T2* const)> /* upd */ =
                   connection::update::assign<T1,T2>);
-
+  
   template <typename T>
   bool disconnect(T* const /* src/dst */);
   
