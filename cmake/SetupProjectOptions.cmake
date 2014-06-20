@@ -6,6 +6,9 @@
 #                                                                                                  #
 ####################################################################################################
 
+# glibcxx parallel support
+OPTION(DCSC08961_GLIBCXX_PARALLEL "Enable GLIBCXX parallel mode" OFF)
+
 # unit testing
 OPTION(DCSC08961_BLD_UTEST "Enable unit-test building by default"                          ON)
 OPTION(DCSC08961_RUN_CTEST "Enable unit-test execution using CTest by default"             ON)
