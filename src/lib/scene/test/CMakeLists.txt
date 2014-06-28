@@ -12,6 +12,8 @@ FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framew
 
 SET(SRC)
 
+LIST(APPEND SRC "file.cpp")
+
 LIST(APPEND SRC "node_camera.cpp")
 LIST(APPEND SRC "node_global_light.cpp")
 LIST(APPEND SRC "node_group.cpp")

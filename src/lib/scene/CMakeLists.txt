@@ -14,6 +14,8 @@ SET(LIB "scene")
 
 SET(SRC)
 
+LIST(APPEND SRC "file.cpp")
+
 LIST(APPEND SRC "node/base.cpp")
 LIST(APPEND SRC "node/camera.cpp")
 LIST(APPEND SRC "node/dynamic.cpp")
@@ -56,9 +58,13 @@ LIST(APPEND SRC "primitive/tetrahedron.cpp")
 
 LIST(APPEND SRC "visitor/base.cpp")
 LIST(APPEND SRC "visitor/bfs.cpp")
+#LIST(APPEND SRC "visitor/collect.cpp")
 LIST(APPEND SRC "visitor/dfs.cpp")
+#LIST(APPEND SRC "visitor/intersect.cpp")
 LIST(APPEND SRC "visitor/print.cpp")
 LIST(APPEND SRC "visitor/subject.cpp")
+#LIST(APPEND SRC "visitor/update_bounds.cpp")
+#LIST(APPEND SRC "visitor/update_dynamic.cpp")
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
