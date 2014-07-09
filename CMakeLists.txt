@@ -26,9 +26,9 @@ ENDIF()
 MESSAGE(STATUS "CMAKE_BUILD_TYPE set to '" ${CMAKE_BUILD_TYPE} "'")
 
 # initial cache to make life easier on window$ (if we ever get there ;)
-IF(NOT DCSC08961INITCACHELOADED AND EXISTS ${CMAKE_SOURCE_DIR}/CMakeCacheInitial.txt)
+IF(NOT DCS08961INITCACHELOADED AND EXISTS ${CMAKE_SOURCE_DIR}/CMakeCacheInitial.txt)
   INCLUDE(${CMAKE_SOURCE_DIR}/CMakeCacheInitial.txt)
-  SET(DCSC08961INITCACHELOADED TRUE CACHE INTERNAL "")
+  SET(DCS08961INITCACHELOADED TRUE CACHE INTERNAL "")
 ENDIF()
 
 # globally visible functions/modules/variables
@@ -44,14 +44,14 @@ INCLUDE(SetupCompilerPre)
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # testing
-IF(DCSC08961_BLD_UTEST)
+IF(DCS08961_BLD_UTEST)
   MESSAGE(STATUS "Enabling unit-test building")
 
-  IF(DCSC08961_RUN_CTEST)
+  IF(DCS08961_RUN_CTEST)
     ENABLE_TESTING()
     CONFIGURE_FILE(cmake/SetupTestConfig.cmake ${CMAKE_BINARY_DIR}/CTestConfig.cmake COPYONLY)
     MESSAGE(STATUS "Enabling CTest unit-test execution")
-  ELSEIF(DCSC08961_RUN_UTEST)
+  ELSEIF(DCS08961_RUN_UTEST)
     MESSAGE(STATUS "Enabling unit-test execution")
   ELSE()
     MESSAGE(STATUS "Disabling unit-test execution")

@@ -6,7 +6,7 @@
 #                                                                                                  #
 ####################################################################################################
 
-IF(DCSC08961_BLD_UTEST)
+IF(DCS08961_BLD_UTEST)
   ADD_CUSTOM_TARGET(test_libs)
   SET_PROPERTY(TARGET test_libs PROPERTY FOLDER "Tests")
   ADD_DEPENDENCIES(test_all test_libs)

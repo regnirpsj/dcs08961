@@ -6,7 +6,7 @@
 #                                                                                                  #
 ####################################################################################################
 
-IF(DCSC08961_BLD_UTEST)
+IF(DCS08961_BLD_UTEST)
   ADD_CUSTOM_TARGET(test_all)
   SET_PROPERTY(TARGET test_all PROPERTY FOLDER "Tests")
 ENDIF()
