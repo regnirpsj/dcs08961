@@ -43,14 +43,24 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_update_single, T, field::tes
 {
   using namespace field;
 
-  typedef test::container_single<T>                               container_type;
-  typedef value::single<T>                                        field_type;
+  typedef test::container_single<T> container_type;
+  typedef value::single<T>          field_type;
+
+  container_type c;
+  field_type     f(c, "f");
+
+  BOOST_CHECK(T() == f.get());
 }
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_connection_update_multi, T, field::test::multi_types)
 {
   using namespace field;
 
-  typedef test::container_multi<T>                                container_type;
-  typedef value::multi<T>                                         field_type;
+  typedef test::container_multi<T> container_type;
+  typedef value::multi<T>          field_type;
+
+  container_type c;
+  field_type     f(c, "f");
+
+  BOOST_CHECK(0 == f.get().size());
 }
