@@ -105,7 +105,7 @@ namespace {
     typedef file_handler::load_function_type load_fun;
     typedef file_handler::save_function_type save_fun;
     
-    static std::array<std::tuple<std::string, load_fun, save_fun>, 1> const suffixes = {
+    static std::array<std::tuple<std::string const, load_fun, save_fun>, 1> const suffixes = {
       {
         std::make_tuple(".obj", &obj_load, &obj_save),
       }
