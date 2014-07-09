@@ -64,8 +64,7 @@ LIST(APPEND SRC "visitor/dfs.cpp")
 #LIST(APPEND SRC "visitor/intersect.cpp")
 LIST(APPEND SRC "visitor/print.cpp")
 LIST(APPEND SRC "visitor/subject.cpp")
-#LIST(APPEND SRC "visitor/update_bounds.cpp")
-#LIST(APPEND SRC "visitor/update_dynamic.cpp")
+LIST(APPEND SRC "visitor/update_bounds.cpp")
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 

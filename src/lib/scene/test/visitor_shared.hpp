@@ -6,28 +6,35 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/visitors.hpp                                                              */
+/*  module     :  scene/test/vistor_shared.hpp                                                    */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_VISITORS_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_TEST_VISTOR_SHARED_HPP)
 
-#define UKACHULLDCS_08961_SCENE_VISITORS_HPP
+#define UKACHULLDCS_08961_SCENE_TEST_VISTOR_SHARED_HPP
 
 // includes, system
 
-//#include <>
+// #include <>
 
 // includes, project
 
-#include <scene/visitor/cull.hpp>
-#include <scene/visitor/print.hpp>
-#include <scene/visitor/subject.hpp>
-#include <scene/visitor/update_bounds.hpp>
+// #include <>
 
 namespace scene {
+
+  namespace node {
+
+    class group;
+    
+  } // namespace node {
+  
+} // namespace scene {
+
+namespace test {
   
   // types, exported (class, enum, struct, union, typedef)
 
@@ -36,7 +43,9 @@ namespace scene {
   // functions, inlined (inline)
   
   // functions, exported (extern)
-  
-} // namespace ??? {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_VISITORS_HPP)
+  scene::node::group* make_scene();
+
+} // namespace test {
+
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_TEST_VISTOR_SHARED_HPP)

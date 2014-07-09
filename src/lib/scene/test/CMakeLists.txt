@@ -37,9 +37,6 @@ LIST(APPEND SRC "primitive_octahedron.cpp")
 LIST(APPEND SRC "primitive_sphere.cpp")
 LIST(APPEND SRC "primitive_tetrahedron.cpp")
 
-LIST(APPEND SRC "visitor_cull.cpp")
-LIST(APPEND SRC "visitor_print.cpp")
-
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
 SET(LIBS)
@@ -51,3 +48,15 @@ IF(UNIX)
 ENDIF()
 
 TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+
+# test w/ add'l (shared) objects
+SET(SRC)
+
+LIST(APPEND SRC "visitor_cull.cpp")
+LIST(APPEND SRC "visitor_print.cpp")
+LIST(APPEND SRC "visitor_update_bounds.cpp")
+
+SET(SHRD)
+LIST(APPEND SHRD "visitor_shared.cpp")
+
+TEST_SETUP(${LIB} SOURCES ${SRC} ADDITIONAL ${SHRD} DEPENDENCIES ${LIBS})

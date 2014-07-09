@@ -18,11 +18,14 @@
 
 // includes, system
 
-#include <iosfwd> // std::ostream (fwd)
+#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
+#include <iosfwd>                  // std::ostream (fwd)
+#include <unordered_set>           // std::unordered_set<>
 
 // includes, project
 
 #include <scene/visitor/dfs.hpp>
+#include <support/hasher.hpp>
 
 namespace scene {
 
@@ -33,8 +36,10 @@ namespace scene {
     class cull : public dfs {
 
     public:
-    
-      explicit cull(node::camera const&);
+
+      typedef std::unordered_set<boost::intrusive_ptr<node::geometry>> visible_list_type;
+      
+      explicit cull(node::camera const&, visible_list_type&);
       virtual ~cull();
 
       virtual void visit(node::geometry&);
@@ -45,6 +50,7 @@ namespace scene {
     private:
 
       node::camera const& camera_;
+      visible_list_type&  visible_list_;
       
       virtual void visit(subject&);
     

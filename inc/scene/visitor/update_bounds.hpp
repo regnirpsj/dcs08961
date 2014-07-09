@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/visitors.hpp                                                              */
+/*  module     :  scene/visitor/update_bounds.hpp                                                 */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_VISITORS_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_VISITOR_UPDATE_BOUNDS_HPP)
 
-#define UKACHULLDCS_08961_SCENE_VISITORS_HPP
+#define UKACHULLDCS_08961_SCENE_VISITOR_UPDATE_BOUNDS_HPP
 
 // includes, system
 
@@ -22,21 +22,41 @@
 
 // includes, project
 
-#include <scene/visitor/cull.hpp>
-#include <scene/visitor/print.hpp>
-#include <scene/visitor/subject.hpp>
-#include <scene/visitor/update_bounds.hpp>
+#include <scene/visitor/dfs.hpp>
 
 namespace scene {
-  
-  // types, exported (class, enum, struct, union, typedef)
 
-  // variables, exported (extern)
+  namespace visitor {
+    
+    // types, exported (class, enum, struct, union, typedef)
 
-  // functions, inlined (inline)
-  
-  // functions, exported (extern)
-  
-} // namespace ??? {
+    class update_bounds : public dfs {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_VISITORS_HPP)
+    public:
+
+      explicit update_bounds();
+      virtual ~update_bounds();
+
+      virtual void visit(node::geometry&);
+      virtual void visit(node::group&);
+      virtual void visit(node::transform&);
+
+      virtual void print_on(std::ostream&) const;
+      
+    private:
+
+      virtual void visit(subject&);
+      
+    };
+    
+    // variables, exported (extern)
+
+    // functions, inlined (inline)
+  
+    // functions, exported (extern)
+    
+  } // namespace visitor {
+  
+} // namespace scene {
+
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_VISITOR_UPDATE_BOUNDS_HPP)

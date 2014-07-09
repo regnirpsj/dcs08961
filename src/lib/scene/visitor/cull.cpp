@@ -18,15 +18,17 @@
 
 // includes, system
 
-#include <ostream> // std::ostream
+#include <glm/gtx/io.hpp> // glm::io::*
+#include <ostream>        // std::ostream
 
 // includes, project
 
+#include <scene/node/camera.hpp>
 #include <scene/node/geometry.hpp>
 #include <scene/node/group.hpp>
 
 #define UKACHULLDCS_USE_TRACE
-//#undef UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 // internal unnamed namespace
@@ -39,6 +41,21 @@ namespace {
   
   // functions, internal
 
+  bool
+  visible(scene::node::camera const& a, scene::node::base const& b)
+  {
+    auto const& mvp    (a.object.get()->projection.get() * a.view.get() * b.absolute_xform());
+    auto const& frustum(a.object.get()->frustum.get());
+    bool result(true);
+    
+    if (!frustum.contains(glm::vec3(mvp * glm::vec4(b.bbox.get().min, 1)).xyz()) &&
+        !frustum.contains(glm::vec3(mvp * glm::vec4(b.bbox.get().max, 1)).xyz())) {
+      result = false;
+    }
+    
+    return result;
+  }
+  
 } // namespace {
 
 namespace scene {
@@ -50,11 +67,14 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    cull::cull(node::camera const& a)
-      : dfs    (),
-        camera_(a)
+    cull::cull(node::camera const& a, visible_list_type& b)
+      : dfs          (),
+        camera_      (a),
+        visible_list_(b)
     {
       TRACE("scene::visitor::cull::cull");
+
+      visible_list_.clear();
     }
     
     /* virtual */
@@ -64,9 +84,13 @@ namespace scene {
     }
     
     /* virtual */ void
-    cull::visit(node::geometry&)
+    cull::visit(node::geometry& a)
     {
       TRACE("scene::visitor::cull::visit(node::geometry)");
+
+      if (visible(camera_, a)) {
+        visible_list_.insert(&a);
+      }
     }
     
     /* virtual */ void
@@ -74,7 +98,9 @@ namespace scene {
     {
       TRACE("scene::visitor::cull::visit(node::group)");
 
-      dfs::visit(a);
+      if (visible(camera_, a)) {
+        dfs::visit(a);
+      }
     }
     
     /* virtual */ void
