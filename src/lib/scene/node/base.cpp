@@ -167,7 +167,7 @@ namespace scene {
 
       // nothing to do; 'parent_' bookkeeping is internally handled
       
-      return parent_;
+      return cb_get_parent();
     }
 
     std::ostream&
