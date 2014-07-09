@@ -35,6 +35,13 @@ namespace std {
   {
     return boost::hash_value(a);
   }
+
+  template <typename T>
+  inline size_t
+  hash<boost::intrusive_ptr<T>>::operator()(boost::intrusive_ptr<T> const& a) const
+  {
+    return boost::hash_value(a);
+  }
   
 } // namespace std {
 

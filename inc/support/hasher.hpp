@@ -18,8 +18,9 @@
 
 // includes, system
 
-#include <string>  // std::string
-#include <utility> // std::pair<>
+#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
+#include <string>                  // std::string
+#include <utility>                 // std::pair<>
 
 // includes, project
 
@@ -32,10 +33,17 @@ namespace std {
   template <typename T1, typename T2>
   struct hash<pair<T1, T2>> {
       
-    size_t operator()(pair<T1, T2> const& a) const;
+    size_t operator()(pair<T1, T2> const&) const;
       
   };
 
+  template <typename T>
+  struct hash<boost::intrusive_ptr<T>> {
+
+    size_t operator()(boost::intrusive_ptr<T> const&) const;
+    
+  };
+  
   template <>
   struct hash<string const> {
     
