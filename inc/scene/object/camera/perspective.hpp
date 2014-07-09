@@ -22,7 +22,6 @@
 
 // includes, project
 
-#include <glm/gtx/utilities.hpp>
 #include <scene/object/camera/base.hpp>
 
 namespace scene {
@@ -39,17 +38,12 @@ namespace scene {
 
         typedef base subject_inherited;
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
-        explicit perspective(float                /* fovy */     = 60_deg,
+        static float const default_fovy; ///< default vertical vield-of-view (60 degrees)
+        
+        explicit perspective(float                /* fovy */     = default_fovy,
                              viewport_type const& /* viewport */ = viewport_type(),
                              glm::vec2 const&     /* near/far */ = glm::vec2(frustum_type().near,
                                                                              frustum_type().far));
-#else
-        explicit perspective(float                /* fovy */     = 60 _deg,
-                             viewport_type const& /* viewport */ = viewport_type(),
-                             glm::vec2 const&     /* near/far */ = glm::vec2(frustum_type().near,
-                                                                             frustum_type().far));
-#endif
         virtual ~perspective();
 
         field::value::single<float> fovy; ///< vertical field-of-view
