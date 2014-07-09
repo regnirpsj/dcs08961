@@ -77,6 +77,16 @@ namespace scene {
 
         return os;
       }
+
+      bool
+      frustum::contains(glm::vec3 const&) const
+      {
+        TRACE("scene::object::camera::frustum::contains");
+
+        bool result(false);
+
+        return result;
+      }
       
     } // namespace camera {
     

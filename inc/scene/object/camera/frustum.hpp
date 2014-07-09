@@ -18,7 +18,8 @@
 
 // includes, system
 
-#include <iosfwd> // std::ostream (fwd)
+#include <iosfwd>      // std::ostream (fwd)
+#include <glm/glm.hpp> // glm::vec3
 
 // includes, project
 
@@ -60,6 +61,8 @@ namespace scene {
                          float /* near */   =   0.01,
                          float /* far */    = 100.00);
 
+        bool contains(glm::vec3 const&) const;
+        
       };
       
       // variables, exported (extern)
