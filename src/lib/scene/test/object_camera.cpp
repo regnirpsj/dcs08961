@@ -18,6 +18,7 @@
 
 // includes, project
 
+#include <glm/gtx/utilities.hpp>
 #include <scene/objects.hpp>
 
 // internal unnamed namespace
@@ -27,6 +28,12 @@ namespace {
   // types, internal (class, enum, struct, union, typedef)
   
   // variables, internal
+
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+  float const angle45deg(float(45_deg));
+#else
+  float const angle45deg(float(45 _deg));
+#endif
   
   // functions, internal
 
@@ -70,16 +77,11 @@ BOOST_AUTO_TEST_CASE(test_scene_object_camera_orthographic)
 BOOST_AUTO_TEST_CASE(test_scene_object_camera_perspective)
 {
   using namespace scene::object::camera;
-
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
-  float const       angle(float(45_deg));
-#else
-  float const       angle(float(45 _deg));
-#endif
-  perspective const pc   (angle, viewport(1, 1, 2879, 1799),
+  
+  perspective const pc   (angle45deg, viewport(1, 1, 2879, 1799),
                           glm::vec2(frustum().near, 10));
   
-  BOOST_CHECK(angle == pc.fovy.get());
+  BOOST_CHECK(angle45deg == pc.fovy.get());
   BOOST_MESSAGE(glm::io::precision(4) << pc << '\n');
 }
 
@@ -87,14 +89,9 @@ BOOST_AUTO_TEST_CASE(test_scene_object_camera_perspective_infty)
 {
   using namespace scene::object::camera;
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
-  float const       angle(float(45_deg));
-#else
-  float const       angle(float(45 _deg));
-#endif
-  perspective const pc   (angle, viewport(1, 1, 2879, 1799),
+  perspective const pc   (angle45deg, viewport(1, 1, 2879, 1799),
                           glm::vec2(frustum().near, std::numeric_limits<float>::infinity()));
   
-  BOOST_CHECK(angle == pc.fovy.get());
+  BOOST_CHECK(angle45deg == pc.fovy.get());
   BOOST_MESSAGE(glm::io::precision(4) << pc << '\n');
 }

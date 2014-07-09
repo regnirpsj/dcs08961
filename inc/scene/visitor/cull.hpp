@@ -6,36 +6,58 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  scene/visitors.hpp                                                              */
+/*  module     :  scene/visitor/cull.hpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SCENE_VISITORS_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_VISITOR_CULL_HPP)
 
-#define UKACHULLDCS_08961_SCENE_VISITORS_HPP
+#define UKACHULLDCS_08961_SCENE_VISITOR_CULL_HPP
 
 // includes, system
 
-//#include <>
+#include <iosfwd> // std::ostream (fwd)
 
 // includes, project
 
-#include <scene/visitor/cull.hpp>
-#include <scene/visitor/print.hpp>
-#include <scene/visitor/subject.hpp>
+#include <scene/visitor/dfs.hpp>
 
 namespace scene {
-  
-  // types, exported (class, enum, struct, union, typedef)
 
-  // variables, exported (extern)
+  namespace visitor {
+    
+    // types, exported (class, enum, struct, union, typedef)
 
-  // functions, inlined (inline)
-  
-  // functions, exported (extern)
-  
-} // namespace ??? {
+    class cull : public dfs {
 
-#endif // #if !defined(UKACHULLDCS_08961_SCENE_VISITORS_HPP)
+    public:
+    
+      explicit cull(node::camera const&);
+      virtual ~cull();
+
+      virtual void visit(node::geometry&);
+      virtual void visit(node::group&);
+      
+      virtual void print_on(std::ostream&) const;
+      
+    private:
+
+      node::camera const& camera_;
+      
+      virtual void visit(subject&);
+    
+    };
+    
+    // variables, exported (extern)
+
+    // functions, inlined (inline)
+  
+    // functions, exported (extern)
+
+  } // namespace visitor {
+  
+} // namespace scene {
+
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_VISITOR_CULL_HPP)
