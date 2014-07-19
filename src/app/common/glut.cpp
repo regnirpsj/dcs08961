@@ -26,8 +26,7 @@
 #include <glm/gtx/io.hpp>            // glm::io::*
 #include <iomanip>                   // std::setfill, std::setw
 #include <oglplus/config/gl.hpp>     // 
-#include <oglplus/error/program.hpp> //
-#include <oglplus/error/limit.hpp>   //
+
 #include <stdexcept>                 // std::logic_error
 
 // includes, project
@@ -67,96 +66,6 @@ namespace glut {
   
   // functions, exported
 
-  /* static */ signed
-  application::exception_handled(int argc, char* argv[])
-  {
-    TRACE("glut::application::exception_handled");
-
-    signed result(EXIT_FAILURE);
-    
-    try {
-      application::instance()->config(argc, argv);
-      
-      application::instance()->init();
-      {
-        result = application::instance()->run();
-      }
-      application::instance()->fini();
-    }
-
-    catch (oglplus::ProgramBuildError& ex) {
-      std::cerr << " Program build error (in " << ex.GLFunc() << ", " << ex.ObjectTypeName()
-                << ": (" << ex.ObjectName() << ") '" << ex.ObjectDesc() << "'): " << ex.what()
-                << ": " << ex.Log() << '\n';
-    }
-
-    catch (oglplus::LimitError& ex) {
-      std::cerr << " Limit error: (" << ex.Value() << ") exceeds (" << ex.EnumParamName() << " == "
-                << ex.Limit() << ") [" << ex.SourceFile() << ":" << ex.SourceLine() << "] " << '\n';
-    }
-
-    catch (oglplus::ObjectError& ex) {
-      std::cerr << " Object error (in " << ex.GLFunc() << ", " << ex.ObjectTypeName() << ": ("
-                << ex.ObjectName() << ") '" << ex.ObjectDesc() << "') [" << ex.SourceFile()
-                << ":" << ex.SourceLine() << "]: " << ex.what() << '\n';
-    }
-
-    catch (oglplus::Error& ex) {
-      std::cerr << " Error (in " << ex.GLFunc() << "') [" << ex.SourceFile() << ":"
-                << ex.SourceLine() << "]: " << ex.what() << '\n';
-    }
-
-    catch (std::exception& ex) {
-      std::cerr << " Error: " << ex.what() << '\n';
-    }
-
-    return result;
-  }
-  
-  /* virtual */ void
-  application::config(int argc, char* argv[])
-  {
-    TRACE("glut::application::config");
-
-    support::application::config(argc, argv);
-    
-    ::glutInit              (&argc, argv);
-    ::glutInitDisplayMode   (GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH|GLUT_STENCIL);
-    ::glutInitWindowPosition(window_.pos.x, window_.pos.y);
-    ::glutInitWindowSize    (window_.size.x, window_.size.y);
-
-    if (0 >= (window_.id = ::glutCreateWindow(window_.title.c_str()))) {
-      throw std::runtime_error("GLUT initialization error");
-    }
-    
-    if (GLEW_OK != ::glewInit()) {
-      throw std::runtime_error("GLEW initialization error");
-    }
-
-    ::glGetError();
-  }
-  
-  /* virtual */ void
-  application::init()
-  {
-    TRACE("glut::application::init");
-
-    support::application::init();
-
-    ::glutCloseFunc        (&application::close_cb);
-    ::glutDisplayFunc      (&application::display_cb);
-    ::glutIdleFunc         (&application::idle_cb);
-    ::glutKeyboardFunc     (&application::keyboard_cb);
-    ::glutMouseFunc        (&application::mouse_cb);
-    ::glutMotionFunc       (&application::motion_cb);
-    ::glutPassiveMotionFunc(&application::passive_cb);
-    ::glutReshapeFunc      (&application::reshape_cb);
-    ::glutSpecialFunc      (&application::special_cb);
-
-    ::glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE,
-                    GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-  }
-
   /* virtual */ signed
   application::run()
   {
@@ -168,25 +77,11 @@ namespace glut {
   }
 
   /* virtual */ void
-  application::fini()
-  {
-    TRACE("glut::application::fini");
-
-    if (0 < window_.id) {
-      ::glutDestroyWindow(window_.id);
-
-      window_.id = -1;
-    }
-    
-    support::application::fini();
-  }
-
-  /* virtual */ void
   application::print_on(std::ostream& os) const
   {
     TRACE_NEVER("glut::application::print_on");
 
-    support::application::print_on(os);
+    support::application::single_instance::print_on(os);
     
     os << "\b,"
        << "[frame:";
@@ -262,21 +157,59 @@ namespace glut {
   }
   
   /* explicit */
-  application::application()
-    : support::application(),
-      queue_max_          (7),
-      frameq_             (),
-      keyboardq_          (),
-      mouseq_             (),
-      window_             ({ -1, false, glm::ivec2(-1,-1), glm::ivec2(800,600), "<window title>"})
+  application::application(int argc, char* argv[])
+    : support::application::single_instance(argc, argv),
+      queue_max_                           (7),
+      frameq_                              (),
+      keyboardq_                           (),
+      mouseq_                              (),
+      window_                              ({ -1, false, glm::ivec2(-1,-1), glm::ivec2(800,600),
+                                              "<window title>" })
   {
     TRACE("glut::application::application");
+
+    ::glutInit              (&argc, argv);
+    ::glutInitDisplayMode   (GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH|GLUT_STENCIL);
+    ::glutInitWindowPosition(window_.pos.x, window_.pos.y);
+    ::glutInitWindowSize    (window_.size.x, window_.size.y);
+
+    if (0 >= (window_.id = ::glutCreateWindow(window_.title.c_str()))) {
+      throw std::runtime_error("GLUT initialization error");
+    }
+    
+    if (GLEW_OK != ::glewInit()) {
+      throw std::runtime_error("GLEW initialization error");
+    }
+
+    ::glGetError();
+
+    ::glutDisplayFunc      (&application::display_cb);
+    ::glutIdleFunc         (&application::idle_cb);
+    ::glutKeyboardFunc     (&application::keyboard_cb);
+    ::glutMouseFunc        (&application::mouse_cb);
+    ::glutMotionFunc       (&application::motion_cb);
+    ::glutPassiveMotionFunc(&application::passive_cb);
+    ::glutReshapeFunc      (&application::reshape_cb);
+    ::glutSpecialFunc      (&application::special_cb);
+
+    ::glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE,
+                    GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+
+    support::application::single_instance::cmdline_process(argc, argv);
   }
 
   /* virtual */
   application::~application()
   {
     TRACE("glut::application::~application");
+
+#if 0
+    if (0 < window_.id) {
+      ::glutDestroyWindow(window_.id);
+
+      window_.id = -1;
+    }
+#endif
   }
 
   /* virtual */ void
@@ -382,22 +315,14 @@ namespace glut {
     frame_render_pre ();
     frame_render_one ();
     frame_render_post();
-  }
-  
-  /* static */ void
-  application::close_cb()
-  {
-    TRACE("glut::application::close_cb");
-
-    application::instance()->fini();
-  }
+  }  
 
   /* static */ void
   application::display_cb()
   {
     TRACE("glut::application::display_cb");
 
-    static_cast<application*>(application::instance())->display();
+    static_cast<application*>(instance_)->display();
   }
 
   /* static */ void
@@ -405,7 +330,7 @@ namespace glut {
   {
     TRACE("glut::application::idle_cb");
 
-    static_cast<application*>(application::instance())->idle();
+    static_cast<application*>(instance_)->idle();
   }
   
   /* static */ void
@@ -413,7 +338,7 @@ namespace glut {
   {
     TRACE("glut::application::keyboard_cb");
 
-    application* app(static_cast<application*>(application::instance()));
+    application* app(static_cast<application*>(instance_));
 
     update_queue(app->keyboardq_, { key, ::glutGetModifiers() }, app->queue_max_);
     
@@ -431,7 +356,7 @@ namespace glut {
   {
     TRACE("glut::application::mouse_cb");
 
-    application* app(static_cast<application*>(application::instance()));
+    application* app(static_cast<application*>(instance_));
 
     update_queue(app->mouseq_, { btn, state,  glm::ivec2(x, y) }, app->queue_max_);
     
@@ -449,7 +374,7 @@ namespace glut {
   {
     TRACE("glut::application::reshape_cb");
 
-    application* app(static_cast<application*>(application::instance()));
+    application* app(static_cast<application*>(instance_));
 
     if (!app->window_.fullscreen) {
       app->window_.pos  = glm::ivec2(::glutGet(GLUT_WINDOW_X), ::glutGet(GLUT_WINDOW_Y));
@@ -464,11 +389,11 @@ namespace glut {
   {
     TRACE("glut::application::special_cb");
 
-    application* app(static_cast<application*>(application::instance()));
+    application* app(static_cast<application*>(instance_));
 
     update_queue(app->keyboardq_, { key, ::glutGetModifiers() }, app->queue_max_);
     
-    static_cast<application*>(application::instance())->keyboard(key, glm::ivec2(x, y));
+    static_cast<application*>(instance_)->keyboard(key, glm::ivec2(x, y));
   }
   
 } // namespace glut {

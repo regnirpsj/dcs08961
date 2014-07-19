@@ -30,11 +30,9 @@ namespace glut {
   
   // types, exported (class, enum, struct, union, typedef)
 
-  class application : public support::application {
+  class application : public support::application::single_instance {
 
   public:
-
-    static signed exception_handled(int /* argc */, char* /* argv */[]);
     
     struct frame_info_t {
       unsigned                   counter;
@@ -61,10 +59,7 @@ namespace glut {
       std::string title;
     };
     
-    virtual void   config(int /* argc */, char* /* argv */[]);
-    virtual void   init  ();
-    virtual signed run   ();
-    virtual void   fini  ();
+    virtual signed run();
 
     virtual void print_on(std::ostream&) const;
 
@@ -76,7 +71,7 @@ namespace glut {
     std::deque<mouse_info_t>    mouseq_;    
     window_info_t               window_;
 
-    explicit application();
+    explicit application(int /* argc */, char* /* argv */[]);
     virtual ~application();
     
     virtual void frame_render_one () =0;
@@ -90,10 +85,12 @@ namespace glut {
     
   private:
 
-    // calling order: frame_render_pre(), frame_render_one(), frame_render_post()
+    // calling order:
+    //   frame_render_pre()
+    //   frame_render_one()
+    //   frame_render_post()
     virtual void display();
     
-    static void close_cb   ();
     static void display_cb ();
     static void idle_cb    ();
     static void keyboard_cb(unsigned char, signed, signed);
@@ -110,7 +107,12 @@ namespace glut {
   // functions, inlined (inline)
   
   // functions, exported (extern)
+
+  template <typename T> signed execute(int, char* []);
+  template <typename T> signed execute(int, char* [], std::nothrow_t const&);
   
 } // namespace glut {
+
+#include <glut.inl>
 
 #endif // #if !defined(UKACHULLDCS_08961_APP_COMMON_GLUT_HPP)
