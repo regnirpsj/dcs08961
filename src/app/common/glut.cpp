@@ -376,12 +376,14 @@ namespace glut {
 
     application* app(static_cast<application*>(instance_));
 
+    glm::ivec2 const size(w, h);
+    
     if (!app->window_.fullscreen) {
       app->window_.pos  = glm::ivec2(::glutGet(GLUT_WINDOW_X), ::glutGet(GLUT_WINDOW_Y));
-      app->window_.size = glm::ivec2(w, h);
+      app->window_.size = size;
     }
     
-    app->reshape(app->window_.size);
+    app->reshape(size);
   }
 
   /* static */ void

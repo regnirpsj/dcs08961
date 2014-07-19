@@ -12,20 +12,21 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
-#include <glut_glew_app.hpp>
-
 // includes, system
+
+#include <GL/glew.h> // ::glew*
 
 #include <oglplus/all.hpp>
 #include <oglplus/ext/EXT_direct_state_access.hpp>
 #include <oglplus/shapes/cube.hpp>
 
+#include <glm/glm.hpp>
 #include <oglplus/interop/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 // includes, project
 
-#include <support/chrono_io.hpp>
+#include <../common/glut.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -99,23 +100,23 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class test_01 : public oglplus::standalone {
+  class application : public glut::application {
 
   public:
 
-    test_01()
-      : oglplus::standalone(),
-        ctx_               (),
-        dsa_               (),
-        vs_                (vertex_shader_src),
-        fs_                (fragment_shader_src),
-        prg_               (),
-        make_cube_         (),
-        cube_instr_        (make_cube_.Instructions()),
-        cube_indices_      (make_cube_.Indices())
+    explicit application(int argc, char* argv[])
+      : glut::application(argc, argv),
+        ctx_             (),
+        dsa_             (),
+        vs_              (vertex_shader_src),
+        fs_              (fragment_shader_src),
+        prg_             (),
+        make_cube_       (),
+        cube_instr_      (make_cube_.Instructions()),
+        cube_indices_    (make_cube_.Indices())
     {
-      TRACE("<unnamed>::test_01::test_01");
-      
+      TRACE("<unnamed>::application::application");
+
       prg_ << vs_ << fs_;
       
       prg_.Link();
@@ -159,27 +160,23 @@ namespace {
         Set(glm::scale(glm::mat4(1.0), glm::vec3(1.0, 0.3, 1.7)));
     }
     
-    virtual void render()
+    virtual void frame_render_one()
     {
-      TRACE_ALWAYS("<unnamed>::test_01::render");
+      TRACE("<unnamed>::application::frame_render_one");
 
       ctx_.Clear().ColorBuffer().DepthBuffer();
 
       cube_instr_.Draw(cube_indices_, 36);
-
-      std::cout << support::trace::prefix() << "<unnamed>::test_01::render: "
-                << std::chrono::duration_fmt(std::chrono::symbol) << frame_duration_
-                << '\n';
     }
-
-    virtual void reshape()
+    
+    virtual void reshape(glm::ivec2 const& size)
     {
-      TRACE("<unnamed>::test_01::reshape");
+      TRACE("<unnamed>::application::reshape");
 
-      ctx_.Viewport(size_.x, size_.y);
+      ctx_.Viewport(size.x, size.y);
 
       auto camera(glm::perspective(53.0f*3.1415f/180.f,
-                                   float(size_.x)/float(size_.y),
+                                   float(size.x)/float(size.y),
                                    1.0f, 100.0f) *
                   glm::lookAt(glm::vec3(21.0f, 7.0f, 0.0f),
                               glm::vec3( 0.0f, 0.0f, 0.0f),
@@ -215,7 +212,5 @@ namespace {
 int
 main(int argc, char* argv[])
 {
-  TRACE("main");
-  
-  return oglplus::glut_glew_main<test_01>("test 01", argc, argv);
+  return glut::execute<application>(argc, argv, std::nothrow);
 }
