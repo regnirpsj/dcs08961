@@ -19,6 +19,7 @@
 // includes, system
 
 #include <glm/glm.hpp> // glm::ivec2
+#include <deque>       // std::deque<>
 
 // includes, project
 
@@ -49,11 +50,13 @@ namespace glut {
     struct mouse_info_t {
       signed     button;
       signed     state;
-      glm::ivec2 position;
+      glm::ivec2 pos;
     };
 
     struct window_info_t {
-      glm::ivec2  position;
+      signed      id;
+      bool        fullscreen;
+      glm::ivec2  pos;
       glm::ivec2  size;
       std::string title;
     };
@@ -67,25 +70,29 @@ namespace glut {
 
   protected:
 
-    frame_info_t    frame_;
-    keyboard_info_t keyboard_;
-    mouse_info_t    mouse_;    
-    window_info_t   window_;
+    unsigned                    queue_max_;
+    std::deque<frame_info_t>    frameq_;
+    std::deque<keyboard_info_t> keyboardq_;
+    std::deque<mouse_info_t>    mouseq_;    
+    window_info_t               window_;
 
     explicit application();
     virtual ~application();
-
-    virtual void display () =0;
+    
+    virtual void frame_render_one () =0;
+    virtual void frame_render_post();
+    virtual void frame_render_pre ();
+    
     virtual void idle    ();
     virtual void keyboard(unsigned char, glm::ivec2 const&);
-    virtual void motion  (glm::ivec2 const&);
     virtual void mouse   (signed, signed, glm::ivec2 const&);
-    virtual void passive (glm::ivec2 const&);
     virtual void reshape (glm::ivec2 const&) =0;
-    virtual void special (signed, glm::ivec2 const&);
     
   private:
 
+    // calling order: frame_render_pre(), frame_render_one(), frame_render_post()
+    virtual void display();
+    
     static void close_cb   ();
     static void display_cb ();
     static void idle_cb    ();
