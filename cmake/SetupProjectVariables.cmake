@@ -44,6 +44,9 @@ IF(UNIX)
 
   # GLI
   SET(GLI_INCLUDE_DIR "~/Projects/others/gli-regnirpsj-git")
+
+  # OGL+
+  SET(OGLplus_ROOT_DIR "~/Projects/others/oglplus-develop-git")
 ENDIF()
 
 IF(WIN32 OR WIN64)
@@ -85,5 +88,6 @@ IF(TRUE OR VERBOSE)
     "   BOOST_ROOT            = ${BOOST_ROOT}\n"
     "   GLM_INCLUDE_DIR       = ${GLM_INCLUDE_DIR}\n"
     "   GLI_INCLUDE_DIR       = ${GLI_INCLUDE_DIR}\n"
+    "   OGLplus_ROOT_DIR      = ${OGLplus_ROOT_DIR}\n"
     "   DCS08961_TRACE_ALL    = ${DCS08961_TRACE_ALL}")
 ENDIF()
