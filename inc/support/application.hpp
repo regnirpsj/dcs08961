@@ -56,7 +56,7 @@ namespace support {
     
     };
 
-    class multi_instance : private base {
+    class multi_instance : public base {
 
     protected:
 
@@ -65,18 +65,16 @@ namespace support {
     
     };
   
-    class single_instance : private base {
+    class single_instance : public base {
 
     protected:
 
+      static single_instance* instance_;
+      
       explicit single_instance(int /* argc */, char* /* argv */[]);
       virtual ~single_instance();
 
       virtual void print_on(std::ostream&) const;
-      
-    private:
-
-      static single_instance* instance_;
     
     };
   
