@@ -58,7 +58,7 @@ namespace support {
 
     class multi_instance : private base {
 
-    public:
+    protected:
 
       explicit multi_instance(int /* argc */, char* /* argv */[]);
       virtual ~multi_instance();
@@ -67,7 +67,7 @@ namespace support {
   
     class single_instance : private base {
 
-    public:
+    protected:
 
       explicit single_instance(int /* argc */, char* /* argv */[]);
       virtual ~single_instance();
