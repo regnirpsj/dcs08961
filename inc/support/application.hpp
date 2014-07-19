@@ -28,50 +28,87 @@
 #include <support/printable.hpp>
 
 namespace support {
+
+  namespace application {
+    
+    // types, exported (class, enum, struct, union, typedef)
+
+    class base : private boost::noncopyable,
+                 public support::printable {
+
+    public:
+
+      virtual signed run() =0;
+
+      virtual void print_on(std::ostream&) const;
+    
+    protected:
+    
+      boost::program_options::options_description            cmdline_options_;
+      boost::program_options::positional_options_description cmdline_positionals_;
+      unsigned                                               verbose_level_;
+    
+      explicit base(int /* argc */, char* /* argv */[]);
+      virtual ~base() =0;
+
+      virtual void cmdline_eval   (boost::program_options::variables_map&);
+      virtual void cmdline_process(int /* argc */, char* /* argv */[]);
+    
+    };
+
+    class multi_instance : private base {
+
+    public:
+
+      explicit multi_instance(int /* argc */, char* /* argv */[]);
+      virtual ~multi_instance();
+    
+    };
   
-  // types, exported (class, enum, struct, union, typedef)
+    class single_instance : private base {
 
-  class application : private boost::noncopyable,
-                      public support::printable {
+    public:
 
-  public:
+      explicit single_instance(int /* argc */, char* /* argv */[]);
+      virtual ~single_instance();
 
-    /**
-     * \return application_
-     */
-    static application* instance();
+      virtual void print_on(std::ostream&) const;
+      
+    private:
 
-    virtual void   config(int /* argc */, char* /* argv */[]);
-    virtual void   init  ();
-    virtual signed run   () =0;
-    virtual void   fini  ();
-
-    virtual void print_on(std::ostream&) const;
+      static single_instance* instance_;
     
-  protected:
-    
-    boost::program_options::options_description            cmdline_options_;
-    boost::program_options::positional_options_description cmdline_positionals_;
-    unsigned                                               verbose_level_;
-    
-    explicit application();
-    virtual ~application() =0;
-
-    virtual void cmdline_eval   (boost::program_options::variables_map&);
-    virtual void cmdline_process(int /* argc */, char* /* argv */[]);    
-    
-  private:
-
-    static application* application_; // dflt: nullptr
-    
-  };
+    };
   
-  // variables, exported (extern)
+    template <typename T>
+    class executor : private boost::noncopyable {
 
-  // functions, inlined (inline)
+    public:
+
+      explicit executor(int, char* []);
+              ~executor();
+      
+      signed run();
+    
+    private:
+
+      std::unique_ptr<T> instance_;
+    
+    };
   
-  // functions, exported (extern)
+    // variables, exported (extern)
+
+    // functions, inlined (inline)
+  
+    // functions, exported (extern)
+
+    template <typename T> signed execute(int, char* []);
+    template <typename T> signed execute(int, char* [], std::nothrow_t const&);
+    
+  } // namespace application {
   
 } // namespace support {
+
+#include <support/application.inl>
 
 #endif // #if !defined(UKACHULLDCS_08961_SUPPORT_APPLICATION_HPP)

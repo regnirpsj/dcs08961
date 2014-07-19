@@ -47,89 +47,50 @@ namespace {
 } // namespace {
 
 namespace support {
-  
-  // variables, exported
 
-  /* static */ application* application::application_(nullptr);
-  
-  // functions, exported
-  
-  /* static */ application*
-  application::instance()
-  {
-    TRACE("support::application::instance");
+  namespace application {
     
-    return application_;
-  }
-  
-  /* virtual */ void
-  application::config(int argc, char* argv[])
-  {
-    TRACE("support::application::config");
+    // variables, exported
 
-    cmdline_process(argc, argv);
-  }
-  
-  /* virtual */ void
-  application::init()
-  {
-    TRACE("support::application::init");
-  }
-  
-  /* virtual */ signed
-  application::run()
-  {
-    TRACE("support::application::run");
-
-    throw std::logic_error("pure virtual function 'support::application::run' called");
+    /* static */ single_instance* single_instance::instance_(nullptr);
     
-    return 0;
-  }
+    // functions, exported  
   
-  /* virtual */ void
-  application::fini()
-  {
-    TRACE("support::application::fini");
-  }
+    /* virtual */ signed
+    base::run()
+    {
+      TRACE("support::application::base::run");
 
-  /* virtual */ void
-  application::print_on(std::ostream& os) const
-  {
-    TRACE_NEVER("support::application::print_on");
-      
-    os << '['
-       << "@0x"      << application_ << ','
-       << "verbose:" << verbose_level_
-       << ']';
-  }
-  
-  /* explicit */
-  application::application()
-    : boost::noncopyable  (),
-      support::printable  (),
-      cmdline_options_    (),
-      cmdline_positionals_(),
-      verbose_level_      (0)
-  {
-    TRACE("support::application::application");
-
-    if (nullptr == application_) {
-      application_ = this;
-    } else {
-      throw std::logic_error("only one application instance allowed at runtime");
+      throw std::logic_error("pure virtual function 'support::application::base::run' called");
+    
+      return EXIT_FAILURE;
     }
 
-#if defined(UKACHULLDCS_USE_TRACE)
-    std::cout << support::trace::prefix() << "support::application::application: "
-              << *this
-              << std::endl;
-#endif
-    
+    /* virtual */ void
+    base::print_on(std::ostream& os) const
     {
+      TRACE_NEVER("support::application::base::print_on");
+      
+      os << '['
+         << "@0x"      << this << ','
+         << "verbose:" << verbose_level_
+         << ']';
+    }
+  
+    /* explicit */
+    base::base(int /* argc */, char* /* argv */[])
+      : boost::noncopyable  (),
+        support::printable  (),
+        cmdline_options_    (),
+        cmdline_positionals_(),
+        verbose_level_      (0)
+    {
+      TRACE("support::application::base::application");
+      
       namespace po = boost::program_options;
 
       po::options_description global("Global Options");
-
+      
       global.add_options()
         ("help,h", "display command-line help and exit");
       
@@ -142,59 +103,106 @@ namespace support {
       
       cmdline_options_.add(global);
     }
-  }
   
-  /* virtual */
-  application::~application()
-  {
-    TRACE("support::application::~application");
-  }
+    /* virtual */
+    base::~base()
+    {
+      TRACE("support::application::base::~application");
+    }
 
-  /* virtual */ void
-  application::cmdline_eval(boost::program_options::variables_map&)
-  {
-    TRACE("support::application::cmdline_eval");
-  }
+    /* virtual */ void
+    base::cmdline_eval(boost::program_options::variables_map&)
+    {
+      TRACE("support::application::base::cmdline_eval");
+    }
   
-  /* virtual */ void
-  application::cmdline_process(int argc, char* argv[])
-  {
-    TRACE("support::application::cmdline_process");
+    /* virtual */ void
+    base::cmdline_process(int argc, char* argv[])
+    {
+      TRACE("support::application::base::cmdline_process");
     
-    namespace po = boost::program_options;
+      namespace po = boost::program_options;
 
-    std::string const base_name(boost::filesystem::path(argv[0]).filename().string());
-    bool              print_help(false);
-    signed            return_value(EXIT_SUCCESS);
-    po::variables_map vm;
+      std::string const base_name   (boost::filesystem::path(argv[0]).filename().string());
+      bool              print_help  (false);
+      signed            return_value(EXIT_SUCCESS);
+      po::variables_map vm;
     
-    try {
-      po::store(po::command_line_parser(argc, argv)
-                .options   (cmdline_options_)
-                .positional(cmdline_positionals_)
-                .run       (),
-                vm);
+      try {
+        po::store(po::command_line_parser(argc, argv)
+                  .options   (cmdline_options_)
+                  .positional(cmdline_positionals_)
+                  .run       (),
+                  vm);
 
-      po::notify(vm);
-    }
+        po::notify(vm);
+      }
     
-    catch (std::exception const& ex) {
-      std::cerr << '\n' /* << base_name << ' ' */
-                << "command-line problem: " << ex.what() << std::endl;
+      catch (std::exception const& ex) {
+        std::cerr << '\n' /* << base_name << ' ' */
+                  << "command-line problem: " << ex.what() << std::endl;
       
-      print_help   = true;
-      return_value = EXIT_FAILURE;
-    }
+        print_help   = true;
+        return_value = EXIT_FAILURE;
+      }
     
-    if (vm.count("help") || print_help) {
-      std::cerr << "\nusage: " << base_name << " [OPTIONS] [POSITIONALS ...]\n"
-                << cmdline_options_
-                << std::endl;
+      if (vm.count("help") || print_help) {
+        std::cerr << "\nusage: " << base_name << " [OPTIONS] [POSITIONALS ...]\n"
+                  << cmdline_options_
+                  << std::endl;
       
-      std::exit(return_value);
+        std::exit(return_value);
+      }
+
+      cmdline_eval(vm);
     }
 
-    cmdline_eval(vm);
-  }
+    /* explicit */
+    multi_instance::multi_instance(int argc, char* argv[])
+      : base(argc, argv)
+    {
+      TRACE("support::application::multi_instance::multi_instance");
+    }
+    
+    /* virtual */
+    multi_instance::~multi_instance()
+    {
+      TRACE("support::application::multi_instance::~multi_instance");
+    }
+    
+    /* explicit */
+    single_instance::single_instance(int argc, char* argv[])
+      : base(argc, argv)
+    {
+      TRACE("support::application::single_instance::single_instance");
+
+      if (!instance_) {
+        instance_ = this;
+      } else {
+        throw std::logic_error("'support::application::single_instance' already initialized");
+      }
+    }
+    
+    /* virtual */
+    single_instance::~single_instance()
+    {
+      TRACE("support::application::single_instance::~single_instance");
+
+      if (this == instance_) {
+        instance_ = nullptr;
+      }
+    }
+    
+    /* virtual */ void
+    single_instance::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("support::application::single_instance::print_on");
+
+      base::print_on(os);
+
+      os << "\b,@" << instance_ << ']';
+    }
+    
+  } // namespace application {
   
 } // namespace support {
