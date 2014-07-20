@@ -46,7 +46,8 @@ IF(UNIX)
   SET(GLI_INCLUDE_DIR "~/Projects/others/gli-regnirpsj-git")
 
   # OGL+
-  SET(OGLplus_ROOT_DIR "~/Projects/others/oglplus-develop-git")
+  # SET(OGLplus_ROOT_DIR "~/Projects/others/oglplus-develop-git/_install")
+  SET(OGLplus_ROOT_DIR "~/Projects/others/oglplus-regnirpsj-git/_install")
 ENDIF()
 
 IF(WIN32 OR WIN64)
