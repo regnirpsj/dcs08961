@@ -18,7 +18,6 @@
 
 #include <boost/filesystem.hpp>    // boost::filesystem::path
 #include <oglplus/all.hpp>
-#include <oglplus/ext/EXT_direct_state_access.hpp>
 #include <oglplus/opt/resources.hpp>
 #include <oglplus/shapes/cube.hpp>
 
@@ -47,9 +46,6 @@ namespace {
     explicit application(int argc, char* argv[])
       : glut::application(argc, argv),
         ctx_             (),
-        dsa_             (),
-        vs_              (),
-        fs_              (),
         prg_             (),
         make_cube_       (),
         cube_instr_      (make_cube_.Instructions()),
@@ -64,17 +60,15 @@ namespace {
         namespace bfs = boost::filesystem;
 
         bfs::path const   p(argv[0]);
-        std::string const f(p.filename().string());
         std::string const d(p.parent_path().string());
+        std::string const f(p.filename().string());
         
         ResourceFile      vs_src(d + "/../share/shader/glsl", f, ".vs.glsl");
         ResourceFile      fs_src(d + "/../share/shader/glsl", f, ".fs.glsl");
         
-        vs_.Source(GLSLSource::FromStream(vs_src.stream()));
-        fs_.Source(GLSLSource::FromStream(fs_src.stream()));
-      
-        prg_ << vs_ << fs_;
-      
+        prg_ << VertexShader().Source(GLSLSource::FromStream(vs_src.stream()))
+             << FragmentShader().Source(GLSLSource::FromStream(fs_src.stream()));
+        
         prg_.Link().Use();
       }
       
@@ -152,20 +146,14 @@ namespace {
 
   private:
 
-    oglplus::Context                     ctx_;
-    oglplus::EXT_direct_state_access     dsa_;
-    
-    oglplus::VertexShader                vs_;
-    oglplus::FragmentShader              fs_;
-    oglplus::Program                     prg_;
-
-    oglplus::shapes::Cube                make_cube_;
-    oglplus::shapes::DrawingInstructions cube_instr_;
-    oglplus::shapes::Cube::IndexArray    cube_indices_;
-    oglplus::VertexArray                 cube_va_;
-    oglplus::Buffer                      positions_;
-    oglplus::Buffer                      normals_;
-
+    oglplus::Context                       ctx_;
+    oglplus::Program                       prg_;
+    oglplus::shapes::Cube                  make_cube_;
+    oglplus::shapes::DrawingInstructions   cube_instr_;
+    oglplus::shapes::Cube::IndexArray      cube_indices_;
+    oglplus::VertexArray                   cube_va_;
+    oglplus::Buffer                        positions_;
+    oglplus::Buffer                        normals_;
     oglplus::Lazy<oglplus::Uniform<float>> frame_time_;
     
   };

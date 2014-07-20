@@ -193,9 +193,24 @@ namespace glut {
     ::glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE,
                     GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 
-    support::application::single_instance::cmdline_process(argc, argv);
-  }
+    {
+      namespace po = boost::program_options;
+        
+      po::options_description common("Command-Line Options");
 
+      common.add_options()
+        ("file,f",
+         po::value(&input_files_)->composing(),
+         "input file(s)\n"
+         "positional arguments are accumulated as input files");
+
+      cmdline_options_    .add(common);
+      cmdline_positionals_.add("file", -1);
+      
+      support::application::single_instance::cmdline_process(argc, argv);
+    }
+  }
+  
   /* virtual */
   application::~application()
   {
