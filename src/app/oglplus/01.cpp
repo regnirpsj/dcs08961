@@ -61,13 +61,17 @@ namespace {
       using namespace oglplus;
 
       {
-        std::string const dirname(boost::filesystem::path(argv[0]).parent_path().string());
+        namespace bfs = boost::filesystem;
 
-        ResourceFile source_vs(dirname + "/../share/shader/glsl", "01", ".vs.glsl");
-        ResourceFile source_fs(dirname + "/../share/shader/glsl", "01", ".fs.glsl");
+        bfs::path const   p(argv[0]);
+        std::string const f(p.filename().string());
+        std::string const d(p.parent_path().string());
         
-        vs_.Source(GLSLSource::FromStream(source_vs.stream()));
-        fs_.Source(GLSLSource::FromStream(source_fs.stream()));
+        ResourceFile      vs_src(d + "/../share/shader/glsl", f, ".vs.glsl");
+        ResourceFile      fs_src(d + "/../share/shader/glsl", f, ".fs.glsl");
+        
+        vs_.Source(GLSLSource::FromStream(vs_src.stream()));
+        fs_.Source(GLSLSource::FromStream(fs_src.stream()));
       
         prg_ << vs_ << fs_;
       
