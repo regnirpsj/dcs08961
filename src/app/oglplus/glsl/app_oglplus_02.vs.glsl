@@ -6,17 +6,26 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  app/oglplus/glsl/app_oglplus_01.fs.glsl                                         */
+/*  module     :  app/oglplus/glsl/app_oglplus_02.vs.glsl                                         */
 /*  project    :                                                                                  */
-/*  description:  liberated from oglplus example '007_glm_boxes.cpp'                              */
+/*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_FS_GLSL)
+#if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_02_VS_GLSL)
 
-#define UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_FS_GLSL
+#define UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_02_VS_GLSL
 
-#version 330
+// #version 400 core
+// #extension GL_ARB_shading_language_include : require
+
+/* includes, system */
+
+//#include <>
+
+/* includes, project */
+
+//#include <>
 
 /* constants */
 
@@ -26,16 +35,11 @@
 
 /* variables, global */
 
-in  vec3 vertColor;
-out vec3 fragColor;
-
 /* functions */
 
 void
 main()
 {
-  fragColor      = vertColor;
-  fragColor.xyz *= 1.05;
 }
 
-#endif /* #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_FS_GLSL) */
+#endif /* #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_02_VS_GLSL) */

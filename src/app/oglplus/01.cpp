@@ -123,7 +123,7 @@ namespace {
       TRACE("<unnamed>::application::frame_render_one");
 
       ctx_.Clear().ColorBuffer().DepthBuffer();
-
+      
       {
         using namespace std::chrono;
       

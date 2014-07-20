@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  app/oglplus/01.vs.glsl                                                          */
+/*  module     :  app/oglplus/glsl/app_oglplus_01.vs.glsl                                         */
 /*  project    :                                                                                  */
 /*  description:  liberated from oglplus example '007_glm_boxes.cpp'                              */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_APP_OGLPLUS_01_VS_GLSL)
+#if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_VS_GLSL)
 
-#define UKACHULLDCS_08961_APP_OGLPLUS_01_VS_GLSL
+#define UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_VS_GLSL
 
 #version 330
 
@@ -68,4 +68,4 @@ main()
                (0.7 + 0.5 * max(dot(vertNormal, vertLightDir), 0.0)));
 }
 
-#endif /* #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_01_VS_GLSL) */
+#endif /* #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_VS_GLSL) */
