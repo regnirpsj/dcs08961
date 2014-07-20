@@ -42,7 +42,7 @@ namespace glut {
   inline signed
   execute(int argc, char* argv[])
   {
-    TRACE("glut::execute<" + demangle(typeid(T)) + ">");
+    TRACE("glut::execute<" + support::demangle(typeid(T)) + ">");
       
     return support::application::executor<T>(argc, argv).run();
   }
@@ -51,7 +51,7 @@ namespace glut {
   inline signed
   execute(int argc, char* argv[], std::nothrow_t const&)
   {
-    TRACE("glut::execute<" + demangle(typeid(T)) + ">(std::nothrow_t)");
+    TRACE("glut::execute<" + support::demangle(typeid(T)) + ">(std::nothrow_t)");
       
     signed result(EXIT_FAILURE);
       
@@ -62,27 +62,28 @@ namespace glut {
     catch (oglplus::ProgramBuildError& ex) {
       std::cerr << " Program build error (in " << ex.GLFunc() << ", " << ex.ObjectTypeName()
                 << ": (" << ex.ObjectName() << ") '" << ex.ObjectDesc() << "'): " << ex.what()
-                << ": " << ex.Log() << '\n';
+                << ": " << ex.Log() << std::endl;
     }
 
     catch (oglplus::LimitError& ex) {
       std::cerr << " Limit error: (" << ex.Value() << ") exceeds (" << ex.EnumParamName() << " == "
-                << ex.Limit() << ") [" << ex.SourceFile() << ":" << ex.SourceLine() << "] " << '\n';
+                << ex.Limit() << ") [" << ex.SourceFile() << ":" << ex.SourceLine() << "] "
+                << std::endl;
     }
 
     catch (oglplus::ObjectError& ex) {
       std::cerr << " Object error (in " << ex.GLFunc() << ", " << ex.ObjectTypeName() << ": ("
                 << ex.ObjectName() << ") '" << ex.ObjectDesc() << "') [" << ex.SourceFile()
-                << ":" << ex.SourceLine() << "]: " << ex.what() << '\n';
+                << ":" << ex.SourceLine() << "]: " << ex.what() << std::endl;
     }
 
     catch (oglplus::Error& ex) {
       std::cerr << " Error (in " << ex.GLFunc() << "') [" << ex.SourceFile() << ":"
-                << ex.SourceLine() << "]: " << ex.what() << '\n';
+                << ex.SourceLine() << "]: " << ex.what() << std::endl;
     }
 
     catch (std::exception& ex) {
-      std::cerr << " Error: " << ex.what() << '\n';
+      std::cerr << " Error: " << ex.what() << std::endl;
     }
       
     return result;

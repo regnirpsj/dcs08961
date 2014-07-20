@@ -56,7 +56,6 @@ namespace glut {
       bool        fullscreen;
       glm::ivec2  pos;
       glm::ivec2  size;
-      std::string title;
     };
     
     virtual signed run();

@@ -150,8 +150,7 @@ namespace glut {
          << window_.id << ','
          << (window_.fullscreen ? "fullscreen" : "windowed") << ','
          << window_.pos << ','
-         << window_.size << ','
-         << window_.title
+         << window_.size
          << "]]";
     }
   }
@@ -159,12 +158,11 @@ namespace glut {
   /* explicit */
   application::application(int argc, char* argv[])
     : support::application::single_instance(argc, argv),
-      queue_max_                           (7),
+      queue_max_                           (4),
       frameq_                              (),
       keyboardq_                           (),
       mouseq_                              (),
-      window_                              ({ -1, false, glm::ivec2(-1,-1), glm::ivec2(800,600),
-                                              "<window title>" })
+      window_                              ({ -1, false, glm::ivec2(90,40), glm::ivec2(1440,900) })
   {
     TRACE("glut::application::application");
 
@@ -172,8 +170,8 @@ namespace glut {
     ::glutInitDisplayMode   (GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH|GLUT_STENCIL);
     ::glutInitWindowPosition(window_.pos.x, window_.pos.y);
     ::glutInitWindowSize    (window_.size.x, window_.size.y);
-
-    if (0 >= (window_.id = ::glutCreateWindow(window_.title.c_str()))) {
+    
+    if (0 >= (window_.id = ::glutCreateWindow(argv[0]))) {
       throw std::runtime_error("GLUT initialization error");
     }
     
@@ -205,9 +203,7 @@ namespace glut {
 
 #if 0
     if (0 < window_.id) {
-      ::glutDestroyWindow(window_.id);
-
-      window_.id = -1;
+      ::glutDestroyWindow(window_.id); window_.id = -1;
     }
 #endif
   }

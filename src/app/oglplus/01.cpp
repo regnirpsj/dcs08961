@@ -8,7 +8,7 @@
 /*                                                                                                */
 /*  module     :  app/oglplus/01.cpp                                                              */
 /*  project    :                                                                                  */
-/*  description:                                                                                  */
+/*  description:  liberated from oglplus example '007_glm_boxes.cpp'                              */
 /*                                                                                                */
 /**************************************************************************************************/
 
@@ -16,8 +16,10 @@
 
 #include <GL/glew.h> // ::glew*
 
+#include <boost/filesystem.hpp>    // boost::filesystem::path
 #include <oglplus/all.hpp>
 #include <oglplus/ext/EXT_direct_state_access.hpp>
+#include <oglplus/opt/resources.hpp>
 #include <oglplus/shapes/cube.hpp>
 
 #include <glm/glm.hpp>
@@ -36,128 +38,80 @@
 
 namespace {
 
-  std::string const vertex_shader_src
-  (
-   "#version 330\n"
-   "uniform mat4 CameraMatrix, ScaleMatrix;"
-   "uniform vec3 LightPos;"
-   "uniform float Time;"
-   "in vec4 Position;"
-   "in vec3 Normal;"
-   "out vec3 vertColor;"
-   "void main(void)"
-   "{"
-   "	float angle = gl_InstanceID * 10 * 2 * 3.14159 / 360.0;"
-   "	float ct = cos(angle+Time);"
-   "	float st = sin(angle+Time);"
-   "	mat4 ModelMatrix = mat4("
-   "		 ct, 0.0,  st, 0.0,"
-   "		0.0, 1.0, 0.0, 0.0,"
-   "		-st, 0.0,  ct, 0.0,"
-   "		0.0, 0.0, 0.0, 1.0 "
-   "	) * mat4("
-   "		 1.0, 0.0, 0.0, 0.0,"
-   "		 0.0, 1.0, 0.0, 0.0,"
-   "		 0.0, 0.0, 1.0, 0.0,"
-   "		12.0, 0.0, 0.0, 1.0 "
-   "	) * mat4("
-   "		 ct, -st, 0.0, 0.0,"
-   "		 st,  ct, 0.0, 0.0,"
-   "		0.0, 0.0, 1.0, 0.0,"
-   "		0.0, 0.0, 0.0, 1.0 "
-   "	);"
-   "	gl_Position = "
-   "		ModelMatrix *"
-   "		ScaleMatrix *"
-   "		Position;"
-
-   "	vec3 vertLightDir = normalize(LightPos - gl_Position.xyz);"
-   "	vec3 vertNormal = normalize(("
-   "		ModelMatrix *"
-   "		vec4(Normal, 0.0)"
-   "	).xyz);"
-
-   "	gl_Position = CameraMatrix * gl_Position;"
-
-   "	vertColor = abs(normalize("
-   "		Normal -"
-   "		vec3(1.0, 1.0, 1.0) +"
-   "		Position.xyz*0.2"
-   "	)) * (0.6 + 0.5*max(dot(vertNormal, vertLightDir), 0.0));"
-   "}"
-   );
-
-  std::string const fragment_shader_src
-  (
-   "#version 330\n"
-   "in  vec3 vertColor;"
-   "out vec3 fragColor;"
-   "void main(void)"
-   "{"
-   "	 fragColor = vertColor;"
-   "}"
-   );
-  
   // types, internal (class, enum, struct, union, typedef)
 
   class application : public glut::application {
 
-  public:
+  public:    
 
     explicit application(int argc, char* argv[])
       : glut::application(argc, argv),
         ctx_             (),
         dsa_             (),
-        vs_              (vertex_shader_src),
-        fs_              (fragment_shader_src),
+        vs_              (),
+        fs_              (),
         prg_             (),
         make_cube_       (),
         cube_instr_      (make_cube_.Instructions()),
-        cube_indices_    (make_cube_.Indices())
+        cube_indices_    (make_cube_.Indices()),
+        frame_time_      (prg_, "Time")
     {
       TRACE("<unnamed>::application::application");
 
-      prg_ << vs_ << fs_;
-      
-      prg_.Link();
-      prg_.Use();
+      using namespace oglplus;
 
+      {
+        std::string const dirname(boost::filesystem::path(argv[0]).parent_path().string());
+
+        ResourceFile source_vs(dirname + "/../share/shader/glsl", "01", ".vs.glsl");
+        ResourceFile source_fs(dirname + "/../share/shader/glsl", "01", ".fs.glsl");
+        
+        vs_.Source(GLSLSource::FromStream(source_vs.stream()));
+        fs_.Source(GLSLSource::FromStream(source_fs.stream()));
+      
+        prg_ << vs_ << fs_;
+      
+        prg_.Link().Use();
+      }
+      
       cube_va_.Bind();
 
-      // bind the VBO for the cube vertex positions
-      positions_.Bind(oglplus::Buffer::Target::Array);
+      positions_.Bind(Buffer::Target::Array);
       {
         std::vector<GLfloat> data;
-        GLuint n_per_vertex = make_cube_.Positions(data);
-        // upload the data
-        oglplus::Buffer::Data(oglplus::Buffer::Target::Array, data);
-        // setup the vertex attribs array for the vertices
-        oglplus::VertexArrayAttrib attr(prg_, "Position");
-        attr.Setup<GLfloat>(n_per_vertex);
+        GLfloat              size(make_cube_.Positions(data));
+        
+        Buffer::Data(Buffer::Target::Array, data);
+
+        VertexArrayAttrib attr(prg_, "Position");
+        
+        attr.Setup<GLfloat>(size);
         attr.Enable();
       }
-
-      // bind the VBO for the cube normals
-      normals_.Bind(oglplus::Buffer::Target::Array);
+      
+      normals_.Bind(Buffer::Target::Array);
       {
         std::vector<GLfloat> data;
-        GLuint n_per_vertex = make_cube_.Normals(data);
-        // upload the data
-        oglplus::Buffer::Data(oglplus::Buffer::Target::Array, data);
-        // setup the vertex attribs array for the vertices
-        oglplus::VertexArrayAttrib attr(prg_, "Normal");
-        attr.Setup<GLfloat>(n_per_vertex);
+        GLfloat              size(make_cube_.Normals(data));
+        
+        Buffer::Data(Buffer::Target::Array, data);
+        
+        VertexArrayAttrib attr(prg_, "Normal");
+
+        attr.Setup<GLfloat>(size);
         attr.Enable();
       }
     
-      ctx_.ClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+      ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
       ctx_.ClearDepth(1.0f);
-      ctx_.Enable(oglplus::Capability::DepthTest);
+      ctx_.Enable(Capability::DepthTest);
       
-      oglplus::Typechecked<oglplus::Uniform<glm::vec3>>  (prg_, "LightPos").
+      Typechecked<Uniform<glm::vec3>>  (prg_, "LightPos").
         Set(glm::vec3(7.0, 3.0, -1.0));
-      oglplus::Typechecked<oglplus::Uniform<glm::mat4x4>>(prg_, "ScaleMatrix").
-        Set(glm::scale(glm::mat4(1.0), glm::vec3(1.0, 0.3, 1.7)));
+      
+      Typechecked<Uniform<glm::mat4x4>>(prg_, "ScaleMatrix").
+        Set(glm::scale(glm::mat4(1.0),
+                       glm::vec3(1.0, 0.3, 1.7)));
     }
     
     virtual void frame_render_one()
@@ -166,6 +120,13 @@ namespace {
 
       ctx_.Clear().ColorBuffer().DepthBuffer();
 
+      {
+        using namespace std::chrono;
+      
+        frame_time_.
+          Set(duration_cast<duration<double>>(frameq_.back().stamp.time_since_epoch()).count());
+      }
+      
       cube_instr_.Draw(cube_indices_, 36);
     }
     
@@ -178,7 +139,7 @@ namespace {
       auto camera(glm::perspective(53.0f*3.1415f/180.f,
                                    float(size.x)/float(size.y),
                                    1.0f, 100.0f) *
-                  glm::lookAt(glm::vec3(21.0f, 7.0f, 0.0f),
+                  glm::lookAt(glm::vec3(21.0f, 8.0f, 7.0f),
                               glm::vec3( 0.0f, 0.0f, 0.0f),
                               glm::vec3( 0.0f, 1.0f, 0.0f)));
       
@@ -200,6 +161,8 @@ namespace {
     oglplus::VertexArray                 cube_va_;
     oglplus::Buffer                      positions_;
     oglplus::Buffer                      normals_;
+
+    oglplus::Lazy<oglplus::Uniform<float>> frame_time_;
     
   };
   
@@ -212,5 +175,7 @@ namespace {
 int
 main(int argc, char* argv[])
 {
+  TRACE("main");
+  
   return glut::execute<application>(argc, argv, std::nothrow);
 }
