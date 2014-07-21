@@ -23,6 +23,7 @@
 
 #include <glm/glm.hpp>
 #include <oglplus/interop/glm.hpp>
+#include <glm/gtx/io.hpp>
 #include <glm/gtx/transform.hpp>
 
 #include <vector>
@@ -49,13 +50,12 @@ namespace {
       : glut::application(argc, argv),
         ctx_             (),
         prg_             (),
-        varray_          (),
-        model_           (prg_, "model"),
-        view_            (prg_, "view"),
-        proj_            (prg_, "proj"),
+        xform_model_     (prg_, "model"),
+        xform_view_      (prg_, "view"),
+        xform_proj_      (prg_, "proj"),
         model_list_      ()
     {
-      TRACE_ALWAYS("<unnamed>::application::application");
+      TRACE("<unnamed>::application::application");
 
       using namespace oglplus;
       
@@ -75,14 +75,43 @@ namespace {
         prg_.Link().Use();
       }
 
-      
-      varray_.Bind();
-      
-      for (auto f : input_files_) {
-        model_file mf(f);
+      if (!input_files_.empty()) {
+        static glm::vec3 const incr(0.0, 0.0, -1.5);
         
-        model_list_.push_back(model_mesh_list_type::value_type(new model_mesh(mf, prg_)));
+        glm::vec3 xlat(0.0, 0.0, 0.0);
+
+        if (0 == (input_files_.size() % 2)) {
+          xlat.z  = 0.75;
+          xlat.z *= input_files_.size() / 2;
+        } else {
+          xlat.z  = 1.5;
+          xlat.z *= (input_files_.size() - 1) / 2;
+        }
+        
+        for (auto f : input_files_) {
+          model_file  mf(f);
+          model_mesh* mm(new model_mesh(mf, prg_));
+        
+          mm->xform = glm::translate(xlat) *  mm->xform;
+        
+          model_list_.push_back(model_mesh_list_type::value_type(mm));
+
+#if 0
+          std::cout << support::trace::prefix() << "<unnamed>::application::application:\n"
+                    << "file: "  << f << '\n'
+                    << "xform: " << mm->xform << '\n'
+                    << "xlat: "  << xlat
+                    << std::endl;
+#endif
+
+          xlat += incr;
+        }
       }
+      
+      // view
+      xform_view_.Set(glm::lookAt(glm::vec3( 2.0f, 2.0f, 2.0f),
+                                  glm::vec3( 0.0f, 0.0f, 0.0f),
+                                  glm::vec3( 0.0f, 1.0f, 0.0f)));
       
       ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
       ctx_.ClearDepth(1.0f);
@@ -97,17 +126,12 @@ namespace {
       
       ctx_.Clear().ColorBuffer().DepthBuffer();
 
-      // view
-      Typechecked<Uniform<glm::mat4>>(prg_, "view").
-        Set(glm::lookAt(glm::vec3( 2.0f, 2.0f, 2.0f),
-                        glm::vec3( 0.0f, 0.0f, 0.0f),
-                        glm::vec3( 0.0f, 1.0f, 0.0f)));
-
       // model(s)
       for (auto const& m : model_list_) {
-        Typechecked<Uniform<glm::mat4>>(prg_, "model").Set(m->xform);
+        xform_model_.Set(m->xform);
         // Typechecked<Uniform<unsigned>>(prg_, "mtl_id").Set(m->material_id);
-        
+
+        m->vao.Bind();
         m->instructions.Draw(m->indices);
       }
     }
@@ -122,10 +146,9 @@ namespace {
 
       // Typechecked<Uniform<glm::ivec2>>(prg_, "screen").Set(size);
 
-      Typechecked<Uniform<glm::mat4>>(prg_, "proj").
-        Set(glm::perspective(53.0f * 3.1415f / 180.f,
-                             float(size.x) / float(size.y),
-                             0.1f, 100.0f));
+      xform_proj_.Set(glm::perspective(53.0f * 3.1415f / 180.f,
+                                       float(size.x) / float(size.y),
+                                       0.1f, 100.0f));
     }
 
   private:
@@ -162,7 +185,7 @@ namespace {
       oglplus::shapes::ObjMesh             mesh;
       oglplus::shapes::DrawingInstructions instructions;
       oglplus::shapes::ObjMesh::IndexArray indices;
-      oglplus::Spheref                     bsphere;
+      oglplus::VertexArray                 vao;
       oglplus::Buffer                      positions;
       oglplus::Buffer                      normals;
       glm::mat4                            xform;
@@ -172,17 +195,30 @@ namespace {
         : mesh        (file.stream),
           instructions(mesh.Instructions()),
           indices     (mesh.Indices()),
-          bsphere     (),
+          vao         (),
           positions   (),
           normals     (),
-          xform       (glm::scale(glm::vec3(.25))),
+          xform       (),
           material_id ()
       {
         TRACE("<unnamed>::application::model_mesh::model_mesh");
 
         using namespace oglplus;
+
+        {
+          oglplus::Spheref bsphere;
+          
+          mesh.BoundingSphere(bsphere);
+
+          if (!bsphere.Degenerate()) {
+            xform = (glm::scale(glm::vec3(1.0 / bsphere.Diameter())) *
+                     glm::translate(-glm::vec3(bsphere.Center().x(),
+                                               bsphere.Center().y(),
+                                               bsphere.Center().z())));
+          }
+        }
         
-        mesh.BoundingSphere(bsphere);
+        vao.Bind();
         
         positions.Bind(Buffer::Target::Array);
         {
@@ -207,16 +243,15 @@ namespace {
       
     };
 
-    typedef std::vector<std::unique_ptr<model_mesh>> model_mesh_list_type;
+    typedef oglplus::Lazy<oglplus::Uniform<glm::mat4>> lazy_uniform_mat4_type;
+    typedef std::vector<std::unique_ptr<model_mesh>>   model_mesh_list_type;
     
-    oglplus::Context                           ctx_;
-    oglplus::Program                           prg_;
-    oglplus::VertexArray                       varray_;
-    oglplus::Lazy<oglplus::Uniform<glm::mat4>> model_;
-    oglplus::Lazy<oglplus::Uniform<glm::mat4>> view_;
-    oglplus::Lazy<oglplus::Uniform<glm::mat4>> proj_;
-    
-    model_mesh_list_type model_list_;
+    oglplus::Context       ctx_;
+    oglplus::Program       prg_;
+    lazy_uniform_mat4_type xform_model_;
+    lazy_uniform_mat4_type xform_view_;
+    lazy_uniform_mat4_type xform_proj_;
+    model_mesh_list_type   model_list_;
     
   };
   
