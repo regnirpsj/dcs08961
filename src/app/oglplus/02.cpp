@@ -17,6 +17,7 @@
 #include <GL/glew.h>            // ::glew*
 
 #include <boost/filesystem.hpp> // boost::filesystem::path
+#include <GL/freeglut.h>
 #include <oglplus/all.hpp>
 #include <oglplus/opt/resources.hpp>
 #include <oglplus/shapes/obj_mesh.hpp>
@@ -50,10 +51,12 @@ namespace {
       : glut::application(argc, argv),
         ctx_             (),
         prg_             (),
-        xform_model_     (prg_, "model"),
-        xform_view_      (prg_, "view"),
-        xform_proj_      (prg_, "proj"),
-        model_list_      ()
+        uniform_model_   (prg_, "model"),
+        uniform_view_    (prg_, "view"),
+        uniform_proj_    (prg_, "proj"),
+        model_list_      (),
+        xform_view_      (),
+        xform_proj_      ()
     {
       TRACE("<unnamed>::application::application");
 
@@ -89,29 +92,49 @@ namespace {
         }
         
         for (auto f : input_files_) {
-          model_file  mf(f);
-          model_mesh* mm(new model_mesh(mf, prg_));
-        
-          mm->xform = glm::translate(xlat) *  mm->xform;
-        
-          model_list_.push_back(model_mesh_list_type::value_type(mm));
-
-#if 0
-          std::cout << support::trace::prefix() << "<unnamed>::application::application:\n"
-                    << "file: "  << f << '\n'
-                    << "xform: " << mm->xform << '\n'
-                    << "xlat: "  << xlat
-                    << std::endl;
+          model_mesh* mm(nullptr);
+          
+          try {
+#if 1
+            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
+                      << "loading file: "  << f
+                      << std::endl;
 #endif
 
-          xlat += incr;
+            model_file  mf(f);
+
+            mm        = new model_mesh(mf, prg_);
+            mm->xform = glm::translate(xlat) *  mm->xform;
+            
+            model_list_.push_back(model_mesh_list_type::value_type(mm));
+            
+#if 0
+            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
+                      << "xform: " << mm->xform << '\n'
+                      << "xlat: "  << xlat
+                      << std::endl;
+#endif
+            
+            xlat += incr;
+          }
+
+          catch (std::runtime_error&) {
+            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
+                      << "unable to load file: "  << f << ", skipping"
+                      << std::endl;
+
+            delete mm; mm = nullptr;
+          }
         }
       }
       
       // view
-      xform_view_.Set(glm::lookAt(glm::vec3( 2.0f, 2.0f, 2.0f),
-                                  glm::vec3( 0.0f, 0.0f, 0.0f),
-                                  glm::vec3( 0.0f, 1.0f, 0.0f)));
+      xform_view_ = glm::lookAt(glm::vec3( input_files_.size() / 10,
+                                           0.5f,
+                                           (input_files_.size() * 4) / 3),
+                                glm::vec3( 0.0f, 0.0f, 0.0f),
+                                glm::vec3( 0.0f, 1.0f, 0.0f));
+      uniform_view_.Set(xform_view_);
       
       ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
       ctx_.ClearDepth(1.0f);
@@ -128,9 +151,12 @@ namespace {
 
       // model(s)
       for (auto const& m : model_list_) {
-        xform_model_.Set(m->xform);
-        // Typechecked<Uniform<unsigned>>(prg_, "mtl_id").Set(m->material_id);
+        uniform_model_.Set(m->xform);
 
+        if (Lazy<Uniform<unsigned>>(prg_, "mtl_id").IsActive()) {
+          Lazy<Uniform<unsigned>>(prg_, "mtl_id").Set(m->material_id);
+        }
+        
         m->vao.Bind();
         m->instructions.Draw(m->indices);
       }
@@ -144,13 +170,66 @@ namespace {
       
       ctx_.Viewport(size.x, size.y);
 
-      // Typechecked<Uniform<glm::ivec2>>(prg_, "screen").Set(size);
-
-      xform_proj_.Set(glm::perspective(53.0f * 3.1415f / 180.f,
-                                       float(size.x) / float(size.y),
-                                       0.1f, 100.0f));
+      if (Lazy<Uniform<glm::ivec2>>(prg_, "screen").IsActive()) {
+        Lazy<Uniform<glm::ivec2>>(prg_, "screen").Set(size);
+      }
+      
+      uniform_proj_.Set(xform_proj_ = glm::perspective(53.0f * 3.1415f / 180.f,
+                                                       float(size.x) / float(size.y),
+                                                       0.01f, 100.0f));
     }
 
+    virtual void keyboard(unsigned char key, glm::ivec2 const& pos)
+    {
+      TRACE("<unnamed>::application::keyboard");
+
+      switch (key) {
+      default:
+        glut::application::keyboard(key, pos);
+      }
+    }
+    
+    virtual void special(signed key, glm::ivec2 const& pos)
+    {
+      TRACE("<unnamed>::application::special");
+
+      switch (key) {
+      case GLUT_KEY_DOWN:
+      case GLUT_KEY_LEFT:
+      case GLUT_KEY_PAGE_DOWN:
+      case GLUT_KEY_PAGE_UP:
+      case GLUT_KEY_RIGHT:
+      case GLUT_KEY_UP:
+        {
+          float factor(0.05);
+
+          switch (::glutGetModifiers()) {
+          case GLUT_ACTIVE_ALT:   factor *=  4.0; break;
+          case GLUT_ACTIVE_CTRL:  factor *=  8.0; break;
+          case GLUT_ACTIVE_SHIFT: factor *= 32.0; break;
+          default:                                break;
+          }
+          
+          glm::vec3 incr;
+          
+          switch (key) {
+          case GLUT_KEY_DOWN:      incr.y += factor; break;
+          case GLUT_KEY_LEFT:      incr.x += factor; break;
+          case GLUT_KEY_PAGE_DOWN: incr.z -= factor; break;
+          case GLUT_KEY_PAGE_UP:   incr.z += factor; break;
+          case GLUT_KEY_RIGHT:     incr.x -= factor; break;
+          case GLUT_KEY_UP:        incr.y -= factor; break;
+          }
+
+          uniform_view_.Set(xform_view_ *= glm::translate(incr));
+        }
+        break;
+        
+      default:
+        glut::application::special(key, pos);
+      }
+    }
+    
   private:
 
     struct model_file {
@@ -248,10 +327,12 @@ namespace {
     
     oglplus::Context       ctx_;
     oglplus::Program       prg_;
-    lazy_uniform_mat4_type xform_model_;
-    lazy_uniform_mat4_type xform_view_;
-    lazy_uniform_mat4_type xform_proj_;
+    lazy_uniform_mat4_type uniform_model_;
+    lazy_uniform_mat4_type uniform_view_;
+    lazy_uniform_mat4_type uniform_proj_;
     model_mesh_list_type   model_list_;
+    glm::mat4              xform_view_;
+    glm::mat4              xform_proj_;
     
   };
   

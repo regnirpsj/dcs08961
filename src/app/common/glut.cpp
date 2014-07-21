@@ -307,7 +307,7 @@ namespace glut {
   /* virtual */ void
   application::mouse(signed, signed, glm::ivec2 const&)
   {
-    TRACE("glut::application::keyboard");
+    TRACE("glut::application::mouse");
   }  
 
   /* virtual */ void
@@ -316,6 +316,12 @@ namespace glut {
     TRACE("glut::application::reshape");
 
     throw std::logic_error("pure virtual function 'glut::application::reshape' called");
+  }
+
+  /* virtual */ void
+  application::special(signed, glm::ivec2 const&)
+  {
+    TRACE("glut::application::special");
   }
   
   /* virtual */ void
@@ -406,7 +412,7 @@ namespace glut {
 
     update_queue(app->keyboardq_, { key, ::glutGetModifiers() }, app->queue_max_);
     
-    static_cast<application*>(instance_)->keyboard(key, glm::ivec2(x, y));
+    static_cast<application*>(instance_)->special(key, glm::ivec2(x, y));
   }
   
 } // namespace glut {

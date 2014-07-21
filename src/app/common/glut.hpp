@@ -84,6 +84,7 @@ namespace glut {
     virtual void keyboard(unsigned char, glm::ivec2 const&);
     virtual void mouse   (signed, signed, glm::ivec2 const&);
     virtual void reshape (glm::ivec2 const&) =0;
+    virtual void special (signed, glm::ivec2 const&);
     
   private:
 
