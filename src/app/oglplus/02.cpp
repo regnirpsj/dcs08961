@@ -51,9 +51,7 @@ namespace {
       : glut::application(argc, argv),
         ctx_             (),
         prg_             (),
-        model_list_      (),
-        xform_view_      (),
-        xform_proj_      ()
+        model_list_      ()
     {
       TRACE("<unnamed>::application::application");
 
@@ -125,13 +123,11 @@ namespace {
         }
       }
       
-      // view
-      Lazy<Uniform<glm::mat4>>(prg_, "view").
-        Set(xform_view_ = glm::lookAt(glm::vec3( input_files_.size() / 10,
-                                                 0.5f,
-                                                 (input_files_.size() * 4) / 3),
-                                      glm::vec3( 0.0f, 0.0f, 0.0f),
-                                      glm::vec3( 0.0f, 1.0f, 0.0f)));
+      camera_.xform = glm::inverse(glm::lookAt(glm::vec3( input_files_.size() / 10,
+                                                          0.5f,
+                                                          (input_files_.size() * 4) / 3),
+                                               glm::vec3( 0.0f, 0.0f, 0.0f),
+                                               glm::vec3( 0.0f, 1.0f, 0.0f)));
       
       ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
       ctx_.ClearDepth(1.0f);
@@ -146,6 +142,9 @@ namespace {
       
       ctx_.Clear().ColorBuffer().DepthBuffer();
 
+      // view
+      Lazy<Uniform<glm::mat4>>(prg_, "view").Set(glm::inverse(camera_.xform));
+      
       // model(s)
       for (auto const& m : model_list_) {
         Lazy<Uniform<glm::mat4>>(prg_, "model").Set(m->xform);
@@ -163,72 +162,18 @@ namespace {
     {
       TRACE("<unnamed>::application::reshape");
 
+      glut::application::reshape(size);
+      
       using namespace oglplus;
       
       ctx_.Viewport(size.x, size.y);
 
+      Lazy<Uniform<glm::mat4>>(prg_, "proj").Set(projection_.xform);
+      
       if (Lazy<Uniform<glm::ivec2>>(prg_, "screen").IsActive()) {
         Lazy<Uniform<glm::ivec2>>(prg_, "screen").Set(size);
       }
-      
-      Lazy<Uniform<glm::mat4>>(prg_, "proj").
-        Set(xform_proj_ = glm::perspective(53.0f * 3.1415f / 180.f,
-                                           float(size.x) / float(size.y),
-                                           0.01f, 100.0f));
-    }
-
-    virtual void keyboard(unsigned char key, glm::ivec2 const& pos)
-    {
-      TRACE("<unnamed>::application::keyboard");
-
-      switch (key) {
-      default:
-        glut::application::keyboard(key, pos);
-      }
-    }
-    
-    virtual void special(signed key, glm::ivec2 const& pos)
-    {
-      TRACE("<unnamed>::application::special");
-
-      switch (key) {
-      case GLUT_KEY_DOWN:
-      case GLUT_KEY_LEFT:
-      case GLUT_KEY_PAGE_DOWN:
-      case GLUT_KEY_PAGE_UP:
-      case GLUT_KEY_RIGHT:
-      case GLUT_KEY_UP:
-        {
-          float factor(0.05);
-
-          switch (::glutGetModifiers()) {
-          case GLUT_ACTIVE_ALT:   factor *=  4.0; break;
-          case GLUT_ACTIVE_CTRL:  factor *=  8.0; break;
-          case GLUT_ACTIVE_SHIFT: factor *= 32.0; break;
-          default:                                break;
-          }
-          
-          glm::vec3 incr;
-          
-          switch (key) {
-          case GLUT_KEY_DOWN:      incr.y += factor; break;
-          case GLUT_KEY_LEFT:      incr.x += factor; break;
-          case GLUT_KEY_PAGE_DOWN: incr.z -= factor; break;
-          case GLUT_KEY_PAGE_UP:   incr.z += factor; break;
-          case GLUT_KEY_RIGHT:     incr.x -= factor; break;
-          case GLUT_KEY_UP:        incr.y -= factor; break;
-          }
-
-          using namespace oglplus;
-          
-          Lazy<Uniform<glm::mat4>>(prg_, "view").Set(xform_view_ *= glm::translate(incr));
-        }
-        break;
-        
-      default:
-        glut::application::special(key, pos);
-      }
-    }
+    }    
     
   private:
 
@@ -327,8 +272,6 @@ namespace {
     oglplus::Context       ctx_;
     oglplus::Program       prg_;
     model_mesh_list_type   model_list_;
-    glm::mat4              xform_view_;
-    glm::mat4              xform_proj_;
     
   };
   

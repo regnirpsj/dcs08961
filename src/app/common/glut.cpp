@@ -23,7 +23,9 @@
 
 #include <GL/freeglut.h>             // ::glut*
 #include <cstdlib>                   // EXIT_[SUCCESS|FAILURE]
+#include <glm/glm.hpp>
 #include <glm/gtx/io.hpp>            // glm::io::*
+#include <glm/gtx/transform.hpp>
 #include <iomanip>                   // std::setfill, std::setw
 #include <oglplus/config/gl.hpp>     // 
 
@@ -157,12 +159,14 @@ namespace glut {
   
   /* explicit */
   application::application(int argc, char* argv[])
-    : support::application::single_instance(argc, argv),
-      queue_max_                           (4),
-      frameq_                              (),
-      keyboardq_                           (),
-      mouseq_                              (),
-      window_                              ({ -1, false, glm::ivec2(90,40), glm::ivec2(1440,900) })
+    : inherited  (argc, argv),
+      queue_max_ (4),
+      frameq_    (),
+      keyboardq_ (),
+      mouseq_    (),
+      camera_    ({ glm::mat4() }),
+      projection_({ glm::mat4(), 53.0, glm::vec2(0.01, 100.0) }),
+      window_    ({ -1, false, glm::ivec2(90,40), glm::ivec2(1440,900), false })
   {
     TRACE("glut::application::application");
 
@@ -236,8 +240,33 @@ namespace glut {
   {
     TRACE("glut::application::frame_render_post");
 
-    ::glutSwapBuffers();
+    if (window_.show_stats && (1 < frameq_.size())) {  
+      std::deque<support::clock::duration> durations;
 
+      for (unsigned i(0); i < (frameq_.size() - 1); ++i) {
+        // unfortunately, 'std::adjacent_difference' will not work because it would require to
+        // assign a timepoint to a duration
+        durations.push_back(frameq_[i+1].stamp - frameq_[i].stamp);
+      }
+
+      support::clock::duration const avg(std::accumulate(durations.begin(), durations.end(),
+                                                         std::chrono::nanoseconds(0)) /
+                                         durations.size());
+
+      typedef std::chrono::duration<double> dsec;
+        
+      std::cout << std::right
+                << std::fixed
+                << std::setfill(' ')
+                << std::setw(4)
+                << std::setprecision(1)
+                << "fps: "   << (1.0 / std::chrono::duration_cast<dsec>(durations.back()).count())
+                << " (avg: " << (1.0 / std::chrono::duration_cast<dsec>(avg).count()) << ')'
+                << std::endl;
+    }
+    
+    ::glutSwapBuffers();
+    
     if (!frameq_.empty()) {
       static support::clock::duration const base60hz(std::chrono::nanoseconds(16666600));
       
@@ -298,6 +327,12 @@ namespace glut {
         }
       }
       break;
+
+    case 's':
+      {
+        window_.show_stats = !window_.show_stats;
+      }
+      break;
       
     default:
       break;
@@ -311,17 +346,55 @@ namespace glut {
   }  
 
   /* virtual */ void
-  application::reshape(glm::ivec2 const&)
+  application::reshape(glm::ivec2 const& size)
   {
     TRACE("glut::application::reshape");
 
-    throw std::logic_error("pure virtual function 'glut::application::reshape' called");
+    projection_.xform = glm::perspective(projection_.fovy_degree * 3.1415f / 180.f,
+                                         float(size.x) / float(size.y),
+                                         projection_.near_far.x, projection_.near_far.y);
   }
 
   /* virtual */ void
-  application::special(signed, glm::ivec2 const&)
+  application::special(signed key, glm::ivec2 const&)
   {
     TRACE("glut::application::special");
+
+    switch (key) {
+    case GLUT_KEY_DOWN:
+    case GLUT_KEY_LEFT:
+    case GLUT_KEY_PAGE_DOWN:
+    case GLUT_KEY_PAGE_UP:
+    case GLUT_KEY_RIGHT:
+    case GLUT_KEY_UP:
+      {
+        float factor(0.05);
+
+        switch (::glutGetModifiers()) {
+        case GLUT_ACTIVE_ALT:   factor *=  4.0; break;
+        case GLUT_ACTIVE_CTRL:  factor *=  8.0; break;
+        case GLUT_ACTIVE_SHIFT: factor *= 32.0; break;
+        default:                                break;
+        }
+          
+        glm::vec3 incr;
+          
+        switch (key) {
+        case GLUT_KEY_DOWN:      incr.y -= factor; break;
+        case GLUT_KEY_LEFT:      incr.x -= factor; break;
+        case GLUT_KEY_PAGE_DOWN: incr.z += factor; break;
+        case GLUT_KEY_PAGE_UP:   incr.z -= factor; break;
+        case GLUT_KEY_RIGHT:     incr.x += factor; break;
+        case GLUT_KEY_UP:        incr.y += factor; break;
+        }
+          
+        camera_.xform *= glm::translate(incr);
+      }
+      break;
+        
+    default:
+      break;
+    }
   }
   
   /* virtual */ void

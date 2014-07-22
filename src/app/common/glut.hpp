@@ -32,7 +32,13 @@ namespace glut {
 
   class application : public support::application::single_instance {
 
+    typedef support::application::single_instance inherited;
+    
   public:
+
+    struct camera_info_t {
+      glm::mat4 xform;
+    };
     
     struct frame_info_t {
       unsigned                   counter;
@@ -44,18 +50,26 @@ namespace glut {
       signed key;
       signed modifier;
     };
-
+    
     struct mouse_info_t {
       signed     button;
       signed     state;
       glm::ivec2 pos;
     };
-
+    
+    struct projection_info_t {
+      glm::mat4 xform;
+      float     fovy_degree;
+      glm::vec2 near_far;
+    };
+    
     struct window_info_t {
       signed      id;
       bool        fullscreen;
       glm::ivec2  pos;
       glm::ivec2  size;
+
+      bool        show_stats;
     };
     
     virtual signed run();
@@ -70,9 +84,12 @@ namespace glut {
     unsigned                    queue_max_;
     std::deque<frame_info_t>    frameq_;
     std::deque<keyboard_info_t> keyboardq_;
-    std::deque<mouse_info_t>    mouseq_;    
+    std::deque<mouse_info_t>    mouseq_;
+    camera_info_t               camera_;
+    projection_info_t           projection_;
     window_info_t               window_;
-
+    
+    
     explicit application(int /* argc */, char* /* argv */[]);
     virtual ~application();
     
@@ -83,7 +100,7 @@ namespace glut {
     virtual void idle    ();
     virtual void keyboard(unsigned char, glm::ivec2 const&);
     virtual void mouse   (signed, signed, glm::ivec2 const&);
-    virtual void reshape (glm::ivec2 const&) =0;
+    virtual void reshape (glm::ivec2 const&);
     virtual void special (signed, glm::ivec2 const&);
     
   private:
