@@ -51,9 +51,6 @@ namespace {
       : glut::application(argc, argv),
         ctx_             (),
         prg_             (),
-        uniform_model_   (prg_, "model"),
-        uniform_view_    (prg_, "view"),
-        uniform_proj_    (prg_, "proj"),
         model_list_      (),
         xform_view_      (),
         xform_proj_      ()
@@ -118,9 +115,9 @@ namespace {
             xlat += incr;
           }
 
-          catch (std::runtime_error&) {
+          catch (std::runtime_error& ex) {
             std::cout << support::trace::prefix() << "<unnamed>::application::application: "
-                      << "unable to load file: "  << f << ", skipping"
+                      << "unable to load file: "  << f << ", error:'" << ex.what() << "'"
                       << std::endl;
 
             delete mm; mm = nullptr;
@@ -129,12 +126,12 @@ namespace {
       }
       
       // view
-      xform_view_ = glm::lookAt(glm::vec3( input_files_.size() / 10,
-                                           0.5f,
-                                           (input_files_.size() * 4) / 3),
-                                glm::vec3( 0.0f, 0.0f, 0.0f),
-                                glm::vec3( 0.0f, 1.0f, 0.0f));
-      uniform_view_.Set(xform_view_);
+      Lazy<Uniform<glm::mat4>>(prg_, "view").
+        Set(xform_view_ = glm::lookAt(glm::vec3( input_files_.size() / 10,
+                                                 0.5f,
+                                                 (input_files_.size() * 4) / 3),
+                                      glm::vec3( 0.0f, 0.0f, 0.0f),
+                                      glm::vec3( 0.0f, 1.0f, 0.0f)));
       
       ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
       ctx_.ClearDepth(1.0f);
@@ -151,7 +148,7 @@ namespace {
 
       // model(s)
       for (auto const& m : model_list_) {
-        uniform_model_.Set(m->xform);
+        Lazy<Uniform<glm::mat4>>(prg_, "model").Set(m->xform);
 
         if (Lazy<Uniform<unsigned>>(prg_, "mtl_id").IsActive()) {
           Lazy<Uniform<unsigned>>(prg_, "mtl_id").Set(m->material_id);
@@ -174,9 +171,10 @@ namespace {
         Lazy<Uniform<glm::ivec2>>(prg_, "screen").Set(size);
       }
       
-      uniform_proj_.Set(xform_proj_ = glm::perspective(53.0f * 3.1415f / 180.f,
-                                                       float(size.x) / float(size.y),
-                                                       0.01f, 100.0f));
+      Lazy<Uniform<glm::mat4>>(prg_, "proj").
+        Set(xform_proj_ = glm::perspective(53.0f * 3.1415f / 180.f,
+                                           float(size.x) / float(size.y),
+                                           0.01f, 100.0f));
     }
 
     virtual void keyboard(unsigned char key, glm::ivec2 const& pos)
@@ -221,7 +219,9 @@ namespace {
           case GLUT_KEY_UP:        incr.y -= factor; break;
           }
 
-          uniform_view_.Set(xform_view_ *= glm::translate(incr));
+          using namespace oglplus;
+          
+          Lazy<Uniform<glm::mat4>>(prg_, "view").Set(xform_view_ *= glm::translate(incr));
         }
         break;
         
@@ -268,7 +268,7 @@ namespace {
       oglplus::Buffer                      positions;
       oglplus::Buffer                      normals;
       glm::mat4                            xform;
-      unsigned                             material_id;
+      signed                               material_id;
       
       model_mesh(model_file& file, oglplus::Program& program)
         : mesh        (file.stream),
@@ -278,7 +278,7 @@ namespace {
           positions   (),
           normals     (),
           xform       (),
-          material_id ()
+          material_id (-1)
       {
         TRACE("<unnamed>::application::model_mesh::model_mesh");
 
@@ -322,14 +322,10 @@ namespace {
       
     };
 
-    typedef oglplus::Lazy<oglplus::Uniform<glm::mat4>> lazy_uniform_mat4_type;
     typedef std::vector<std::unique_ptr<model_mesh>>   model_mesh_list_type;
     
     oglplus::Context       ctx_;
     oglplus::Program       prg_;
-    lazy_uniform_mat4_type uniform_model_;
-    lazy_uniform_mat4_type uniform_view_;
-    lazy_uniform_mat4_type uniform_proj_;
     model_mesh_list_type   model_list_;
     glm::mat4              xform_view_;
     glm::mat4              xform_proj_;
@@ -347,5 +343,5 @@ main(int argc, char* argv[])
 {
   TRACE("main");
   
-  return glut::execute<application>(argc, argv); //, std::nothrow);
+  return glut::execute<application>(argc, argv, std::nothrow);
 }
