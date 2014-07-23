@@ -19,7 +19,10 @@
 #include <boost/filesystem.hpp> // boost::filesystem::path
 #include <GL/freeglut.h>
 #include <oglplus/all.hpp>
+#include <oglplus/bound/texture.hpp>
+#include <oglplus/images/checker.hpp>
 #include <oglplus/opt/resources.hpp>
+#include <oglplus/opt/smart_enums.hpp>
 #include <oglplus/shapes/obj_mesh.hpp>
 
 #include <glm/glm.hpp>
@@ -51,11 +54,12 @@ namespace {
       : glut::application(argc, argv),
         ctx_             (),
         prg_             (),
+        tex_             (),
         model_list_      ()
     {
       TRACE("<unnamed>::application::application");
 
-      using namespace oglplus;
+      using namespace oglplus;    
       
       {
         namespace bfs = boost::filesystem;
@@ -73,6 +77,19 @@ namespace {
         prg_.Link().Use();
       }
 
+      {
+        ctx_.Bound(smart_enums::_2D(), tex_)
+          .Image2D(images::CheckerRedBlack(256, 256, 8, 8))
+          .GenerateMipmap()
+          .MinFilter(smart_enums::Linear())
+          .MagFilter(smart_enums::Linear())
+          .Anisotropy(2.0f)
+          .WrapS(smart_enums::Repeat())
+          .WrapT(smart_enums::Repeat());
+        
+        (prg_/"tex") = 0;
+      }
+      
       if (!input_files_.empty()) {
         static glm::vec3 const incr(0.0, 0.0, -1.5);
         
@@ -131,7 +148,8 @@ namespace {
       
       ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
       ctx_.ClearDepth(1.0f);
-      ctx_.Enable(Capability::DepthTest);
+      ctx_.Enable(smart_enums::DepthTest());
+      ctx_.Enable(smart_enums::CullFace());
     }
     
     virtual void frame_render_one()
@@ -212,6 +230,7 @@ namespace {
       oglplus::VertexArray                 vao;
       oglplus::Buffer                      positions;
       oglplus::Buffer                      normals;
+      oglplus::Buffer                      tcoords;
       glm::mat4                            xform;
       signed                               material_id;
       
@@ -222,6 +241,7 @@ namespace {
           vao         (),
           positions   (),
           normals     (),
+          tcoords     (),
           xform       (),
           material_id (-1)
       {
@@ -263,15 +283,26 @@ namespace {
 
           (program|"normal").Setup<GLfloat>(n_per_vertex).Enable();
         }
+
+        tcoords.Bind(Buffer::Target::Array);
+        {
+          std::vector<GLfloat> data;
+          GLuint               n_per_vertex(mesh.TexCoordinates(data));
+            
+          Buffer::Data(Buffer::Target::Array, data);
+            
+          (program|"tcoords").Setup<GLfloat>(n_per_vertex).Enable();
+        }
       }
       
     };
 
-    typedef std::vector<std::unique_ptr<model_mesh>>   model_mesh_list_type;
+    typedef std::vector<std::unique_ptr<model_mesh>> model_mesh_list_type;
     
-    oglplus::Context       ctx_;
-    oglplus::Program       prg_;
-    model_mesh_list_type   model_list_;
+    oglplus::Context     ctx_;
+    oglplus::Program     prg_;
+    oglplus::Texture     tex_;
+    model_mesh_list_type model_list_;
     
   };
   
@@ -286,5 +317,5 @@ main(int argc, char* argv[])
 {
   TRACE("main");
   
-  return glut::execute<application>(argc, argv, std::nothrow);
+  return glut::execute<application>(argc, argv); //, std::nothrow);
 }

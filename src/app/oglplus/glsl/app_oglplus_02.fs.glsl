@@ -36,14 +36,16 @@
 uniform mat4x4 model;
 uniform mat4x4 view;
 uniform mat4x4 proj;
-uniform uvec2  screen;
+
+uniform sampler2D tex;
 
 /* variables, global */
 
 in vs_out_t {
        vec3 position_wc;
        vec3 normal_wc;
-  flat uint mtl_id;
+       vec2 tcoords;
+  flat int  mtl_id;
 } fs_in;
 
 layout (location = 0) out vec4 color;
@@ -53,7 +55,9 @@ layout (location = 0) out vec4 color;
 void
 main()
 {
-  color  = vec4(0.5, 0.5, 0.5, 1.0);
+  vec4 t = texture(tex, fs_in.tcoords);
+  
+  color  = vec4(0.5, 0.5, 0.5, 1.0) + (1.0 - vec4(t.rrr, 1.0));
   color *= dot(vec4(0.0, 0.0, -1.0, 1.0), vec4(fs_in.normal_wc, 1.0));
 }
 
