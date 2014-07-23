@@ -16,6 +16,7 @@
 
 #include <GL/glew.h>            // ::glew*
 
+#include <array>
 #include <boost/filesystem.hpp> // boost::filesystem::path
 #include <GL/freeglut.h>
 #include <oglplus/all.hpp>
@@ -23,6 +24,7 @@
 #include <oglplus/images/checker.hpp>
 #include <oglplus/opt/resources.hpp>
 #include <oglplus/opt/smart_enums.hpp>
+#include <oglplus/shader_cache.hpp>
 #include <oglplus/shapes/obj_mesh.hpp>
 
 #include <glm/glm.hpp>
@@ -30,6 +32,7 @@
 #include <glm/gtx/io.hpp>
 #include <glm/gtx/transform.hpp>
 
+#include <sstream>
 #include <vector>
 
 // includes, project
@@ -67,12 +70,29 @@ namespace {
         bfs::path const   p(argv[0]);
         std::string const d(p.parent_path().string());
         std::string const f(p.filename().string());
+
+        std::array<std::string const, 6> const file_names = {
+          {
+            std::string(d + "/../share/shader/glsl/" + f + ".vs.glsl"),
+            std::string(d + "/../share/shader/glsl/" + f + ".fs.glsl"),
+            std::string(d + "/../share/shader/glsl/" + f + ".constants.glsl"),
+            std::string(d + "/../share/shader/glsl/" + f + ".light.glsl"),
+            std::string(d + "/../share/shader/glsl/" + f + ".material.glsl"),
+            std::string(d + "/../share/shader/glsl/" + f + ".uniforms.glsl"),
+          }
+        };
         
-        ResourceFile      vs_src(d + "/../share/shader/glsl", f, ".vs.glsl");
-        ResourceFile      fs_src(d + "/../share/shader/glsl", f, ".fs.glsl");
-        
-        prg_ << VertexShader().Source(GLSLSource::FromStream(vs_src.stream()))
-             << FragmentShader().Source(GLSLSource::FromStream(fs_src.stream()));
+        for (auto const& f : file_names) {
+          std::ifstream     ifs(f);
+          std::stringstream src;
+
+          src << ifs.rdbuf();
+          
+          ShaderCache::addEntry(f, src.str());
+        }
+
+        prg_ << VertexShader().Source(ShaderCache::Source(file_names[0])).Compile()
+             << FragmentShader().Source(ShaderCache::Source(file_names[1])).Compile();
         
         prg_.Link().Use();
       }

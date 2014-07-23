@@ -16,8 +16,8 @@
 
 #define UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_02_FS_GLSL
 
-#version 420 core
-// #extension GL_ARB_shading_language_include : require
+#version 430 core
+#extension GL_ARB_shading_language_include : require
 
 /* includes, system */
 
@@ -25,17 +25,15 @@
 
 /* includes, project */
 
-//#include <>
+#include <app_oglplus_02.light.glsl>
+#include <app_oglplus_02.material.glsl>
+#include <app_oglplus_02.uniforms.glsl>
 
 /* constants */
 
 /* types, internal (enum, struct, union, typedef) */
 
 /* variables, uniform */
-
-uniform mat4x4 model;
-uniform mat4x4 view;
-uniform mat4x4 proj;
 
 uniform sampler2D tex;
 
@@ -48,7 +46,7 @@ in vs_out_t {
   flat int  mtl_id;
 } fs_in;
 
-layout (location = 0) out vec4 color;
+out vec4 color;
 
 /* functions */
 

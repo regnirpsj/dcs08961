@@ -16,7 +16,7 @@
 
 #define UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_02_UNIFORM_GLSL
 
-#version 430 core
+// #version 430 core
 // #extension GL_ARB_shading_language_include : require
 
 /* includes, system */

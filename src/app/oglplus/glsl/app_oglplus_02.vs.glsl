@@ -16,12 +16,12 @@
 
 #define UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_02_VS_GLSL
 
-#version 420 core
-// #extension GL_ARB_shading_language_include : require
+#version 430 core
+#extension GL_ARB_shading_language_include : require
 
 /* includes, system */
 
-//#include <>
+#include <app_oglplus_02.uniforms.glsl>
 
 /* includes, project */
 
@@ -33,16 +33,12 @@
 
 /* variables, uniform */
 
-uniform mat4x4 model;
-uniform mat4x4 view;
-uniform mat4x4 proj;
-
 /* variables, global */
 
-layout (location = 0) in vec4 position;
-layout (location = 1) in vec4 normal;
-layout (location = 2) in vec2  tcoords;
-layout (location = 3) in float mtl_id;
+in vec4 position;
+in vec4 normal;
+in vec2  tcoords;
+in float mtl_id;
 
 out vs_out_t {
        vec3 position_wc;
