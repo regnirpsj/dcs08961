@@ -32,8 +32,9 @@ namespace oglplus {
      * \brief cache entry functions
      */
     //@{
-    static void addEntry(std::string const& /* path/file name */, std::string const& /* source */,
-                         bool /* add path to prefixes */ = true);
+    static void addEntry(std::string const& /* path/file name */,
+                         std::string const& /* source */,
+                         bool               /* add base path to prefix list */ = true);
     static void subEntry(std::string const& /* path/file name */);
 
     static bool        Exists(std::string const& /* path/file name */);
@@ -47,7 +48,7 @@ namespace oglplus {
     static void addPrefix(std::string const& /* path name */);
     static void subPrefix(std::string const& /* path name */);
 
-    static StringListType Prefixes();
+    static StringListType PrefixList();
     //@}
 
     /**
@@ -55,8 +56,8 @@ namespace oglplus {
      */
     //@{
     static void clearAll();
-    static void clearEntries();
-    static void clearPrefixes();
+    static void clearEntryList();
+    static void clearPrefixList();
     //@}
 
   private:

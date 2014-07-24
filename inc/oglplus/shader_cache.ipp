@@ -21,6 +21,9 @@ namespace oglplus {
   /* static */ ShaderCache::StringListType ShaderCache::entry_list_;
   /* static */ ShaderCache::StringListType ShaderCache::prefix_list_;
 
+  /*
+   * TODO: how to do this w/o relying on actual files on the file system?
+   */
   /* static */ inline void
   ShaderCache::addEntry(std::string const& a, std::string const& b, bool c)
   {
@@ -96,7 +99,7 @@ namespace oglplus {
   }
 
   /* static */ inline ShaderCache::StringListType
-  ShaderCache::Prefixes()
+  ShaderCache::PrefixList()
   {
     return prefix_list_;
   }
@@ -104,12 +107,12 @@ namespace oglplus {
   /* static */ inline void
   ShaderCache::clearAll()
   {
-    clearEntries();
-    clearPrefixes();
+    clearEntryList();
+    clearPrefixList();
   }
   
   /* static */ inline void
-  ShaderCache::clearEntries()
+  ShaderCache::clearEntryList()
   {
     while (!entry_list_.empty()) {
       subEntry(*(entry_list_.begin()));
@@ -118,7 +121,7 @@ namespace oglplus {
 
   
   /* static */ inline void
-  ShaderCache::clearPrefixes()
+  ShaderCache::clearPrefixList()
   {
     while (!prefix_list_.empty()) {
       subPrefix(*(prefix_list_.begin()));

@@ -45,16 +45,16 @@ Compile(void)
   }
 #else
   {
-    auto const   prefixes(ShaderCache::Prefixes());
-    signed const cnt     (prefixes.size());
-    char const** path    (nullptr);
-    signed*      len     (nullptr);
+    auto const   prfx(ShaderCache::PrefixList());
+    signed const cnt (prfx.size());
+    char const** path(nullptr);
+    signed*      len (nullptr);
 
     if (0 < cnt) {
       path = new char const* [cnt];
       len  = new signed      [cnt];
       
-      auto current(prefixes.begin());
+      auto current(prfx.begin());
       
       for (signed i(0); i < cnt; ++i) {
         path[i] = (*current).c_str();
