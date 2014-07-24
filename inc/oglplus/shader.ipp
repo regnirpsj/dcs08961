@@ -42,6 +42,12 @@ Compile(void)
 #if 0
   {
     OGLPLUS_GLFUNC(CompileShader)(_name);
+    OGLPLUS_CHECK(
+                  CompileShader,
+                  ObjectError,
+                  Object(*this).
+                  EnumParam(Type())
+                  );
   }
 #else
   {
@@ -63,19 +69,21 @@ Compile(void)
         ++current;
       }
     }
-
-    ::glCompileShaderIncludeARB(_name, cnt, path, len);
+    
+    OGLPLUS_GLFUNC(CompileShaderIncludeARB)(_name, cnt, path, len);
     
     delete [] len;
     delete [] path;
+
+    OGLPLUS_CHECK(
+                  CompileShaderIncludeARB,
+                  ObjectError,
+                  Object(*this).
+                  EnumParam(Type())
+                  );
   }
 #endif
-	OGLPLUS_CHECK(
-                CompileShader,
-                ObjectError,
-                Object(*this).
-                EnumParam(Type())
-                );
+	
 	OGLPLUS_HANDLE_ERROR_IF(
                           !IsCompiled(),
                           GL_INVALID_OPERATION,
