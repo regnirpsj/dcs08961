@@ -70,25 +70,28 @@ namespace {
         bfs::path const   p(argv[0]);
         std::string const d(p.parent_path().string());
         std::string const f(p.filename().string());
-
-        std::array<std::string const, 6> const file_names = {
+        std::string const b(d + "/../share/shader/glsl/" + f);
+        
+        std::array<std::string const, 7> const file_names = {
           {
-            std::string(d + "/../share/shader/glsl/" + f + ".vs.glsl"),
-            std::string(d + "/../share/shader/glsl/" + f + ".fs.glsl"),
-            std::string(d + "/../share/shader/glsl/" + f + ".constants.glsl"),
-            std::string(d + "/../share/shader/glsl/" + f + ".light.glsl"),
-            std::string(d + "/../share/shader/glsl/" + f + ".material.glsl"),
-            std::string(d + "/../share/shader/glsl/" + f + ".uniforms.glsl"),
+            std::string(b + ".vs.glsl"),
+            std::string(b + ".fs.glsl"),
+            std::string(b + ".constants.glsl"),
+            std::string(b + ".functions.glsl"),
+            std::string(b + ".light.glsl"),
+            std::string(b + ".material.glsl"),
+            std::string(b + ".uniforms.glsl"),
           }
         };
         
         for (auto const& f : file_names) {
-          std::ifstream     ifs(f);
+          static bool insert_base_dir_into_prefix_list(true);
+          
           std::stringstream src;
 
-          src << ifs.rdbuf();
+          src << std::ifstream(f).rdbuf();
           
-          ShaderCache::addEntry(f, src.str());
+          ShaderCache::addEntry(f, src.str(), insert_base_dir_into_prefix_list);
         }
 
         prg_ << VertexShader().Source(ShaderCache::Source(file_names[0])).Compile()
