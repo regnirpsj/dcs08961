@@ -22,7 +22,6 @@
 #include <oglplus/all.hpp>
 #include <oglplus/bound/texture.hpp>
 #include <oglplus/images/checker.hpp>
-#include <oglplus/named_string.hpp>
 #include <oglplus/opt/resources.hpp>
 #include <oglplus/opt/smart_enums.hpp>
 #include <oglplus/shapes/obj_mesh.hpp>
