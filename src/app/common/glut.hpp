@@ -36,6 +36,8 @@ namespace glut {
     
   public:
 
+    static void flush_gl_errors(std::ostream&);
+    
     struct camera_info_t {
       glm::mat4 xform;
     };

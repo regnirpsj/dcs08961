@@ -68,6 +68,26 @@ namespace glut {
   
   // functions, exported
 
+  /* static */ void
+  application::flush_gl_errors(std::ostream& os)
+  {
+    TRACE("glut::application::flush_gl_errors");
+
+    unsigned error(::glGetError());
+    
+    if (GL_NO_ERROR != error) {
+      do {
+        os << "GL error: "
+           << ::glewGetErrorString(error)
+           << " ("
+           <<                                                  error << "|0x"
+           << std::hex << std::setfill('0') << std::setw(4) << error 
+           << ')'
+           << std::endl;
+      } while (GL_NO_ERROR != (error = ::glGetError()));
+    }
+  }
+  
   /* virtual */ signed
   application::run()
   {
@@ -178,12 +198,14 @@ namespace glut {
     if (0 >= (window_.id = ::glutCreateWindow(argv[0]))) {
       throw std::runtime_error("GLUT initialization error");
     }
+
+    glewExperimental = true;
     
     if (GLEW_OK != ::glewInit()) {
       throw std::runtime_error("GLEW initialization error");
     }
 
-    ::glGetError();
+    flush_gl_errors(std::cerr);
 
     ::glutDisplayFunc      (&application::display_cb);
     ::glutIdleFunc         (&application::idle_cb);
