@@ -14,7 +14,7 @@
 
 // includes, system
 
-#include <GL/glew.h>            // ::glew*
+#include <GL/glew.h>            // ::gl*
 
 #include <array>
 #include <boost/filesystem.hpp> // boost::filesystem::path
@@ -22,9 +22,7 @@
 #include <oglplus/all.hpp>
 #include <oglplus/bound/texture.hpp>
 #include <oglplus/images/checker.hpp>
-#include <oglplus/opt/resources.hpp>
 #include <oglplus/opt/smart_enums.hpp>
-#include <oglplus/shapes/obj_mesh.hpp>
 
 #include <glm/glm.hpp>
 #include <oglplus/interop/glm.hpp>
@@ -37,6 +35,7 @@
 // includes, project
 
 #include <../common/glut.hpp>
+#include <../common/model.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -124,7 +123,7 @@ namespace {
         }
         
         for (auto f : input_files_) {
-          model_mesh* mm(nullptr);
+          model::mesh* mm(nullptr);
           
           try {
 #if 1
@@ -133,9 +132,9 @@ namespace {
                       << std::endl;
 #endif
 
-            model_file  mf(f);
+            model::file  mf(f);
 
-            mm        = new model_mesh(mf, prg_);
+            mm        = new model::mesh(mf, prg_);
             mm->xform = glm::translate(xlat) *  mm->xform;
             
             model_list_.push_back(model_mesh_list_type::value_type(mm));
@@ -210,125 +209,7 @@ namespace {
     
   private:
 
-    struct model_file {
-
-      std::ifstream stream;
-
-      model_file(std::string const& a)
-        : stream()
-      {
-        TRACE("<unnamed>::application::model_file::model_file");
-        
-        namespace bfs = boost::filesystem;
-
-        bfs::path const   p(a);
-        std::string const d(p.parent_path().string());
-        std::string const f(p.stem().string());
-        std::string const e(p.extension().string());
-
-#if defined(UKACHULLDCS_USE_TRACE)
-        std::cout << support::trace::prefix() << "<unnamed>::application::model_file::model_file: "
-                  << "'" << d + "/" + f + e << "'"
-                  << std::endl;
-#endif
-        
-        oglplus::OpenResourceFile(stream, d, f, e.c_str());
-      }
-      
-    };
-
-    struct model_mesh {
-
-      oglplus::Program&                    prg_;
-      oglplus::shapes::ObjMesh             mesh;
-      oglplus::shapes::DrawingInstructions instructions;
-      oglplus::shapes::ObjMesh::IndexArray indices;
-      oglplus::VertexArray                 vao;
-      oglplus::Buffer                      positions;
-      oglplus::Buffer                      normals;
-      oglplus::Buffer                      tcoords;
-      glm::mat4                            xform;
-      signed                               material_id;
-      
-      model_mesh(model_file& file, oglplus::Program& program)
-        : prg_        (program),
-          mesh        (file.stream),
-          instructions(mesh.Instructions()),
-          indices     (mesh.Indices()),
-          vao         (),
-          positions   (),
-          normals     (),
-          tcoords     (),
-          xform       (),
-          material_id (-1)
-      {
-        TRACE("<unnamed>::application::model_mesh::model_mesh");
-
-        using namespace oglplus;
-
-        {
-          oglplus::Spheref bsphere;
-          
-          mesh.BoundingSphere(bsphere);
-
-          if (!bsphere.Degenerate()) {
-            xform = (glm::scale(glm::vec3(1.0 / bsphere.Diameter())) *
-                     glm::translate(-glm::vec3(bsphere.Center().x(),
-                                               bsphere.Center().y(),
-                                               bsphere.Center().z())));
-          }
-        }
-        
-        vao.Bind();
-        
-        positions.Bind(Buffer::Target::Array);
-        {
-          std::vector<GLfloat> data;
-          GLuint               n_per_vertex(mesh.Positions(data));
-          
-          Buffer::Data(Buffer::Target::Array, data);
-          
-          (prg_|"position").Setup<GLfloat>(n_per_vertex).Enable();
-        }
-
-        normals.Bind(Buffer::Target::Array);
-        {
-          std::vector<GLfloat> data;
-          GLuint               n_per_vertex(mesh.Normals(data));
-          
-          Buffer::Data(Buffer::Target::Array, data);
-
-          (prg_|"normal").Setup<GLfloat>(n_per_vertex).Enable();
-        }
-
-        tcoords.Bind(Buffer::Target::Array);
-        {
-          std::vector<GLfloat> data;
-          GLuint               n_per_vertex(mesh.TexCoordinates(data));
-            
-          Buffer::Data(Buffer::Target::Array, data);
-            
-          (prg_|"tcoords").Setup<GLfloat>(n_per_vertex).Enable();
-        }
-      }
-
-      void draw()
-      {
-        using namespace oglplus;
-        
-        Lazy<Uniform<glm::mat4>>(prg_, "model").Set(xform);
-
-        if (Lazy<Uniform<unsigned>>(prg_, "mtl_id").IsActive()) {
-          Lazy<Uniform<unsigned>>(prg_, "mtl_id").Set(material_id);
-        }
-        
-        vao.Bind();
-        instructions.Draw(indices);
-      }
-      
-    };
-
-    typedef std::vector<std::unique_ptr<model_mesh>> model_mesh_list_type;
+    typedef std::vector<std::unique_ptr<model::mesh>> model_mesh_list_type;
     
     oglplus::Context     ctx_;
     oglplus::Program     prg_;
