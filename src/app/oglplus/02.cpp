@@ -22,9 +22,9 @@
 #include <oglplus/all.hpp>
 #include <oglplus/bound/texture.hpp>
 #include <oglplus/images/checker.hpp>
+#include <oglplus/named_string.hpp>
 #include <oglplus/opt/resources.hpp>
 #include <oglplus/opt/smart_enums.hpp>
-#include <oglplus/shader_cache.hpp>
 #include <oglplus/shapes/obj_mesh.hpp>
 
 #include <glm/glm.hpp>
@@ -68,41 +68,39 @@ namespace {
         namespace bfs = boost::filesystem;
 
         bfs::path const   p(argv[0]);
-        std::string const d(p.parent_path().string());
+        std::string const d(bfs::canonical(p.parent_path()).string());
         std::string const f(p.filename().string());
-        std::string const b(d + "/../share/shader/glsl/" + f);
+        std::string const b(d + "/../share/shader/glsl");
         
         std::array<std::string const, 7> const file_names = {
           {
-            std::string(b + ".vs.glsl"),
-            std::string(b + ".fs.glsl"),
-            std::string(b + ".constants.glsl"),
-            std::string(b + ".functions.glsl"),
-            std::string(b + ".light.glsl"),
-            std::string(b + ".material.glsl"),
-            std::string(b + ".uniforms.glsl"),
+            std::string(b + "/" + f + ".vs.glsl"),
+            std::string(b + "/" + f + ".fs.glsl"),
+            std::string(b + "/" + f + ".constants.glsl"),
+            std::string(b + "/" + f + ".functions.glsl"),
+            std::string(b + "/" + f + ".light.glsl"),
+            std::string(b + "/" + f + ".material.glsl"),
+            std::string(b + "/" + f + ".uniforms.glsl"),
           }
         };
         
-        for (auto const& f : file_names) {
-          static bool insert_base_dir_into_prefix_list(true);
-          
+        for (auto fn : file_names) {
           std::stringstream src;
 
-          src << std::ifstream(f).rdbuf();
+          src << std::ifstream(fn).rdbuf();
           
-          ShaderCache::addEntry(f, src.str(), insert_base_dir_into_prefix_list);
+          NamedString::Set(NamedStringType::ShaderInclude, fn, src.str());
         }
-
-        prg_ << VertexShader().Source(ShaderCache::Source(file_names[0])).Compile()
-             << FragmentShader().Source(ShaderCache::Source(file_names[1])).Compile();
+        
+        prg_ << VertexShader()  .Source(NamedString::Get(file_names[0])).CompileInclude(b)
+             << FragmentShader().Source(NamedString::Get(file_names[1])).CompileInclude(b);
         
         prg_.Link().Use();
       }
 
       {
         ctx_.Bound(smart_enums::_2D(), tex_)
-          .Image2D(images::CheckerRedBlack(256, 256, 8, 8))
+          .Image2D(images::CheckerRedBlack(64, 64, 8, 8))
           .GenerateMipmap()
           .MinFilter(smart_enums::Linear())
           .MagFilter(smart_enums::Linear())
@@ -162,12 +160,14 @@ namespace {
           }
         }
       }
-      
-      camera_.xform = glm::inverse(glm::lookAt(glm::vec3( input_files_.size() / 10,
-                                                          0.5f,
-                                                          (input_files_.size() * 4) / 3),
-                                               glm::vec3( 0.0f, 0.0f, 0.0f),
-                                               glm::vec3( 0.0f, 1.0f, 0.0f)));
+
+      if (!input_files_.empty()) {
+        camera_.xform = glm::inverse(glm::lookAt(glm::vec3( input_files_.size() / 10,
+                                                            0.5f,
+                                                            (input_files_.size() * 4) / 3),
+                                                 glm::vec3( 0.0f, 0.0f, 0.0f),
+                                                 glm::vec3( 0.0f, 1.0f, 0.0f)));
+      }
       
       ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
       ctx_.ClearDepth(1.0f);
@@ -188,14 +188,7 @@ namespace {
       
       // model(s)
       for (auto const& m : model_list_) {
-        Lazy<Uniform<glm::mat4>>(prg_, "model").Set(m->xform);
-
-        if (Lazy<Uniform<unsigned>>(prg_, "mtl_id").IsActive()) {
-          Lazy<Uniform<unsigned>>(prg_, "mtl_id").Set(m->material_id);
-        }
-        
-        m->vao.Bind();
-        m->instructions.Draw(m->indices);
+        m->draw();
       }
     }
     
@@ -247,6 +240,7 @@ namespace {
 
     struct model_mesh {
 
+      oglplus::Program&                    prg_;
       oglplus::shapes::ObjMesh             mesh;
       oglplus::shapes::DrawingInstructions instructions;
       oglplus::shapes::ObjMesh::IndexArray indices;
@@ -258,7 +252,8 @@ namespace {
       signed                               material_id;
       
       model_mesh(model_file& file, oglplus::Program& program)
-        : mesh        (file.stream),
+        : prg_        (program),
+          mesh        (file.stream),
           instructions(mesh.Instructions()),
           indices     (mesh.Indices()),
           vao         (),
@@ -294,7 +289,7 @@ namespace {
           
           Buffer::Data(Buffer::Target::Array, data);
           
-          (program|"position").Setup<GLfloat>(n_per_vertex).Enable();
+          (prg_|"position").Setup<GLfloat>(n_per_vertex).Enable();
         }
 
         normals.Bind(Buffer::Target::Array);
@@ -304,7 +299,7 @@ namespace {
           
           Buffer::Data(Buffer::Target::Array, data);
 
-          (program|"normal").Setup<GLfloat>(n_per_vertex).Enable();
+          (prg_|"normal").Setup<GLfloat>(n_per_vertex).Enable();
         }
 
         tcoords.Bind(Buffer::Target::Array);
@@ -314,8 +309,22 @@ namespace {
             
           Buffer::Data(Buffer::Target::Array, data);
             
-          (program|"tcoords").Setup<GLfloat>(n_per_vertex).Enable();
+          (prg_|"tcoords").Setup<GLfloat>(n_per_vertex).Enable();
         }
+      }
+
+      void draw()
+      {
+        using namespace oglplus;
+        
+        Lazy<Uniform<glm::mat4>>(prg_, "model").Set(xform);
+
+        if (Lazy<Uniform<unsigned>>(prg_, "mtl_id").IsActive()) {
+          Lazy<Uniform<unsigned>>(prg_, "mtl_id").Set(material_id);
+        }
+        
+        vao.Bind();
+        instructions.Draw(indices);
       }
       
     };
@@ -340,5 +349,5 @@ main(int argc, char* argv[])
 {
   TRACE("main");
   
-  return glut::execute<application>(argc, argv); //, std::nothrow);
+  return glut::execute<application>(argc, argv, std::nothrow);
 }
