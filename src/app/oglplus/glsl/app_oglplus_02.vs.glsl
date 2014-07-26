@@ -37,8 +37,8 @@
 
 in vec4 position;
 in vec4 normal;
-in vec2  tcoords;
-in float mtl_id;
+in vec2 tcoords;
+in int  mtl_id;
 
 out vs_out_t {
        vec3 position_wc;
@@ -57,7 +57,7 @@ main()
   vs_out.position_wc =                            (model   * position).xyz;
   vs_out.normal_wc   = normalize(transpose(inverse(model)) * normal).xyz;
   vs_out.tcoords     = tcoords;
-  vs_out.mtl_id      = int(mtl_id);
+  vs_out.mtl_id      = mtl_id;
 }
 
 #endif /* #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_02_VS_GLSL) */

@@ -65,20 +65,22 @@ namespace {
       {
         namespace bfs = boost::filesystem;
 
+        static bfs::path::string_type const sep(bfs::path("/").make_preferred().native());
+        
         bfs::path const   p(argv[0]);
         std::string const d(bfs::canonical(p.parent_path()).string());
         std::string const f(p.filename().string());
-        std::string const b(d + "/../share/shader/glsl");
+        std::string const b(d + sep + ".." + sep + "share" + sep + "shader" + sep + "glsl");
         
         std::array<std::string const, 7> const file_names = {
           {
-            std::string(b + "/" + f + ".vs.glsl"),
-            std::string(b + "/" + f + ".fs.glsl"),
-            std::string(b + "/" + f + ".constants.glsl"),
-            std::string(b + "/" + f + ".functions.glsl"),
-            std::string(b + "/" + f + ".light.glsl"),
-            std::string(b + "/" + f + ".material.glsl"),
-            std::string(b + "/" + f + ".uniforms.glsl"),
+            std::string(b + sep + f + ".vs.glsl"),
+            std::string(b + sep + f + ".fs.glsl"),
+            std::string(b + sep + f + ".constants.glsl"),
+            std::string(b + sep + f + ".functions.glsl"),
+            std::string(b + sep + f + ".light.glsl"),
+            std::string(b + sep + f + ".material.glsl"),
+            std::string(b + sep + f + ".uniforms.glsl"),
           }
         };
         
@@ -87,20 +89,26 @@ namespace {
 
           src << std::ifstream(fn).rdbuf();
           
-          NamedString::Set(NamedStringType::ShaderInclude, fn, src.str());
+          if (!src.str().empty()) {
+            NamedString::Set(NamedStringType::ShaderInclude, fn, src.str());
+          } else {
+            throw std::runtime_error("unable to load content for shader file '" + fn + "'");
+          }
         }
         
-        prg_ << VertexShader()  .Source(NamedString::Get(file_names[0])).CompileInclude(b)
-             << FragmentShader().Source(NamedString::Get(file_names[1])).CompileInclude(b);
+        prg_ << VertexShader()  .Source(NamedString::Get(file_names[0]))
+             << FragmentShader().Source(NamedString::Get(file_names[1]));
+
+        // GLSLStrings const paths({ (b + '\0').c_str(), (d + '\0').c_str(), });
         
-        prg_.Link().Use();
+        prg_.BuildInclude(b).Use();
       }
 
       {
         ctx_.Bound(smart_enums::_2D(), tex_)
-          .Image2D(images::CheckerRedBlack(64, 64, 8, 8))
+          .Image2D(images::CheckerRedBlack(64, 64, 16, 16))
           .GenerateMipmap()
-          .MinFilter(smart_enums::Linear())
+          .MinFilter(smart_enums::LinearMipmapLinear())
           .MagFilter(smart_enums::Linear())
           .Anisotropy(2.0f)
           .WrapS(smart_enums::Repeat())
@@ -132,10 +140,9 @@ namespace {
                       << std::endl;
 #endif
 
-            model::file  mf(f);
-
-            mm        = new model::mesh(mf, prg_);
-            mm->xform = glm::translate(xlat) *  mm->xform;
+            mm = new model::mesh(f, prg_);
+            
+            mm->xform(glm::translate(xlat) *  mm->xform());
             
             model_list_.push_back(model_mesh_list_type::value_type(mm));
             
@@ -182,7 +189,9 @@ namespace {
       ctx_.Clear().ColorBuffer().DepthBuffer();
 
       // view
-      Lazy<Uniform<glm::mat4>>(prg_, "view").Set(glm::inverse(camera_.xform));
+      if (Uniform<glm::mat4>(prg_, "view").IsActive()) {
+        Uniform<glm::mat4>(prg_, "view").Set(glm::inverse(camera_.xform));
+      }
       
       // model(s)
       for (auto const& m : model_list_) {
@@ -200,7 +209,9 @@ namespace {
       
       ctx_.Viewport(size.x, size.y);
 
-      Lazy<Uniform<glm::mat4>>(prg_, "proj").Set(projection_.xform);
+      if (Uniform<glm::mat4>(prg_, "proj").IsActive()) {
+        Uniform<glm::mat4>(prg_, "proj").Set(projection_.xform);
+      }
       
       if (Lazy<Uniform<glm::ivec2>>(prg_, "screen").IsActive()) {
         Lazy<Uniform<glm::ivec2>>(prg_, "screen").Set(size);
@@ -229,5 +240,5 @@ main(int argc, char* argv[])
 {
   TRACE("main");
   
-  return glut::execute<application>(argc, argv, std::nothrow);
+  return glut::execute<application>(argc, argv); //, std::nothrow);
 }
