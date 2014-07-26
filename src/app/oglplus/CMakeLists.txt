@@ -37,6 +37,10 @@ FOREACH(APP "01" "02")
   ADD_DEPENDENCIES(app_oglplus_${APP} glsl/oglplus_${APP}.fs.glsl)
 ENDFOREACH()
 
+APPLICATION_SETUP(oglplus_03 SOURCES 03.cpp DEPENDENCIES ${LIBS})
+ADD_DEPENDENCIES(app_oglplus_03 share/shader/glsl/*.glsl)
+ADD_DEPENDENCIES(app_oglplus_03 share/shader/glsl/common/*.glsl)
+
 SET(SHADER_SRC)
 FILE(GLOB_RECURSE SHADER_SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} glsl/*.glsl)
 

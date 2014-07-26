@@ -52,10 +52,10 @@ out vs_out_t {
 void
 main()
 {
-  gl_Position = proj * view * model * position;
+  gl_Position = xform_projection * xform_view * xform_model * position;
 
-  vs_out.position_wc =                            (model   * position).xyz;
-  vs_out.normal_wc   = normalize(transpose(inverse(model)) * normal).xyz;
+  vs_out.position_wc =                            (xform_model   * position).xyz;
+  vs_out.normal_wc   = normalize(transpose(inverse(xform_model)) * normal).xyz;
   vs_out.tcoords     = tcoords;
   vs_out.mtl_id      = mtl_id;
 }

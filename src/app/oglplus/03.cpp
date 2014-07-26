@@ -69,18 +69,20 @@ namespace {
         
         bfs::path const   p(argv[0]);
         std::string const d(bfs::canonical(p.parent_path()).string());
-        std::string const f(p.filename().string());
+        // std::string const f(p.filename().string());
         std::string const b(d + sep + ".." + sep + "share" + sep + "shader" + sep + "glsl");
         
-        std::array<std::string const, 7> const file_names = {
+        std::array<std::string const, 9> const file_names = {
           {
-            std::string(b + sep + f + ".vs.glsl"),
-            std::string(b + sep + f + ".fs.glsl"),
-            std::string(b + sep + f + ".constants.glsl"),
-            std::string(b + sep + f + ".functions.glsl"),
-            std::string(b + sep + f + ".light.glsl"),
-            std::string(b + sep + f + ".material.glsl"),
-            std::string(b + sep + f + ".uniforms.glsl"),
+            std::string(b + sep + "phong.vp.glsl"),
+            std::string(b + sep + "phong.fp.glsl"),
+            std::string(b + sep + "common/constants.glsl"),
+            std::string(b + sep + "common/functions.glsl"),
+            std::string(b + sep + "common/light.glsl"),
+            std::string(b + sep + "common/material.glsl"),
+            std::string(b + sep + "common/phong.glsl"),
+            std::string(b + sep + "common/pipeline.glsl"),
+            std::string(b + sep + "common/uniforms.glsl"),
           }
         };
         
@@ -114,7 +116,7 @@ namespace {
           .WrapS(smart_enums::Repeat())
           .WrapT(smart_enums::Repeat());
         
-        (prg_/"tex") = 0;
+        (prg_/"tex_diffuse") = 0;
       }
       
       if (!input_files_.empty()) {
@@ -133,7 +135,7 @@ namespace {
         for (auto f : input_files_) {
           model::mesh* mm(nullptr);
           
-          try {
+          //try {
 #if 1
             std::cout << support::trace::prefix() << "<unnamed>::application::application: "
                       << "loading file: "  << f
@@ -154,8 +156,9 @@ namespace {
 #endif
             
             xlat += incr;
-          }
+            //}
 
+#if 0
           catch (std::runtime_error& ex) {
             std::cout << support::trace::prefix() << "<unnamed>::application::application: "
                       << "unable to load file: "  << f << ", error:'" << ex.what() << "'"
@@ -163,6 +166,7 @@ namespace {
 
             delete mm; mm = nullptr;
           }
+#endif
         }
       }
 

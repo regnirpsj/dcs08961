@@ -33,10 +33,10 @@
 
 /* variables, uniform */
 
-uniform mat4x4 model;
-uniform mat4x4 view;
-uniform mat4x4 proj;
-uniform uvec2  screen;
+uniform mat4x4 xform_model;
+uniform mat4x4 xform_view;
+uniform mat4x4 xform_projection;
+uniform uvec2  screen_size;
 
 /* variables, global */
 
