@@ -26,6 +26,12 @@
 #include <support/application.hpp>
 #include <support/chrono.hpp>
 
+namespace oglplus {
+
+  class Error;
+  
+} // namespace oglplus {
+
 namespace glut {
   
   // types, exported (class, enum, struct, union, typedef)
@@ -127,12 +133,15 @@ namespace glut {
   // variables, exported (extern)
 
   // functions, inlined (inline)
-  
-  // functions, exported (extern)
 
   template <typename T> signed execute(int, char* []);
   template <typename T> signed execute(int, char* [], std::nothrow_t const&);
   
+  // functions, exported (extern)
+
+  void print_std_error_common(std::exception&, std::ostream&);
+  void print_error_common    (oglplus::Error&, std::ostream&);
+
 } // namespace glut {
 
 #include <glut.inl>

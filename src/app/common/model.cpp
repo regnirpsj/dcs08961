@@ -113,7 +113,7 @@ namespace model {
                                             bsphere.Center().z())));
       }
     }
-        
+
     vao_.Bind();
         
     positions_.Bind(Buffer::Target::Array);
@@ -135,7 +135,7 @@ namespace model {
 
       (prg_|"normal").Setup<GLfloat>(n_per_vertex).Enable();
     }
-
+    
     tcoords_.Bind(Buffer::Target::Array);
     {
       std::vector<GLfloat> data;
@@ -176,8 +176,8 @@ namespace model {
 
     prg_.Use();
     
-    if (Uniform<glm::mat4>(prg_, "model").IsActive()) {
-      Uniform<glm::mat4>(prg_, "model").Set(xform_);
+    if (Uniform<glm::mat4>(prg_, "xform_model").IsActive()) {
+      Uniform<glm::mat4>(prg_, "xform_model").Set(xform_);
     }
     
     if (Lazy<Uniform<signed>>(prg_, "mtl_id").IsActive()) {

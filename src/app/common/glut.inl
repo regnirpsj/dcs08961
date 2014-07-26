@@ -18,16 +18,18 @@
 
 // includes, system
 
-#include <GL/glew.h>                 // ::glew*
-#include <oglplus/error/program.hpp> //
-#include <oglplus/error/limit.hpp>   //
+#include <GL/glew.h>                  // ::glew*
+#include <oglplus/error/limit.hpp>    //
+#include <oglplus/error/program.hpp>  //
+#include <oglplus/error/prog_var.hpp> //
+#include <system_error>
 
 // includes, project
 
 //#include <>
 
 #define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
+//#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 #if defined(UKACHULLDCS_USE_TRACE) || defined(UKACHULLDCS_ALL_TRACE)
 #  include <typeinfo>
@@ -52,38 +54,55 @@ namespace glut {
   execute(int argc, char* argv[], std::nothrow_t const&)
   {
     TRACE("glut::execute<" + support::demangle(typeid(T)) + ">(std::nothrow_t)");
-      
+    
     signed result(EXIT_FAILURE);
       
     try {
-      result = support::application::execute<T>(argc, argv);
+      result = execute<T>(argc, argv);
     }
-
-    catch (oglplus::ProgramBuildError& ex) {
-      std::cerr << " Program build error (in " << ex.GLFunc() << ", " << ex.ObjectTypeName()
-                << ": (" << ex.ObjectName() << ") '" << ex.ObjectDesc() << "'): " << ex.what()
-                << ": " << ex.Log() << std::endl;
+    
+    catch (oglplus::ProgVarError& pve) {
+      std::cerr << "Program variable error" << std::endl;
+      print_error_common(pve, std::cerr);
     }
-
-    catch (oglplus::LimitError& ex) {
-      std::cerr << " Limit error: (" << ex.Value() << ") exceeds (" << ex.EnumParamName() << " == "
-                << ex.Limit() << ") [" << ex.SourceFile() << ":" << ex.SourceLine() << "] "
-                << std::endl;
+    
+    catch (oglplus::ProgramBuildError& pbe) {
+      std::cerr << "Program build error" << std::endl;
+      print_error_common(pbe, std::cerr);
     }
-
-    catch (oglplus::ObjectError& ex) {
-      std::cerr << " Object error (in " << ex.GLFunc() << ", " << ex.ObjectTypeName() << ": ("
-                << ex.ObjectName() << ") '" << ex.ObjectDesc() << "') [" << ex.SourceFile()
-                << ":" << ex.SourceLine() << "]: " << ex.what() << std::endl;
+    
+    catch (oglplus::LimitError& le) {
+      std::cerr << "Limit error" << std::endl;
+      print_error_common(le, std::cerr);
     }
-
-    catch (oglplus::Error& ex) {
-      std::cerr << " Error (in " << ex.GLFunc() << "') [" << ex.SourceFile() << ":"
-                << ex.SourceLine() << "]: " << ex.what() << std::endl;
+    
+    catch (oglplus::ObjectError& oe) {
+      std::cerr << "Object error" << std::endl;
+      print_error_common(oe, std::cerr);
     }
-
-    catch (std::exception& ex) {
-      std::cerr << " Error: " << ex.what() << std::endl;
+    
+    catch (oglplus::Error& err) {
+      std::cerr << "GL error" << std::endl;
+      print_error_common(err, std::cerr);
+    }
+    
+    catch (std::system_error& sye) {
+      std::cerr << "System error" << std::endl;
+      print_std_error_common(sye, std::cerr);
+      std::cerr << "Error code: " << sye.code() << std::endl;
+      std::cerr << std::endl;
+    }
+    
+    catch (std::runtime_error& rte) {
+      std::cerr << "Runtime error" << std::endl;
+      print_std_error_common(rte, std::cerr);
+      std::cerr << std::endl;
+    }
+    
+    catch (std::exception& se) {
+      std::cerr << "Error" << std::endl;
+      print_std_error_common(se, std::cerr);
+      std::cerr << std::endl;
     }
       
     return result;

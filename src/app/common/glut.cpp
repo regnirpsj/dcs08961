@@ -539,5 +539,178 @@ namespace glut {
     
     static_cast<application*>(instance_)->special(key, glm::ivec2(x, y));
   }
+
+  void print_std_error_common(std::exception& ex, std::ostream& os)
+  {
+    TRACE("glut::print_std_error_common");
+    
+    os << "Message: '"
+       << ex.what()
+       << "'"
+       << std::endl;
+  }
+  
+  void
+  print_error_common(oglplus::Error& error, std::ostream& os)
+  {
+    TRACE("glut::print_error_common");
+
+    if (error.SourceFile()) {
+      os << "Source file: '"
+         << error.SourceFile()
+         << "'"
+         << std::endl;
+    }
+
+    if (error.SourceLine()) {
+      os << "Source line: "
+         << error.SourceLine()
+         << std::endl;
+    }
+
+    if (error.SourceFunc()) {
+      os << "Source function: '"
+         << error.SourceFunc()
+         << "'"
+         << std::endl;
+    }
+    
+    print_std_error_common(error, os);
+    
+    if (error.GLFunc()) {
+      os << "GL function: '";
+
+      if (error.GLLib()) {
+        os << error.GLLib();
+      }
+
+      os << error.GLFunc()
+         << "'"
+         << std::endl;
+    }
+
+    if (error.EnumParam() || error.EnumParamName()) {
+      os << "GL constant: ";
+      if (error.EnumParamName()) {
+        os << "'"
+           << error.EnumParamName()
+           << "'";
+      } else {
+        os << "(0x"
+           << std::hex
+           << error.EnumParam()
+           << ")";
+      }
+      os << std::endl;
+    }
+
+    if (error.BindTarget() || error.TargetName()){
+      os << "Binding point: ";
+      if (error.TargetName()) {
+        os << "'"
+           << error.TargetName()
+           << "'";
+      } else {
+        os << "(0x"
+           << std::hex
+           << error.BindTarget()
+           << ")";
+      }
+      os << std::endl;
+    }
+
+    if (error.ObjectTypeName() || error.ObjectType()) {
+      os << "Object type: ";
+      if (error.ObjectTypeName()) {
+        os << "'"
+           << error.ObjectTypeName()
+           << "'";
+      } else {
+        os << "(0x"
+           << std::hex
+           << error.ObjectType()
+           << ")";
+      }
+      os << std::endl;
+    }
+
+    if ((!error.ObjectDesc().empty()) || (error.ObjectName() >= 0)) {
+      os << "Object: ";
+      if (!error.ObjectDesc().empty()) {
+        os << "'"
+           << error.ObjectDesc()
+           << "'";
+      } else {
+        os << "("
+           << error.ObjectName()
+           << ")";
+      }
+      os << std::endl;
+    }
+
+    if (error.SubjectTypeName() || error.SubjectType()) {
+      os << "Subject type: ";
+      if (error.SubjectTypeName()) {
+        os << "'"
+           << error.SubjectTypeName()
+           << "'";
+      } else {
+        os << "(0x"
+           << std::hex
+           << error.SubjectType()
+           << ")";
+      }
+      os << std::endl;
+    }
+
+    if ((!error.SubjectDesc().empty()) || (error.SubjectName() >= 0)) {
+      os << "Subject: ";
+      if (!error.SubjectDesc().empty()) {
+        os << "'"
+           << error.SubjectDesc()
+           << "'";
+      } else {
+        os << "("
+           << error.SubjectName()
+           << ")";
+      }
+      os << std::endl;
+    }
+
+    if (error.Identifier()) {
+      os << "Identifier: '"
+         << error.Identifier()
+         << "'"
+         << std::endl;
+    }
+
+    if (error.Index() >= 0) {
+      os << "Index: ("
+         << error.Index()
+         << ")"
+         << std::endl;
+    }
+
+    if (error.Value() != 0) {
+      os << "Value: ("
+         << error.Value()
+         << ")"
+         << std::endl;
+    }
+
+    if (error.Limit() != 0) {
+      os << "Limit: ("
+         << error.Limit()
+         << ")"
+         << std::endl;
+    }
+
+    if (!error.Log().empty()) {
+      os << "Log:"
+         << std::endl
+         << error.Log()
+         << std::endl;
+    }
+  }
   
 } // namespace glut {
