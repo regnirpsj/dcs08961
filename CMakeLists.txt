@@ -83,6 +83,7 @@ FIND_PACKAGE(ATB REQUIRED)
 INCLUDE(SetupCompilerPost)
 
 # traverse these sub dirs
+ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(src)
 
 ADD_CUSTOM_TARGET(ALL_BUILD)
