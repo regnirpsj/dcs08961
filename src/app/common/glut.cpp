@@ -104,9 +104,13 @@ namespace glut {
     TRACE_NEVER("glut::application::print_on");
 
     support::application::single_instance::print_on(os);
+
+    using glm::io::operator<<;
     
     os << "\b,"
-       << "[frame:";
+       << "[camera"
+       << camera_.xform
+       << "\n],[frame:";
 
     if (!frameq_.empty()) {
       typedef std::chrono::duration<double> dsec;
@@ -153,8 +157,6 @@ namespace glut {
 
     if (!mouseq_.empty()) {
       auto const& m(mouseq_.back());
-
-      using glm::io::operator<<;
       
       os << glm::io::width(4)
          << m.button << ','
@@ -164,17 +166,15 @@ namespace glut {
       os << "<no values>";
     }
 
-    {
-      using glm::io::operator<<;
-      
-      os << "],[win:"
-         << glm::io::width(4)
-         << window_.id << ','
-         << (window_.fullscreen ? "fullscreen" : "windowed") << ','
-         << window_.pos << ','
-         << window_.size
-         << "]]";
-    }
+    os << "],[proj],[win:"
+       << glm::io::width(4)
+       << window_.id << ','
+       << (window_.fullscreen ? "fullscreen" : "windowed") << ','
+       << window_.pos << ','
+       << window_.size
+       << "]]";
+
+    os << std::flush;
   }
   
   /* explicit */
@@ -190,9 +190,26 @@ namespace glut {
   {
     TRACE("glut::application::application");
 
+    {
+      namespace po = boost::program_options;
+
+      po::options_description common("Command-Line Options");
+        
+      common.add_options()
+        ("file,f",
+         po::value(&input_files_)->composing(),
+         "input file(s)\n"
+         "positional arguments are accumulated as input files");
+
+      cmdline_options_    .add(common);
+      cmdline_positionals_.add("file", -1);
+      
+      support::application::single_instance::cmdline_process(argc, argv);
+    }
+    
     ::glutInit              (&argc, argv);
     ::glutInitDisplayMode   (GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH|GLUT_STENCIL);
-    ::glutInitWindowPosition(window_.pos.x, window_.pos.y);
+    ::glutInitWindowPosition(window_.pos.x,  window_.pos.y);
     ::glutInitWindowSize    (window_.size.x, window_.size.y);
     
     if (0 >= (window_.id = ::glutCreateWindow(argv[0]))) {
@@ -218,23 +235,6 @@ namespace glut {
 
     ::glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE,
                     GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-
-    {
-      namespace po = boost::program_options;
-        
-      po::options_description common("Command-Line Options");
-
-      common.add_options()
-        ("file,f",
-         po::value(&input_files_)->composing(),
-         "input file(s)\n"
-         "positional arguments are accumulated as input files");
-
-      cmdline_options_    .add(common);
-      cmdline_positionals_.add("file", -1);
-      
-      support::application::single_instance::cmdline_process(argc, argv);
-    }
   }
   
   /* virtual */
@@ -267,7 +267,7 @@ namespace glut {
 
       for (unsigned i(0); i < (frameq_.size() - 1); ++i) {
         // unfortunately, 'std::adjacent_difference' will not work because it would require to
-        // assign a timepoint to a duration
+        // assign a timepoint to a duration (for the first element)
         durations.push_back(frameq_[i+1].stamp - frameq_[i].stamp);
       }
 
@@ -340,13 +340,7 @@ namespace glut {
 
     case 'f': // fullscreen toggle
       {
-        window_.fullscreen = !window_.fullscreen;
-        
-        if (!window_.fullscreen) {
-          ::glutReshapeWindow(window_.size.x, window_.size.y);
-        } else {
-          ::glutFullScreen();
-        }
+        (window_.fullscreen = !window_.fullscreen) ? ::glutFullScreen() : ::glutLeaveFullScreen();
       }
       break;
 
@@ -390,30 +384,66 @@ namespace glut {
     case GLUT_KEY_RIGHT:
     case GLUT_KEY_UP:
       {
-        float factor(0.05);
-
         switch (::glutGetModifiers()) {
-        case GLUT_ACTIVE_ALT:   factor *=  4.0; break;
-        case GLUT_ACTIVE_CTRL:  factor *=  8.0; break;
-        case GLUT_ACTIVE_SHIFT: factor *= 32.0; break;
-        default:                                break;
+        case GLUT_ACTIVE_ALT: // translate
+          {
+            float factor(0.05);
+
+            switch (::glutGetModifiers()) {
+            case GLUT_ACTIVE_CTRL:  factor *= 4.0; break;
+            case GLUT_ACTIVE_SHIFT: factor *= 8.0; break;
+            default:                               break;
+            }
+          
+            glm::vec3 incr;
+          
+            switch (key) {
+            case GLUT_KEY_DOWN:      incr.y -= factor; break;
+            case GLUT_KEY_LEFT:      incr.x -= factor; break;
+            case GLUT_KEY_PAGE_DOWN: incr.z += factor; break;
+            case GLUT_KEY_PAGE_UP:   incr.z -= factor; break;
+            case GLUT_KEY_RIGHT:     incr.x += factor; break;
+            case GLUT_KEY_UP:        incr.y += factor; break;
+            }
+            
+            camera_.xform *= glm::translate(incr);
+          }
+          break;
+          
+        default: // rotate
+          {
+            float angle(1.0);
+
+            switch (::glutGetModifiers()) {
+            case GLUT_ACTIVE_CTRL:  angle *=  5.0; break;
+            case GLUT_ACTIVE_SHIFT: angle *= 10.0; break;
+            default:                                break;
+            }
+          
+            glm::vec3 axis;
+          
+            switch (key) {
+            case GLUT_KEY_DOWN:  axis.x -= 1; break;
+            case GLUT_KEY_LEFT:  axis.y += 1; break;
+            case GLUT_KEY_RIGHT: axis.y -= 1; break;
+            case GLUT_KEY_UP:    axis.x += 1; break;
+            }
+            
+            switch (key) {
+            case GLUT_KEY_PAGE_DOWN:
+            case GLUT_KEY_PAGE_UP:
+              break;
+
+            default:
+              camera_.xform *= glm::rotate(angle * 3.1415f / 180.f, axis);
+              break;
+            }
+          }
+          break;
         }
-          
-        glm::vec3 incr;
-          
-        switch (key) {
-        case GLUT_KEY_DOWN:      incr.y -= factor; break;
-        case GLUT_KEY_LEFT:      incr.x -= factor; break;
-        case GLUT_KEY_PAGE_DOWN: incr.z += factor; break;
-        case GLUT_KEY_PAGE_UP:   incr.z -= factor; break;
-        case GLUT_KEY_RIGHT:     incr.x += factor; break;
-        case GLUT_KEY_UP:        incr.y += factor; break;
-        }
-          
-        camera_.xform *= glm::translate(incr);
       }
       break;
-        
+      
     default:
       break;
     }
