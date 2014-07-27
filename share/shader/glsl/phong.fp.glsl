@@ -66,7 +66,9 @@ main()
   float fresnel_factor = fresnel_factor(material.shininess, reflection, fp_in.normal_wc);
   
   fp_out = material_shading(/* in */ material, ambient, diffuse, specular,
+                            /* in */ material_tex_diffuse_enabled,
                             /* in */ texture(material_tex_diffuse, fp_in.tcoords).rgb,
+                            /* in */ material_tex_envmap_enabled,
                             /* in */ texture(material_tex_envmap,  reflection)   .rgb,
                             /* in */ fresnel_factor);
 }

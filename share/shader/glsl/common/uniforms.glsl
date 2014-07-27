@@ -30,13 +30,16 @@
 
 /* variables, uniform */
 
+uniform uvec2  screen_size; // in pixel
+
 uniform mat4x4 xform_model;
 uniform mat4x4 xform_view;
 uniform mat4x4 xform_projection;
-uniform uvec2  screen_size;
 
 uniform int         material_id;
+uniform bool        material_tex_diffuse_enabled;
 uniform sampler2D   material_tex_diffuse;
+uniform bool        material_tex_envmap_enabled;
 uniform samplerCube material_tex_envmap;
 
 /* variables, global */

@@ -99,39 +99,51 @@ namespace {
           }
         }
         
-        prg_ << VertexShader  (ObjectDesc("Vertex"))  .Source(NamedString::Get(file_names[0]))
-             << FragmentShader(ObjectDesc("Fragment")).Source(NamedString::Get(file_names[1]));
+        prg_ << VertexShader  ()  .Source(NamedString::Get(file_names[0]))
+             << FragmentShader().Source(NamedString::Get(file_names[1]));
 
         // to avoid removal/deactivation of attributes ARB_separate_shader_objects is used
         prg_.MakeSeparable(true).BuildInclude({ b, d, }).Link().Use();
       }
 
-      if (Uniform<GLint>(prg_, "material_tex_diffuse").IsActive()) {
-        ctx_.Bound(smart_enums::_2D(), tex_diffuse_)
-          .Image2D(images::CheckerRedBlack(64, 64, 8, 8))
-          .GenerateMipmap()
-          .MinFilter(smart_enums::LinearMipmapLinear())
-          .MagFilter(smart_enums::Linear())
-          .Anisotropy(2.0f)
-          .WrapS(smart_enums::Repeat())
-          .WrapT(smart_enums::Repeat());
-        
-        (prg_/"material_tex_diffuse") = 0;
-      }
-      
-      if (Uniform<GLint>(prg_, "material_tex_envmap").IsActive()) {
-        ctx_.Bound(smart_enums::CubeMap(), tex_envmap_)
-          .MinFilter(smart_enums::Linear())
-          .MagFilter(smart_enums::Linear())
-          .WrapS(smart_enums::ClampToEdge())
-          .WrapT(smart_enums::ClampToEdge())
-          .WrapR(smart_enums::ClampToEdge());
+      {
+        auto const image(images::CheckerRedBlack(64, 64, 16, 16));
 
-        for (unsigned i(0); i < 6; ++i) {
-          Texture::Image2D(Texture::CubeMapFace(i), images::CheckerRedBlack(64, 64, 16, 16));
-        }        
+        typedef Typechecked<Uniform<SLtoCpp<SLDataType::Sampler2D>>> uniform_sampler_2d_type;
+        
+        if (uniform_sampler_2d_type(prg_, "material_tex_diffuse").IsActive()) {
+          ctx_.Bound(smart_enums::_2D(), tex_diffuse_)
+            .Image2D(image)
+            .GenerateMipmap()
+            .MinFilter(smart_enums::LinearMipmapLinear())
+            .MagFilter(smart_enums::Linear())
+            .Anisotropy(2.0f)
+            .WrapS(smart_enums::Repeat())
+            .WrapT(smart_enums::Repeat());
+        
+          (prg_/"material_tex_diffuse") = 0;
+          
+          // Uniform<GLint>(prg_, "material_tex_diffuse_enabled").Set(true);
+        }
+      
+        typedef Typechecked<Uniform<SLtoCpp<SLDataType::SamplerCube>>> uniform_sampler_cube_type;
+        
+        if (uniform_sampler_cube_type(prg_, "material_tex_envmap").IsActive()) {
+          ctx_.Bound(smart_enums::CubeMap(), tex_envmap_)
+            .MinFilter(smart_enums::Linear())
+            .MagFilter(smart_enums::Linear())
+            .WrapS(smart_enums::ClampToEdge())
+            .WrapT(smart_enums::ClampToEdge())
+            .WrapR(smart_enums::ClampToEdge());
+        
+          for (unsigned i(0); i < 6; ++i) {
+            Texture::CubeMapFace(i) << image;
+          }        
            
-        (prg_/"material_tex_envmap") = 1;
+          (prg_/"material_tex_envmap") = 1;
+
+          // Uniform<GLint>(prg_, "material_tex_envmap_enabled").Set(true);
+        }
       }
       
       if (!input_files_.empty()) {
@@ -160,16 +172,14 @@ namespace {
             xlat += incr;
           }
           
-          catch (oglplus::Error& err) {
-            std::cerr << "GL error" << std::endl;
-            glut::print_error_common(err, std::cerr);
+          catch (oglplus::Error& ex) {
+            glut::print_error_common(ex, std::cerr, "OGLPlus: GL error");
 
             delete mm; mm = nullptr;
           }
           
-          catch (std::runtime_error& rte) {
-            std::cerr << "Runtime error" << std::endl;
-            glut::print_std_error_common(rte, std::cerr);
+          catch (std::runtime_error& ex) {
+            glut::print_std_error_common(ex, std::cerr, "System: Runtime error");
             std::cerr << std::endl;
 
             delete mm; mm = nullptr;

@@ -188,18 +188,27 @@ material_shading(in material_t mtl,
                  in vec3       light_ambient,
                  in vec3       light_diffuse,
                  in vec3       light_specular,
+                 in bool       mtl_tex_diffuse_enabled,
                  in vec3       mtl_tex_diffuse,
-                 in vec3       mtl_tex_environment,
+                 in bool       mtl_tex_envmap_enabled,
+                 in vec3       mtl_tex_envmap,
                  in float      fresnel_factor)
 {
   vec4 result = vec4(mtl.emission, mtl.alpha);
 
   result.rgb  += mtl.ambient  * light_ambient;
   result.rgb  += mtl.diffuse  * light_diffuse;
-  result.rgb  *= mtl_tex_diffuse;
-  result.rgb  += mtl.specular * light_specular;
-  result.rgb   = mix(result.rgb, mtl_tex_environment, fresnel_factor);
+
+  if (mtl_tex_diffuse_enabled) {
+    result.rgb *= mtl_tex_diffuse;
+  }
   
+  result.rgb  += mtl.specular * light_specular;
+
+  if (mtl_tex_envmap_enabled) {
+    result.rgb = mix(result.rgb, mtl_tex_envmap, fresnel_factor);
+  }
+
   return result;
 }
 
