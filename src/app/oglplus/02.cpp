@@ -71,7 +71,7 @@ namespace {
         std::string const d(bfs::canonical(p.parent_path()).string());
         std::string const f(p.filename().string());
         std::string const b(d + sep + ".." + sep + "share" + sep + "shader" + sep + "glsl");
-        
+
         std::array<std::string const, 7> const file_names = {
           {
             std::string(b + sep + f + ".vs.glsl"),
@@ -99,9 +99,7 @@ namespace {
         prg_ << VertexShader()  .Source(NamedString::Get(file_names[0]))
              << FragmentShader().Source(NamedString::Get(file_names[1]));
 
-        // GLSLStrings const paths({ (b + '\0').c_str(), (d + '\0').c_str(), });
-        
-        prg_.BuildInclude(b).Link().Use();
+        prg_.BuildInclude({b, d, }).Link().Use();
       }
 
       {
@@ -134,25 +132,11 @@ namespace {
           model::mesh* mm(nullptr);
           
           try {
-#if 1
-            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
-                      << "loading file: "  << f
-                      << std::endl;
-#endif
-
             mm = new model::mesh(f, prg_);
             
             mm->xform(glm::translate(xlat) *  mm->xform());
             
             model_list_.push_back(model_mesh_list_type::value_type(mm));
-            
-#if 0
-            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
-                      << "xform: " << mm->xform << '\n'
-                      << "xlat: "  << xlat
-                      << std::endl;
-#endif
-            
             xlat += incr;
           }
 
