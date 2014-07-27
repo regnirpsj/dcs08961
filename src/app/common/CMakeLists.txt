@@ -18,6 +18,7 @@ SET(LIB "app_common")
 SET(SRC)
 
 LIST(APPEND SRC "glut.cpp")
+LIST(APPEND SRC "light.cpp")
 LIST(APPEND SRC "model.cpp")
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
