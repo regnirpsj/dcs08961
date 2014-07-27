@@ -216,7 +216,7 @@ namespace glut {
       throw std::runtime_error("GLUT initialization error");
     }
 
-    glewExperimental = true;
+    // glewExperimental = true;
     
     if (GLEW_OK != ::glewInit()) {
       throw std::runtime_error("GLEW initialization error");
