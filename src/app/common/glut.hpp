@@ -139,8 +139,8 @@ namespace glut {
   
   // functions, exported (extern)
 
-  void print_std_error_common(std::exception&, std::ostream&);
-  void print_error_common    (oglplus::Error&, std::ostream&);
+  void print_std_error_common(std::exception&, std::ostream&, std::string const&);
+  void print_error_common    (oglplus::Error&, std::ostream&, std::string const&);
 
 } // namespace glut {
 

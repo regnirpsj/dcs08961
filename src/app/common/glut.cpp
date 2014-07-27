@@ -540,42 +540,36 @@ namespace glut {
     static_cast<application*>(instance_)->special(key, glm::ivec2(x, y));
   }
 
-  void print_std_error_common(std::exception& ex, std::ostream& os)
+  void
+  print_std_error_common(std::exception& ex, std::ostream& os, std::string const& prefix)
   {
-    TRACE("glut::print_std_error_common");
+    TRACE_NEVER("glut::print_std_error_common");
     
-    os << "Message: '"
-       << ex.what()
-       << "'"
+    os << prefix << '\n'
+       << "Message: '" << ex.what() << "'"
        << std::endl;
   }
   
   void
-  print_error_common(oglplus::Error& error, std::ostream& os)
+  print_error_common(oglplus::Error& error, std::ostream& os, std::string const& prefix)
   {
-    TRACE("glut::print_error_common");
+    TRACE_NEVER("glut::print_error_common");
 
+    os << prefix << '\n';
+    
     if (error.SourceFile()) {
-      os << "Source file: '"
-         << error.SourceFile()
-         << "'"
-         << std::endl;
+      os << "Source file: '" << error.SourceFile() << "'\n";
     }
 
     if (error.SourceLine()) {
-      os << "Source line: "
-         << error.SourceLine()
-         << std::endl;
+      os << "Source line: " << error.SourceLine() << '\n';
     }
 
     if (error.SourceFunc()) {
-      os << "Source function: '"
-         << error.SourceFunc()
-         << "'"
-         << std::endl;
+      os << "Source function: '" << error.SourceFunc() << "'\n";
     }
     
-    print_std_error_common(error, os);
+    print_std_error_common(error, os, prefix);
     
     if (error.GLFunc()) {
       os << "GL function: '";
@@ -584,133 +578,90 @@ namespace glut {
         os << error.GLLib();
       }
 
-      os << error.GLFunc()
-         << "'"
-         << std::endl;
+      os << error.GLFunc() << "'\n";
     }
 
     if (error.EnumParam() || error.EnumParamName()) {
       os << "GL constant: ";
       if (error.EnumParamName()) {
-        os << "'"
-           << error.EnumParamName()
-           << "'";
+        os << "'" << error.EnumParamName() << "'";
       } else {
-        os << "(0x"
-           << std::hex
-           << error.EnumParam()
-           << ")";
+        os << "(0x" << std::hex << error.EnumParam() << ")";
       }
-      os << std::endl;
+      os << '\n';
     }
 
     if (error.BindTarget() || error.TargetName()){
       os << "Binding point: ";
       if (error.TargetName()) {
-        os << "'"
-           << error.TargetName()
-           << "'";
+        os << "'" << error.TargetName() << "'";
       } else {
-        os << "(0x"
-           << std::hex
-           << error.BindTarget()
-           << ")";
+        os << "(0x" << std::hex << error.BindTarget() << ")";
       }
-      os << std::endl;
+      os << '\n';
     }
 
     if (error.ObjectTypeName() || error.ObjectType()) {
       os << "Object type: ";
       if (error.ObjectTypeName()) {
-        os << "'"
-           << error.ObjectTypeName()
-           << "'";
+        os << "'" << error.ObjectTypeName() << "'";
       } else {
-        os << "(0x"
-           << std::hex
-           << error.ObjectType()
-           << ")";
+        os << "(0x" << std::hex << error.ObjectType() << ")";
       }
-      os << std::endl;
+      os << '\n';
     }
 
-    if ((!error.ObjectDesc().empty()) || (error.ObjectName() >= 0)) {
+    if ((!error.ObjectDesc().empty()) || (0 <= error.ObjectName())) {
       os << "Object: ";
       if (!error.ObjectDesc().empty()) {
-        os << "'"
-           << error.ObjectDesc()
-           << "'";
+        os << "'" << error.ObjectDesc() << "'";
       } else {
-        os << "("
-           << error.ObjectName()
-           << ")";
+        os << "(" << error.ObjectName() << ")";
       }
-      os << std::endl;
+      os << '\n';
     }
 
     if (error.SubjectTypeName() || error.SubjectType()) {
       os << "Subject type: ";
       if (error.SubjectTypeName()) {
-        os << "'"
-           << error.SubjectTypeName()
-           << "'";
+        os << "'" << error.SubjectTypeName() << "'";
       } else {
-        os << "(0x"
-           << std::hex
-           << error.SubjectType()
-           << ")";
+        os << "(0x" << std::hex << error.SubjectType() << ")";
       }
-      os << std::endl;
+      os << '\n';
     }
 
-    if ((!error.SubjectDesc().empty()) || (error.SubjectName() >= 0)) {
+    if ((!error.SubjectDesc().empty()) || (0 <= error.SubjectName())) {
       os << "Subject: ";
       if (!error.SubjectDesc().empty()) {
-        os << "'"
-           << error.SubjectDesc()
-           << "'";
+        os << "'" << error.SubjectDesc() << "'";
       } else {
-        os << "("
-           << error.SubjectName()
-           << ")";
+        os << "(" << error.SubjectName() << ")";
       }
-      os << std::endl;
+      os << '\n';
     }
 
     if (error.Identifier()) {
-      os << "Identifier: '"
-         << error.Identifier()
-         << "'"
-         << std::endl;
+      os << "Identifier: '" << error.Identifier() << "'\n";
     }
 
-    if (error.Index() >= 0) {
-      os << "Index: ("
-         << error.Index()
-         << ")"
-         << std::endl;
+    if (0 <= error.Index()) {
+      os << "Index: (" << error.Index() << ")\n";
     }
 
-    if (error.Value() != 0) {
-      os << "Value: ("
-         << error.Value()
-         << ")"
-         << std::endl;
+    if (0 != error.Value()) {
+      os << "Value: (" << error.Value() << ")\n";
     }
 
-    if (error.Limit() != 0) {
-      os << "Limit: ("
-         << error.Limit()
-         << ")"
-         << std::endl;
+    if (0 != error.Limit()) {
+      os << "Limit: (" << error.Limit() << ")\n";
     }
 
     if (!error.Log().empty()) {
-      os << "Log:"
-         << std::endl
-         << error.Log()
-         << std::endl;
+      os << "Log:\n" << error.Log() << '\n';
     }
+
+    os << std::flush;
   }
   
 } // namespace glut {

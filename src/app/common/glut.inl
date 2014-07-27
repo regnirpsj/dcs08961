@@ -18,11 +18,11 @@
 
 // includes, system
 
-#include <GL/glew.h>                  // ::glew*
-#include <oglplus/error/limit.hpp>    //
-#include <oglplus/error/program.hpp>  //
-#include <oglplus/error/prog_var.hpp> //
-#include <system_error>
+#include <GL/glew.h>                  // ::gl*
+#include <oglplus/error/limit.hpp>    // oglplus::LimitError
+#include <oglplus/error/program.hpp>  // oglplus::ProgramBuildError
+#include <oglplus/error/prog_var.hpp> // oglplus::ProgVarError
+#include <system_error>               // std::system_error
 
 // includes, project
 
@@ -61,50 +61,45 @@ namespace glut {
       result = execute<T>(argc, argv);
     }
     
-    catch (oglplus::ProgVarError& pve) {
-      std::cerr << "Program variable error" << std::endl;
-      print_error_common(pve, std::cerr);
+    catch (oglplus::ProgVarError& ex) {
+      print_error_common(ex, std::cerr, "OGLPlus: Program variable error");
     }
     
-    catch (oglplus::ProgramBuildError& pbe) {
-      std::cerr << "Program build error" << std::endl;
-      print_error_common(pbe, std::cerr);
+    catch (oglplus::ProgramBuildError& ex) {
+      print_error_common(ex, std::cerr, "OGLPlus: Program build error");
     }
     
-    catch (oglplus::LimitError& le) {
-      std::cerr << "Limit error" << std::endl;
-      print_error_common(le, std::cerr);
+    catch (oglplus::LimitError& ex) {
+      print_error_common(ex, std::cerr, "OGLPlus: Limit error");
     }
     
-    catch (oglplus::ObjectError& oe) {
-      std::cerr << "Object error" << std::endl;
-      print_error_common(oe, std::cerr);
+    catch (oglplus::ObjectError& ex) {
+      print_error_common(ex, std::cerr, "OGLPlus: Object error");
     }
     
-    catch (oglplus::Error& err) {
-      std::cerr << "GL error" << std::endl;
-      print_error_common(err, std::cerr);
+    catch (oglplus::Error& ex) {
+      print_error_common(ex, std::cerr, "OGLPlus: GL error");
     }
     
-    catch (std::system_error& sye) {
-      std::cerr << "System error" << std::endl;
-      print_std_error_common(sye, std::cerr);
-      std::cerr << "Error code: " << sye.code() << std::endl;
+    catch (std::system_error& ex) {
+      print_std_error_common(ex, std::cerr, "System: Error");
+      std::cerr << "Error code: " << ex.code() << std::endl;
+    }
+    
+    catch (std::runtime_error& ex) {
+      print_std_error_common(ex, std::cerr, "System: Runtime error");
       std::cerr << std::endl;
     }
     
-    catch (std::runtime_error& rte) {
-      std::cerr << "Runtime error" << std::endl;
-      print_std_error_common(rte, std::cerr);
+    catch (std::exception& ex) {
+      print_std_error_common(ex, std::cerr, "System: Error");
       std::cerr << std::endl;
+    }
+
+    catch (...) {
+      std::cerr << "Caught excpetion not derived from <std::exception>!" << std::endl;
     }
     
-    catch (std::exception& se) {
-      std::cerr << "Error" << std::endl;
-      print_std_error_common(se, std::cerr);
-      std::cerr << std::endl;
-    }
-      
     return result;
   }
   
