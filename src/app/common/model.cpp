@@ -107,7 +107,7 @@ namespace model {
       mesh_.BoundingSphere(bsphere);
 
       if (!bsphere.Degenerate()) {
-        xform_ = (glm::scale    (glm::vec3(1.0 / bsphere.Diameter())) *
+        xform_ = (glm::scale    ( glm::vec3(1.0 / bsphere.Diameter())) *
                   glm::translate(-glm::vec3(bsphere.Center().x(),
                                             bsphere.Center().y(),
                                             bsphere.Center().z())));
@@ -125,7 +125,7 @@ namespace model {
           
       (prg_|"position").Setup<GLfloat>(n_per_vertex).Enable();
     }
-
+    
     normals_.Bind(Buffer::Target::Array);
     {
       std::vector<GLfloat> data;
