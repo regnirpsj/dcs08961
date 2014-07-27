@@ -56,8 +56,13 @@ namespace field {
       {
         TRACE("field::connection::update::average<" + support::demangle(typeid(T1)) + "," +
               support::demangle(typeid(T2)) + ">");
-        
-        d->set(std::accumulate(s->get().begin(), s->get().end(), 0.0));
+
+        if (!s->get().empty()) {
+          d->set(std::accumulate(s->get().begin(), s->get().end(), typename T1::value_type()) /
+                 s->get().size());
+        } else {
+          d->set(typename T1::value_type());
+        }
       }
       
       template <typename T1, typename T2>
