@@ -17,7 +17,7 @@
 #define UKACHULLDCS_08961_SHADER_GLSL_PHONG_VP_GLSL
 
 #version 430 core
-#extension GL_ARB_shading_language_include : require
+#extension GL_ARB_shading_language_include : enable
 
 /* includes, system */
 
@@ -25,6 +25,7 @@
 
 /* includes, project */
 
+#include <common/config.glsl>
 #include <common/phong.glsl>
 #include <common/uniforms.glsl>
 
@@ -36,29 +37,37 @@
 
 /* variables, global */
 
-layout (location = 0) in vec4 position;
-layout (location = 1) in vec4 normal;
-layout (location = 2) in vec2 tcoords;
-in int  mtl_id;
+in vec4 position;
+in vec4 normal;
+in vec2 tcoords;
 
 out vp_out_t {
-       vec3 position_wc;
-       vec3 normal_wc;
-       vec2 tcoords;
-  flat int  mtl_id;
+       vec3  position_wc;
+       vec3  normal_wc;
+       vec2  tcoords;
+  flat int   mtl_id;
 } vp_out;
+
+// to avoid removal/deactivation of attributes ARB_separate_shader_objects is used, which
+// requires redeclaration of 'gl_PerVertex'
+// see [http://www.gamedev.net/topic/638043-gl-pervertex-opengl-error/]
+out gl_PerVertex {
+  vec4  gl_Position;
+  float gl_PointSize;
+  float gl_ClipDistance[];
+};
 
 /* functions */
 
 void
 main()
 {
-  gl_Position = xform_projection * xform_view * xform_model * position;
+  gl_Position        = xform_projection * xform_view * xform_model * position;
   
   vp_out.position_wc =                            (xform_model   * position).xyz;
   vp_out.normal_wc   = normalize(transpose(inverse(xform_model)) * normal).xyz;
   vp_out.tcoords     = tcoords;
-  vp_out.mtl_id      = mtl_id;
+  vp_out.mtl_id      = material_id;
 }
 
 #endif /* #if !defined(UKACHULLDCS_08961_SHADER_GLSL_PHONG_VP_GLSL) */

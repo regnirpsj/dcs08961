@@ -184,21 +184,21 @@ material_get(in int idx)
 }
 
 vec4
-material_shading(in int  idx,
-                 in vec3 light_ambient,
-                 in vec3 light_diffuse,
-                 in vec3 light_specular,
-                 in vec3 tex_diffuse)
+material_shading(in material_t mtl,
+                 in vec3       light_ambient,
+                 in vec3       light_diffuse,
+                 in vec3       light_specular,
+                 in vec3       mtl_tex_diffuse,
+                 in vec3       mtl_tex_environment,
+                 in float      fresnel_factor)
 {
-  material_t mtl    = material_get(idx);
-  vec4       result = vec4(mtl.emission, mtl.alpha);
+  vec4 result = vec4(mtl.emission, mtl.alpha);
 
   result.rgb  += mtl.ambient  * light_ambient;
   result.rgb  += mtl.diffuse  * light_diffuse;
-  result.rgb  *= tex_diffuse;
+  result.rgb  *= mtl_tex_diffuse;
   result.rgb  += mtl.specular * light_specular;
-
-  // result.rgb = lerp(result.rgb, tex_env, fresnel_factor); // lerp -> mix?
+  result.rgb   = mix(result.rgb, mtl_tex_environment, fresnel_factor);
   
   return result;
 }

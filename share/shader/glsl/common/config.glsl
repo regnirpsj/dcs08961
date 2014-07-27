@@ -6,41 +6,32 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  shader/glsl/common/uniforms.glsl                                                */
+/*  module     :  shader/glsl/common/config.glsl                                                  */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_SHADER_GLSL_COMMON_UNIFORMS_GLSL)
+#if !defined(UKACHULLDCS_08961_SHADER_GLSL_COMMON_CONFIG_GLSL)
 
-#define UKACHULLDCS_08961_SHADER_GLSL_COMMON_UNIFORMS_GLSL
+#define UKACHULLDCS_08961_SHADER_GLSL_COMMON_CONFIG_GLSL
 
-/* includes, system */
+#pragma optionNV(strict on)
 
-//#include <>
+#define MAXIMUM_PERFORMANCE
 
-/* includes, project */
+#if defined(MAXIMUM_PERFORMANCE)
+#  pragma optimize(on)
+#  pragma optionNV(fastmath      on)
+#  pragma optionNV(fastprecision on)
+#  pragma optionNV(unroll        all)
+#  pragma optionNV(inline        all)
+#  pragma optionNV(ifcvt         all)
+#else
+#  pragma optimize(off)
+#  pragma optionNV(fastmath      off)
+#  pragma optionNV(fastprecision off)
+#  pragma optionNV(ifcvt         none)
+#endif
 
-//#include <>
-
-/* constants */
-
-/* types, internal (enum, struct, union, typedef) */
-
-/* variables, uniform */
-
-uniform mat4x4 xform_model;
-uniform mat4x4 xform_view;
-uniform mat4x4 xform_projection;
-uniform uvec2  screen_size;
-
-uniform int         material_id;
-uniform sampler2D   material_tex_diffuse;
-uniform samplerCube material_tex_envmap;
-
-/* variables, global */
-
-/* functions */
-
-#endif /* #if !defined(UKACHULLDCS_08961_SHADER_GLSL_COMMON_UNIFORMS_GLSL) */
+#endif /* #if !defined(UKACHULLDCS_08961_SHADER_GLSL_COMMON_CONFIG_GLSL) */
