@@ -55,7 +55,8 @@ namespace {
       : glut::application(argc, argv),
         ctx_             (),
         prg_             (),
-        tex_             (),
+        tex_diffuse_     (),
+        tex_envmap_      (),
         model_list_      ()
     {
       TRACE("<unnamed>::application::application");
@@ -69,13 +70,13 @@ namespace {
         
         bfs::path const   p(argv[0]);
         std::string const d(bfs::canonical(p.parent_path()).string());
-        // std::string const f(p.filename().string());
         std::string const b(d + sep + ".." + sep + "share" + sep + "shader" + sep + "glsl");
         
-        std::array<std::string const, 9> const file_names = {
+        std::array<std::string const, 10> const file_names = {
           {
             std::string(b + sep + "phong.vp.glsl"),
             std::string(b + sep + "phong.fp.glsl"),
+            std::string(b + sep + "common/config.glsl"),
             std::string(b + sep + "common/constants.glsl"),
             std::string(b + sep + "common/functions.glsl"),
             std::string(b + sep + "common/light.glsl"),
@@ -83,7 +84,7 @@ namespace {
             std::string(b + sep + "common/phong.glsl"),
             std::string(b + sep + "common/pipeline.glsl"),
             std::string(b + sep + "common/uniforms.glsl"),
-          }
+         }
         };
         
         for (auto fn : file_names) {
@@ -98,17 +99,16 @@ namespace {
           }
         }
         
-        prg_ << VertexShader()  .Source(NamedString::Get(file_names[0]))
-             << FragmentShader().Source(NamedString::Get(file_names[1]));
+        prg_ << VertexShader  (ObjectDesc("Vertex"))  .Source(NamedString::Get(file_names[0]))
+             << FragmentShader(ObjectDesc("Fragment")).Source(NamedString::Get(file_names[1]));
 
-        // GLSLStrings const paths({ (b + '\0').c_str(), (d + '\0').c_str(), });
-        
-        prg_.BuildInclude(b).Link().Use();
+        // to avoid removal/deactivation of attributes ARB_separate_shader_objects is used
+        prg_.MakeSeparable(true).BuildInclude({ b, d, }).Link().Use();
       }
 
-      {
-        ctx_.Bound(smart_enums::_2D(), tex_)
-          .Image2D(images::CheckerRedBlack(64, 64, 16, 16))
+      if (Uniform<GLint>(prg_, "material_tex_diffuse").IsActive()) {
+        ctx_.Bound(smart_enums::_2D(), tex_diffuse_)
+          .Image2D(images::CheckerRedBlack(64, 64, 8, 8))
           .GenerateMipmap()
           .MinFilter(smart_enums::LinearMipmapLinear())
           .MagFilter(smart_enums::Linear())
@@ -116,7 +116,22 @@ namespace {
           .WrapS(smart_enums::Repeat())
           .WrapT(smart_enums::Repeat());
         
-        (prg_/"tex_diffuse") = 0;
+        (prg_/"material_tex_diffuse") = 0;
+      }
+      
+      if (Uniform<GLint>(prg_, "material_tex_envmap").IsActive()) {
+        ctx_.Bound(smart_enums::CubeMap(), tex_envmap_)
+          .MinFilter(smart_enums::Linear())
+          .MagFilter(smart_enums::Linear())
+          .WrapS(smart_enums::ClampToEdge())
+          .WrapT(smart_enums::ClampToEdge())
+          .WrapR(smart_enums::ClampToEdge());
+
+        for (unsigned i(0); i < 6; ++i) {
+          Texture::Image2D(Texture::CubeMapFace(i), images::CheckerRedBlack(64, 64, 16, 16));
+        }        
+           
+        (prg_/"material_tex_envmap") = 1;
       }
       
       if (!input_files_.empty()) {
@@ -135,42 +150,37 @@ namespace {
         for (auto f : input_files_) {
           model::mesh* mm(nullptr);
           
-          //try {
-#if 1
-            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
-                      << "loading file: "  << f
-                      << std::endl;
-#endif
-
+          try {
             mm = new model::mesh(f, prg_);
             
             mm->xform(glm::translate(xlat) *  mm->xform());
             
             model_list_.push_back(model_mesh_list_type::value_type(mm));
             
-#if 0
-            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
-                      << "xform: " << mm->xform << '\n'
-                      << "xlat: "  << xlat
-                      << std::endl;
-#endif
-            
             xlat += incr;
-            //}
-
-#if 0
-          catch (std::runtime_error& ex) {
-            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
-                      << "unable to load file: "  << f << ", error:'" << ex.what() << "'"
-                      << std::endl;
+          }
+          
+          catch (oglplus::Error& err) {
+            std::cerr << "GL error" << std::endl;
+            glut::print_error_common(err, std::cerr);
 
             delete mm; mm = nullptr;
           }
-#endif
-        }
-      }
+          
+          catch (std::runtime_error& rte) {
+            std::cerr << "Runtime error" << std::endl;
+            glut::print_std_error_common(rte, std::cerr);
+            std::cerr << std::endl;
 
-      if (!input_files_.empty()) {
+            delete mm; mm = nullptr;
+          }
+
+          if (nullptr == mm) {
+            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
+                      << "unable to load file: "  << f << std::endl;
+          }
+        }
+        
         camera_.xform = glm::inverse(glm::lookAt(glm::vec3( input_files_.size() / 10,
                                                             0.5f,
                                                             (input_files_.size() * 4) / 3),
@@ -228,7 +238,8 @@ namespace {
     
     oglplus::Context     ctx_;
     oglplus::Program     prg_;
-    oglplus::Texture     tex_;
+    oglplus::Texture     tex_diffuse_;
+    oglplus::Texture     tex_envmap_;
     model_mesh_list_type model_list_;
     
   };
