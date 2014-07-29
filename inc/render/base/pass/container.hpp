@@ -54,10 +54,10 @@ namespace render {
         
       protected:
 
-        typedef std::unordered_set<boost::intrusive_ptr<stage::base>> pass_list_type;
+        typedef std::unordered_set<boost::intrusive_ptr<stage::base>> stage_list_type;
 
-                pass_list_type       pass_list_;
-        mutable support::simple_lock pass_list_lock_;
+                stage_list_type      stage_list_;
+        mutable support::simple_lock stage_list_lock_;
         
       };
     

@@ -52,15 +52,16 @@ namespace render {
 
       /* explicit*/
       container::container()
-        : base()
+        : base       (),
+          stage_list_()
       {
         TRACE("render::base::pass::container::container(dflt)");
       }
       
       /* explicit*/
       container::container(std::initializer_list<base*> const& a)
-        : base      (),
-          pass_list_()
+        : base       (),
+          stage_list_()
       {
         TRACE("render::base::pass::container::container(std::initializer_list)");
 
@@ -78,9 +79,9 @@ namespace render {
       {
         TRACE("render::base::pass::container::size");
 
-        support::simple_lock_guard const slg(pass_list_lock_);
+        support::simple_lock_guard const slg(stage_list_lock_);
         
-        return pass_list_.size();
+        return stage_list_.size();
       }
       
       bool
@@ -90,9 +91,9 @@ namespace render {
 
         bool result(false);
         
-        support::simple_lock_guard const slg(pass_list_lock_);
+        support::simple_lock_guard const slg(stage_list_lock_);
         {
-          result = pass_list_.insert(a).second;
+          result = stage_list_.insert(a).second;
         }
 
         return result;
@@ -105,9 +106,9 @@ namespace render {
 
         bool result(false);
         
-        support::simple_lock_guard const slg(pass_list_lock_);
+        support::simple_lock_guard const slg(stage_list_lock_);
         {
-          result = (1 == pass_list_.erase(a));
+          result = (1 == stage_list_.erase(a));
         }
 
         return result;
@@ -118,9 +119,9 @@ namespace render {
       {
         TRACE("render::base::pass::container::execute");
 
-        support::simple_lock_guard const slg(pass_list_lock_);
+        support::simple_lock_guard const slg(stage_list_lock_);
         
-        for (auto p : pass_list_) {
+        for (auto p : stage_list_) {
           p->execute();
         }
       }
@@ -132,9 +133,9 @@ namespace render {
 
         base::print_on(os);
 
-        support::simple_lock_guard const slg(pass_list_lock_);
+        support::simple_lock_guard const slg(stage_list_lock_);
         {
-          os << "\b,s/p:" << pass_list_.size() << ']';
+          os << "\b,s:" << stage_list_.size() << ']';
         }
       }
       
