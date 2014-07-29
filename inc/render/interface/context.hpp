@@ -12,9 +12,9 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_CONTEXT_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_CONTEXT_HPP)
 
-#define UKACHULLDCS_08961_RENDER_CONTEXT_HPP
+#define UKACHULLDCS_08961_RENDER_INTERFACE_CONTEXT_HPP
 
 // includes, system
 
@@ -49,4 +49,4 @@ namespace render {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_CONTEXT_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_CONTEXT_HPP)

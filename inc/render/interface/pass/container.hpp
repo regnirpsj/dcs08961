@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/interface/pass.hpp                                                       */
+/*  module     :  render/interface/pass/container.hpp                                             */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_PASS_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_PASS_CONTAINER_HPP)
 
-#define UKACHULLDCS_08961_RENDER_PASS_HPP
+#define UKACHULLDCS_08961_RENDER_INTERFACE_PASS_CONTAINER_HPP
 
 // includes, system
 
@@ -25,28 +25,32 @@
 #include <render/api.hpp>
 
 namespace render {
-  
-  // types, exported (class, enum, struct, union, typedef)
 
-  template <api::type A>
-  class pass : public api::traits<A>::pass {
-
-  public:
-
-    typedef typename api::traits<A>::pass inherited;
-
-    static api::type const api_type;
+  namespace pass {
     
-  };
+    // types, exported (class, enum, struct, union, typedef)
 
-  template <api::type A> /* static */ api::type const pass<A>::api_type = A;
-  
-  // variables, exported (extern)
+    template <api::type A>
+    class  container : public api::traits<A>::container {
 
-  // functions, inlined (inline)
+    public:
+
+      typedef typename api::traits<A>::container inherited;
+
+      static api::type const api_type;
+    
+    };
+
+    template <api::type A> /* static */ api::type const  container<A>::api_type = A;
   
-  // functions, exported (extern)
+    // variables, exported (extern)
+
+    // functions, inlined (inline)
+  
+    // functions, exported (extern)
+
+  } // namespace pass {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_PASS_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_PASS_CONTAINER_HPP)

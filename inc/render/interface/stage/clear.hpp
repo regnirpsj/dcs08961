@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/interface/stage.hpp                                                      */
+/*  module     :  render/interface/stage/clear.hpp                                                */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_STAGE_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_STAGE_CLEAR_HPP)
 
-#define UKACHULLDCS_08961_RENDER_STAGE_HPP
+#define UKACHULLDCS_08961_RENDER_INTERFACE_STAGE_CLEAR_HPP
 
 // includes, system
 
@@ -25,28 +25,32 @@
 #include <render/api.hpp>
 
 namespace render {
-  
-  // types, exported (class, enum, struct, union, typedef)
 
-  template <api::type A>
-  class stage : public api::traits<A>::stage {
-
-  public:
-
-    typedef typename api::traits<A>::stage inherited;
-
-    static api::type const api_type;
+  namespace stage {
     
-  };
+    // types, exported (class, enum, struct, union, typedef)
 
-  template <api::type A> /* static */ api::type const stage<A>::api_type = A;
-  
-  // variables, exported (extern)
+    template <api::type A>
+    class clear : public api::traits<A>::clear {
 
-  // functions, inlined (inline)
+    public:
+
+      typedef typename api::traits<A>::clear inherited;
+
+      static api::type const api_type;
+    
+    };
+
+    template <api::type A> /* static */ api::type const clear<A>::api_type = A;
   
-  // functions, exported (extern)
+    // variables, exported (extern)
+
+    // functions, inlined (inline)
+  
+    // functions, exported (extern)
+
+  } // namespace stage {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_STAGE_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_STAGE_CLEAR_HPP)

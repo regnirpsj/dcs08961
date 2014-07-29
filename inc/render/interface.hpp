@@ -23,8 +23,10 @@
 // includes, project
 
 #include <render/interface/context.hpp>
-#include <render/interface/pass.hpp>
-#include <render/interface/stage.hpp>
+#include <render/interface/pass/container.hpp>
+#include <render/interface/stage/clear.hpp>
+#include <render/interface/stage/draw.hpp>
+#include <render/interface/stage/swap.hpp>
 
 namespace render {
   

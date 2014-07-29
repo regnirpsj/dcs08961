@@ -6,11 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/d3d/test/stage_swap.cpp                                                  */
+/*  module     :  render/interface/stage/swap.hpp                                                 */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
+
+#if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_STAGE_SWAP_HPP)
+
+#define UKACHULLDCS_08961_RENDER_INTERFACE_STAGE_SWAP_HPP
 
 // includes, system
 
@@ -18,33 +22,35 @@
 
 // includes, project
 
-#include <render/d3d/stage/swap.hpp>
+#include <render/api.hpp>
 
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
+namespace render {
 
-// internal unnamed namespace
+  namespace stage {
+    
+    // types, exported (class, enum, struct, union, typedef)
 
-namespace {
+    template <api::type A>
+    class swap : public api::traits<A>::swap {
+
+    public:
+
+      typedef typename api::traits<A>::swap inherited;
+
+      static api::type const api_type;
+    
+    };
+
+    template <api::type A> /* static */ api::type const swap<A>::api_type = A;
   
-  // types, internal (class, enum, struct, union, typedef)
+    // variables, exported (extern)
 
-  // variables, internal
+    // functions, inlined (inline)
   
-  // functions, internal
+    // functions, exported (extern)
 
-} // namespace {
+  } // namespace stage {
+  
+} // namespace render {
 
-#define BOOST_TEST_MAIN
-#include <boost/test/unit_test.hpp>
-
-BOOST_AUTO_TEST_CASE(test_render_d3d_stage_swap_ctor)
-{
-  using namespace render::d3d::stage;
-
-  swap c;
-
-  BOOST_CHECK(&c);
-  BOOST_MESSAGE(c);
-}
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_STAGE_SWAP_HPP)

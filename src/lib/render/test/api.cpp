@@ -78,11 +78,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_render_api_variants_context, T, context_types
   BOOST_MESSAGE(c << " (" << T::api_type << ')');
 }
 
-typedef boost::mpl::list<render::stage<render::api::type::d3d>,
-                         render::stage<render::api::type::null>,
-                         render::stage<render::api::type::ogl>> stage_types;
+typedef boost::mpl::list<render::pass::container<render::api::type::d3d>,
+                         render::pass::container<render::api::type::null>,
+                         render::pass::container<render::api::type::ogl>> pass_container_types;
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_render_api_variants_stage, T, stage_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_render_api_variants_pass_container, T, pass_container_types)
 {
   T c;
     
@@ -90,11 +90,35 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_render_api_variants_stage, T, stage_types)
   BOOST_MESSAGE(c << " (" << T::api_type << ')');
 }
 
-typedef boost::mpl::list<render::pass<render::api::type::d3d>,
-                         render::pass<render::api::type::null>,
-                         render::pass<render::api::type::ogl>> pass_types;
+typedef boost::mpl::list<render::stage::clear<render::api::type::d3d>,
+                         render::stage::clear<render::api::type::null>,
+                         render::stage::clear<render::api::type::ogl>> stage_clear_types;
 
-BOOST_AUTO_TEST_CASE_TEMPLATE(test_render_api_variants_pass, T, pass_types)
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_render_api_variants_stage_clear, T, stage_clear_types)
+{
+  T c;
+    
+  BOOST_CHECK(&c);
+  BOOST_MESSAGE(c << " (" << T::api_type << ')');
+}
+
+typedef boost::mpl::list<render::stage::draw<render::api::type::d3d>,
+                         render::stage::draw<render::api::type::null>,
+                         render::stage::draw<render::api::type::ogl>> stage_draw_types;
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_render_api_variants_stage_draw, T, stage_draw_types)
+{
+  T c;
+    
+  BOOST_CHECK(&c);
+  BOOST_MESSAGE(c << " (" << T::api_type << ')');
+}
+
+typedef boost::mpl::list<render::stage::swap<render::api::type::d3d>,
+                         render::stage::swap<render::api::type::null>,
+                         render::stage::swap<render::api::type::ogl>> stage_swap_types;
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_render_api_variants_stage_swap, T, stage_swap_types)
 {
   T c;
     
