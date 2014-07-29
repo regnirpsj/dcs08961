@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/ogl/stage.cpp                                                            */
+/*  module     :  render/ogl/stage/draw.cpp                                                       */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,7 +14,7 @@
 
 // include i/f header
 
-#include "render/ogl/stage.hpp"
+#include "render/ogl/stage/draw.hpp"
 
 // includes, system
 
@@ -43,11 +43,15 @@ namespace {
 namespace render {
 
   namespace ogl {
-    
+
+    namespace stage {
+      
     // variables, exported
   
     // functions, exported
 
+    } // namespace stage {
+    
   } // namespace ogl {
   
 } // namespace render {

@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/ogl/pass.hpp                                                             */
+/*  module     :  render/ogl/stage/clear.cpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_OGL_PASS_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_OGL_PASS_HPP
+#include "render/ogl/stage/clear.hpp"
 
 // includes, system
 
@@ -22,25 +22,36 @@
 
 // includes, project
 
-#include <render/base/pass.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
   namespace ogl {
-    
-    // types, exported (class, enum, struct, union, typedef)
 
-    class pass : public base::pass {
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+    namespace stage {
+      
+    // variables, exported
   
-    // functions, exported (extern)
+    // functions, exported
 
+    } // namespace stage {
+    
   } // namespace ogl {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_PASS_HPP)

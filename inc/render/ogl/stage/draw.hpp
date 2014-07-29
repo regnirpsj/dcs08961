@@ -6,53 +6,48 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/ogl.hpp                                                                  */
+/*  module     :  render/ogl/stage/draw.hpp                                                       */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_OGL_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_OGL_STAGE_DRAW_HPP)
 
-#define UKACHULLDCS_08961_RENDER_OGL_HPP
+#define UKACHULLDCS_08961_RENDER_OGL_STAGE_DRAW_HPP
 
 // includes, system
 
-//#include <>
+// #include <>
 
 // includes, project
 
-#include <render/api.hpp>
-#include <render/ogl/context.hpp>
-#include <render/ogl/passes.hpp>
-#include <render/ogl/stages.hpp>
+#include <render/base/stage/draw.hpp>
 
 namespace render {
 
-  namespace api {
-    
-    // types, exported (class, enum, struct, union, typedef)
+  namespace ogl {
 
-    template <> class traits<type::ogl> {
-
-    public:
-
-      typedef ogl::context          context;
-      typedef base::pass::container container;
-      typedef ogl::stage::clear     clear;
-      typedef ogl::stage::draw      draw;
-      typedef ogl::stage::swap      swap;
+    namespace stage {
       
-    };
-  
-    // variables, exported (extern)
+      // types, exported (class, enum, struct, union, typedef)
 
-    // functions, inlined (inline)
-  
-    // functions, exported (extern)
+      class draw : public base::stage::draw {
 
-  } // namespace api {
+      public:
+        
+      };
+    
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
+  
+      // functions, exported (extern)
+
+    } // namespace stage {
+    
+  } // namespace ogl {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_STAGE_DRAW_HPP)

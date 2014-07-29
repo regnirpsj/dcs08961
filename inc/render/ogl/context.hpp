@@ -31,6 +31,24 @@ namespace render {
     // types, exported (class, enum, struct, union, typedef)
 
     class context : public base::context {
+
+    public:
+
+      class implementation;
+      
+      explicit context(std::string const& /* display */ = "",
+                       signed             /* visual */  = -1);
+      virtual ~context();
+
+      virtual void print_on(std::ostream&) const;
+
+    private:
+
+      static implementation* impl;
+      
+      std::string const display_;
+      signed            visual_;
+      
     };
     
     // variables, exported (extern)

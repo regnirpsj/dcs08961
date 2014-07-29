@@ -6,45 +6,44 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/ogl/test/stage.cpp                                                       */
+/*  module     :  render/ogl/pass/conatiner.hpp                                                   */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
+#if !defined(UKACHULLDCS_08961_RENDER_OGL_PASS_CONTAINER_HPP)
+
+#define UKACHULLDCS_08961_RENDER_OGL_PASS_CONTAINER_HPP
+
 // includes, system
 
-//#include <>
+// #include <>
 
 // includes, project
 
-#include <render/ogl/stage.hpp>
+#include <render/base/pass/container.hpp>
 
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
+namespace render {
 
-// internal unnamed namespace
+  namespace ogl {
 
-namespace {
+    namespace pass {
+      
+      // types, exported (class, enum, struct, union, typedef)
+
+      typedef base::pass::container container;
+    
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
   
-  // types, internal (class, enum, struct, union, typedef)
+      // functions, exported (extern)
 
-  // variables, internal
+    } // namespace pass {
+    
+  } // namespace ogl {
   
-  // functions, internal
+} // namespace render {
 
-} // namespace {
-
-#define BOOST_TEST_MAIN
-#include <boost/test/unit_test.hpp>
-
-BOOST_AUTO_TEST_CASE(test_render_ogl_stage_ctor)
-{
-  using namespace render::ogl;
-
-  stage c;
-
-  BOOST_CHECK(&c);
-  BOOST_MESSAGE(c);
-}
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_PASS_CONTAINER_HPP)

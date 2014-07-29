@@ -6,41 +6,48 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/ogl/stage.hpp                                                            */
+/*  module     :  render/ogl/stage/container.hpp                                                  */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_OGL_STAGE_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_OGL_STAGE_CLEAR_HPP)
 
-#define UKACHULLDCS_08961_RENDER_OGL_STAGE_HPP
+#define UKACHULLDCS_08961_RENDER_OGL_STAGE_CLEAR_HPP
 
 // includes, system
 
-//#include <>
+// #include <>
 
 // includes, project
 
-#include <render/base/stage.hpp>
+#include <render/base/stage/clear.hpp>
 
 namespace render {
 
   namespace ogl {
-    
-    // types, exported (class, enum, struct, union, typedef)
 
-    class stage : public base::stage {
-    };
-    
-    // variables, exported (extern)
+    namespace stage {
+      
+      // types, exported (class, enum, struct, union, typedef)
 
-    // functions, inlined (inline)
+      class clear : public base::stage::clear {
+
+      public:
+        
+      };
+    
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
   
-    // functions, exported (extern)
+      // functions, exported (extern)
 
+    } // namespace stage {
+    
   } // namespace ogl {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_STAGE_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_STAGE_CLEAR_HPP)

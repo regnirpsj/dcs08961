@@ -6,15 +6,11 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/ogl.hpp                                                                  */
+/*  module     :  render/ogl/test/stage_swap.cpp                                                  */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
-
-#if !defined(UKACHULLDCS_08961_RENDER_OGL_HPP)
-
-#define UKACHULLDCS_08961_RENDER_OGL_HPP
 
 // includes, system
 
@@ -22,37 +18,33 @@
 
 // includes, project
 
-#include <render/api.hpp>
-#include <render/ogl/context.hpp>
-#include <render/ogl/passes.hpp>
-#include <render/ogl/stages.hpp>
+#include <render/ogl/stage/swap.hpp>
 
-namespace render {
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
 
-  namespace api {
-    
-    // types, exported (class, enum, struct, union, typedef)
+// internal unnamed namespace
 
-    template <> class traits<type::ogl> {
-
-    public:
-
-      typedef ogl::context          context;
-      typedef base::pass::container container;
-      typedef ogl::stage::clear     clear;
-      typedef ogl::stage::draw      draw;
-      typedef ogl::stage::swap      swap;
-      
-    };
+namespace {
   
-    // variables, exported (extern)
+  // types, internal (class, enum, struct, union, typedef)
 
-    // functions, inlined (inline)
+  // variables, internal
   
-    // functions, exported (extern)
+  // functions, internal
 
-  } // namespace api {
-  
-} // namespace render {
+} // namespace {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_HPP)
+#define BOOST_TEST_MAIN
+#include <boost/test/unit_test.hpp>
+
+BOOST_AUTO_TEST_CASE(test_render_ogl_stage_swap_ctor)
+{
+  using namespace render::ogl::stage;
+
+  swap c;
+
+  BOOST_CHECK(&c);
+  BOOST_MESSAGE(c);
+}

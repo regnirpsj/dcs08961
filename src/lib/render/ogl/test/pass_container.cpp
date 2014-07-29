@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/ogl/test/pass.cpp                                                        */
+/*  module     :  render/ogl/test/pass_container.cpp                                              */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -18,7 +18,7 @@
 
 // includes, project
 
-#include <render/ogl/pass.hpp>
+#include <render/ogl/pass/container.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -39,12 +39,47 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(test_render_ogl_pass_ctor)
+BOOST_AUTO_TEST_CASE(test_render_ogl_pass_container_ctor_dflt)
 {
-  using namespace render::ogl;
+  using namespace render::ogl::pass;
 
-  pass c;
+  container c;
 
-  BOOST_CHECK(&c);
+  BOOST_CHECK(c.size() == 0);
+  BOOST_MESSAGE(c);
+}
+
+BOOST_AUTO_TEST_CASE(test_render_ogl_pass_container_ctor_init)
+{
+  using namespace render::ogl::pass;
+
+  container c({ new container(), new container(), });
+
+  BOOST_CHECK(c.size() == 2);
+  BOOST_MESSAGE(c);
+}
+
+BOOST_AUTO_TEST_CASE(test_render_ogl_pass_container_add)
+{
+  using namespace render::ogl::pass;
+
+  container c;
+
+  BOOST_CHECK(c.size() == 0);
+  BOOST_CHECK(c.add(new container()));
+  BOOST_CHECK(c.size() == 1);
+  BOOST_MESSAGE(c);
+}
+
+BOOST_AUTO_TEST_CASE(test_render_ogl_pass_container_sub)
+{
+  using namespace render::ogl::pass;
+
+  container* a(new container);
+  container  c({ a, a });
+
+  BOOST_CHECK(c.size() == 1);
+  BOOST_CHECK(c.sub(a));
+  BOOST_CHECK(c.size() == 0);
   BOOST_MESSAGE(c);
 }

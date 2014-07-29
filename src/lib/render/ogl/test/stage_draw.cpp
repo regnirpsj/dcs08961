@@ -6,15 +6,11 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/ogl/pass.cpp                                                             */
+/*  module     :  render/ogl/test/stage_draw.cpp                                                  */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
-
-// include i/f header
-
-#include "render/ogl/pass.hpp"
 
 // includes, system
 
@@ -22,7 +18,7 @@
 
 // includes, project
 
-//#include <>
+#include <render/ogl/stage/draw.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -40,14 +36,15 @@ namespace {
 
 } // namespace {
 
-namespace render {
+#define BOOST_TEST_MAIN
+#include <boost/test/unit_test.hpp>
 
-  namespace ogl {
-    
-    // variables, exported
-  
-    // functions, exported
+BOOST_AUTO_TEST_CASE(test_render_ogl_stage_draw_ctor)
+{
+  using namespace render::ogl::stage;
 
-  } // namespace ogl {
-  
-} // namespace render {
+  draw c;
+
+  BOOST_CHECK(&c);
+  BOOST_MESSAGE(c);
+}

@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/ogl.hpp                                                                  */
+/*  module     :  render/ogl/passes.hpp                                                           */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_OGL_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_OGL_PASSES_HPP)
 
-#define UKACHULLDCS_08961_RENDER_OGL_HPP
+#define UKACHULLDCS_08961_RENDER_OGL_PASSES_HPP
 
 // includes, system
 
@@ -22,37 +22,26 @@
 
 // includes, project
 
-#include <render/api.hpp>
-#include <render/ogl/context.hpp>
-#include <render/ogl/passes.hpp>
-#include <render/ogl/stages.hpp>
+#include <render/ogl/pass/container.hpp>
 
 namespace render {
 
-  namespace api {
-    
-    // types, exported (class, enum, struct, union, typedef)
+  namespace ogl {
 
-    template <> class traits<type::ogl> {
-
-    public:
-
-      typedef ogl::context          context;
-      typedef base::pass::container container;
-      typedef ogl::stage::clear     clear;
-      typedef ogl::stage::draw      draw;
-      typedef ogl::stage::swap      swap;
+    namespace pass {
       
-    };
-  
-    // variables, exported (extern)
+      // types, exported (class, enum, struct, union, typedef)
 
-    // functions, inlined (inline)
-  
-    // functions, exported (extern)
+      // variables, exported (extern)
 
-  } // namespace api {
+      // functions, inlined (inline)
+  
+      // functions, exported (extern)
+
+    } // namespace pass {
+    
+  } // namespace ogl {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_PASSES_HPP)
