@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/null/stage.hpp                                                           */
+/*  module     :  render/base/stage/swap.cpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_NULL_STAGE_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_NULL_STAGE_HPP
+#include "render/base/stage/swap.hpp"
 
 // includes, system
 
@@ -22,25 +22,56 @@
 
 // includes, project
 
-#include <render/base/stage.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
-  namespace null {
-    
-    // types, exported (class, enum, struct, union, typedef)
+  namespace base {
 
-    class stage : public base::stage {
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+    namespace stage {
+      
+      // variables, exported
   
-    // functions, exported (extern)
+      // functions, exported
 
-  } // namespace null {
+      /* virtual */
+      swap::~swap()
+      {
+        TRACE("render::base::stage::swap::~swap");
+      }
+
+      /* virtual */ void
+      swap::execute()
+      {
+        TRACE("render::base::stage::swap::execute");
+      }
+    
+      /* virtual */ void
+      swap::print_on(std::ostream& os) const
+      {
+        TRACE_NEVER("render::base::stage::swap::print_on");
+
+        base::print_on(os);
+      }
+
+    } // namespace stage {
+        
+  } // namespace base {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_STAGE_HPP)

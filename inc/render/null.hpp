@@ -24,8 +24,8 @@
 
 #include <render/api.hpp>
 #include <render/null/context.hpp>
-#include <render/null/pass.hpp>
-#include <render/null/stage.hpp>
+#include <render/null/passes.hpp>
+#include <render/null/stages.hpp>
 
 namespace render {
 
@@ -37,9 +37,11 @@ namespace render {
 
     public:
 
-      typedef null::context context;
-      typedef null::pass    pass;
-      typedef null::stage   stage;
+      typedef null::context         context;
+      typedef base::pass::container container;
+      typedef null::stage::clear    clear;
+      typedef null::stage::draw     draw;
+      typedef null::stage::swap     swap;
       
     };
   

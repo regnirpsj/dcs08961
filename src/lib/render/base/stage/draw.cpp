@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/null/context.hpp                                                         */
+/*  module     :  render/base/stage/draw.cpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP
+#include "render/base/stage/draw.hpp"
 
 // includes, system
 
@@ -22,30 +22,56 @@
 
 // includes, project
 
-#include <render/base/context.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
-  namespace null {
-    
-    // types, exported (class, enum, struct, union, typedef)
+  namespace base {
 
-    class context : public base::context {
-
-    public:
-
-      virtual ~context();
+    namespace stage {
       
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+      // variables, exported
   
-    // functions, exported (extern)
+      // functions, exported
 
-  } // namespace null {
+      /* virtual */
+      draw::~draw()
+      {
+        TRACE("render::base::stage::draw::~draw");
+      }
+
+      /* virtual */ void
+      draw::execute()
+      {
+        TRACE("render::base::stage::draw::execute");
+      }
+    
+      /* virtual */ void
+      draw::print_on(std::ostream& os) const
+      {
+        TRACE_NEVER("render::base::stage::draw::print_on");
+
+        base::print_on(os);
+      }
+
+    } // namespace stage {
+        
+  } // namespace base {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)

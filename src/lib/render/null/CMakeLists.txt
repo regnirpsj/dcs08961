@@ -13,8 +13,10 @@ SET(LIB "render_null")
 SET(SRC)
 
 LIST(APPEND SRC "context.cpp")
-LIST(APPEND SRC "pass.cpp")
-LIST(APPEND SRC "stage.cpp")
+LIST(APPEND SRC "pass/container.cpp")
+LIST(APPEND SRC "stage/clear.cpp")
+LIST(APPEND SRC "stage/draw.cpp")
+LIST(APPEND SRC "stage/swap.cpp")
 
 SET(LIBS)
 LIST(APPEND LIBS render)

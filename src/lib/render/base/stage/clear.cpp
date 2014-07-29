@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/null/pass.hpp                                                            */
+/*  module     :  render/base/stage/clear.cpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_NULL_PASS_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_NULL_PASS_HPP
+#include "render/base/stage/clear.hpp"
 
 // includes, system
 
@@ -22,25 +22,56 @@
 
 // includes, project
 
-#include <render/base/pass.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
-  namespace null {
-    
-    // types, exported (class, enum, struct, union, typedef)
+  namespace base {
 
-    class pass : public base::pass {
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+    namespace stage {
+      
+      // variables, exported
   
-    // functions, exported (extern)
+      // functions, exported
 
-  } // namespace null {
+      /* virtual */
+      clear::~clear()
+      {
+        TRACE("render::base::stage::clear::~clear");
+      }
+
+      /* virtual */ void
+      clear::execute()
+      {
+        TRACE("render::base::stage::clear::execute");
+      }
+    
+      /* virtual */ void
+      clear::print_on(std::ostream& os) const
+      {
+        TRACE_NEVER("render::base::stage::clear::print_on");
+
+        base::print_on(os);
+      }
+
+    } // namespace stage {
+        
+  } // namespace base {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_PASS_HPP)

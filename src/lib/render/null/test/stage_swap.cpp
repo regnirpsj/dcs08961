@@ -6,15 +6,11 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/null/context.hpp                                                         */
+/*  module     :  render/null/test/stage_swap.cpp                                                 */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
-
-#if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)
-
-#define UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP
 
 // includes, system
 
@@ -22,30 +18,33 @@
 
 // includes, project
 
-#include <render/base/context.hpp>
+#include <render/null/stage/swap.hpp>
 
-namespace render {
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
 
-  namespace null {
-    
-    // types, exported (class, enum, struct, union, typedef)
+// internal unnamed namespace
 
-    class context : public base::context {
-
-    public:
-
-      virtual ~context();
-      
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+namespace {
   
-    // functions, exported (extern)
+  // types, internal (class, enum, struct, union, typedef)
 
-  } // namespace null {
+  // variables, internal
   
-} // namespace render {
+  // functions, internal
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)
+} // namespace {
+
+#define BOOST_TEST_MAIN
+#include <boost/test/unit_test.hpp>
+
+BOOST_AUTO_TEST_CASE(test_render_null_stage_swap_ctor)
+{
+  using namespace render::null::stage;
+
+  swap c;
+
+  BOOST_CHECK(&c);
+  BOOST_MESSAGE(c);
+}

@@ -6,15 +6,11 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/pass.cpp                                                            */
+/*  module     :  render/null/test/stage_clear.cpp                                                */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
-
-// include i/f header
-
-#include "render/base/pass.hpp"
 
 // includes, system
 
@@ -22,7 +18,7 @@
 
 // includes, project
 
-//#include <>
+#include <render/null/stage/clear.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -40,20 +36,15 @@ namespace {
 
 } // namespace {
 
-namespace render {
+#define BOOST_TEST_MAIN
+#include <boost/test/unit_test.hpp>
 
-  namespace base {
-    
-    // variables, exported
-  
-    // functions, exported
+BOOST_AUTO_TEST_CASE(test_render_null_stage_clear_ctor)
+{
+  using namespace render::null::stage;
 
-    /* virtual */
-    pass::~pass()
-    {
-      TRACE("render::base::pass::pass");
-    }
-    
-  } // namespace base {
-  
-} // namespace render {
+  clear c;
+
+  BOOST_CHECK(&c);
+  BOOST_MESSAGE(c);
+}

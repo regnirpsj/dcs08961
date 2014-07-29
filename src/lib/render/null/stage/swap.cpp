@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stage.cpp                                                           */
+/*  module     :  render/null/stage/swap.cpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,15 +14,15 @@
 
 // include i/f header
 
-#include "render/base/stage.hpp"
+#include "render/null/stage/swap.hpp"
 
 // includes, system
 
-#include <typeinfo> // typeid usage
+//#include <>
 
 // includes, project
 
-#include <support/type_info.hpp>
+//#include <>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -42,26 +42,16 @@ namespace {
 
 namespace render {
 
-  namespace base {
-    
+  namespace null {
+
+    namespace stage {
+      
     // variables, exported
   
     // functions, exported
 
-    /* virtual */
-    stage::~stage()
-    {
-      TRACE("render::base::stage::stage");
-    }
-      
-    /* virtual */ void
-    stage::print_on(std::ostream& os) const
-    {
-      TRACE_NEVER("render::base::stage::print_on");
-
-      os << '[' << support::demangle(typeid(*this)) << ']';
-    }
+    } // namespace stage {
     
-  } // namespace base {
+  } // namespace null {
   
 } // namespace render {

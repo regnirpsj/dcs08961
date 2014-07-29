@@ -6,48 +6,44 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/pass.hpp                                                            */
+/*  module     :  render/null/stage/swap.hpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_PASS_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_NULL_STAGE_SWAP_HPP)
 
-#define UKACHULLDCS_08961_RENDER_BASE_PASS_HPP
+#define UKACHULLDCS_08961_RENDER_NULL_STAGE_SWAP_HPP
 
 // includes, system
 
-#include <boost/noncopyable.hpp> // boost::noncopyable
+// #include <>
 
 // includes, project
 
-#include <render/base/stage.hpp>
+#include <render/base/stage/swap.hpp>
 
 namespace render {
 
-  namespace base {
-    
-    // types, exported (class, enum, struct, union, typedef)
+  namespace null {
 
-    class pass : public stage {
-
-    public:
-
-      virtual ~pass() =0;
+    namespace stage {
       
-    protected:
-      
-    };
-    
-    // variables, exported (extern)
+      // types, exported (class, enum, struct, union, typedef)
 
-    // functions, inlined (inline)
+      typedef base::stage::swap swap;
+    
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
   
-    // functions, exported (extern)
+      // functions, exported (extern)
 
-  } // namespace base {
+    } // namespace stage {
+    
+  } // namespace null {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_PASS_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_STAGE_SWAP_HPP)

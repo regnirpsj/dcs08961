@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/null/stage.cpp                                                           */
+/*  module     :  render/base/stages.hpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-// include i/f header
+#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
 
-#include "render/null/stage.hpp"
+#define UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP
 
 // includes, system
 
@@ -22,32 +22,28 @@
 
 // includes, project
 
-//#include <>
-
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
-
-// internal unnamed namespace
-
-namespace {
-  
-  // types, internal (class, enum, struct, union, typedef)
-
-  // variables, internal
-  
-  // functions, internal
-
-} // namespace {
+#include <render/base/stage/clear.hpp>
+#include <render/base/stage/draw.hpp>
+#include <render/base/stage/swap.hpp>
 
 namespace render {
 
-  namespace null {
-    
-    // variables, exported
-  
-    // functions, exported
+  namespace base {
 
-  } // namespace null {
+    namespace stage {
+      
+      // types, exported (class, enum, struct, union, typedef)
+
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
+  
+      // functions, exported (extern)
+
+    } // namespace stage {
+    
+  } // namespace base {
   
 } // namespace render {
+
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)

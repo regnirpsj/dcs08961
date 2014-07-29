@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/null/context.hpp                                                         */
+/*  module     :  render/null/stages.hpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_NULL_STAGES_HPP)
 
-#define UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP
+#define UKACHULLDCS_08961_RENDER_NULL_STAGES_HPP
 
 // includes, system
 
@@ -22,30 +22,28 @@
 
 // includes, project
 
-#include <render/base/context.hpp>
+#include <render/null/stage/clear.hpp>
+#include <render/null/stage/draw.hpp>
+#include <render/null/stage/swap.hpp>
 
 namespace render {
 
   namespace null {
-    
-    // types, exported (class, enum, struct, union, typedef)
 
-    class context : public base::context {
-
-    public:
-
-      virtual ~context();
+    namespace stage {
       
-    };
-    
-    // variables, exported (extern)
+      // types, exported (class, enum, struct, union, typedef)
 
-    // functions, inlined (inline)
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
   
-    // functions, exported (extern)
+      // functions, exported (extern)
 
+    } // namespace stage {
+    
   } // namespace null {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_STAGES_HPP)

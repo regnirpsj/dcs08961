@@ -6,11 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/null/test/stage.cpp                                                      */
+/*  module     :  render/base/stage/base.hpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
+
+#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGE_BASE_HPP)
+
+#define UKACHULLDCS_08961_RENDER_BASE_STAGE_BASE_HPP
 
 // includes, system
 
@@ -18,33 +22,44 @@
 
 // includes, project
 
-#include <render/null/stage.hpp>
+#include <support/printable.hpp>
+#include <support/refcounted.hpp>
 
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
+namespace render {
 
-// internal unnamed namespace
+  namespace base {
 
-namespace {
+    namespace stage {
+      
+      // types, exported (class, enum, struct, union, typedef)
+
+      class base : public support::printable,
+                   public support::refcounted {
+
+      public:
+
+        virtual ~base() =0;
+
+        virtual void execute() =0;
+      
+        virtual void print_on(std::ostream&) const;
+
+      protected:
+
+        explicit base();
+        
+      };
+    
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
   
-  // types, internal (class, enum, struct, union, typedef)
+      // functions, exported (extern)
 
-  // variables, internal
+    } // namespace stage {
+    
+  } // namespace base {
   
-  // functions, internal
+} // namespace render {
 
-} // namespace {
-
-#define BOOST_TEST_MAIN
-#include <boost/test/unit_test.hpp>
-
-BOOST_AUTO_TEST_CASE(test_render_null_stage_ctor)
-{
-  using namespace render::null;
-
-  stage c;
-
-  BOOST_CHECK(&c);
-  BOOST_MESSAGE(c);
-}
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGE_BASE_HPP)

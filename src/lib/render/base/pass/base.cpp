@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/null/context.hpp                                                         */
+/*  module     :  render/base/pass/base.cpp                                                       */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP
+#include "render/base/pass/base.hpp"
 
 // includes, system
 
@@ -22,30 +22,50 @@
 
 // includes, project
 
-#include <render/base/context.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
-  namespace null {
-    
-    // types, exported (class, enum, struct, union, typedef)
+  namespace base {
 
-    class context : public base::context {
-
-    public:
-
-      virtual ~context();
+    namespace pass {
       
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+      // variables, exported
   
-    // functions, exported (extern)
+      // functions, exported
 
-  } // namespace null {
+      /* virtual */
+      base::~base()
+      {
+        TRACE("render::base::pass::base::~base");
+      }
+
+      /* virtual */ void
+      base::print_on(std::ostream& os) const
+      {
+        TRACE_NEVER("render::base::pass::base::print_on");
+
+        stage::base::print_on(os);
+      }
+      
+    } // namespace pass {
+    
+  } // namespace base {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)

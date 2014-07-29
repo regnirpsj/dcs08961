@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/null/context.hpp                                                         */
+/*  module     :  render/base/pass/base.hpp                                                       */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_BASE_PASS_BASE_HPP)
 
-#define UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP
+#define UKACHULLDCS_08961_RENDER_BASE_PASS_BASE_HPP
 
 // includes, system
 
@@ -22,30 +22,38 @@
 
 // includes, project
 
-#include <render/base/context.hpp>
+#include <render/base/stage/base.hpp>
 
 namespace render {
 
-  namespace null {
-    
-    // types, exported (class, enum, struct, union, typedef)
+  namespace base {
 
-    class context : public base::context {
-
-    public:
-
-      virtual ~context();
+    namespace pass {
       
-    };
+      // types, exported (class, enum, struct, union, typedef)
+
+      class base : public stage::base {
+
+      public:
+
+        virtual ~base() =0;
+
+        virtual void print_on(std::ostream&) const;
+        
+      protected:
+      
+      };
     
-    // variables, exported (extern)
+      // variables, exported (extern)
 
-    // functions, inlined (inline)
+      // functions, inlined (inline)
   
-    // functions, exported (extern)
+      // functions, exported (extern)
 
-  } // namespace null {
+    } // namespace pass {
+    
+  } // namespace base {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_CONTEXT_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_PASS_BASE_HPP)
