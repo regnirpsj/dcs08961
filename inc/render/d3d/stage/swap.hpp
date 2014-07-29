@@ -6,41 +6,44 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/d3d/pass.hpp                                                             */
+/*  module     :  render/d3d/stage/swap.hpp                                                       */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_D3D_PASS_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_D3D_STAGE_SWAP_HPP)
 
-#define UKACHULLDCS_08961_RENDER_D3D_PASS_HPP
+#define UKACHULLDCS_08961_RENDER_D3D_STAGE_SWAP_HPP
 
 // includes, system
 
-//#include <>
+// #include <>
 
 // includes, project
 
-#include <render/base/pass.hpp>
+#include <render/base/stage/swap.hpp>
 
 namespace render {
 
   namespace d3d {
-    
-    // types, exported (class, enum, struct, union, typedef)
 
-    class pass : public base::pass {
-    };
-    
-    // variables, exported (extern)
+    namespace stage {
+      
+      // types, exported (class, enum, struct, union, typedef)
 
-    // functions, inlined (inline)
+      typedef base::stage::swap swap;
+    
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
   
-    // functions, exported (extern)
+      // functions, exported (extern)
 
+    } // namespace stage {
+    
   } // namespace d3d {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_D3D_PASS_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_D3D_STAGE_SWAP_HPP)

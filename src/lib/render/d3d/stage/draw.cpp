@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/d3d/context.hpp                                                          */
+/*  module     :  render/d3d/stage/draw.cpp                                                       */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_D3D_CONTEXT_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_D3D_CONTEXT_HPP
+#include "render/d3d/stage/draw.hpp"
 
 // includes, system
 
@@ -22,30 +22,36 @@
 
 // includes, project
 
-#include <render/base/context.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
   namespace d3d {
-    
-    // types, exported (class, enum, struct, union, typedef)
 
-    class context : public base::context {
-
-    public:
-
-      virtual ~context();
+    namespace stage {
       
-    };
-    
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+    // variables, exported
   
-    // functions, exported (extern)
+    // functions, exported
 
+    } // namespace stage {
+    
   } // namespace d3d {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_D3D_CONTEXT_HPP)

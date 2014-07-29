@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/d3d/test/stage.cpp                                                       */
+/*  module     :  render/d3d/test/stage_clear.cpp                                                 */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -18,7 +18,7 @@
 
 // includes, project
 
-#include <render/d3d/stage.hpp>
+#include <render/d3d/stage/clear.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -39,11 +39,11 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(test_render_d3d_stage_ctor)
+BOOST_AUTO_TEST_CASE(test_render_d3d_stage_clear_ctor)
 {
-  using namespace render::d3d;
+  using namespace render::d3d::stage;
 
-  stage c;
+  clear c;
 
   BOOST_CHECK(&c);
   BOOST_MESSAGE(c);

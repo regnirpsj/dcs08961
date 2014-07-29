@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/d3d/stage.hpp                                                            */
+/*  module     :  render/d3d/passes.hpp                                                           */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_D3D_STAGE_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_D3D_PASSES_HPP)
 
-#define UKACHULLDCS_08961_RENDER_D3D_STAGE_HPP
+#define UKACHULLDCS_08961_RENDER_D3D_PASSES_HPP
 
 // includes, system
 
@@ -22,25 +22,26 @@
 
 // includes, project
 
-#include <render/base/stage.hpp>
+#include <render/d3d/pass/container.hpp>
 
 namespace render {
 
   namespace d3d {
-    
-    // types, exported (class, enum, struct, union, typedef)
 
-    class stage : public base::stage {
-    };
-    
-    // variables, exported (extern)
+    namespace pass {
+      
+      // types, exported (class, enum, struct, union, typedef)
 
-    // functions, inlined (inline)
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
   
-    // functions, exported (extern)
+      // functions, exported (extern)
 
+    } // namespace pass {
+    
   } // namespace d3d {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_D3D_STAGE_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_D3D_PASSES_HPP)

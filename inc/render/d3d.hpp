@@ -24,8 +24,8 @@
 
 #include <render/api.hpp>
 #include <render/d3d/context.hpp>
-#include <render/d3d/pass.hpp>
-#include <render/d3d/stage.hpp>
+#include <render/d3d/passes.hpp>
+#include <render/d3d/stages.hpp>
 
 namespace render {
 
@@ -37,9 +37,11 @@ namespace render {
 
     public:
 
-      typedef d3d::context context;
-      typedef d3d::pass    pass;
-      typedef d3d::stage   stage;
+      typedef d3d::context          context;
+      typedef base::pass::container container;
+      typedef d3d::stage::clear     clear;
+      typedef d3d::stage::draw      draw;
+      typedef d3d::stage::swap      swap;
       
     };
   

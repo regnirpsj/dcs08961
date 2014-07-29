@@ -6,15 +6,11 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/d3d/pass.cpp                                                             */
+/*  module     :  render/d3d/test/stage_draw.cpp                                                  */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
-
-// include i/f header
-
-#include "render/d3d/pass.hpp"
 
 // includes, system
 
@@ -22,7 +18,7 @@
 
 // includes, project
 
-//#include <>
+#include <render/d3d/stage/draw.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -40,14 +36,15 @@ namespace {
 
 } // namespace {
 
-namespace render {
+#define BOOST_TEST_MAIN
+#include <boost/test/unit_test.hpp>
 
-  namespace d3d {
-    
-    // variables, exported
-  
-    // functions, exported
+BOOST_AUTO_TEST_CASE(test_render_d3d_stage_draw_ctor)
+{
+  using namespace render::d3d::stage;
 
-  } // namespace d3d {
-  
-} // namespace render {
+  draw c;
+
+  BOOST_CHECK(&c);
+  BOOST_MESSAGE(c);
+}

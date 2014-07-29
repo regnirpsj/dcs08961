@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/d3d/test/pass.cpp                                                        */
+/*  module     :  render/d3d/test/stage_swap.cpp                                                 */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -18,7 +18,7 @@
 
 // includes, project
 
-#include <render/d3d/pass.hpp>
+#include <render/d3d/stage/swap.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -39,11 +39,11 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(test_render_d3d_pass_ctor)
+BOOST_AUTO_TEST_CASE(test_render_d3d_stage_swap_ctor)
 {
-  using namespace render::d3d;
+  using namespace render::d3d::stage;
 
-  pass c;
+  swap c;
 
   BOOST_CHECK(&c);
   BOOST_MESSAGE(c);

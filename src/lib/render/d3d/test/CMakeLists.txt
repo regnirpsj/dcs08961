@@ -13,8 +13,10 @@ FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framew
 SET(SRC)
 
 LIST(APPEND SRC "context.cpp")
-LIST(APPEND SRC "pass.cpp")
-LIST(APPEND SRC "stage.cpp")
+LIST(APPEND SRC "pass_container.cpp")
+LIST(APPEND SRC "stage_clear.cpp")
+LIST(APPEND SRC "stage_draw.cpp")
+LIST(APPEND SRC "stage_swap.cpp")
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 

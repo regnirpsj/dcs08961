@@ -48,6 +48,12 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    context::~context()
+    {
+      TRACE("render::d3d::context::~context");
+    }
+    
   } // namespace d3d {
   
 } // namespace render {
