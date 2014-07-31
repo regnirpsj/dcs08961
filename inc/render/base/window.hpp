@@ -6,45 +6,49 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stages.hpp                                                          */
+/*  module     :  render/base/window.hpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_BASE_WINDOW_HPP)
 
-#define UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP
+#define UKACHULLDCS_08961_RENDER_BASE_WINDOW_HPP
 
 // includes, system
 
-//#include <>
+#include <boost/noncopyable.hpp> // boost::noncopyable
 
 // includes, project
 
-#include <render/base/stage/clear.hpp>
-#include <render/base/stage/draw.hpp>
-#include <render/base/stage/setup.hpp>
-#include <render/base/stage/swap.hpp>
+#include <support/printable.hpp>
 
 namespace render {
 
   namespace base {
-
-    namespace stage {
-      
-      // types, exported (class, enum, struct, union, typedef)
-
-      // variables, exported (extern)
-
-      // functions, inlined (inline)
   
-      // functions, exported (extern)
+    // types, exported (class, enum, struct, union, typedef)
 
-    } // namespace stage {
+    class window : private boost::noncopyable,
+                   public support::printable {
+
+    public:
+
+      virtual ~window() =0;
+
+      virtual void print_on(std::ostream&) const;
+      
+    };
     
+    // variables, exported (extern)
+
+    // functions, inlined (inline)
+  
+    // functions, exported (extern)
+  
   } // namespace base {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_WINDOW_HPP)

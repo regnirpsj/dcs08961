@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stages.hpp                                                          */
+/*  module     :  render/base/statistics.hpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_BASE_STATISTICS_HPP)
 
-#define UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP
+#define UKACHULLDCS_08961_RENDER_BASE_STATISTICS_HPP
 
 // includes, system
 
@@ -22,16 +22,14 @@
 
 // includes, project
 
-#include <render/base/stage/clear.hpp>
-#include <render/base/stage/draw.hpp>
-#include <render/base/stage/setup.hpp>
-#include <render/base/stage/swap.hpp>
+#include <render/base/statistic/cpu.hpp>
+#include <render/base/statistic/gpu.hpp>
 
 namespace render {
 
   namespace base {
 
-    namespace stage {
+    namespace statistic {
       
       // types, exported (class, enum, struct, union, typedef)
 
@@ -41,10 +39,10 @@ namespace render {
   
       // functions, exported (extern)
 
-    } // namespace stage {
+    } // namespace statistic {
     
   } // namespace base {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STATISTICS_HPP)

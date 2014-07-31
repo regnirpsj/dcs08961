@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stages.hpp                                                          */
+/*  module     :  render/gui/pass/gui.hpp                                                         */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_BASE_PASS_GUI_HPP)
 
-#define UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP
+#define UKACHULLDCS_08961_RENDER_BASE_PASS_GUI_HPP
 
 // includes, system
 
@@ -22,29 +22,40 @@
 
 // includes, project
 
-#include <render/base/stage/clear.hpp>
-#include <render/base/stage/draw.hpp>
-#include <render/base/stage/setup.hpp>
-#include <render/base/stage/swap.hpp>
+#include <render/base/pass/base.hpp>
 
 namespace render {
 
   namespace base {
 
-    namespace stage {
+    namespace pass {
       
       // types, exported (class, enum, struct, union, typedef)
 
+      class gui : public base {
+
+      public:
+
+        virtual ~gui();
+
+        virtual void execute();
+        
+        virtual void print_on(std::ostream&) const;
+        
+      protected:
+      
+      };
+    
       // variables, exported (extern)
 
       // functions, inlined (inline)
   
       // functions, exported (extern)
 
-    } // namespace stage {
+    } // namespace pass {
     
   } // namespace base {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_PASS_GUI_HPP)

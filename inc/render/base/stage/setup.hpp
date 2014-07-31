@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stages.hpp                                                          */
+/*  module     :  render/base/stage/setup.hpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGE_SETUP_HPP)
 
-#define UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP
+#define UKACHULLDCS_08961_RENDER_BASE_STAGE_SETUP_HPP
 
 // includes, system
 
@@ -22,10 +22,7 @@
 
 // includes, project
 
-#include <render/base/stage/clear.hpp>
-#include <render/base/stage/draw.hpp>
-#include <render/base/stage/setup.hpp>
-#include <render/base/stage/swap.hpp>
+#include <render/base/stage/base.hpp>
 
 namespace render {
 
@@ -35,6 +32,20 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
+      class setup : public base {
+
+      public:
+
+        virtual ~setup();
+
+        virtual void execute();
+      
+        virtual void print_on(std::ostream&) const;
+
+      private:
+      
+      };
+    
       // variables, exported (extern)
 
       // functions, inlined (inline)
@@ -47,4 +58,4 @@ namespace render {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGE_SETUP_HPP)

@@ -6,45 +6,62 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stages.hpp                                                          */
+/*  module     :  render/base/window.cpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP
+#include "render/base/window.hpp"
 
 // includes, system
 
-//#include <>
+#include <typeinfo> // typeid usage
 
 // includes, project
 
-#include <render/base/stage/clear.hpp>
-#include <render/base/stage/draw.hpp>
-#include <render/base/stage/setup.hpp>
-#include <render/base/stage/swap.hpp>
+#include <support/type_info.hpp>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
   namespace base {
-
-    namespace stage {
-      
-      // types, exported (class, enum, struct, union, typedef)
-
-      // variables, exported (extern)
-
-      // functions, inlined (inline)
+    
+    // variables, exported
   
-      // functions, exported (extern)
+    // functions, exported
 
-    } // namespace stage {
+    /* virtual */
+    window::~window()
+    {
+      TRACE("render::base::window::window");
+    }
+      
+    /* virtual */ void
+    window::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("render::base::window::print_on");
+
+      os << '[' << support::demangle(typeid(*this)) << ']';
+    }
     
   } // namespace base {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)

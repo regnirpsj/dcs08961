@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stages.hpp                                                          */
+/*  module     :  render/base/statistics/cpu.cpp                                                  */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP
+#include "render/base/statistics/cpu.hpp"
 
 // includes, system
 
@@ -22,29 +22,36 @@
 
 // includes, project
 
-#include <render/base/stage/clear.hpp>
-#include <render/base/stage/draw.hpp>
-#include <render/base/stage/setup.hpp>
-#include <render/base/stage/swap.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
   namespace base {
 
-    namespace stage {
-      
-      // types, exported (class, enum, struct, union, typedef)
-
-      // variables, exported (extern)
-
-      // functions, inlined (inline)
+    namespace statistics {
   
-      // functions, exported (extern)
-
-    } // namespace stage {
+      // variables, exported
+  
+      // functions, exported
+  
+    } // namespace statistics {
     
   } // namespace base {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)

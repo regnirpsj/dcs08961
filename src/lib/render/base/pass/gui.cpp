@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stages.hpp                                                          */
+/*  module     :  render/base/pass/gui.cpp                                                        */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP
+#include "render/base/pass/gui.hpp"
 
 // includes, system
 
@@ -22,29 +22,56 @@
 
 // includes, project
 
-#include <render/base/stage/clear.hpp>
-#include <render/base/stage/draw.hpp>
-#include <render/base/stage/setup.hpp>
-#include <render/base/stage/swap.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
   namespace base {
 
-    namespace stage {
+    namespace pass {
       
-      // types, exported (class, enum, struct, union, typedef)
-
-      // variables, exported (extern)
-
-      // functions, inlined (inline)
+      // variables, exported
   
-      // functions, exported (extern)
+      // functions, exported
 
-    } // namespace stage {
+      /* virtual */
+      gui::~gui()
+      {
+        TRACE("render::base::pass::gui::~gui");
+      }
+        
+      /* virtual */ void
+      gui::execute()
+      {
+        TRACE("render::base::pass::gui::execute");
+      }
+      
+      /* virtual */ void
+      gui::print_on(std::ostream& os) const
+      {
+        TRACE_NEVER("render::base::pass::gui::print_on");
+
+        base::print_on(os);
+      }
+      
+    } // namespace pass {
     
   } // namespace base {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)

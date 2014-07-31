@@ -23,6 +23,8 @@
 // includes, project
 
 #include <render/base/pass/container.hpp>
+#include <render/base/pass/gui.hpp>
+#include <render/base/pass/null.hpp>
 
 namespace render {
 

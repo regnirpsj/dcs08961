@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stages.hpp                                                          */
+/*  module     :  render/base/stage/setup.cpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP
+#include "render/base/stage/setup.hpp"
 
 // includes, system
 
@@ -22,10 +22,23 @@
 
 // includes, project
 
-#include <render/base/stage/clear.hpp>
-#include <render/base/stage/draw.hpp>
-#include <render/base/stage/setup.hpp>
-#include <render/base/stage/swap.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace render {
 
@@ -33,18 +46,32 @@ namespace render {
 
     namespace stage {
       
-      // types, exported (class, enum, struct, union, typedef)
-
-      // variables, exported (extern)
-
-      // functions, inlined (inline)
+      // variables, exported
   
-      // functions, exported (extern)
+      // functions, exported
+
+      /* virtual */
+      setup::~setup()
+      {
+        TRACE("render::base::stage::setup::~setup");
+      }
+
+      /* virtual */ void
+      setup::execute()
+      {
+        TRACE("render::base::stage::setup::execute");
+      }
+    
+      /* virtual */ void
+      setup::print_on(std::ostream& os) const
+      {
+        TRACE_NEVER("render::base::stage::setup::print_on");
+
+        base::print_on(os);
+      }
 
     } // namespace stage {
-    
+        
   } // namespace base {
   
 } // namespace render {
-
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGES_HPP)
