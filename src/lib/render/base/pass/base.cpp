@@ -63,6 +63,13 @@ namespace render {
 
         stage::base::print_on(os);
       }
+
+      /* explicit */
+      base::base(context& a, statistics::base& b)
+        : stage::base(a, b)
+      {
+        TRACE("render::base::pass::base::base");
+      }
       
     } // namespace pass {
     

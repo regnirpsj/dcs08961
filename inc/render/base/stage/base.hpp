@@ -29,6 +29,14 @@ namespace render {
 
   namespace base {
 
+    class context;
+
+    namespace statistics {
+
+      class base;
+      
+    } // namespace statistics {
+    
     namespace stage {
       
       // types, exported (class, enum, struct, union, typedef)
@@ -40,13 +48,26 @@ namespace render {
 
         virtual ~base() =0;
 
-        virtual void execute() =0;
+        bool active() const;
+        bool active(bool);
+        
+        bool stats_enable() const;
+        bool stats_enable(bool);
+        
+        void execute();
       
         virtual void print_on(std::ostream&) const;
 
       protected:
 
-        explicit base();
+        context&          ctx_;
+        bool              active_;
+        statistics::base& stats_;
+        bool              stats_enabled_;
+        
+        explicit base(context&, statistics::base&);
+
+        virtual void do_execute() =0;
         
       };
     

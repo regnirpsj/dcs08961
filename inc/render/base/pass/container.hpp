@@ -38,26 +38,33 @@ namespace render {
 
       class container : public base {
 
+      protected:
+        
+        typedef stage::base                              base_type;
+        typedef boost::intrusive_ptr<base_type>          refcounted_base_type;
+        typedef std::unordered_set<refcounted_base_type> stage_list_type;
+        
       public:
 
-        explicit container();
-        explicit container(std::initializer_list<base*> const&);
+        explicit container(context&, statistics::base&);
+        explicit container(context&, statistics::base&, std::initializer_list<base_type*> const&);
         virtual ~container();
 
+        bool     empty() const;
         unsigned size() const;
-        bool     add(base*);
-        bool     sub(base*);
         
-        virtual void execute();
+        bool     add(base_type*);
+        bool     sub(base_type*);
+        void     clear();
 
         virtual void print_on(std::ostream&) const;
         
       protected:
 
-        typedef std::unordered_set<boost::intrusive_ptr<stage::base>> stage_list_type;
-
                 stage_list_type      stage_list_;
         mutable support::simple_lock stage_list_lock_;
+
+        virtual void do_execute();
         
       };
     

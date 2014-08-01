@@ -22,14 +22,14 @@
 
 // includes, project
 
-#include <render/base/statistic/cpu.hpp>
-#include <render/base/statistic/gpu.hpp>
+#include <render/base/statistics/cpu.hpp>
+#include <render/base/statistics/gpu.hpp>
 
 namespace render {
 
   namespace base {
 
-    namespace statistic {
+    namespace statistics {
       
       // types, exported (class, enum, struct, union, typedef)
 
@@ -39,7 +39,7 @@ namespace render {
   
       // functions, exported (extern)
 
-    } // namespace statistic {
+    } // namespace statistics {
     
   } // namespace base {
   

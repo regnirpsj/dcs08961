@@ -55,12 +55,6 @@ namespace render {
       {
         TRACE("render::base::pass::gui::~gui");
       }
-        
-      /* virtual */ void
-      gui::execute()
-      {
-        TRACE("render::base::pass::gui::execute");
-      }
       
       /* virtual */ void
       gui::print_on(std::ostream& os) const
@@ -68,6 +62,12 @@ namespace render {
         TRACE_NEVER("render::base::pass::gui::print_on");
 
         base::print_on(os);
+      }
+
+      /* virtual */ void
+      gui::do_execute()
+      {
+        TRACE("render::base::pass::gui::do_execute");
       }
       
     } // namespace pass {

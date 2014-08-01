@@ -37,13 +37,13 @@ namespace render {
       public:
 
         virtual ~gui();
-
-        virtual void execute();
         
         virtual void print_on(std::ostream&) const;
         
       protected:
-      
+
+        virtual void do_execute();
+        
       };
     
       // variables, exported (extern)

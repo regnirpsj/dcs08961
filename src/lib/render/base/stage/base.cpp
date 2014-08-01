@@ -19,14 +19,15 @@
 // includes, system
 
 #include <stdexcept> // std::logic_error
-#include <typeinfo>  // typeid usage
 
 // includes, project
 
+#include <render/base/context.hpp>
+#include <render/base/statistics.hpp>
 #include <support/type_info.hpp>
 
 #define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
+// #undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 // internal unnamed namespace
@@ -57,12 +58,54 @@ namespace render {
         TRACE("render::base::stage::base::~base");
       }
 
+      bool
+      base::active() const
+      {
+        TRACE("render::base::stage::base::active(get)");
+        
+        return active_;
+      }
+
+      bool
+      base::active(bool a)
+      {
+        TRACE("render::base::stage::base::active(set)");
+        
+        bool const result(active_);
+
+        active_ = a;
+
+        return result;
+      }
+
+      bool
+      base::stats_enable() const
+      {
+        TRACE("render::base::stage::base::stats_enable(get)");
+        
+        return stats_enabled_;
+      }
+
+      bool
+      base::stats_enable(bool a)
+      {
+        TRACE("render::base::stage::base::stats_enable(set)");
+
+        bool const result(stats_enabled_);
+
+        stats_enabled_ = a;
+
+        return result;
+      }
+      
       /* virtual */ void
       base::execute()
       {
         TRACE("render::base::stage::base::execute");
 
-        throw std::logic_error("pure virtual function 'render::base::stage::base::execute' called");
+        statistics::guard const sg(stats_, stats_enabled_);
+        
+        do_execute();
       }
     
       /* virtual */ void
@@ -70,15 +113,28 @@ namespace render {
       {
         TRACE_NEVER("render::base::stage::base::print_on");
 
-        os << '[' << support::demangle(typeid(*this)) << ']';
+        os << '[' << ctx_ << ',' << ((active_) ? "" : "!") << "active," << stats_ << ']';
       }
 
       /* explicit */
-      base::base()
+      base::base(context& a, statistics::base& b)
         : support::printable (),
-          support::refcounted()
+          support::refcounted(),
+          ctx_               (a),
+          active_            (true),
+          stats_             (b),
+          stats_enabled_     (false)
       {
         TRACE("render::base::stage::base::base");
+      }
+
+      /* virtual */ void
+      base::do_execute()
+      {
+        TRACE("render::base::stage::base::do_execute");
+
+        throw std::logic_error("pure virtual function "
+                               "'render::base::stage::base::do_execute' called");
       }
       
     } // namespace stage {

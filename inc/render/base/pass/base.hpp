@@ -41,7 +41,9 @@ namespace render {
         virtual void print_on(std::ostream&) const;
         
       protected:
-      
+
+        explicit base(context&, statistics::base&);
+        
       };
     
       // variables, exported (extern)

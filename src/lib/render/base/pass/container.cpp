@@ -51,21 +51,22 @@ namespace render {
       // functions, exported
 
       /* explicit*/
-      container::container()
-        : base       (),
+      container::container(context& a, statistics::base& b)
+        : base       (a, b),
           stage_list_()
       {
         TRACE("render::base::pass::container::container(dflt)");
       }
       
       /* explicit*/
-      container::container(std::initializer_list<base*> const& a)
-        : base       (),
+      container::container(context& a, statistics::base& b,
+                           std::initializer_list<base_type*> const& c)
+        : base       (a, b),
           stage_list_()
       {
         TRACE("render::base::pass::container::container(std::initializer_list)");
 
-        for (auto s : a) { add(s); }
+        for (auto s : c) { add(s); }
       }
       
       /* virtual */
@@ -74,6 +75,16 @@ namespace render {
         TRACE("render::base::pass::container::~container");
       }
 
+      bool
+      container::empty() const
+      {
+        TRACE("render::base::pass::container::empty");
+
+        support::simple_lock_guard const slg(stage_list_lock_);
+        
+        return stage_list_.empty();
+      }
+      
       unsigned
       container::size() const
       {
@@ -85,7 +96,7 @@ namespace render {
       }
       
       bool
-      container::add(base* a)
+      container::add(base_type* a)
       {
         TRACE("render::base::pass::container::add");
 
@@ -100,7 +111,7 @@ namespace render {
       }
       
       bool
-      container::sub(base* a)
+      container::sub(base_type* a)
       {
         TRACE("render::base::pass::container::sub");
 
@@ -113,17 +124,15 @@ namespace render {
 
         return result;
       }
-        
-      /* virtual */ void
-      container::execute()
+
+      void
+      container::clear()
       {
-        TRACE("render::base::pass::container::execute");
+        TRACE("render::base::pass::container::clear");
 
         support::simple_lock_guard const slg(stage_list_lock_);
         
-        for (auto p : stage_list_) {
-          p->execute();
-        }
+        return stage_list_.clear();
       }
       
       /* virtual */ void
@@ -136,6 +145,18 @@ namespace render {
         support::simple_lock_guard const slg(stage_list_lock_);
         {
           os << "\b,s:" << stage_list_.size() << ']';
+        }
+      }
+
+      /* virtual */ void
+      container::do_execute()
+      {
+        TRACE("render::base::pass::container::do_execute");
+
+        support::simple_lock_guard const slg(stage_list_lock_);
+        
+        for (auto p : stage_list_) {
+          p->execute();
         }
       }
       
