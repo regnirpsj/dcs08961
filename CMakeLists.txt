@@ -83,6 +83,7 @@ FIND_PACKAGE(ATB REQUIRED)
 INCLUDE(SetupCompilerPost)
 
 # traverse these sub dirs
+ADD_SUBDIRECTORY(doc)
 ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(src)
 

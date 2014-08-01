@@ -9,6 +9,10 @@
 # glibcxx parallel support
 OPTION(DCS08961_GLIBCXX_PARALLEL "Enable GLIBCXX parallel mode" OFF)
 
+# doxygen docs
+OPTION(DCS08961_DOC_DEV "Enable generation of developer documentation" OFF)
+OPTION(DCS08961_DOC_USR "Enable generation of user documentation"      OFF)
+
 # unit testing
 OPTION(DCS08961_BLD_UTEST "Enable unit-test building by default"                          ON)
 OPTION(DCS08961_RUN_CTEST "Enable unit-test execution using CTest by default"             ON)
