@@ -185,7 +185,7 @@ namespace glut {
       keyboardq_ (),
       mouseq_    (),
       camera_    ({ glm::mat4() }),
-      projection_({ glm::mat4(), 53.0, glm::vec2(0.01, 100.0) }),
+      projection_({ glm::mat4(), 60.0, glm::vec2(0.001, 1000.0) }),
       window_    ({ -1, false, glm::ivec2(90,40), glm::ivec2(1440,900), false })
   {
     TRACE("glut::application::application");

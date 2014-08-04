@@ -22,6 +22,9 @@
 #include <oglplus/all.hpp>
 #include <oglplus/bound/texture.hpp>
 #include <oglplus/images/checker.hpp>
+#include <oglplus/images/random.hpp>
+#include <oglplus/images/sphere_bmap.hpp>
+#include <oglplus/images/squares.hpp>
 #include <oglplus/opt/smart_enums.hpp>
 
 #include <glm/glm.hpp>
@@ -107,23 +110,27 @@ namespace {
       }
 
       {
-        auto const image(images::CheckerRedBlack(64, 64, 16, 16));
-
+        auto const image(
+                         images::CheckerRedBlack(256, 256, 8, 8)
+                         // images::Squares(512, 512, 0.9f, 8, 8)
+                         // images::SphereBumpMap(512, 512, 2, 2)
+                         // images::RandomRGBUByte(256, 256)
+                         );
         typedef Typechecked<Uniform<SLtoCpp<SLDataType::Sampler2D>>> uniform_sampler_2d_type;
         
         if (uniform_sampler_2d_type(prg_, "material_tex_diffuse").IsActive()) {
           ctx_.Bound(smart_enums::_2D(), tex_diffuse_)
             .Image2D(image)
-            .GenerateMipmap()
-            .MinFilter(smart_enums::LinearMipmapLinear())
+            // .GenerateMipmap()
+            .MinFilter(smart_enums::Linear())
             .MagFilter(smart_enums::Linear())
-            .Anisotropy(2.0f)
+            // .Anisotropy(2.0f)
             .WrapS(smart_enums::Repeat())
             .WrapT(smart_enums::Repeat());
         
           (prg_/"material_tex_diffuse") = 0;
           
-          // Uniform<GLint>(prg_, "material_tex_diffuse_enabled").Set(true);
+          Uniform<GLint>(prg_, "material_tex_diffuse_enabled").Set(false);
         }
       
         typedef Typechecked<Uniform<SLtoCpp<SLDataType::SamplerCube>>> uniform_sampler_cube_type;
@@ -142,7 +149,7 @@ namespace {
            
           (prg_/"material_tex_envmap") = 1;
 
-          // Uniform<GLint>(prg_, "material_tex_envmap_enabled").Set(true);
+          Uniform<GLint>(prg_, "material_tex_envmap_enabled").Set(false);
         }
       }
       
