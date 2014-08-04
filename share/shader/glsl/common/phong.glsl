@@ -30,7 +30,7 @@
 /* constants */
 
 const light_t default_light = {
-  /* psition     */ vec4(0.0, 0.0, 1.0, 0.0),
+  /* position    */ vec4(0.0, 0.0, 1.0, 0.0),
   /* direction   */ vec3(0.0, 0.0,-1.0),
   /* enabled     */ false,
   /* ambient     */ vec3(0.0, 0.0, 0.0),
@@ -87,7 +87,7 @@ layout (std430) buffer material_list_t {
 /* functions */
 
 vec3
-light_vector(in light_t l, in vec3 P)
+light_vector(in const light_t l, in const vec3 P)
 {
   vec4 result = l.position; // directional: lvec = lpos
   
@@ -99,7 +99,7 @@ light_vector(in light_t l, in vec3 P)
 } 
 
 float
-light_attenuation(in light_t l, in float d)
+light_attenuation(in const light_t l, in const float d)
 {
   float attenuation_at_lpos_infty = 1.0;
   
@@ -111,7 +111,7 @@ light_attenuation(in light_t l, in float d)
 }
 
 light_cone_parameter_t
-setup_light_cone(in light_t l)
+setup_light_cone(in const light_t l)
 {
   light_cone_parameter_t result = default_light_cone_parameters;
 
@@ -131,48 +131,72 @@ setup_light_cone(in light_t l)
 }
 
 void
-light_accumulate(in    vec3  P, // fragment position (wc)
-                 in    vec3  N, // fragment normal (wc)
-                 in    float material_shininess,
-                 inout vec3  ambient,
-                 inout vec3  diffuse,
-                 inout vec3  specular)
+light_accumulate(in    const light_t light, //
+                 in    const vec3    P,     // fragment position (wc)
+                 in    const vec3    N,     // fragment normal (wc)
+                 in    const mat4    C,     // camera (wc)
+                 in    const float   material_shininess,
+                 inout       vec3    ambient,
+                 inout       vec3    diffuse,
+                 inout       vec3    specular)
 {
-  for (uint i = 0; i < light_list.length(); ++i) {
-    if (light_list[i].enabled) {
-      vec3  L           = light_vector     (light_list[i], P);
-      float attenuation = light_attenuation(light_list[i], length(L));
+  if (light.enabled) {
+    vec3  L           = light_vector     (light, P);
+    float attenuation = light_attenuation(light, length(L));
 
-      L = normalize(L);
+    L = normalize(L);
 
-      float NdotL = dot(N, L);
+    float NdotL = dot(N, L);
 
-      if (0.0 < NdotL) {
-        light_cone_parameter_t lcp = setup_light_cone(light_list[i]);
+    if (0.0 < NdotL) {
+      light_cone_parameter_t lcp = setup_light_cone(light);
 
-        if (lcp.compute_falloff_spot) {
-          float cos_cur_angle = dot(-L, normalize(light_list[i].direction));
+      if (lcp.compute_falloff_spot) {
+        float cos_cur_angle = dot(-L, normalize(light.direction));
 
-          // avoids dynamic branching
-          attenuation *= saturate((cos_cur_angle - lcp.cos_outer_angle) / lcp.diff_inner_outer);
-        }
-
-        vec3  H          = normalize(L - normalize(P));
-        float NdotH      = max(dot(N, H), 0.0);
-        float exponent   = max(128.0 / material_shininess, 0.0);
-        vec4  lit_result = lit(NdotL, NdotH, exponent);
-
-        diffuse  += (attenuation * light_list[i].diffuse  * lit_result.y);
-        specular += (attenuation * light_list[i].specular * lit_result.z);
+        // avoids dynamic branching
+        attenuation *= saturate((cos_cur_angle - lcp.cos_outer_angle) / lcp.diff_inner_outer);
       }
 
-      ambient += attenuation * light_list[i].ambient;
+      float exponent   = max(128.0 / material_shininess, 0.0);
+      vec3  V          = normalize(P - C[3].xyz);
+      float NdotV      = max(dot(N, V), 0.0);
+      vec4  lit_result = lit(NdotL, NdotV, exponent);
+
+      diffuse  += (attenuation * light.diffuse  * lit_result.y);
+      specular += (attenuation * light.specular * lit_result.z);
     }
+
+    ambient += attenuation * light.ambient;
+  }
+}
+
+void
+light_accumulate(in    const vec3  P, // fragment position (wc)
+                 in    const vec3  N, // fragment normal (wc)
+                 in    const mat4  C, // camera
+                 in    const float material_shininess,
+                 inout       vec3  ambient,
+                 inout       vec3  diffuse,
+                 inout       vec3  specular)
+{
+  if (0 < light_list.length()) {
+    for (uint i = 0; i < light_list.length(); ++i) {
+      light_accumulate(light_list[i], P, N, C, material_shininess, ambient, diffuse, specular);
+    }
+  } else {
+    light_t tmp = default_light;
+
+    tmp.enabled  = true;
+    tmp.position = C * vec4(-tmp.direction, 0);
+    tmp.ambient  = vec3(0.15);
+    
+    light_accumulate(tmp, P, N, C, material_shininess, ambient, diffuse, specular);
   }
 }
 
 material_t
-material_get(in int idx)
+material_get(in const int idx)
 {
   material_t result = default_material;
 
@@ -184,18 +208,18 @@ material_get(in int idx)
 }
 
 vec4
-material_shading(in material_t mtl,
-                 in vec3       light_ambient,
-                 in vec3       light_diffuse,
-                 in vec3       light_specular,
-                 in bool       mtl_tex_diffuse_enabled,
-                 in vec3       mtl_tex_diffuse,
-                 in bool       mtl_tex_envmap_enabled,
-                 in vec3       mtl_tex_envmap,
-                 in float      fresnel_factor)
+material_shading(in const material_t mtl,
+                 in const vec3       light_ambient,
+                 in const vec3       light_diffuse,
+                 in const vec3       light_specular,
+                 in const bool       mtl_tex_diffuse_enabled,
+                 in const vec3       mtl_tex_diffuse,
+                 in const bool       mtl_tex_envmap_enabled,
+                 in const vec3       mtl_tex_envmap,
+                 in const float      fresnel_factor)
 {
   vec4 result = vec4(mtl.emission, mtl.alpha);
-
+  
   result.rgb  += mtl.ambient  * light_ambient;
   result.rgb  += mtl.diffuse  * light_diffuse;
 
@@ -208,7 +232,7 @@ material_shading(in material_t mtl,
   if (mtl_tex_envmap_enabled) {
     result.rgb = mix(result.rgb, mtl_tex_envmap, fresnel_factor);
   }
-
+  
   return result;
 }
 

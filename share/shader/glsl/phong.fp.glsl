@@ -37,12 +37,12 @@
 
 /* variables, global */
 
-in fp_in_t {
+in vp_out_t {
        vec3  position_wc;
        vec3  normal_wc;
        vec2  tcoords;
   flat int   mtl_id;
-} fp_in;
+} vp_out;
 
 out vec4 fp_out;
 
@@ -51,25 +51,29 @@ out vec4 fp_out;
 void
 main()
 {
-  material_t material = material_get(fp_in.mtl_id);
-  vec3       ambient  = const_color_black.rgb;
-  vec3       diffuse  = const_color_black.rgb;
-  vec3       specular = const_color_black.rgb;
-
-  fp_in.normal_wc = normalize(fp_in.normal_wc);
+  material_t material     = material_get(vp_out.mtl_id);
+  vec3       ambient      = const_color_black.rgb;
+  vec3       diffuse      = const_color_black.rgb;
+  vec3       specular     = const_color_black.rgb;
+  mat4       xform_camera = inverse(xform_view);
   
-  light_accumulate(/* in */     fp_in.position_wc, fp_in.normal_wc, material.shininess,
+  vp_out.normal_wc = normalize(vp_out.normal_wc);
+  
+  light_accumulate(/* in */     vp_out.position_wc,
+                   /* in */     vp_out.normal_wc,
+                   /* in */     xform_camera,
+                   /* in */     material.shininess,
                    /* in/out */ ambient, diffuse, specular);
 
-  vec3  incident       = inverse(xform_view)[3].xyz - fp_in.position_wc;
-  vec3  reflection     = normalize(reflect(incident, fp_in.normal_wc));
-  float fresnel_factor = fresnel_factor(material.shininess, reflection, fp_in.normal_wc);
+  vec3  incident       = xform_camera[3].xyz - vp_out.position_wc;
+  vec3  reflection     = normalize(reflect(incident, vp_out.normal_wc));
+  float fresnel_factor = fresnel_factor(material.shininess, reflection, vp_out.normal_wc);
   
   fp_out = material_shading(/* in */ material, ambient, diffuse, specular,
                             /* in */ material_tex_diffuse_enabled,
-                            /* in */ texture(material_tex_diffuse, fp_in.tcoords).rgb,
+                            /* in */ texture(material_tex_diffuse, vp_out.tcoords).rgb,
                             /* in */ material_tex_envmap_enabled,
-                            /* in */ texture(material_tex_envmap,  reflection)   .rgb,
+                            /* in */ texture(material_tex_envmap,  reflection)    .rgb,
                             /* in */ fresnel_factor);
 }
 
