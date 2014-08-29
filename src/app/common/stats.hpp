@@ -97,12 +97,11 @@ namespace stats {
 
   private:
 
-    unsigned                 id_elapsed_;
+    unsigned                 id_query_offset_;
     unsigned                 id_query_start_;
     unsigned                 id_query_stop_;
-    support::timer::duration cpu_start_;
-    support::timer::duration gpu_start_;
-    support::timer::duration gpu_duration_;
+    support::timer::duration start_;
+    support::timer::duration duration_;
     
   };
   

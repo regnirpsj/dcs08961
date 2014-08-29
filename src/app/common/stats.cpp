@@ -41,7 +41,7 @@ namespace {
 
   // variables, internal
 
-  support::timer::time_point const offset(support::clock::now());
+  support::timer::time_point const cpu_offset(support::clock::now());
   
   // functions, internal
 
@@ -118,7 +118,7 @@ namespace stats {
   /* explicit */
   cpu::cpu(std::string const& a)
     : base     (a),
-      start_   (support::clock::now() - offset),
+      start_   (support::clock::now() - cpu_offset),
       duration_()
   {
     TRACE("stats::cpu::cpu");
@@ -135,7 +135,7 @@ namespace stats {
   {
     TRACE("stats::cpu::start");
 
-    start_ = support::clock::now() - offset;
+    start_ = support::clock::now() - cpu_offset;
   }
 
   /* virtual */ void
@@ -143,7 +143,7 @@ namespace stats {
   {
     TRACE("stats::cpu::stop");
 
-    duration_ = support::clock::now() - offset - start_;
+    duration_ = support::clock::now() - cpu_offset - start_;
   }
 
   /* virtual */ void
@@ -165,16 +165,15 @@ namespace stats {
   /* explicit */
   gpu::gpu(std::string const& a)
     : base(a),
-      id_elapsed_    (-1),
-      id_query_start_(-1),
-      id_query_stop_ (-1),
-      cpu_start_     (),
-      gpu_start_     (),
-      gpu_duration_  ()
+      id_query_offset_(-1),
+      id_query_start_ (-1),
+      id_query_stop_  (-1),
+      start_          (),
+      duration_       ()
   {
     TRACE("stats::gpu::gpu");
 
-    ::glGenQueries(1, &id_elapsed_);
+    ::glGenQueries(1, &id_query_offset_);
     ::glGenQueries(1, &id_query_start_);
     ::glGenQueries(1, &id_query_stop_);
   }
@@ -186,7 +185,7 @@ namespace stats {
 
     ::glDeleteQueries(1, &id_query_stop_);
     ::glDeleteQueries(1, &id_query_start_);
-    ::glDeleteQueries(1, &id_elapsed_);
+    ::glDeleteQueries(1, &id_query_offset_);
   }
 
   /* virtual */ void
@@ -194,19 +193,20 @@ namespace stats {
   {
     TRACE("stats::gpu::start");
       
-    ::glBeginQuery(GL_TIME_ELAPSED, id_elapsed_);
-
-    cpu_start_ = support::clock::now() - offset;
+    ::glBeginQuery(GL_TIME_ELAPSED, id_query_offset_);
+    {
+      start_ = support::clock::now() - cpu_offset;
     
-    ::glQueryCounter(id_query_start_, GL_TIMESTAMP);
+      ::glQueryCounter(id_query_start_, GL_TIMESTAMP);
+    }
+    ::glEndQuery(GL_TIME_ELAPSED);
   }
 
   /* virtual */ void
   gpu::stop()
   {
     TRACE("stats::gpu::stop");
-
-    ::glEndQuery(GL_TIME_ELAPSED);
+    
     ::glQueryCounter(id_query_stop_, GL_TIMESTAMP);
   }
 
@@ -215,16 +215,14 @@ namespace stats {
   {
     TRACE("stats::gpu::fetch");
 
-    std::uint_least64_t elapsed(-1), start(-1), stop(-1);
+    std::uint_least64_t offset(-1), start(-1), stop(-1);
 
-    ::glGetQueryObjectui64v(id_elapsed_,     GL_QUERY_RESULT, &elapsed);
-    ::glGetQueryObjectui64v(id_query_start_, GL_QUERY_RESULT, &start);
-    ::glGetQueryObjectui64v(id_query_stop_,  GL_QUERY_RESULT, &stop);
+    ::glGetQueryObjectui64v(id_query_offset_, GL_QUERY_RESULT, &offset);
+    ::glGetQueryObjectui64v(id_query_start_,  GL_QUERY_RESULT, &start);
+    ::glGetQueryObjectui64v(id_query_stop_,   GL_QUERY_RESULT, &stop);
 
-    using namespace std::chrono;
-    
-    gpu_duration_ = nanoseconds(stop - start);
-    gpu_start_    = cpu_start_ + (nanoseconds(elapsed) - nanoseconds(stop - start));
+    start_    += std::chrono::nanoseconds(offset);
+    duration_  = std::chrono::nanoseconds(stop - start);
   }
 
   /* virtual */ void
@@ -238,9 +236,9 @@ namespace stats {
     
     os << "\b,gpu:@"
        << duration_fmt(symbol) << std::fixed << std::right
-       << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(gpu_start_)
+       << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(start_)
        << " + "
-       << std::setw(6) << std::setfill(' ') << duration_cast<microseconds>(gpu_duration_) << ']';
+       << std::setw(6) << std::setfill(' ') << duration_cast<microseconds>(duration_) << ']';
   }
     
 } // namespace stats {

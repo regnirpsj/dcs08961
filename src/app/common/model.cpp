@@ -194,7 +194,7 @@ namespace model {
       
       mesh_.Instructions().Draw(mesh_.Indices());
     }
-
+    
     cpu_stats_.fetch();
     gpu_stats_.fetch();
     
