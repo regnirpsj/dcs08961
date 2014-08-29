@@ -293,10 +293,10 @@ namespace support {
   timer::~timer()
   {}
 
-  void
+  timer::time_point
   timer::reset()
   {
-    start_ = clock::now();
+    return start_ = clock::now();
   }
   
   timer::duration

@@ -57,8 +57,8 @@ namespace support {
     explicit timer();
             ~timer();
 
-    void     reset();
-    duration lapse() const;
+    time_point reset();
+    duration   lapse() const;
 
   private:
     
