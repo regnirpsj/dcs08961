@@ -27,7 +27,7 @@
 
 // includes, project
 
-// #include <>
+#include <stats.hpp>
 
 namespace model {
   
@@ -54,6 +54,8 @@ namespace model {
     oglplus::Buffer          tcoords_;
     glm::mat4                xform_;
     signed                   mtl_id_;
+    stats::cpu               cpu_stats_;
+    stats::gpu               gpu_stats_;
     
   };
 

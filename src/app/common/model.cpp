@@ -24,7 +24,7 @@
 
 // includes, project
 
-//#include <>
+// #include <>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -95,7 +95,9 @@ namespace model {
       normals_     (),
       tcoords_     (),
       xform_       (),
-      mtl_id_      (-1)
+      mtl_id_      (-1),
+      cpu_stats_   (a),
+      gpu_stats_   (a)
   {
     TRACE("model::mesh::mesh");
 
@@ -171,22 +173,34 @@ namespace model {
   mesh::draw()
   {
     TRACE("model::mesh::draw");
+    
+    {
+      stats::guard const sgcpu(cpu_stats_);
+      stats::guard const sggpu(gpu_stats_);
       
-    using namespace oglplus;
+      using namespace oglplus;
 
-    prg_.Use();
+      prg_.Use();
     
-    if (Uniform<glm::mat4>(prg_, "xform_model").IsActive()) {
-      Uniform<glm::mat4>(prg_, "xform_model").Set(xform_);
+      if (Uniform<glm::mat4>(prg_, "xform_model").IsActive()) {
+        Uniform<glm::mat4>(prg_, "xform_model").Set(xform_);
+      }
+    
+      if (Lazy<Uniform<signed>>(prg_, "mtl_id").IsActive()) {
+        Lazy<Uniform<signed>>(prg_, "mtl_id").Set(mtl_id_);
+      }
+      
+      vao_.Bind();
+      
+      mesh_.Instructions().Draw(mesh_.Indices());
     }
+
+    cpu_stats_.fetch();
+    gpu_stats_.fetch();
     
-    if (Lazy<Uniform<signed>>(prg_, "mtl_id").IsActive()) {
-      Lazy<Uniform<signed>>(prg_, "mtl_id").Set(mtl_id_);
-    }
-    
-    vao_.Bind();
-    
-    mesh_.Instructions().Draw(mesh_.Indices());
+    std::cout << cpu_stats_ << '\n'
+              << gpu_stats_ << '\n'
+              << '\n';
   }
-
+  
 } // namespace model {
