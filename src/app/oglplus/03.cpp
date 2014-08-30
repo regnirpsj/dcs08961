@@ -39,7 +39,6 @@
 
 #include <../common/glut.hpp>
 #include <../common/model.hpp>
-#include <../common/stats.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -62,8 +61,8 @@ namespace {
         tex_diffuse_     (),
         tex_envmap_      (),
         model_list_      (),
-        cpu_stats_       ("application03"),
-        gpu_stats_       ("application03")
+        cpu_stats_       ("app03:cpu"),
+        gpu_stats_       ("app03:gpu")
     {
       TRACE("<unnamed>::application::application");
 
@@ -217,8 +216,6 @@ namespace {
     virtual void frame_render_one()
     {
       TRACE("<unnamed>::application::frame_render_one");
-
-      stats::timer::reset_offset();
       
       {
         stats::guard const sgcpu(cpu_stats_);
@@ -239,13 +236,16 @@ namespace {
         }
       }
 
-      {
-        cpu_stats_.fetch();
-        gpu_stats_.fetch();
-    
-        std::cout << cpu_stats_ << '\n'
-                  << gpu_stats_ << '\n'
-                  << '\n';
+      if (window_.show_stats) {
+        std::cout << '\n';
+        
+        for (auto const& m : model_list_) {
+          model::mesh::stats_result_type const sm(m->fetch_stats());
+          
+          std::cout << sm.first << '\t' << sm.second << '\n';
+        }
+
+        std::cout << cpu_stats_.fetch() << '\t' << gpu_stats_.fetch() << '\n';
       }
     }
     

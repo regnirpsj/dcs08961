@@ -18,29 +18,26 @@
 
 // includes, system
 
-#include <boost/noncopyable.hpp> // boost::noncopyable
+#include <boost/noncopyable.hpp>   // boost::noncopyable
 
 // includes, project
 
 #include <support/chrono.hpp>
 #include <support/printable.hpp>
+#include <support/refcounted.hpp>
 
 namespace stats {
   
   // types, exported (class, enum, struct, union, typedef)
 
-  class base : public support::printable,
-               private boost::noncopyable {
+  class base : private boost::noncopyable {
 
   public:
-
+    
     virtual ~base();
     
     virtual void start() =0;
     virtual void stop () =0;
-    virtual void fetch();
-    
-    virtual void print_on(std::ostream&) const;
     
   protected:
 
@@ -67,17 +64,33 @@ namespace stats {
 
   public:
 
-    static support::timer::time_point reset_offset();
+    class result : public support::printable {
+
+    public:
+
+      std::string const              name;
+      support::timer::duration const start;
+      support::timer::duration const duration;
+
+      explicit result(std::string const&              /* name */,
+                      support::timer::duration const& /* start */,
+                      support::timer::duration const& /* duration */);
+      
+      virtual void print_on(std::ostream&) const;
+      
+    };
     
-    virtual void print_on(std::ostream&) const;
+    static support::timer::time_point reset_offset();
+
+    virtual result fetch();    
     
   protected:
 
     static support::timer::time_point offset_;
-    
+
     support::timer::duration start_;
     support::timer::duration duration_;
-
+    
     explicit timer(std::string const&);
     
   };
@@ -91,8 +104,6 @@ namespace stats {
 
     virtual void start();
     virtual void stop ();
-
-    virtual void print_on(std::ostream&) const;
     
   };
 
@@ -103,11 +114,9 @@ namespace stats {
     explicit gpu(std::string const&);
     virtual ~gpu();
 
-    virtual void start();
-    virtual void stop ();
-    virtual void fetch();
-
-    virtual void print_on(std::ostream&) const;
+    virtual void   start();
+    virtual void   stop ();
+    virtual result fetch();
 
   private:
 

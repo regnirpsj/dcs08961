@@ -55,7 +55,7 @@ namespace {
   {
     q.push_back(e);
 
-    if (q.size() > l) {
+    if (q.size() > (l + 1)) {
       q.pop_front();
     }
   }
@@ -186,7 +186,9 @@ namespace glut {
       mouseq_    (),
       camera_    ({ glm::mat4() }),
       projection_({ glm::mat4(), 60.0, glm::vec2(0.001, 1000.0) }),
-      window_    ({ -1, false, glm::ivec2(90,40), glm::ivec2(1440,900), false })
+      window_    ({ -1, false, glm::ivec2(90,40), glm::ivec2(1440,900), false }),
+      cpu_stats_ (nullptr),
+      gpu_stats_ (nullptr)
   {
     TRACE("glut::application::application");
 
@@ -262,7 +264,7 @@ namespace glut {
   {
     TRACE("glut::application::frame_render_post");
 
-    if (window_.show_stats && (1 < frameq_.size())) {  
+    if (window_.show_stats && (1 < frameq_.size())) {
       std::deque<support::clock::duration> durations;
 
       for (unsigned i(0); i < (frameq_.size() - 1); ++i) {
@@ -283,8 +285,9 @@ namespace glut {
                 << std::setw(4)
                 << std::setprecision(1)
                 << "fps: "   << (1.0 / std::chrono::duration_cast<dsec>(durations.back()).count())
-                << " (avg: " << (1.0 / std::chrono::duration_cast<dsec>(avg).count()) << ')'
-                << std::endl;
+                << " (avg(" << durations.size() << "): "
+                << (1.0 / std::chrono::duration_cast<dsec>(avg).count()) << ')'
+                << '\n';
     }
 
     ::glutSwapBuffers();
@@ -454,11 +457,30 @@ namespace glut {
   {
     TRACE("glut::application::display");
 
-    frame_render_pre ();
-    frame_render_one ();
-    frame_render_post();
-  }  
+    if (!cpu_stats_.get()) {
+      cpu_stats_.reset(new stats::cpu("glut:cpu"));
+    }
 
+    if (!gpu_stats_.get()) {
+      gpu_stats_.reset(new stats::gpu("glut:gpu"));
+    }
+
+    {
+      stats::timer::reset_offset();
+      
+      stats::guard const sgcpu(*cpu_stats_);
+      stats::guard const sggpu(*gpu_stats_);
+      
+      frame_render_pre ();
+      frame_render_one ();
+      frame_render_post();
+    }
+
+    if (window_.show_stats) {
+      std::cout << cpu_stats_->fetch() << '\t' << gpu_stats_->fetch() << '\n';
+    }
+  }
+  
   /* static */ void
   application::display_cb()
   {

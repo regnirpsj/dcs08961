@@ -25,6 +25,7 @@
 
 #include <support/application.hpp>
 #include <support/chrono.hpp>
+#include <stats.hpp>
 
 namespace oglplus {
 
@@ -96,6 +97,8 @@ namespace glut {
     camera_info_t               camera_;
     projection_info_t           projection_;
     window_info_t               window_;
+    std::unique_ptr<stats::cpu> cpu_stats_;
+    std::unique_ptr<stats::gpu> gpu_stats_;
     
     explicit application(int /* argc */, char* /* argv */[]);
     virtual ~application();

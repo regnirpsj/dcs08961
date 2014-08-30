@@ -24,6 +24,7 @@
 
 #include <glm/glm.hpp>
 #include <oglplus/interop/glm.hpp>
+#include <utility>
 
 // includes, project
 
@@ -36,14 +37,17 @@ namespace model {
   class mesh {
 
   public:
+
+    typedef std::pair<stats::timer::result, stats::timer::result> stats_result_type;
     
     explicit mesh(std::string const&, oglplus::Program&);
 
     glm::mat4 const& xform() const;
     glm::mat4        xform(glm::mat4 const&);
     
-    void draw();
-
+    void              draw();
+    stats_result_type fetch_stats();
+    
   private:
 
     oglplus::Program&        prg_;

@@ -52,7 +52,7 @@ namespace stats {
   /* static */ support::timer::time_point timer::offset_(support::clock::now());
   
   // functions, exported
-
+  
   /* virtual */
   base::~base()
   {
@@ -75,24 +75,9 @@ namespace stats {
     throw std::logic_error("pure virtual function 'stats::base::stop' called");
   }
 
-  /* virtual */ void
-  base::fetch()
-  {
-    TRACE("stats::base::fetch");
-  }
-
-  /* virtual */ void
-  base::print_on(std::ostream& os) const
-  {
-    TRACE_NEVER("stats::base::print_on");
-
-    os << '[' << name_ << ']';
-  }
-
   /* explicit */
   base::base(std::string const& a)
-    : support::printable(),
-      boost::noncopyable(),
+    : boost::noncopyable(),
       name_             (a)
   {
     TRACE("stats::base::base");
@@ -115,6 +100,33 @@ namespace stats {
     stats_.stop();
   }
 
+  /* explicit */
+  timer::result::result(std::string const& a, support::timer::duration const& b,
+                        support::timer::duration const& c)
+    : name    (a),
+      start   (b),
+      duration(c)
+  {
+    TRACE("stats::timer::result::result");
+  }
+  
+  /* virtual */ void
+  timer::result::print_on(std::ostream& os) const
+  {
+    TRACE_NEVER("stats::timer::result::print_on");
+
+    using namespace std::chrono;
+    
+    os << '['
+       << std::string(20 - name.length(), ' ') << name
+       << ",@"
+       << duration_fmt(symbol) << std::fixed << std::right
+       << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(start)
+       << " + "
+       << std::setw(6) << std::setfill(' ') << duration_cast<microseconds>(duration)
+       << ']';
+  }
+  
   /* static */ support::timer::time_point
   timer::reset_offset()
   {
@@ -126,28 +138,20 @@ namespace stats {
 
     return result;
   }  
-  
-  /* virtual */ void
-  timer::print_on(std::ostream& os) const
+
+  /* virtual */ timer::result
+  timer::fetch()
   {
-    TRACE_NEVER("stats::timer::print_on");
+    TRACE("stats::timer::fetch");
 
-    base::print_on(os);
-
-    using namespace std::chrono;
-    
-    os << "\b,@"
-       << duration_fmt(symbol) << std::fixed << std::right
-       << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(start_)
-       << " + "
-       << std::setw(6) << std::setfill(' ') << duration_cast<microseconds>(duration_) << ']';
+    return result(name_, start_, duration_);
   }
   
   /* explicit */
   timer::timer(std::string const& a)
     : base     (a),
       start_   (support::clock::now() - offset_),
-      duration_()
+      duration_(std::chrono::nanoseconds(0))
   {
     TRACE("stats::timer::timer");
   }
@@ -179,14 +183,6 @@ namespace stats {
     TRACE("stats::cpu::stop");
 
     duration_ = support::clock::now() - offset_ - start_;
-  }
-
-  /* virtual */ void
-  cpu::print_on(std::ostream& os) const
-  {
-    TRACE_NEVER("stats::cpu::print_on");
-
-    timer::print_on(os); os << "\b,cpu]";
   }
 
   /* explicit */
@@ -235,7 +231,7 @@ namespace stats {
     ::glQueryCounter(id_query_stop_, GL_TIMESTAMP);
   }
 
-  /* virtual */ void
+  /* virtual */ timer::result
   gpu::fetch()
   {
     TRACE("stats::gpu::fetch");
@@ -248,14 +244,8 @@ namespace stats {
 
     start_    += std::chrono::nanoseconds(offset);
     duration_  = std::chrono::nanoseconds(stop - start);
-  }
 
-  /* virtual */ void
-  gpu::print_on(std::ostream& os) const
-  {
-    TRACE_NEVER("stats::gpu::print_on");
-
-    timer::print_on(os); os << "\b,gpu]";
+    return timer::fetch();
   }
     
 } // namespace stats {

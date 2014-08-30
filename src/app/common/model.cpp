@@ -96,8 +96,8 @@ namespace model {
       tcoords_     (),
       xform_       (),
       mtl_id_      (-1),
-      cpu_stats_   (a),
-      gpu_stats_   (a)
+      cpu_stats_   (boost::filesystem::path(a).stem().string() + ":cpu"),
+      gpu_stats_   (boost::filesystem::path(a).stem().string() + ":gpu")
   {
     TRACE("model::mesh::mesh");
 
@@ -174,33 +174,32 @@ namespace model {
   {
     TRACE("model::mesh::draw");
     
-    {
-      stats::guard const sgcpu(cpu_stats_);
-      stats::guard const sggpu(gpu_stats_);
+    stats::guard const sgcpu(cpu_stats_);
+    stats::guard const sggpu(gpu_stats_);
       
-      using namespace oglplus;
+    using namespace oglplus;
 
-      prg_.Use();
+    prg_.Use();
     
-      if (Uniform<glm::mat4>(prg_, "xform_model").IsActive()) {
-        Uniform<glm::mat4>(prg_, "xform_model").Set(xform_);
-      }
-    
-      if (Lazy<Uniform<signed>>(prg_, "mtl_id").IsActive()) {
-        Lazy<Uniform<signed>>(prg_, "mtl_id").Set(mtl_id_);
-      }
-      
-      vao_.Bind();
-      
-      mesh_.Instructions().Draw(mesh_.Indices());
+    if (Uniform<glm::mat4>(prg_, "xform_model").IsActive()) {
+      Uniform<glm::mat4>(prg_, "xform_model").Set(xform_);
     }
     
-    cpu_stats_.fetch();
-    gpu_stats_.fetch();
+    if (Lazy<Uniform<signed>>(prg_, "mtl_id").IsActive()) {
+      Lazy<Uniform<signed>>(prg_, "mtl_id").Set(mtl_id_);
+    }
+      
+    vao_.Bind();
+      
+    mesh_.Instructions().Draw(mesh_.Indices());
+  }
+
+  mesh::stats_result_type
+  mesh::fetch_stats()
+  {
+    TRACE("model::mesh::fetch_stats");
     
-    std::cout << cpu_stats_ << '\n'
-              << gpu_stats_ << '\n'
-              << '\n';
+    return std::make_pair(cpu_stats_.fetch(), gpu_stats_.fetch());
   }
   
 } // namespace model {
