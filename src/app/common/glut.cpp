@@ -286,7 +286,7 @@ namespace glut {
                 << " (avg: " << (1.0 / std::chrono::duration_cast<dsec>(avg).count()) << ')'
                 << std::endl;
     }
-    
+
     ::glutSwapBuffers();
     
     if (!frameq_.empty()) {
@@ -307,7 +307,7 @@ namespace glut {
   application::frame_render_pre()
   {
     TRACE("glut::application::frame_render_pre");
-
+    
     frame_info_t current({ 1, support::clock::now(), std::chrono::nanoseconds(0) });
 
     if (!frameq_.empty()) {

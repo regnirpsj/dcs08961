@@ -97,7 +97,6 @@ namespace glut {
     projection_info_t           projection_;
     window_info_t               window_;
     
-    
     explicit application(int /* argc */, char* /* argv */[]);
     virtual ~application();
     
