@@ -39,6 +39,7 @@
 
 #include <../common/glut.hpp>
 #include <../common/model.hpp>
+#include <../common/stats.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -60,7 +61,9 @@ namespace {
         prg_             (),
         tex_diffuse_     (),
         tex_envmap_      (),
-        model_list_      ()
+        model_list_      (),
+        cpu_stats_       ("application03"),
+        gpu_stats_       ("application03")
     {
       TRACE("<unnamed>::application::application");
 
@@ -215,18 +218,34 @@ namespace {
     {
       TRACE("<unnamed>::application::frame_render_one");
 
-      using namespace oglplus;
+      stats::timer::reset_offset();
       
-      ctx_.Clear().ColorBuffer().DepthBuffer();
+      {
+        stats::guard const sgcpu(cpu_stats_);
+        stats::guard const sggpu(gpu_stats_);
+        
+        using namespace oglplus;
+      
+        ctx_.Clear().ColorBuffer().DepthBuffer();
 
-      // view
-      if (Uniform<glm::mat4>(prg_, "xform_view").IsActive()) {
-        Uniform<glm::mat4>(prg_, "xform_view").Set(glm::inverse(camera_.xform));
-      }
+        // view
+        if (Uniform<glm::mat4>(prg_, "xform_view").IsActive()) {
+          Uniform<glm::mat4>(prg_, "xform_view").Set(glm::inverse(camera_.xform));
+        }
       
-      // model(s)
-      for (auto const& m : model_list_) {
-        m->draw();
+        // model(s)
+        for (auto const& m : model_list_) {
+          m->draw();
+        }
+      }
+
+      {
+        cpu_stats_.fetch();
+        gpu_stats_.fetch();
+    
+        std::cout << cpu_stats_ << '\n'
+                  << gpu_stats_ << '\n'
+                  << '\n';
       }
     }
     
@@ -258,6 +277,8 @@ namespace {
     oglplus::Texture     tex_diffuse_;
     oglplus::Texture     tex_envmap_;
     model_mesh_list_type model_list_;
+    stats::cpu           cpu_stats_;
+    stats::gpu           gpu_stats_;
     
   };
   

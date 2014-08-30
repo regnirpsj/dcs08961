@@ -39,14 +39,14 @@ namespace stats {
     virtual void start() =0;
     virtual void stop () =0;
     virtual void fetch();
-
+    
     virtual void print_on(std::ostream&) const;
     
   protected:
 
-    explicit base(std::string const&);
-
     std::string name_;
+    
+    explicit base(std::string const&);
     
   };
 
@@ -62,8 +62,27 @@ namespace stats {
     base& stats_;
     
   };
+
+  class timer : public base {
+
+  public:
+
+    static support::timer::time_point reset_offset();
+    
+    virtual void print_on(std::ostream&) const;
+    
+  protected:
+
+    static support::timer::time_point offset_;
+    
+    support::timer::duration start_;
+    support::timer::duration duration_;
+
+    explicit timer(std::string const&);
+    
+  };
   
-  class cpu : public base {
+  class cpu : public timer {
 
   public:
 
@@ -74,15 +93,10 @@ namespace stats {
     virtual void stop ();
 
     virtual void print_on(std::ostream&) const;
-
-  private:
-    
-    support::timer::duration start_;
-    support::timer::duration duration_;
     
   };
 
-  class gpu : public base {
+  class gpu : public timer {
 
   public:
 
@@ -97,11 +111,9 @@ namespace stats {
 
   private:
 
-    unsigned                 id_query_offset_;
-    unsigned                 id_query_start_;
-    unsigned                 id_query_stop_;
-    support::timer::duration start_;
-    support::timer::duration duration_;
+    unsigned id_query_offset_;
+    unsigned id_query_start_;
+    unsigned id_query_stop_;
     
   };
   

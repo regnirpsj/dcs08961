@@ -40,8 +40,6 @@ namespace {
   // types, internal (class, enum, struct, union, typedef)
 
   // variables, internal
-
-  support::timer::time_point const cpu_offset(support::clock::now());
   
   // functions, internal
 
@@ -50,6 +48,8 @@ namespace {
 namespace stats {
   
   // variables, exported
+
+  /* static */ support::timer::time_point timer::offset_(support::clock::now());
   
   // functions, exported
 
@@ -115,11 +115,46 @@ namespace stats {
     stats_.stop();
   }
 
+  /* static */ support::timer::time_point
+  timer::reset_offset()
+  {
+    TRACE("stats::timer::reset_offset");
+
+    support::timer::time_point const result(offset_);
+    
+    offset_ = support::clock::now();
+
+    return result;
+  }  
+  
+  /* virtual */ void
+  timer::print_on(std::ostream& os) const
+  {
+    TRACE_NEVER("stats::timer::print_on");
+
+    base::print_on(os);
+
+    using namespace std::chrono;
+    
+    os << "\b,@"
+       << duration_fmt(symbol) << std::fixed << std::right
+       << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(start_)
+       << " + "
+       << std::setw(6) << std::setfill(' ') << duration_cast<microseconds>(duration_) << ']';
+  }
+  
+  /* explicit */
+  timer::timer(std::string const& a)
+    : base     (a),
+      start_   (support::clock::now() - offset_),
+      duration_()
+  {
+    TRACE("stats::timer::timer");
+  }
+  
   /* explicit */
   cpu::cpu(std::string const& a)
-    : base     (a),
-      start_   (support::clock::now() - cpu_offset),
-      duration_()
+    : timer(a)
   {
     TRACE("stats::cpu::cpu");
   }
@@ -135,7 +170,7 @@ namespace stats {
   {
     TRACE("stats::cpu::start");
 
-    start_ = support::clock::now() - cpu_offset;
+    start_ = support::clock::now() - offset_;
   }
 
   /* virtual */ void
@@ -143,33 +178,23 @@ namespace stats {
   {
     TRACE("stats::cpu::stop");
 
-    duration_ = support::clock::now() - cpu_offset - start_;
+    duration_ = support::clock::now() - offset_ - start_;
   }
 
   /* virtual */ void
   cpu::print_on(std::ostream& os) const
   {
-    TRACE_NEVER("stats::");
+    TRACE_NEVER("stats::cpu::print_on");
 
-    base::print_on(os);
-
-    using namespace std::chrono;
-    
-    os << "\b,cpu:@"
-       << duration_fmt(symbol) << std::fixed << std::right
-       << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(start_)
-       << " + "
-       << std::setw(6) << std::setfill(' ') << duration_cast<microseconds>(duration_) << ']';
+    timer::print_on(os); os << "\b,cpu]";
   }
 
   /* explicit */
   gpu::gpu(std::string const& a)
-    : base(a),
+    : timer           (a),
       id_query_offset_(-1),
       id_query_start_ (-1),
-      id_query_stop_  (-1),
-      start_          (),
-      duration_       ()
+      id_query_stop_  (-1)
   {
     TRACE("stats::gpu::gpu");
 
@@ -195,7 +220,7 @@ namespace stats {
       
     ::glBeginQuery(GL_TIME_ELAPSED, id_query_offset_);
     {
-      start_ = support::clock::now() - cpu_offset;
+      start_ = support::clock::now() - offset_;
     
       ::glQueryCounter(id_query_start_, GL_TIMESTAMP);
     }
@@ -230,15 +255,7 @@ namespace stats {
   {
     TRACE_NEVER("stats::gpu::print_on");
 
-    base::print_on(os);
-
-    using namespace std::chrono;
-    
-    os << "\b,gpu:@"
-       << duration_fmt(symbol) << std::fixed << std::right
-       << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(start_)
-       << " + "
-       << std::setw(6) << std::setfill(' ') << duration_cast<microseconds>(duration_) << ']';
+    timer::print_on(os); os << "\b,gpu]";
   }
     
 } // namespace stats {
