@@ -50,7 +50,7 @@ namespace stats {
   
   // variables, exported
 
-  /* static */ support::timer::time_point timer::offset_(support::clock::now());
+  /* static */ support::timer::duration timer::offset(support::clock::now().time_since_epoch());
   
   // functions, exported
   
@@ -102,7 +102,7 @@ namespace stats {
   }
 
   /* explicit */
-  timer::result::result(std::string const& a, support::timer::duration const& b,
+  timer::result::result(std::string const& a, support::timer::time_point const& b,
                         support::timer::duration const& c)
     : name    (a),
       start   (b),
@@ -122,24 +122,20 @@ namespace stats {
        << std::string(20 - name.length(), ' ') << name
        << ",@"
        << duration_fmt(symbol) << std::fixed << std::right
-       << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(start)
+       << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(start.time_since_epoch())
        << " + "
        << std::setw(6) << std::setfill(' ') << duration_cast<microseconds>(duration)
        << ']';
-  }
-  
-  /* static */ support::timer::time_point
+  }  
+
+  /* static */ support::timer::duration
   timer::reset_offset()
   {
     TRACE("stats::timer::reset_offset");
-
-    support::timer::time_point const result(offset_);
     
-    offset_ = support::clock::now();
-
-    return result;
-  }  
-
+    return offset = support::clock::now().time_since_epoch();
+  }
+  
   /* virtual */ timer::result
   timer::fetch()
   {
@@ -151,7 +147,7 @@ namespace stats {
   /* explicit */
   timer::timer(std::string const& a)
     : base     (a),
-      start_   (support::clock::now() - offset_),
+      start_   (support::clock::now() - offset),
       duration_(std::chrono::nanoseconds(0))
   {
     TRACE("stats::timer::timer");
@@ -175,7 +171,7 @@ namespace stats {
   {
     TRACE("stats::cpu::start");
 
-    start_ = support::clock::now() - offset_;
+    start_ = support::clock::now() - offset;
   }
 
   /* virtual */ void
@@ -183,9 +179,9 @@ namespace stats {
   {
     TRACE("stats::cpu::stop");
 
-    duration_ = support::clock::now() - offset_ - start_;
+    duration_ = support::clock::now() - offset - start_;
   }
-
+  
   /* explicit */
   gpu::gpu(std::string const& a)
     : timer           (a),
@@ -214,7 +210,7 @@ namespace stats {
 
     oglplus::Sync().Wait();
     
-    start_ = support::clock::now() - offset_;
+    start_ = support::clock::now() - offset;
 
     ::glQueryCounter(id_query_start_, GL_TIMESTAMP);
   }
@@ -237,7 +233,7 @@ namespace stats {
     
     ::glGetQueryObjectui64v(id_query_start_, GL_QUERY_RESULT, &start);
     ::glGetQueryObjectui64v(id_query_stop_,  GL_QUERY_RESULT, &stop);
-    
+
     duration_ = std::chrono::nanoseconds(stop - start);
     
     return timer::fetch();

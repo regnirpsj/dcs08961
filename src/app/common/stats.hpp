@@ -24,7 +24,6 @@
 
 #include <support/chrono.hpp>
 #include <support/printable.hpp>
-#include <support/refcounted.hpp>
 
 namespace stats {
   
@@ -68,28 +67,28 @@ namespace stats {
 
     public:
 
-      std::string const              name;
-      support::timer::duration const start;
-      support::timer::duration const duration;
+      std::string const                name;
+      support::timer::time_point const start;
+      support::timer::duration const   duration;
 
-      explicit result(std::string const&              /* name */,
-                      support::timer::duration const& /* start */,
-                      support::timer::duration const& /* duration */);
+      explicit result(std::string const&                /* name */,
+                      support::timer::time_point const& /* start */,
+                      support::timer::duration const&   /* duration */);
       
       virtual void print_on(std::ostream&) const;
       
     };
-    
-    static support::timer::time_point reset_offset();
 
+    static support::timer::duration reset_offset();
+    
     virtual result fetch();    
     
   protected:
 
-    static support::timer::time_point offset_;
+    static support::timer::duration offset;
 
-    support::timer::duration start_;
-    support::timer::duration duration_;
+    support::timer::time_point start_;
+    support::timer::duration   duration_;
     
     explicit timer(std::string const&);
     
@@ -98,7 +97,7 @@ namespace stats {
   class cpu : public timer {
 
   public:
-
+    
     explicit cpu(std::string const&);
     virtual ~cpu();
 
@@ -110,7 +109,7 @@ namespace stats {
   class gpu : public timer {
 
   public:
-
+    
     explicit gpu(std::string const&);
     virtual ~gpu();
 
@@ -119,7 +118,7 @@ namespace stats {
     virtual result fetch();
 
   private:
-
+    
     unsigned id_query_start_;
     unsigned id_query_stop_;
     

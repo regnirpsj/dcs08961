@@ -237,8 +237,6 @@ namespace {
       }
 
       if (window_.show_stats) {
-        std::cout << '\n';
-        
         for (auto const& m : model_list_) {
           model::mesh::stats_result_type const sm(m->fetch_stats());
           

@@ -477,7 +477,7 @@ namespace glut {
     }
 
     if (window_.show_stats) {
-      std::cout << cpu_stats_->fetch() << '\t' << gpu_stats_->fetch() << '\n';
+      std::cout << cpu_stats_->fetch() << '\t' << gpu_stats_->fetch() << "\n\n";
     }
   }
   
