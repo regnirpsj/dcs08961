@@ -89,4 +89,6 @@ BOOST_AUTO_TEST_CASE(test_support_trace)
   dynamic_init_test dynamic_init_test_instance;
   
   test_func();
+
+  BOOST_CHECK(true);
 }
