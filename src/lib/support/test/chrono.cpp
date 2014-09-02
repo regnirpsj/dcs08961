@@ -40,7 +40,7 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_support_clock)
 {
-  static unsigned const width(7);
+  static unsigned const width(15);
   
   using namespace support;
   
@@ -52,10 +52,14 @@ BOOST_AUTO_TEST_CASE(test_support_clock)
   BOOST_TEST_MESSAGE("clock resolution:\t"
                      << std::right << std::setw(width)
                      << std::chrono::duration_fmt(std::chrono::symbol) << clock::resolution);
-
+  
   BOOST_TEST_MESSAGE("clock now:\t\t"
                      << std::right << std::setw(width)
                      << clock::now());
+
+  BOOST_TEST_MESSAGE("iso8601 datetime:\t"
+                     << std::right << std::setw(width)
+                     << date_time_iso8601());
 }
 
 BOOST_AUTO_TEST_CASE(test_support_timer)
@@ -104,18 +108,20 @@ BOOST_AUTO_TEST_CASE(test_support_sleep)
     }
   };
 
-  timer const t;
+  timer t;
 
   typedef duration<double> dsec;
 
   BOOST_MESSAGE(duration_fmt(symbol));
   
   for (auto d : duration_list) {
-    BOOST_TEST_MESSAGE(std::string(10, '-') << "start testing "
+    BOOST_TEST_MESSAGE(std::string(10, '-') << " start testing "
                        << std::fixed << std::right << std::setfill(' ')
                        << duration_cast<dsec>(d));
     
     for (unsigned loop(0); loop < 2; ++loop) {
+      t.reset();
+      
       clock::duration const start(t.lapse());
       {
         sleep(d);
@@ -128,7 +134,7 @@ BOOST_AUTO_TEST_CASE(test_support_sleep)
                          << duration_cast<dsec>(stop - start));
     }
 
-    BOOST_TEST_MESSAGE(std::string(10, '-') << "stop testing "
+    BOOST_TEST_MESSAGE(std::string(10, '-') << " stop testing "
                        << std::fixed << std::right << std::setfill(' ')
                        << duration_cast<dsec>(d)
                        << " (" << std::fixed << d << ')');
