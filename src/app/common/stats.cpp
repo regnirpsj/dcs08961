@@ -22,6 +22,7 @@
 
 #include <cstdint>   // std::uint_least64_t
 #include <iomanip>   // std::setfill
+#include <oglplus/sync.hpp>
 #include <ostream>   // std::ostream
 #include <stdexcept> // std::logic_error
 
@@ -188,13 +189,11 @@ namespace stats {
   /* explicit */
   gpu::gpu(std::string const& a)
     : timer           (a),
-      id_query_offset_(-1),
       id_query_start_ (-1),
       id_query_stop_  (-1)
   {
     TRACE("stats::gpu::gpu");
 
-    ::glGenQueries(1, &id_query_offset_);
     ::glGenQueries(1, &id_query_start_);
     ::glGenQueries(1, &id_query_stop_);
   }
@@ -206,21 +205,18 @@ namespace stats {
 
     ::glDeleteQueries(1, &id_query_stop_);
     ::glDeleteQueries(1, &id_query_start_);
-    ::glDeleteQueries(1, &id_query_offset_);
   }
-
+  
   /* virtual */ void
   gpu::start()
   {
     TRACE("stats::gpu::start");
-      
-    ::glBeginQuery(GL_TIME_ELAPSED, id_query_offset_);
-    {
-      start_ = support::clock::now() - offset_;
+
+    oglplus::Sync().Wait();
     
-      ::glQueryCounter(id_query_start_, GL_TIMESTAMP);
-    }
-    ::glEndQuery(GL_TIME_ELAPSED);
+    start_ = support::clock::now() - offset_;
+
+    ::glQueryCounter(id_query_start_, GL_TIMESTAMP);
   }
 
   /* virtual */ void
@@ -235,16 +231,15 @@ namespace stats {
   gpu::fetch()
   {
     TRACE("stats::gpu::fetch");
-
-    std::uint_least64_t offset(-1), start(-1), stop(-1);
-
-    ::glGetQueryObjectui64v(id_query_offset_, GL_QUERY_RESULT, &offset);
-    ::glGetQueryObjectui64v(id_query_start_,  GL_QUERY_RESULT, &start);
-    ::glGetQueryObjectui64v(id_query_stop_,   GL_QUERY_RESULT, &stop);
-
-    start_    += std::chrono::nanoseconds(offset);
-    duration_  = std::chrono::nanoseconds(stop - start);
-
+    
+    std::uint_least64_t start(-1);
+    std::uint_least64_t stop (-1);
+    
+    ::glGetQueryObjectui64v(id_query_start_, GL_QUERY_RESULT, &start);
+    ::glGetQueryObjectui64v(id_query_stop_,  GL_QUERY_RESULT, &stop);
+    
+    duration_ = std::chrono::nanoseconds(stop - start);
+    
     return timer::fetch();
   }
     

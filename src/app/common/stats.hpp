@@ -120,7 +120,6 @@ namespace stats {
 
   private:
 
-    unsigned id_query_offset_;
     unsigned id_query_start_;
     unsigned id_query_stop_;
     
