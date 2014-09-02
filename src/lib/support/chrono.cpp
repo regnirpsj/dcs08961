@@ -283,7 +283,7 @@ namespace support {
     return time_point(std::chrono::seconds    (now.tv_sec) +
                       std::chrono::nanoseconds(now.tv_nsec));
   }
-
+  
   /* explicit */
   timer::timer()
     : boost::noncopyable(),
@@ -308,7 +308,7 @@ namespace support {
   void
   sleep(clock::duration const& a)
   {
-#if defined(_WIN32)
+#if 1 // defined(_WIN32)
     {
       timer           t1;
       timer           t2;
@@ -333,7 +333,7 @@ namespace support {
       
       timespec remain { 0, 0 };
       
-      while (0 != ::nanosleep(&request, &remain)) {
+      while (0 != ::clock_nanosleep(CLOCK_MONOTONIC, 0, &request, &remain)) {
         request = remain;
       }
     }
@@ -358,10 +358,10 @@ namespace support {
 
     return result;
   }
-
+  
   namespace {
 
-    static clock::time_point const null(clock::now().time_since_epoch());
+    clock::time_point const null(clock::now().time_since_epoch());
     
   }
   
