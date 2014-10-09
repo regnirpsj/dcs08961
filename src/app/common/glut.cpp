@@ -180,7 +180,7 @@ namespace glut {
   /* explicit */
   application::application(int argc, char* argv[])
     : inherited  (argc, argv),
-      queue_max_ (4),
+      queue_max_ (1),
       frameq_    (),
       keyboardq_ (),
       mouseq_    (),
@@ -258,38 +258,43 @@ namespace glut {
 
     throw std::logic_error("pure virtual function 'glut::application::frame_render_one' called");
   }
+
+  namespace {
+
+    float fps_cma(0.0);
+    
+  }
   
   /* virtual */ void
   application::frame_render_post()
   {
     TRACE("glut::application::frame_render_post");
 
+    typedef std::chrono::duration<double> dsec;
+      
+    if (1 < frameq_.size()) {
+      unsigned const last(frameq_.size() - 1);
+      
+      fps_cma = (((1.0 / std::chrono::duration_cast<dsec>(frameq_[last].stamp -
+                                                          frameq_[last-1].stamp).count()) +
+                  (frameq_[last-1].counter * fps_cma)) /
+                 frameq_[last].counter);
+    }
+    
     if (window_.show_stats && (1 < frameq_.size())) {
-      std::deque<support::clock::duration> durations;
-
-      for (unsigned i(0); i < (frameq_.size() - 1); ++i) {
-        // unfortunately, 'std::adjacent_difference' will not work because it would require to
-        // assign a timepoint to a duration (for the first element)
-        durations.push_back(frameq_[i+1].stamp - frameq_[i].stamp);
-      }
-
-      support::clock::duration const avg(std::accumulate(durations.begin(), durations.end(),
-                                                         std::chrono::nanoseconds(0)) /
-                                         durations.size());
-
-      typedef std::chrono::duration<double> dsec;
-        
+      unsigned const last   (frameq_.size() - 1);
+      float const    fps_now(1.0 / std::chrono::duration_cast<dsec>(frameq_[last].stamp -
+                                                                    frameq_[last-1].stamp).count());
+      
       std::cout << std::right
                 << std::fixed
                 << std::setfill(' ')
                 << std::setw(4)
-                << std::setprecision(1)
-                << "fps: "   << (1.0 / std::chrono::duration_cast<dsec>(durations.back()).count())
-                << " (avg(" << durations.size() << "): "
-                << (1.0 / std::chrono::duration_cast<dsec>(avg).count()) << ')'
+                << std::setprecision(2)
+                << "fps: " << fps_now << " (avg(cma): " << fps_cma << ')'
                 << '\n';
     }
-
+      
     ::glutSwapBuffers();
     
     if (!frameq_.empty()) {
