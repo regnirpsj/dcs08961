@@ -18,7 +18,6 @@
 
 // includes, system
 
-#include <list>   // std::list<>
 #include <string> // std::string
 
 // includes, project
