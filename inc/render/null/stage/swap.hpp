@@ -28,11 +28,24 @@ namespace render {
 
   namespace null {
 
+    class context;
+    
     namespace stage {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      typedef base::stage::swap swap;
+      class swap : public base::stage::swap {
+
+      public:
+
+        explicit swap(context&);
+        virtual ~swap();
+
+      protected:
+        
+        virtual void do_execute();
+        
+      };      
     
       // variables, exported (extern)
 

@@ -32,17 +32,35 @@ namespace render {
   
       // types, exported (class, enum, struct, union, typedef)
 
-      class gpu : public base {
+      class gpu : virtual public base {
 
       public:
 
+        class data : virtual public base::data {
+
+        public:
+          
+          virtual ~data();
+        
+          virtual data& operator+=(data const&);
+
+          virtual void print_on(std::ostream&) const;
+        
+        };
+        
+        explicit gpu(context&);
         virtual ~gpu();
+
+        virtual std::unique_ptr<base::data> fetch() const;
         
         virtual void print_on(std::ostream&) const;
 
       protected:
 
-        virtual void update() const;
+        virtual void start ();
+        virtual void stop  ();
+        virtual bool done  ();
+        virtual void update(bool /* force update */ = false);
         
       };
       

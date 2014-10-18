@@ -36,13 +36,12 @@ namespace render {
 
       public:
 
+        explicit draw(context&, statistics::base&);
         virtual ~draw();
 
         virtual void execute();
       
         virtual void print_on(std::ostream&) const;
-
-      private:
       
       };
     

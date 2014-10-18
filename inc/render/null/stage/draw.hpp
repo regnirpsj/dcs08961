@@ -28,11 +28,24 @@ namespace render {
 
   namespace null {
 
+    class context;
+    
     namespace stage {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      typedef base::stage::draw draw;
+      class draw : public base::stage::draw {
+
+      public:
+
+        explicit draw(context&);
+        virtual ~draw();
+
+      protected:
+        
+        virtual void do_execute();
+        
+      };
     
       // variables, exported (extern)
 

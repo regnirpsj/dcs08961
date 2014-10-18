@@ -22,7 +22,8 @@
 
 // includes, project
 
-//#include <>
+#include <render/null/context.hpp>
+#include <statistics.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -46,9 +47,30 @@ namespace render {
 
     namespace stage {
       
-    // variables, exported
+      // variables, exported
   
-    // functions, exported
+      // functions, exported
+
+      /* explicit */
+      clear::clear(context& a)
+        : render::base::stage::clear(a, stats::default_stats)
+      {
+        TRACE("render::null:stage::clear::clear");
+      }
+      
+      /* virtual */
+      clear::~clear()
+      {
+        TRACE("render::null:stage::clear::~clear");
+      }
+
+      /* virtual */ void
+      clear::do_execute()
+      {
+        TRACE("render::null:stage::clear::do_execute");
+        
+        render::base::stage::clear::do_execute();
+      }
 
     } // namespace stage {
     

@@ -19,6 +19,7 @@
 // includes, system
 
 #include <boost/noncopyable.hpp> // boost::noncopyable
+#include <memory>                // std::unique_ptr<>
 
 // includes, project
 
@@ -29,28 +30,47 @@ namespace render {
 
   namespace base {
 
+    class context;
+    
     namespace statistics {
   
       // types, exported (class, enum, struct, union, typedef)
-
+      
       class base : private boost::noncopyable,
                    public support::printable {
 
       public:
 
+        class data : public support::printable {
+
+        public:
+
+          virtual ~data();
+        
+          virtual data& operator+=(data const&);
+
+          virtual void print_on(std::ostream&) const;
+        
+        };
+        
         virtual ~base() =0;
 
-        /* data fetch() const; */
+        virtual std::unique_ptr<data> fetch() const;
         
         virtual void print_on(std::ostream&) const;
 
       protected:
 
         friend class guard;
-        
-        explicit base();
 
-        virtual void update() const;
+        bool updated_;
+        
+        explicit base(context&);
+
+        virtual void start ();
+        virtual void stop  ();
+        virtual bool done  ();
+        virtual void update(bool /* force update */ = false);
         
       };
 
@@ -63,9 +83,8 @@ namespace render {
 
       private:
 
-        base&          stats_;
-        bool           enabled_;
-        support::timer timer_;
+        base& stats_;
+        bool  enabled_;
 
       };
       

@@ -17,6 +17,9 @@ LIST(APPEND SRC "pass/container.cpp")
 LIST(APPEND SRC "stage/clear.cpp")
 LIST(APPEND SRC "stage/draw.cpp")
 LIST(APPEND SRC "stage/swap.cpp")
+LIST(APPEND SRC "statistics.cpp")
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
 SET(LIBS)
 LIST(APPEND LIBS render)

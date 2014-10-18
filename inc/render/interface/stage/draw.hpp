@@ -38,7 +38,11 @@ namespace render {
       typedef typename api::traits<A>::draw inherited;
 
       static api::type const api_type;
-    
+
+      explicit draw(context<A>& a)
+        : inherited(a)
+      {}
+      
     };
 
     template <api::type A> /* static */ api::type const draw<A>::api_type = A;

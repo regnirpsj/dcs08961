@@ -27,7 +27,7 @@
 #include <support/type_info.hpp>
 
 #define UKACHULLDCS_USE_TRACE
-// #undef UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 // internal unnamed namespace

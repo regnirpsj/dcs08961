@@ -50,6 +50,13 @@ namespace render {
   
       // functions, exported
 
+      /* explicit */
+      clear::clear(context& a, statistics::base& b)
+        : base(a, b)
+      {
+        TRACE("render::base::stage::clear::clear");
+      }
+      
       /* virtual */
       clear::~clear()
       {

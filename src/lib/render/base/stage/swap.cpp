@@ -50,6 +50,13 @@ namespace render {
   
       // functions, exported
 
+      /* explicit */
+      swap::swap(context& a, statistics::base& b)
+        : base(a, b)
+      {
+        TRACE("render::base::stage::swap::swap");
+      }
+      
       /* virtual */
       swap::~swap()
       {

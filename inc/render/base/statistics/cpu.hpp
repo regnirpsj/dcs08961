@@ -32,17 +32,43 @@ namespace render {
   
       // types, exported (class, enum, struct, union, typedef)
 
-      class cpu : public base {
+      class cpu : virtual public base {
 
       public:
 
+        class data : virtual public base::data {
+
+        public:
+
+          float  rate_in_hz;
+          double time_in_ns;
+          
+          virtual ~data();
+        
+          virtual data& operator+=(data const&);
+
+          virtual void print_on(std::ostream&) const;
+        
+        };
+        
+        explicit cpu(context&);
         virtual ~cpu();
+
+        virtual std::unique_ptr<base::data> fetch() const;
         
         virtual void print_on(std::ostream&) const;
 
       protected:
 
-        virtual void update() const;
+        support::timer           rate_timer_;
+        support::timer::duration rate_;
+        support::timer           stamp_timer_;
+        support::timer::duration stamp_;
+        
+        virtual void start ();
+        virtual void stop  ();
+        virtual bool done  ();
+        virtual void update(bool /* force update */ = false);
         
       };
       

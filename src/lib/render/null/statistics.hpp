@@ -6,57 +6,74 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/interface/stage/swap.hpp                                                 */
+/*  module     :  render/null/statistics.hpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_STAGE_SWAP_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_NULL_STATISTICS_HPP)
 
-#define UKACHULLDCS_08961_RENDER_INTERFACE_STAGE_SWAP_HPP
+#define UKACHULLDCS_08961_RENDER_NULL_STATISTICS_HPP
 
 // includes, system
 
-//#include <>
+// #include <>
 
 // includes, project
 
-#include <render/api.hpp>
+#include <render/base/statistics.hpp>
 
 namespace render {
 
-  template <api::type> class context;
+  namespace null {
   
-  namespace stage {
-    
     // types, exported (class, enum, struct, union, typedef)
 
-    template <api::type A>
-    class swap : public api::traits<A>::swap {
+    class stats : public render::base::statistics::cpu,
+                  public render::base::statistics::gpu {
 
     public:
 
-      typedef typename api::traits<A>::swap inherited;
+      static stats default_stats;
 
-      static api::type const api_type;
+      class data : public render::base::statistics::cpu::data,
+                   public render::base::statistics::gpu::data {
+        
+      public:
+          
+        virtual ~data();
+        
+        virtual data& operator+=(data const&);
+        
+        virtual void print_on(std::ostream&) const;
+        
+      };
+      
+      explicit stats();
+      virtual ~stats();
+      
+      virtual std::unique_ptr<render::base::statistics::base::data> fetch() const;
+      
+      virtual void print_on(std::ostream&) const;
 
-      explicit swap(context<A>& a)
-        : inherited(a)
-      {}
+    protected:
+
+      virtual void start ();
+      virtual void stop  ();
+      virtual bool done  ();
+      virtual void update(bool /* force update */ = false);
       
     };
-
-    template <api::type A> /* static */ api::type const swap<A>::api_type = A;
   
     // variables, exported (extern)
 
     // functions, inlined (inline)
   
     // functions, exported (extern)
-
-  } // namespace stage {
+  
+  } // namespace null {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_INTERFACE_STAGE_SWAP_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_STATISTICS_HPP)

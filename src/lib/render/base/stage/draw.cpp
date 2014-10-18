@@ -50,6 +50,13 @@ namespace render {
   
       // functions, exported
 
+      /* explicit */
+      draw::draw(context& a, statistics::base& b)
+        : base(a, b)
+      {
+        TRACE("render::base::stage::draw::draw");
+      }
+      
       /* virtual */
       draw::~draw()
       {

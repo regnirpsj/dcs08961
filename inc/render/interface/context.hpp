@@ -36,7 +36,7 @@ namespace render {
     typedef typename api::traits<A>::context inherited;
 
     static api::type const api_type;
-    
+
   };
 
   template <api::type A> /* static */ api::type const context<A>::api_type = A;

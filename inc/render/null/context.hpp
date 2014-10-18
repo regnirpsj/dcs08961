@@ -33,7 +33,7 @@ namespace render {
     class context : public base::context {
 
     public:
-
+      
       virtual ~context();
       
     };
