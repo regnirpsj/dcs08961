@@ -95,11 +95,33 @@ namespace field {
 
   // functions, inlined (inline)
 
+  /**
+   * \brief establishes a connection between a source and destination field
+   *
+   * ...
+   *
+   * \param  source field
+   * \param  destination field
+   * \param  update operator (dflt: assign)
+   * \return true if connection established
+   *
+   * \thow   nothing
+   */
   template <typename T1, typename T2 = T1>
   bool connect   (T1* const /* src */, T2* const /* dst */,
                   std::function<void (T1* const, T2* const)> /* upd */ =
                   connection::update::assign<T1,T2>);
-  
+
+  /**
+   * \brief breaks the connection of either a source or a destination field
+   *
+   * ...
+   *
+   * \param  source or destination field
+   * \return true if disconnected
+   *
+   * \thow   nothing
+   */
   template <typename T>
   bool disconnect(T* const /* src/dst */);
   
