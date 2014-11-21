@@ -22,13 +22,13 @@
 
 // includes, project
 
-// #include <>
+#include <support/export.h>
 
 namespace support {
 
   // types, exported (class, enum, struct, union, typedef)
 
-  class printable {
+  class DCS08961_SUPPORT_EXPORT printable {
 
   public:
 

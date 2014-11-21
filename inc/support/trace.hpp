@@ -25,22 +25,22 @@
 
 // includes, project
 
-// #include <>
+#include <support/export.h>
 
 namespace support {
   
   // types, exported (class, enum, struct, union, typedef)
 
-  class trace : private boost::noncopyable {
+  class DCS08961_SUPPORT_EXPORT trace : private boost::noncopyable {
 
   public:
     
     explicit  trace(std::string const&, std::ostream& = std::cout);
              ~trace();
     
-    static void        enter(std::string const&, std::ostream& = std::cout);
-    static void        leave(std::string const&, std::ostream& = std::cout);
-    static std::string prefix();
+    static DCS08961_SUPPORT_EXPORT void        enter(std::string const&, std::ostream& = std::cout);
+    static DCS08961_SUPPORT_EXPORT void        leave(std::string const&, std::ostream& = std::cout);
+    static DCS08961_SUPPORT_EXPORT std::string prefix();
     
   private:
 

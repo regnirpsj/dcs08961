@@ -25,13 +25,13 @@
 
 // includes, project
 
-// #include <>
+#include <support/export.h>
 
 namespace support {
   
   // types, exported (class, enum, struct, union, typedef)
 
-  class clock : private boost::noncopyable {
+  class DCS08961_SUPPORT_EXPORT clock : private boost::noncopyable {
 
   public:
 
@@ -47,7 +47,7 @@ namespace support {
     
   };
 
-  class timer : private boost::noncopyable {
+  class DCS08961_SUPPORT_EXPORT timer : private boost::noncopyable {
 
   public:
 

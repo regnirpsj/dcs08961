@@ -23,7 +23,7 @@
 
 // includes, project
 
-// #include <>
+#include <support/export.h>
 
 namespace support {
   
@@ -35,7 +35,7 @@ namespace support {
    * a reference-counted type. \c add_ref/\c sub_ref are \c const and \c count_ is mutable to
    * allow refcounting of \c const objects.
    */
-  class refcounted : private boost::noncopyable {
+  class DCS08961_SUPPORT_EXPORT refcounted : private boost::noncopyable {
 
   public:
 

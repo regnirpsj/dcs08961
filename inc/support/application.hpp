@@ -26,6 +26,7 @@
 // includes, project
 
 #include <support/printable.hpp>
+#include <support/export.h>
 
 namespace support {
 
@@ -33,8 +34,8 @@ namespace support {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class base : private boost::noncopyable,
-                 public support::printable {
+    class DCS08961_SUPPORT_EXPORT base : private boost::noncopyable,
+                                         public support::printable {
 
     public:
 
@@ -56,7 +57,7 @@ namespace support {
     
     };
 
-    class multi_instance : public base {
+    class DCS08961_SUPPORT_EXPORT multi_instance : public base {
 
     protected:
 
@@ -65,7 +66,7 @@ namespace support {
     
     };
   
-    class single_instance : public base {
+    class DCS08961_SUPPORT_EXPORT single_instance : public base {
 
     protected:
 
