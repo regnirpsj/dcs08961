@@ -35,10 +35,6 @@ SET(BOOST_MINIMUM_VERSION "1.53.0")
 
 # defaults
 IF(UNIX)
-  # install: DESTDIR + CMAKE_INSTALL_PREFIX (CMAKE_INSTALL_PREFIX must be absolute!)
-  STRING(TOLOWER ${CMAKE_PROJECT_NAME} PREFIX)
-  SET(CMAKE_INSTALL_PREFIX "/usr")
-
   # GLM
   SET(GLM_INCLUDE_DIR "~/Projects/others/glm-regnirpsj-git")
 
