@@ -1,2 +1,4 @@
 build.*.dbg
 build.*.opt
+install.*.dbg
+install.*.opt
