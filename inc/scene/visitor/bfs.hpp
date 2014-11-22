@@ -31,7 +31,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class bfs : virtual public base {
+    class DCS08961_SCENE_EXPORT bfs : virtual public base {
 
     public:
       

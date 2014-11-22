@@ -32,7 +32,7 @@ namespace scene {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      struct area : public spot {
+      struct DCS08961_SCENE_EXPORT area : public spot {
 
       public:      
 

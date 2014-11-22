@@ -31,7 +31,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class global_light : public base {
+    class DCS08961_SCENE_EXPORT global_light : public base {
 
     public:
 

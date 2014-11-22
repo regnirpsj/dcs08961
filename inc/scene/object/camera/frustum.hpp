@@ -23,7 +23,7 @@
 
 // includes, project
 
-//#include <>
+#include <scene/export.h>
 
 #ifdef far
 #  pragma message("Note: undefining 'near'! (" __FILE__ ")")
@@ -43,7 +43,7 @@ namespace scene {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      struct frustum {
+      struct DCS08961_SCENE_EXPORT frustum {
 
       public:
 

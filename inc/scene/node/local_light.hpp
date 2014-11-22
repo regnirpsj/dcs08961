@@ -31,7 +31,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class local_light : public group {
+    class DCS08961_SCENE_EXPORT local_light : public group {
 
     public:
 

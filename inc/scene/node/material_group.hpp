@@ -31,7 +31,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class material_group : public group {
+    class DCS08961_SCENE_EXPORT material_group : public group {
 
     public:
 

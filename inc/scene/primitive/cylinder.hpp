@@ -30,7 +30,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class cylinder : public node::geometry {
+    class DCS08961_SCENE_EXPORT cylinder : public node::geometry {
 
     public:
 

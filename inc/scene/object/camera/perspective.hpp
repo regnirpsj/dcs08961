@@ -32,7 +32,7 @@ namespace scene {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class perspective : public base {
+      class DCS08961_SCENE_EXPORT perspective : public base {
 
       public:
 

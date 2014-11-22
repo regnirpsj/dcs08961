@@ -31,7 +31,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class dynamic : public transform {
+    class DCS08961_SCENE_EXPORT dynamic : public transform {
 
     public:
 

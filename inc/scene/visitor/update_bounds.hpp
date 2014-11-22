@@ -30,7 +30,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class update_bounds : public dfs {
+    class DCS08961_SCENE_EXPORT update_bounds : public dfs {
 
     public:
 

@@ -33,7 +33,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class cull : public dfs {
+    class DCS08961_SCENE_EXPORT cull : public dfs {
 
     public:
 

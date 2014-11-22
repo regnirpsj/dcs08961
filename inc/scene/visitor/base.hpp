@@ -23,6 +23,7 @@
 // includes, project
 
 #include <support/printable.hpp>
+#include <scene/export.h>
 
 namespace scene {
 
@@ -61,7 +62,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class base : public support::printable {
+    class DCS08961_SCENE_EXPORT base : public support::printable {
 
     public:
 

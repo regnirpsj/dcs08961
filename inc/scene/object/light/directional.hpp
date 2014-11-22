@@ -32,7 +32,7 @@ namespace scene {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      struct directional : virtual public base {
+      struct DCS08961_SCENE_EXPORT directional : virtual public base {
 
       public:      
 

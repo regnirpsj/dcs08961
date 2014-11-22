@@ -34,7 +34,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
     
-    class camera : public base {
+    class DCS08961_SCENE_EXPORT camera : public base {
       
     public:
       

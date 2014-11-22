@@ -33,8 +33,8 @@ namespace scene {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      struct spot : public directional,
-                    public positional {
+      struct DCS08961_SCENE_EXPORT spot : public directional,
+                                          public positional {
 
       public:      
 

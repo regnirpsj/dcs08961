@@ -30,7 +30,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class select : public group {
+    class DCS08961_SCENE_EXPORT select : public group {
 
     public:
 

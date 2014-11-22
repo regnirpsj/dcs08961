@@ -36,7 +36,7 @@ namespace scene {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      struct base : public object::base {
+      struct DCS08961_SCENE_EXPORT base : public object::base {
 
       public:
       

@@ -30,7 +30,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class translator : public dynamic {
+    class DCS08961_SCENE_EXPORT translator : public dynamic {
 
     public:
 

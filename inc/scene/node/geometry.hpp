@@ -32,7 +32,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class geometry : public base {
+    class DCS08961_SCENE_EXPORT geometry : public base {
 
     public:
 

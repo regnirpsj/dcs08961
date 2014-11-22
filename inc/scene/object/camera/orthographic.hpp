@@ -32,7 +32,7 @@ namespace scene {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class orthographic : public base {
+      class DCS08961_SCENE_EXPORT orthographic : public base {
 
       public:
 

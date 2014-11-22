@@ -30,7 +30,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class rotor : public dynamic {
+    class DCS08961_SCENE_EXPORT rotor : public dynamic {
 
     public:
 

@@ -31,8 +31,8 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class print : public bfs,
-                  public dfs {
+    class DCS08961_SCENE_EXPORT print : public bfs,
+                                        public dfs {
 
     public:
 

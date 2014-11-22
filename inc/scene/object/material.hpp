@@ -32,7 +32,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    struct material : public base {
+    struct DCS08961_SCENE_EXPORT material : public base {
 
     public:
 

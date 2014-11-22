@@ -30,7 +30,7 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class sphere : public node::geometry {
+    class DCS08961_SCENE_EXPORT sphere : public node::geometry {
 
     public:
 

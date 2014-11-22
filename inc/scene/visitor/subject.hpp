@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <scene/export.h>
 
 namespace scene {
 
@@ -60,7 +60,7 @@ namespace scene {
      *  }
      * </code>
      */
-    class subject {
+    class DCS08961_SCENE_EXPORT subject {
 
     public:
 

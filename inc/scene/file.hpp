@@ -23,7 +23,7 @@
 
 // includes, project
 
-//#include <>
+#include <scene/export.h>
 
 namespace scene {
 
@@ -41,15 +41,15 @@ namespace scene {
       detect
     };
     
-    class handler : private boost::noncopyable {
+    class DCS08961_SCENE_EXPORT handler : private boost::noncopyable {
 
     public:
       
-      static node::group* load(std::string const& /* name */,
-                               type               /* type */ = type::detect);
-      static bool         save(std::string const& /* name */,
-                               node::group*       /* scene */,
-                               type               /* type */ = type::detect);
+      static DCS08961_SCENE_EXPORT node::group* load(std::string const& /* name */,
+                                                     type               /* type */ = type::detect);
+      static DCS08961_SCENE_EXPORT bool         save(std::string const& /* name */,
+                                                     node::group*       /* scene */,
+                                                     type               /* type */ = type::detect);
                                
     };                         
 

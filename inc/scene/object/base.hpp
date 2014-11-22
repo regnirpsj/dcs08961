@@ -25,6 +25,7 @@
 #include <field/container.hpp>
 #include <field/value/single.hpp>
 #include <support/refcounted.hpp>
+#include <scene/export.h>
 
 namespace scene {
 
@@ -32,8 +33,8 @@ namespace scene {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class base : public field::container,
-                 public support::refcounted {
+    class DCS08961_SCENE_EXPORT base : public field::container,
+                                       public support::refcounted {
 
     public:
 
