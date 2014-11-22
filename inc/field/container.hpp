@@ -25,6 +25,7 @@
 
 #include <support/chrono.hpp>
 #include <support/printable.hpp>
+#include <field/export.h>
 
 namespace field {
 
@@ -32,7 +33,7 @@ namespace field {
   
   // types, exported (class, enum, struct, union, typedef)
 
-  class container : public support::printable {
+  class DCS08961_FIELD_EXPORT container : public support::printable {
 
   public:
 

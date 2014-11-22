@@ -26,6 +26,7 @@
 
 #include <field/connection/update.hpp>
 #include <support/printable.hpp>
+#include <field/export.h>
 
 namespace field {
 
@@ -37,8 +38,8 @@ namespace field {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class manager : public support::printable,
-                    public boost::mutexed_singleton<manager> {
+    class DCS08961_FIELD_EXPORT manager : public support::printable,
+                                          public boost::mutexed_singleton<manager> {
 
       BOOST_SINGLETON_PLACEMENT_DECLARATION;
       
