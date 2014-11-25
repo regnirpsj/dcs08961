@@ -35,11 +35,11 @@ namespace support {
 
   public:
 
-    typedef std::chrono::nanoseconds                 duration;
-    typedef duration::rep                            rep;
-    typedef duration::period                         period;
-    typedef std::chrono::time_point<clock, duration> time_point;
-
+    using duration   = std::chrono::nanoseconds;
+    using rep        = duration::rep;
+    using period     = duration::period;
+    using time_point = std::chrono::time_point<clock, duration>;
+    
     static bool const     is_monotonic; // = true
     static duration const resolution;
     
@@ -51,8 +51,8 @@ namespace support {
 
   public:
 
-    typedef clock::duration   duration;
-    typedef clock::time_point time_point;
+    using duration   = clock::duration;
+    using time_point = clock::time_point;
 
     explicit timer();
             ~timer();
@@ -75,6 +75,20 @@ namespace support {
   void        sleep(clock::duration const&);
   std::string date_time_iso8601();
 
+  /**
+   * \brief inserts a \c clock::time_point into an \c std::ostream (or derived)
+   *
+   * inserts a \c clock::time_point into an \c std::ostream (or derived). the \c clock::time_point
+   * object is inserted as a \c clock::duration by subtracting an static internal
+   * \c clock::time_point from it, which is initialized once at process startup.
+   *
+   * \param  os         \c std::ostream&
+   * \param  time_point \c clock::time_point
+   *
+   * \return modified ostream
+   *
+   * \throws nothing
+   */
   std::ostream& operator<<(std::ostream&, clock::time_point const&);
   
 } // namespace support {
