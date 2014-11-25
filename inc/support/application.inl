@@ -74,7 +74,7 @@ namespace support {
 
     template <typename T>
     inline signed
-    execute(int argc, char* argv[], std::nothrow_t const&)
+    execute(int argc, char* argv[], std::nothrow_t const&) noexcept
     {
       TRACE("support::application::execute<" + demangle(typeid(T)) + ">(std::nothrow_t)");
       

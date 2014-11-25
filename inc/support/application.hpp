@@ -44,7 +44,7 @@ namespace support {
       virtual void print_on(std::ostream&) const;
     
     protected:
-    
+      
       boost::program_options::options_description            cmdline_options_;
       boost::program_options::positional_options_description cmdline_positionals_;
       unsigned                                               verbose_level_;
@@ -102,7 +102,7 @@ namespace support {
     // functions, exported (extern)
 
     template <typename T> signed execute(int, char* []);
-    template <typename T> signed execute(int, char* [], std::nothrow_t const&);
+    template <typename T> signed execute(int, char* [], std::nothrow_t const&) noexcept;
     
   } // namespace application {
   
