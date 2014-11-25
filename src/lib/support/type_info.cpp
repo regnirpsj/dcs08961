@@ -91,7 +91,7 @@ namespace support {
   }
 
   std::string
-  demangle(std::type_info const& tinfo, std::nothrow_t const&)
+  demangle(std::type_info const& tinfo, std::nothrow_t const&) noexcept
   {
     TRACE("support::demangle(std::nothrow_t)");
     

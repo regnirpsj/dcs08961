@@ -68,7 +68,7 @@ namespace support {
    *
    * \throws nothing
    */
-  std::string demangle(std::type_info const&, std::nothrow_t const&);
+  std::string demangle(std::type_info const&, std::nothrow_t const&) noexcept;
   
 } // namespace support {
 
