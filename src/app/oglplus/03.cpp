@@ -104,7 +104,7 @@ namespace {
           }
         }
         
-        prg_ << VertexShader  ()  .Source(NamedString::Get(file_names[0]))
+        prg_ << VertexShader  ().Source(NamedString::Get(file_names[0]))
              << FragmentShader().Source(NamedString::Get(file_names[1]));
 
         // to avoid removal/deactivation of attributes ARB_separate_shader_objects is used
