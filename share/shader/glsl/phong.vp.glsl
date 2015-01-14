@@ -12,11 +12,12 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
+#version 430 core
+
 #if !defined(UKACHULLDCS_08961_SHADER_GLSL_PHONG_VP_GLSL)
 
 #define UKACHULLDCS_08961_SHADER_GLSL_PHONG_VP_GLSL
 
-#version 430 core
 #extension GL_ARB_shading_language_include : enable
 
 /* includes, system */
