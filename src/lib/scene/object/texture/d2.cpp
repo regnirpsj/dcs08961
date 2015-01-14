@@ -54,7 +54,7 @@ namespace scene {
       /* explicit */
       d2::d2(glm::uvec2 const& a, glm::uvec4 const& b)
         : base  (),
-          tdata_(1, gli::RGBA8_UNORM, gli::texture2D::dimensions_type(a.x, a.y))
+          tdata_(1, gli::RGBA8_UNORM, gli::texture2D::dim_type(a.x, a.y))
       {   
         TRACE("scene::object::d2::d2");
       

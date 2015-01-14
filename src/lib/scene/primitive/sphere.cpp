@@ -18,15 +18,9 @@
 
 // includes, system
 
-#include <array>                   // std::array<>
-#include <cmath>                   // std::abs, std::acos, std::atan2
-#include <glm/core/setup.hpp>
-#if (GLM_VERSION > 93)
-#  include <glm/gtc/constants.hpp> // glm::pi
-#else
-#  include <glm/gtx/constants.hpp> // glm::pi
-#endif
-
+#include <array>                 // std::array<>
+#include <cmath>                 // std::abs, std::acos, std::atan2
+#include <glm/gtc/constants.hpp> // glm::pi
 
 // includes, project
 

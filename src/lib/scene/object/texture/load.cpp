@@ -20,7 +20,7 @@
 
 #include <array>                // std::array<>
 #include <boost/filesystem.hpp> // boost::filesystem::path
-#include <functional>           // std::function<>
+#include <functional>           // std::function<>, std::placeholders::*
 #include <gli/gli.hpp>          // gli::*
 #include <ostream>              // std::ostream
 #include <unordered_map>        // std::unordered_map<>
@@ -65,20 +65,23 @@ namespace scene {
       load(std::string const& fname)
       {
         TRACE("scene::object::texture::<unnamed>::load");
-    
+        
         typedef std::function<gli::storage (char const*)> load_function_type;
         typedef std::unordered_map<std::string const,
                                    load_function_type>    suffix_map_type;
-    
-        static std::array<std::pair<std::string const,
-                                    load_function_type>, 1> const suffix_array = {
+
+        // see [https://stackoverflow.com/questions/12500411]
+        typedef gli::storage (*load_function_ctype)(char const*);
+        
+        static std::array<suffix_map_type::value_type, 1> const suffix_array = {
           {
-            std::make_pair(".dds", std::bind(gli::load_dds, std::placeholders::_1)),
+            std::make_pair(".dds", std::bind(static_cast<load_function_ctype>(&gli::load_dds),
+                                             std::placeholders::_1)),
           } 
         };
         static suffix_map_type const suffix_map(suffix_array.begin(), suffix_array.end());
     
-        gli::storage result(1, 1, 1, gli::RGBA8_UNORM, gli::storage::dimensions_type(1, 1, 1));
+        gli::storage result(1, 1, 1, gli::RGBA8_UNORM, gli::storage::dim_type(1, 1, 1));
 
         try {
           namespace bfs = boost::filesystem;
