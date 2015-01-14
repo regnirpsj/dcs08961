@@ -15,6 +15,7 @@
 // includes, system
 
 #include <glm/gtc/quaternion.hpp> // glm::?quat
+#include <glm/gtc/vec1.hpp>       // glm::?vec1
 #include <typeinfo>               // typedid
 
 // includes, project
@@ -82,11 +83,11 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_limits_quat, T, quat_types)
   check_epsilon<T>();
 }
 
-typedef boost::mpl::list<glm::bvec2, glm::bvec3, glm::bvec4,
-                         glm::dvec2, glm::dvec3, glm::dvec4,
-                         glm::vec2,  glm::vec3,  glm::vec4,
-                         glm::ivec2, glm::ivec3, glm::ivec4,
-                         glm::uvec2, glm::uvec3, glm::uvec4> vec_types;
+typedef boost::mpl::list<glm::bvec1, glm::bvec2, glm::bvec3, glm::bvec4,
+                         glm::dvec1, glm::dvec2, glm::dvec3, glm::dvec4,
+                         glm::vec1,  glm::vec2,  glm::vec3,  glm::vec4,
+                         glm::ivec1, glm::ivec2, glm::ivec3, glm::ivec4,
+                         glm::uvec1, glm::uvec2, glm::uvec3, glm::uvec4> vec_types;
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_limits_vec, T, vec_types)
 {

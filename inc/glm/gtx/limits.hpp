@@ -31,56 +31,60 @@ namespace std {
   // types, exported (class, enum, struct, union, typedef)
 
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tmat2x2<T,P>>
-    : public std::numeric_limits<typename glm::detail::tmat2x2<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tmat2x2<T,P>>
+    : public std::numeric_limits<typename glm::tmat2x2<T,P>::value_type> { /* */ };
   
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tmat2x3<T,P>>
-    : public std::numeric_limits<typename glm::detail::tmat2x3<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tmat2x3<T,P>>
+    : public std::numeric_limits<typename glm::tmat2x3<T,P>::value_type> { /* */ };
   
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tmat2x4<T,P>>
-    : public std::numeric_limits<typename glm::detail::tmat2x4<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tmat2x4<T,P>>
+    : public std::numeric_limits<typename glm::tmat2x4<T,P>::value_type> { /* */ };
   
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tmat3x2<T,P>>
-    : public std::numeric_limits<typename glm::detail::tmat3x2<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tmat3x2<T,P>>
+    : public std::numeric_limits<typename glm::tmat3x2<T,P>::value_type> { /* */ };
   
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tmat3x3<T,P>>
-    : public std::numeric_limits<typename glm::detail::tmat3x3<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tmat3x3<T,P>>
+    : public std::numeric_limits<typename glm::tmat3x3<T,P>::value_type> { /* */ };
   
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tmat3x4<T,P>>
-    : public std::numeric_limits<typename glm::detail::tmat3x4<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tmat3x4<T,P>>
+    : public std::numeric_limits<typename glm::tmat3x4<T,P>::value_type> { /* */ };
 
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tmat4x2<T,P>>
-    : public std::numeric_limits<typename glm::detail::tmat4x2<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tmat4x2<T,P>>
+    : public std::numeric_limits<typename glm::tmat4x2<T,P>::value_type> { /* */ };
   
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tmat4x3<T,P>>
-    : public std::numeric_limits<typename glm::detail::tmat4x3<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tmat4x3<T,P>>
+    : public std::numeric_limits<typename glm::tmat4x3<T,P>::value_type> { /* */ };
   
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tmat4x4<T,P>>
-    : public std::numeric_limits<typename glm::detail::tmat4x4<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tmat4x4<T,P>>
+    : public std::numeric_limits<typename glm::tmat4x4<T,P>::value_type> { /* */ };
   
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tquat<T,P>>
-    : public std::numeric_limits<typename glm::detail::tquat<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tquat<T,P>>
+    : public std::numeric_limits<typename glm::tquat<T,P>::value_type> { /* */ };
   
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tvec2<T,P>>
-    : public std::numeric_limits<typename glm::detail::tvec2<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tvec1<T,P>>
+    : public std::numeric_limits<typename glm::tvec1<T,P>::value_type> { /* */ };
 
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tvec3<T,P>>
-    : public std::numeric_limits<typename glm::detail::tvec3<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tvec2<T,P>>
+    : public std::numeric_limits<typename glm::tvec2<T,P>::value_type> { /* */ };
 
   template <typename T, glm::precision P>
-  struct numeric_limits<glm::detail::tvec4<T,P>>
-    : public std::numeric_limits<typename glm::detail::tvec4<T,P>::value_type> { /* */ };
+  struct numeric_limits<glm::tvec3<T,P>>
+    : public std::numeric_limits<typename glm::tvec3<T,P>::value_type> { /* */ };
+
+  template <typename T, glm::precision P>
+  struct numeric_limits<glm::tvec4<T,P>>
+    : public std::numeric_limits<typename glm::tvec4<T,P>::value_type> { /* */ };
   
   // variables, exported (extern)
 

@@ -14,7 +14,7 @@
 
 // includes, system
 
-//#include <>
+// x#include <>
 
 // includes, project
 
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_gli_gtx_io, T, tex_types)
 {
   using namespace gli;
   
-  T const t(1, RGBA8_UNORM, typename T::dimensions_type(1));
+  T const t(1, RGBA8_UNORM, typename T::dim_type(1));
 
   BOOST_CHECK(!t.empty());
   
