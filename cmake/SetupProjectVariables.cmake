@@ -39,7 +39,7 @@ IF(UNIX)
   SET(GLM_INCLUDE_DIR "~/Projects/others/glm-regnirpsj-git")
 
   # GLI
-  SET(GLI_INCLUDE_DIR "~/Projects/others/gli-regnirpsj-git")
+  SET(GLI_INCLUDE_DIR "~/Projects/others/gli-git")
 
   # OGL+
   SET(OGLplus_ROOT_DIR "~/Projects/others/oglplus-develop-git/_install")
