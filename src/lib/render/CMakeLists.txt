@@ -2,13 +2,13 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
 MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
 
-#ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
+ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
 
 SET(LIB "render")
 
@@ -24,6 +24,7 @@ LIST(APPEND SRC "base/pass/null.cpp")
 LIST(APPEND SRC "base/stage/base.cpp")
 LIST(APPEND SRC "base/stage/clear.cpp")
 LIST(APPEND SRC "base/stage/draw.cpp")
+LIST(APPEND SRC "base/stage/null.cpp")
 LIST(APPEND SRC "base/stage/setup.cpp")
 LIST(APPEND SRC "base/stage/swap.cpp")
 LIST(APPEND SRC "base/statistics/base.cpp")
