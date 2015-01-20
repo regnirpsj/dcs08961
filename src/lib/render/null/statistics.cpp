@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -35,8 +35,6 @@ namespace {
   // types, internal (class, enum, struct, union, typedef)
 
   // variables, internal
-
-  render::null::context default_ctx;
   
   // functions, internal
 
@@ -48,7 +46,7 @@ namespace render {
   
     // variables, exported
 
-    /* static */ stats stats::default_stats;
+    /* static */ stats stats::dflt;
     
     // functions, exported
 
@@ -74,9 +72,9 @@ namespace render {
     
     /* explicit */
     stats::stats()
-      : render::base::statistics::base(default_ctx),
-        render::base::statistics::cpu (default_ctx),
-        render::base::statistics::gpu (default_ctx)
+      : render::base::statistics::base(context::dflt),
+        render::base::statistics::cpu (context::dflt),
+        render::base::statistics::gpu (context::dflt)
     {
       TRACE("render::null:stats::stats");
     }

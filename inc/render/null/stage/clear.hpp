@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -27,8 +27,6 @@
 namespace render {
 
   namespace null {
-
-    class context;
     
     namespace stage {
       
@@ -38,7 +36,7 @@ namespace render {
 
       public:
 
-        explicit clear(context&);
+        explicit clear();
         virtual ~clear();
 
       protected:

@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -52,8 +52,8 @@ namespace render {
       // functions, exported
 
       /* explicit */
-      clear::clear(context& a)
-        : render::base::stage::clear(a, stats::default_stats)
+      clear::clear()
+        : render::base::stage::clear(context::dflt, stats::dflt)
       {
         TRACE("render::null:stage::clear::clear");
       }

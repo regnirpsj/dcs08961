@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -35,7 +35,7 @@ namespace render {
 
     public:
 
-      static stats default_stats;
+      static stats dflt;
 
       class data : public render::base::statistics::cpu::data,
                    public render::base::statistics::gpu::data {

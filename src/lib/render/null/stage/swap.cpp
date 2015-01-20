@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -52,8 +52,8 @@ namespace render {
       // functions, exported
 
       /* explicit */
-      swap::swap(context& a)
-        : render::base::stage::swap(a, stats::default_stats)
+      swap::swap()
+        : render::base::stage::swap(context::dflt, stats::dflt)
       {
         TRACE("render::null:stage::swap::swap");
       }

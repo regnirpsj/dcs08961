@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -33,6 +33,8 @@ namespace render {
     class context : public base::context {
 
     public:
+
+      static context dflt;
       
       virtual ~context();
       

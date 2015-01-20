@@ -45,7 +45,9 @@ namespace render {
   namespace null {
     
     // variables, exported
-  
+
+    /* static */ context context::dflt;
+    
     // functions, exported
 
     /* virtual */

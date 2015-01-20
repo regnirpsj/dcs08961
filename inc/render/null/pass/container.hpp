@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -27,12 +27,28 @@
 namespace render {
 
   namespace null {
-
+    
     namespace pass {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      typedef base::pass::container container;
+      class container : public base::pass::container {
+
+      protected:
+
+        typedef render::base::pass::container::base_type base_type;
+        
+      public:
+
+        explicit container();
+        explicit container(std::initializer_list<base_type*> const&);
+        virtual ~container();
+
+      protected:
+        
+        virtual void do_execute();
+        
+      };      
     
       // variables, exported (extern)
 
