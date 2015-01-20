@@ -2,7 +2,7 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                            #
 #                                                                                                  #
 ####################################################################################################
 
@@ -90,6 +90,10 @@ INCLUDE(SetupCompilerPost)
 ADD_SUBDIRECTORY(doc)
 ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(src)
+
+IF(POLICY CMP0037)
+  CMAKE_POLICY(SET CMP0037 OLD)
+ENDIF()
 
 ADD_CUSTOM_TARGET(ALL_BUILD)
 SET_PROPERTY(TARGET ALL_BUILD PROPERTY FOLDER "CMakePredefinedTargets")
