@@ -23,6 +23,7 @@
 // includes, project
 
 #include <render/base/stage/setup.hpp>
+#include <render/null/export.h>
 
 namespace render {
 
@@ -32,7 +33,7 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class setup : public base::stage::setup {
+      class DCS08961_RENDER_NULL_EXPORT setup : public base::stage::setup {
 
       public:
 

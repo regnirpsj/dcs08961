@@ -23,6 +23,7 @@
 // includes, project
 
 #include <support/printable.hpp>
+#include <render/export.h>
 
 namespace render {
 
@@ -30,8 +31,8 @@ namespace render {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class context : private boost::noncopyable,
-                    public support::printable {
+    class DCS08961_RENDER_EXPORT context : private boost::noncopyable,
+                                           public support::printable {
 
     public:
 

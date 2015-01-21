@@ -32,7 +32,7 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class base : public stage::base {
+      class DCS08961_RENDER_EXPORT base : public stage::base {
 
       public:
 

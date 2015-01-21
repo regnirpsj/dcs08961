@@ -25,6 +25,7 @@
 
 #include <support/chrono.hpp>
 #include <support/printable.hpp>
+#include <render/export.h>
 
 namespace render {
 
@@ -36,8 +37,8 @@ namespace render {
   
       // types, exported (class, enum, struct, union, typedef)
       
-      class base : private boost::noncopyable,
-                   public support::printable {
+      class DCS08961_RENDER_EXPORT base : private boost::noncopyable,
+                                          public support::printable {
 
       public:
 
@@ -74,7 +75,7 @@ namespace render {
         
       };
 
-      class guard : private boost::noncopyable {
+      class DCS08961_RENDER_EXPORT guard : private boost::noncopyable {
 
       public:
 

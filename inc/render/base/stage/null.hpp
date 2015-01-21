@@ -32,7 +32,7 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class null : public base {
+      class DCS08961_RENDER_EXPORT null : public base {
 
       public:
         

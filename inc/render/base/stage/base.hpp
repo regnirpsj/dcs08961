@@ -24,6 +24,7 @@
 
 #include <support/printable.hpp>
 #include <support/refcounted.hpp>
+#include <render/export.h>
 
 namespace render {
 
@@ -41,8 +42,8 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class base : public support::printable,
-                   public support::refcounted {
+      class DCS08961_RENDER_EXPORT base : public support::printable,
+                                          public support::refcounted {
 
       public:
 

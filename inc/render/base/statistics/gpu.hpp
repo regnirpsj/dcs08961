@@ -32,7 +32,7 @@ namespace render {
   
       // types, exported (class, enum, struct, union, typedef)
 
-      class gpu : virtual public base {
+      class DCS08961_RENDER_EXPORT gpu : virtual public base {
 
       public:
 

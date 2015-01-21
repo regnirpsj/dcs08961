@@ -36,7 +36,7 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class container : public base {
+      class DCS08961_RENDER_EXPORT container : public base {
 
       protected:
         

@@ -43,7 +43,7 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class draw : public base {
+      class DCS08961_RENDER_EXPORT draw : public base {
 
       public:
         

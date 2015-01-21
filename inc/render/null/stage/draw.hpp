@@ -24,6 +24,7 @@
 
 #include <render/base/stage/draw.hpp>
 #include <scene/objects.hpp>
+#include <render/null/export.h>
 
 namespace render {
 
@@ -33,7 +34,7 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class draw : public base::stage::draw {
+      class DCS08961_RENDER_NULL_EXPORT draw : public base::stage::draw {
 
       public:
 
