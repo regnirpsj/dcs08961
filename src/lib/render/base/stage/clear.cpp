@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -49,24 +49,11 @@ namespace render {
       // variables, exported
   
       // functions, exported
-
-      /* explicit */
-      clear::clear(context& a, statistics::base& b)
-        : base(a, b)
-      {
-        TRACE("render::base::stage::clear::clear");
-      }
       
       /* virtual */
       clear::~clear()
       {
         TRACE("render::base::stage::clear::~clear");
-      }
-
-      /* virtual */ void
-      clear::execute()
-      {
-        TRACE("render::base::stage::clear::execute");
       }
     
       /* virtual */ void
@@ -77,6 +64,19 @@ namespace render {
         base::print_on(os);
       }
 
+      /* explicit */
+      clear::clear(context& a, statistics::base& b)
+        : base(a, b)
+      {
+        TRACE("render::base::stage::clear::clear");
+      }
+      
+      /* virtual */ void
+      clear::do_execute()
+      {
+        TRACE("render::base::stage::clear::do_execute");
+      }
+      
     } // namespace stage {
         
   } // namespace base {

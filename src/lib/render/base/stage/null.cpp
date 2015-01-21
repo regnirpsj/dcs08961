@@ -49,24 +49,11 @@ namespace render {
       // variables, exported
   
       // functions, exported
-
-      /* explicit */
-      null::null(context& a, statistics::base& b)
-        : base(a, b)
-      {
-        TRACE("render::base::stage::null::null");
-      }
       
       /* virtual */
       null::~null()
       {
         TRACE("render::base::stage::null::~null");
-      }
-
-      /* virtual */ void
-      null::execute()
-      {
-        TRACE("render::base::stage::null::execute");
       }
     
       /* virtual */ void
@@ -77,6 +64,19 @@ namespace render {
         base::print_on(os);
       }
 
+      /* explicit */
+      null::null(context& a, statistics::base& b)
+        : base(a, b)
+      {
+        TRACE("render::base::stage::null::null");
+      }
+
+      /* virtual */ void
+      null::do_execute()
+      {
+        TRACE("render::base::stage::null::do_execute");
+      }
+      
     } // namespace stage {
         
   } // namespace base {

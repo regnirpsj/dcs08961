@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -49,25 +49,6 @@ namespace render {
       // variables, exported
   
       // functions, exported
-
-      /* explicit*/
-      container::container(context& a, statistics::base& b)
-        : base       (a, b),
-          stage_list_()
-      {
-        TRACE("render::base::pass::container::container(dflt)");
-      }
-      
-      /* explicit*/
-      container::container(context& a, statistics::base& b,
-                           std::initializer_list<base_type*> const& c)
-        : base       (a, b),
-          stage_list_()
-      {
-        TRACE("render::base::pass::container::container(std::initializer_list)");
-
-        for (auto s : c) { add(s); }
-      }
       
       /* virtual */
       container::~container()
@@ -148,6 +129,25 @@ namespace render {
         }
       }
 
+      /* explicit*/
+      container::container(context& a, statistics::base& b)
+        : base       (a, b),
+          stage_list_()
+      {
+        TRACE("render::base::pass::container::container(dflt)");
+      }
+      
+      /* explicit*/
+      container::container(context& a, statistics::base& b,
+                           std::initializer_list<base_type*> const& c)
+        : base       (a, b),
+          stage_list_()
+      {
+        TRACE("render::base::pass::container::container(std::initializer_list)");
+
+        for (auto s : c) { add(s); }
+      }
+      
       /* virtual */ void
       container::do_execute()
       {

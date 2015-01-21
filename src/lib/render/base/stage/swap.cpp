@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -49,24 +49,11 @@ namespace render {
       // variables, exported
   
       // functions, exported
-
-      /* explicit */
-      swap::swap(context& a, statistics::base& b)
-        : base(a, b)
-      {
-        TRACE("render::base::stage::swap::swap");
-      }
       
       /* virtual */
       swap::~swap()
       {
         TRACE("render::base::stage::swap::~swap");
-      }
-
-      /* virtual */ void
-      swap::execute()
-      {
-        TRACE("render::base::stage::swap::execute");
       }
     
       /* virtual */ void
@@ -77,6 +64,19 @@ namespace render {
         base::print_on(os);
       }
 
+      /* explicit */
+      swap::swap(context& a, statistics::base& b)
+        : base(a, b)
+      {
+        TRACE("render::base::stage::swap::swap");
+      }
+
+      /* virtual */ void
+      swap::do_execute()
+      {
+        TRACE("render::base::stage::swap::do_execute");
+      }
+      
     } // namespace stage {
         
   } // namespace base {

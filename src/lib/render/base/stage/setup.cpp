@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -55,12 +55,6 @@ namespace render {
       {
         TRACE("render::base::stage::setup::~setup");
       }
-
-      /* virtual */ void
-      setup::execute()
-      {
-        TRACE("render::base::stage::setup::execute");
-      }
     
       /* virtual */ void
       setup::print_on(std::ostream& os) const
@@ -70,6 +64,19 @@ namespace render {
         base::print_on(os);
       }
 
+      /* explicit */
+      setup::setup(context& a, statistics::base& b)
+        : base(a, b)
+      {
+        TRACE("render::base::stage::setup::setup");
+      }
+      
+      /* virtual */ void
+      setup::do_execute()
+      {
+        TRACE("render::base::stage::setup::do_execute");
+      }
+      
     } // namespace stage {
         
   } // namespace base {

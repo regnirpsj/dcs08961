@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -37,15 +37,15 @@ namespace render {
       public:
         
         virtual ~draw();
-
-        virtual void execute();
       
         virtual void print_on(std::ostream&) const;
 
       protected:
 
         explicit draw(context&, statistics::base&);
-        
+
+        virtual void do_execute();
+          
       };
     
       // variables, exported (extern)

@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -55,12 +55,6 @@ namespace render {
       {
         TRACE("render::base::pass::null::~null");
       }
-        
-      /* virtual */ void
-      null::execute()
-      {
-        TRACE("render::base::pass::null::execute");
-      }
       
       /* virtual */ void
       null::print_on(std::ostream& os) const
@@ -68,6 +62,12 @@ namespace render {
         TRACE_NEVER("render::base::pass::null::print_on");
 
         base::print_on(os);
+      }
+
+      /* virtual */ void
+      null::do_execute()
+      {
+        TRACE("render::base::pass::null::do_execute");
       }
       
     } // namespace pass {

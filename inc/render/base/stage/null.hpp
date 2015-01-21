@@ -37,14 +37,14 @@ namespace render {
       public:
         
         virtual ~null();
-
-        virtual void execute();
       
         virtual void print_on(std::ostream&) const;
 
       protected:
 
         explicit null(context&, statistics::base&);
+
+        virtual void do_execute();
         
       };
     

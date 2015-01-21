@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -45,9 +45,7 @@ namespace render {
         typedef std::unordered_set<refcounted_base_type> stage_list_type;
         
       public:
-
-        explicit container(context&, statistics::base&);
-        explicit container(context&, statistics::base&, std::initializer_list<base_type*> const&);
+        
         virtual ~container();
 
         bool     empty() const;
@@ -64,6 +62,9 @@ namespace render {
                 stage_list_type      stage_list_;
         mutable support::simple_lock stage_list_lock_;
 
+        explicit container(context&, statistics::base&);
+        explicit container(context&, statistics::base&, std::initializer_list<base_type*> const&);
+        
         virtual void do_execute();
         
       };
