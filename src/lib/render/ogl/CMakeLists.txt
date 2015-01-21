@@ -2,7 +2,7 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015  University of Hull                                                      #
 #                                                                                                  #
 ####################################################################################################
 
@@ -30,6 +30,6 @@ LIST(APPEND LIBS ${OPENGL_gl_LIBRARY})
 LIST(APPEND LIBS ${X11_X11_LIB})
 
 LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-EXPORT_SETUP(${LIB})
+EXPORT_SETUP(${LIB} PATH render/ogl)
 
 ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)

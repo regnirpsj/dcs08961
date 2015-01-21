@@ -2,7 +2,7 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015  University of Hull                                                      #
 #                                                                                                  #
 ####################################################################################################
 
@@ -18,28 +18,12 @@ FUNCTION(PRINT_LIBRARY_SETUP)
 ENDFUNCTION()
 
 MESSAGE(STATUS "Setting Library Paths for: "
-               "${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
+  "${CMAKE_CXX_COMPILER_ID} ${CMAKE_CXX_COMPILER_VERSION}")
 
-# with gcc/clang handle boost/glm/gli include dirs like system-header dirs, i.e. do not warn
-# questionable things from there; note: only works for real non-system-header dirs!
-IF(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-#   IF(NOT ${Boost_INCLUDE_DIR} STREQUAL "/usr/include")
-#     ADD_DEFINITIONS("-isystem ${Boost_INCLUDE_DIR}")
-#   ENDIF()
-#   
-#   IF(NOT ${GLM_INCLUDE_DIR} STREQUAL "/usr/include")
-#     ADD_DEFINITIONS("-isystem ${GLM_INCLUDE_DIR}")
-#   ENDIF()
-#   
-#   IF(NOT ${GLI_INCLUDE_DIR} STREQUAL "/usr/include")
-#     ADD_DEFINITIONS("-isystem ${GLI_INCLUDE_DIR}")
-#   ENDIF()
-# ELSE()
-  INCLUDE_DIRECTORIES(SYSTEM ${Boost_INCLUDE_DIR})
-  INCLUDE_DIRECTORIES(SYSTEM ${GLM_INCLUDE_DIR})
-  INCLUDE_DIRECTORIES(SYSTEM ${GLI_INCLUDE_DIR})
-  INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/src/lib)
-ENDIF()
+INCLUDE_DIRECTORIES(SYSTEM ${Boost_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(SYSTEM ${GLM_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(SYSTEM ${GLI_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR}/exports)
 
 IF(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
   # BOOST

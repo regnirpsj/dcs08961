@@ -2,7 +2,7 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015  University of Hull                                                      #
 #                                                                                                  #
 ####################################################################################################
 
@@ -23,6 +23,6 @@ LIST(APPEND LIBS render)
 LIST(APPEND LIBS support)
 
 LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-EXPORT_SETUP(${LIB})
+EXPORT_SETUP(${LIB} PATH render/d3d)
 
 ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)

@@ -2,7 +2,7 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015  University of Hull                                                      #
 #                                                                                                  #
 ####################################################################################################
 
@@ -166,46 +166,47 @@ FUNCTION(LIBRARY_SETUP LIB_NAME)
   IF(EXISTS "${CMAKE_SOURCE_DIR}/inc/${LIB_NAME}" AND
       IS_DIRECTORY "${CMAKE_SOURCE_DIR}/inc/${LIB_NAME}")
     INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/inc/${LIB_NAME} DESTINATION ${DCS08961_HEADER_DIRECTORY}
-      COMPONENT hdr)
+      COMPONENT hdr
+      PATTERN "*~" EXCLUDE)
   ENDIF()
 ENDFUNCTION()
 
-# EXPORT_SETUP(NAME [FILE <file name>] [PREFIX <prefix>] [DEBUG])
+# EXPORT_SETUP(NAME [FILE <file name>] [PATH <relative install path>] [PREFIX <prefix>] [DEBUG])
 # see also [http://www.cmake.org/Wiki/BuildingWinDLL]
 
 FUNCTION(EXPORT_SETUP EXP_NAME)
   INCLUDE(GenerateExportHeader)
 
   SET(OARGS DEBUG)
-  SET(SARGS FILE PREFIX)
+  SET(SARGS FILE PATH PREFIX)
   SET(MARGS)
   CMAKE_PARSE_ARGUMENTS(EXP "${OARGS}" "${SARGS}" "${MARGS}" ${ARGN})
 
   IF(NOT EXP_FILE)
-    SET(EXP_FILE "${CMAKE_CURRENT_BINARY_DIR}/export.h")
-    SET(EXP_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/..)
-  ELSE()
-    GET_FILENAME_COMPONENT(path ${EXP_FILE} PATH)
-    SET(EXP_INCLUDE_DIR ${path})
+    SET(EXP_FILE "export.h")
+  ENDIF()
+
+  IF(NOT EXP_PATH)
+    SET(EXP_PATH ${EXP_NAME})
   ENDIF()
 
   IF(NOT EXP_PREFIX)
     SET(EXP_PREFIX "${CMAKE_PROJECT_NAME}_")
   ENDIF()
 
+  GET_FILENAME_COMPONENT(file ${EXP_FILE} NAME)
+  SET(EXP_FILE "${CMAKE_BINARY_DIR}/exports/${EXP_PATH}/${file}")
+  
   IF(EXP_DEBUG OR VERBOSE)
     MESSAGE(STATUS "EXPORT_SETUP(${EXP_NAME}) variable setup:\n"
       "   EXP_PREFIX      = ${EXP_PREFIX}\n"
+      "   EXP_NAME        = ${EXP_NAME}\n"
       "   EXP_FILE        = ${EXP_FILE}\n"
-      "   EXP_INCLUDE_DIR = ${EXP_INCLUDE_DIR}")
+      "   EXP_PATH        = ${EXP_PATH}")
   ENDIF()
-
-  INCLUDE_DIRECTORIES(${EXP_INCLUDE_DIR})
-
+  
   GENERATE_EXPORT_HEADER(${EXP_NAME} EXPORT_FILE_NAME ${EXP_FILE} PREFIX_NAME ${EXP_PREFIX})
-
-  INSTALL(FILES ${EXP_FILE} DESTINATION ${DCS08961_HEADER_DIRECTORY}/${EXP_NAME}
-    COMPONENT hdr)
+  INSTALL(FILES ${EXP_FILE} DESTINATION ${DCS08961_HEADER_DIRECTORY}/${EXP_PATH} COMPONENT hdr)
 ENDFUNCTION()
 
 # TEST_SETUP(PREFIX SOURCES .. [ADDITIONAL ..] [DEPENDENCIES ..] [DEBUG])
