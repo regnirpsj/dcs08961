@@ -35,14 +35,17 @@ namespace render {
       class null : public base {
 
       public:
-
-        explicit null(context&, statistics::base&);
+        
         virtual ~null();
 
         virtual void execute();
       
         virtual void print_on(std::ostream&) const;
-      
+
+      protected:
+
+        explicit null(context&, statistics::base&);
+        
       };
     
       // variables, exported (extern)

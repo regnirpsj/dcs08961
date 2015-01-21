@@ -35,13 +35,16 @@ namespace render {
       class clear : public base {
 
       public:
-
-        explicit clear(context&, statistics::base&);
+        
         virtual ~clear();
 
         virtual void execute();
       
         virtual void print_on(std::ostream&) const;
+
+      protected:
+
+        explicit clear(context&, statistics::base&);
       
       };
     

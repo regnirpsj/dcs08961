@@ -35,14 +35,17 @@ namespace render {
       class draw : public base {
 
       public:
-
-        explicit draw(context&, statistics::base&);
+        
         virtual ~draw();
 
         virtual void execute();
       
         virtual void print_on(std::ostream&) const;
-      
+
+      protected:
+
+        explicit draw(context&, statistics::base&);
+        
       };
     
       // variables, exported (extern)

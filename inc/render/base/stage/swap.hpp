@@ -35,14 +35,17 @@ namespace render {
       class swap : public base {
 
       public:
-
-        explicit swap(context&, statistics::base&);
+        
         virtual ~swap();
 
         virtual void execute();
       
         virtual void print_on(std::ostream&) const;
-      
+
+      protected:
+
+        explicit swap(context&, statistics::base&);
+        
       };
     
       // variables, exported (extern)
