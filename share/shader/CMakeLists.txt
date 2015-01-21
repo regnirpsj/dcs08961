@@ -2,7 +2,7 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
@@ -17,5 +17,5 @@ FOREACH(file ${SHADER_SRC})
   CONFIGURE_FILE(${file} ${CMAKE_SHADER_OUTPUT_DIRECTORY}/${file} COPYONLY)
 ENDFOREACH()
 
-INSTALL(DIRECTORY ${CMAKE_SHADER_OUTPUT_DIRECTORY} DESTINATION ${DCS08961_SHARE_DIRECTORY}
+INSTALL(DIRECTORY ${CMAKE_SHADER_OUTPUT_DIRECTORY}/glsl DESTINATION ${DCS08961_SHARE_DIRECTORY}
   COMPONENT hdr)
