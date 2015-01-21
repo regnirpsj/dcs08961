@@ -2,13 +2,15 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
 MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS filesystem)
+
+# ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
 
 SET(LIB "scene")
 
