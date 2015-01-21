@@ -16,6 +16,7 @@ LIST(APPEND SRC "context.cpp")
 LIST(APPEND SRC "pass/container.cpp")
 LIST(APPEND SRC "stage/clear.cpp")
 LIST(APPEND SRC "stage/draw.cpp")
+LIST(APPEND SRC "stage/setup.cpp")
 LIST(APPEND SRC "stage/swap.cpp")
 LIST(APPEND SRC "statistics.cpp")
 

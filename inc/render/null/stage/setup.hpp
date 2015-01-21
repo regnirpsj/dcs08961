@@ -2,51 +2,48 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014-2015 University of Hull                                                     */
+/* Copyright (C) 2015 University of Hull                                                          */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/base/stage/setup.hpp                                                     */
+/*  module     :  render/null/stage/setup.hpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGE_SETUP_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_NULL_STAGE_SETUP_HPP)
 
-#define UKACHULLDCS_08961_RENDER_BASE_STAGE_SETUP_HPP
+#define UKACHULLDCS_08961_RENDER_NULL_STAGE_SETUP_HPP
 
 // includes, system
 
-//#include <>
+// #include <>
 
 // includes, project
 
-#include <render/base/stage/base.hpp>
+#include <render/base/stage/setup.hpp>
 
 namespace render {
 
-  namespace base {
-
+  namespace null {
+    
     namespace stage {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class setup : public base {
+      class setup : public base::stage::setup {
 
       public:
 
+        explicit setup();
         virtual ~setup();
-      
-        virtual void print_on(std::ostream&) const;
 
       protected:
-
-        explicit setup(context&, statistics::base&);
         
         virtual void do_execute();
         
-      };
+      };      
     
       // variables, exported (extern)
 
@@ -56,8 +53,8 @@ namespace render {
 
     } // namespace stage {
     
-  } // namespace base {
+  } // namespace null {
   
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_BASE_STAGE_SETUP_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_NULL_STAGE_SETUP_HPP)
