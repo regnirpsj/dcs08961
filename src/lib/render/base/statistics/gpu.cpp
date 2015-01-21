@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -65,9 +65,11 @@ namespace render {
       }
 
       /* virtual */ void
-      gpu::data::print_on(std::ostream&) const
+      gpu::data::print_on(std::ostream& os) const
       {
         TRACE_NEVER("render::base::statistics::gpu::data::print_on");
+
+        os << "[render::base::statistics::gpu::data]";
       }
       
       /* explicit */

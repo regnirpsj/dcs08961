@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  proto.cpp                                                                       */
+/*  module     :  render/null/statistics.cpp                                                      */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -53,21 +53,25 @@ namespace render {
     /* virtual */
     stats::data::~data()
     {
-      TRACE("render::base::statistics::stats::data::~data");
+      TRACE("render::null::stats::data::~data");
     }
       
     /* virtual */ stats::data&
     stats::data::operator+=(data const&)
     {
-      TRACE("render::base::statistics::stats::data::operator+=");
+      TRACE("render::null::stats::data::operator+=");
 
       return *this;
     }
 
     /* virtual */ void
-    stats::data::print_on(std::ostream&) const
+    stats::data::print_on(std::ostream& os) const
     {
-      TRACE_NEVER("render::base::statistics::stats::data::print_on");
+      TRACE_NEVER("render::null::stats::data::print_on");
+
+      //render::base::statistics::cpu::data::print_on(os);
+      //render::base::statistics::gpu::data::print_on(os);
+      os << "[render::null::stats::data]";
     }
     
     /* explicit */
@@ -76,19 +80,19 @@ namespace render {
         render::base::statistics::cpu (context::dflt),
         render::base::statistics::gpu (context::dflt)
     {
-      TRACE("render::null:stats::stats");
+      TRACE("render::null::stats::stats");
     }
 
     /* virtual */
     stats::~stats()
     {
-      TRACE("render::null:stats::~stats");
+      TRACE("render::null::stats::~stats");
     }
 
     /* virtual */ std::unique_ptr<render::base::statistics::base::data>
     stats::fetch() const
     {
-      TRACE("render::null:stats::fetch");
+      TRACE("render::null::stats::fetch");
 
       return std::unique_ptr<render::base::statistics::base::data>(new stats::data);
     }
@@ -98,8 +102,9 @@ namespace render {
     {
       TRACE_NEVER("render::null::stats::print_on");
       
-      render::base::statistics::cpu::print_on(os);
-      render::base::statistics::gpu::print_on(os);
+      //render::base::statistics::cpu::print_on(os);
+      //render::base::statistics::gpu::print_on(os);
+      os << *(fetch());
     }
 
     /* virtual */ void
