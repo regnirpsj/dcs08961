@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <scene/nodes.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -61,14 +61,29 @@ namespace render {
       {
         TRACE_NEVER("render::base::stage::draw::print_on");
 
+        os << '[';
+        
         base::print_on(os);
+
+        os << ','
+#if defined(UKACHULLDCS_USE_TRACE)
+           << *scene_  << ',' << *camera_
+#else
+           << "root:" << scene_  << ",camera:" <<  camera_
+#endif
+           << ']';
       }
 
       /* explicit */
-      draw::draw(context& a, statistics::base& b)
-        : base(a, b)
+      draw::draw(context& a, scene::node::group* b, scene::node::camera* c, statistics::base& d)
+        : base   (a, d),
+          scene_ (b),
+          camera_(c)
       {
         TRACE("render::base::stage::draw::draw");
+
+        assert(nullptr != scene_.get());
+        assert(nullptr != camera_.get());
       }
 
       /* virtual */ void

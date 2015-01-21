@@ -36,7 +36,8 @@ namespace render {
 
       public:
 
-        explicit draw();
+        explicit draw(scene::node::group*  /* scene root */,
+                      scene::node::camera* /* camera */);
         virtual ~draw();
 
       protected:

@@ -52,8 +52,8 @@ namespace render {
       // functions, exported
 
       /* explicit */
-      draw::draw()
-        : render::base::stage::draw(context::dflt, stats::dflt)
+      draw::draw(scene::node::group* a, scene::node::camera* b)
+        : render::base::stage::draw(context::dflt, a, b, stats::dflt)
       {
         TRACE("render::null:stage::draw::draw");
       }

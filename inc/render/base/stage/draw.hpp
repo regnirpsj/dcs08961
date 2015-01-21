@@ -18,11 +18,22 @@
 
 // includes, system
 
-//#include <>
+#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
 
 // includes, project
 
 #include <render/base/stage/base.hpp>
+
+namespace scene {
+
+  namespace node {
+    
+    class camera;
+    class group;
+
+  } // namespace node {
+
+} // namespace scene {
 
 namespace render {
 
@@ -42,7 +53,13 @@ namespace render {
 
       protected:
 
-        explicit draw(context&, statistics::base&);
+        boost::intrusive_ptr<scene::node::group>  scene_;
+        boost::intrusive_ptr<scene::node::camera> camera_;
+        
+        explicit draw(context&             /* ctx */,
+                      scene::node::group*  /* scene root */,
+                      scene::node::camera* /* camera */,
+                      statistics::base&    /* stats */);
 
         virtual void do_execute();
           

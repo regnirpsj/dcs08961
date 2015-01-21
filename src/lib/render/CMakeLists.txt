@@ -33,6 +33,7 @@ LIST(APPEND SRC "base/statistics/gpu.cpp")
 LIST(APPEND SRC "base/window.cpp")
 
 SET(LIBS)
+LIST(APPEND LIBS scene)
 LIST(APPEND LIBS support)
 
 LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
