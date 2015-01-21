@@ -18,11 +18,12 @@
 
 // includes, system
 
-// #include <>
+#include <vector> // std::vector<>
 
 // includes, project
 
 #include <render/base/stage/draw.hpp>
+#include <scene/objects.hpp>
 
 namespace render {
 
@@ -36,6 +37,9 @@ namespace render {
 
       public:
 
+        typedef std::vector<scene::object::light::base::rep> light_list_type;
+        typedef std::vector<scene::object::material::rep>    material_list_type;
+        
         explicit draw(scene::node::group*  /* scene root */,
                       scene::node::camera* /* camera */);
         virtual ~draw();
@@ -43,6 +47,12 @@ namespace render {
       protected:
         
         virtual void do_execute();
+
+      private:
+
+        bool               scene_bbox_changed_;
+        light_list_type    light_list_;
+        material_list_type material_list_;
         
       };
     
