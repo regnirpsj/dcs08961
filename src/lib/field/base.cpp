@@ -19,8 +19,8 @@
 // includes, system
 
 #include <algorithm> // std::find<>
-//#include <iomanip>
 #include <ostream>   // std::ostream
+#include <stdexcept> // std::logic_error
 
 // includes, project
 
@@ -95,6 +95,10 @@ namespace field {
   {
     TRACE("field::base::base");
 
+    if (name_.empty()) {
+      throw std::logic_error("field names cannot be empty!");
+    }
+    
     container_.add(this);
   }
   
