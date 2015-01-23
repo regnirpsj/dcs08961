@@ -124,7 +124,7 @@ namespace render {
       /* explicit */
       draw::draw(scene::node::group* a, scene::node::camera* b)
         : render::base::stage::draw(context::dflt, a, b, stats::dflt),
-          scene_bbox_changed_      (!a->bbox.get().valid),
+          scene_bbox_changed_      (!a->bbox->valid),
           light_list_              (),
           material_list_           ()
       {
@@ -144,7 +144,7 @@ namespace render {
         
         render::base::stage::draw::do_execute();
 
-        scene_bbox_changed_ = !scene_->bbox.get().valid;
+        scene_bbox_changed_ = !scene_->bbox->valid;
 
         if (scene_bbox_changed_) {
           {
