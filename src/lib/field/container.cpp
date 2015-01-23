@@ -20,6 +20,7 @@
 
 #include <algorithm> // std::find<>
 #include <ostream>   // std::ostream
+#include <stdexcept> // std::logic_error
 #include <typeinfo>  // typeid
 
 // includes, project
@@ -315,7 +316,7 @@ namespace field {
     if (field_list_.end() != found) {
       field_list_.erase(found);
     } else {
-      throw std::logic_error("unable to unregister non-existent field");
+      throw std::logic_error("unable to unregister non-existent field!");
     }
   }
   
