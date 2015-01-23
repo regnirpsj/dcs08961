@@ -50,10 +50,11 @@ namespace field {
       virtual bool                        add(value_type const&)                 =0;
       virtual bool                        sub(value_type const&)                 =0;
 
-      value_container_type const& operator*() const;
-      base&                       operator=(value_container_type const&);
+      value_container_type const& operator* () const;
+      value_container_type const* operator->() const;
+      base&                       operator= (value_container_type const&);
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
-      base&                       operator=(std::initializer_list<value_type>);
+      base&                       operator= (std::initializer_list<value_type>);
 #endif
       base&                       operator+=(value_type const&);
       base&                       operator-=(value_type const&);

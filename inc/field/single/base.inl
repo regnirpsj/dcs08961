@@ -76,6 +76,15 @@ namespace field {
 
       return get();
     }
+    
+    template <typename T>
+    inline typename base<T>::value_type const*
+    base<T>::operator->() const
+    {
+      TRACE("field::single::base::<" + support::demangle(typeid(T)) + ">::operator->");
+
+      return &(get());
+    }
 
     template <typename T>
     inline base<T>&

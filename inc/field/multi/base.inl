@@ -127,6 +127,16 @@ namespace field {
     }
 
     template <typename T, typename C>
+    inline typename base<T,C>::value_container_type const*
+    base<T,C>::operator->() const
+    {
+      TRACE("field::multi::base::<" + support::demangle(typeid(T)) + "," +
+            support::demangle(typeid(C)) + ">::operator->");
+
+      return &(get());
+    }
+    
+    template <typename T, typename C>
     inline base<T,C>&
     base<T,C>::operator=(value_container_type const& a)
     {

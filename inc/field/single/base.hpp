@@ -43,9 +43,10 @@ namespace field {
     
       virtual value_type const& get() const            =0;
       virtual value_type        set(value_type const&) =0;
-      
-      value_type const& operator*() const;
-      base&             operator=(value_type const&);
+
+      value_type const& operator* () const;
+      value_type const* operator->() const;
+      base&             operator= (value_type const&);
 
     protected:
 
