@@ -54,7 +54,8 @@ namespace scene {
         object(*this, "object", a),
         view  (*this, "view",
                std::bind(&camera::cb_get_view, this),
-               std::bind(&camera::cb_set_view, this, std::placeholders::_1))
+               std::bind(&camera::cb_set_view, this, std::placeholders::_1)),
+        inverse_view_()
     {
       TRACE("scene::node::camera::camera");
 
@@ -69,12 +70,14 @@ namespace scene {
       v.visit(*this);
     }
     
-    glm::mat4
+    glm::mat4 const&
     camera::cb_get_view() const
     {
       TRACE("scene::node::camera::cb_get_view");
 
-      return glm::inverse(absolute_xform());
+      inverse_view_ = glm::inverse(absolute_xform());
+      
+      return inverse_view_;
     }
     
     glm::mat4

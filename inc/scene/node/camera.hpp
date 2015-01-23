@@ -50,8 +50,10 @@ namespace scene {
       
     private:
 
-      glm::mat4 cb_get_view() const;
-      glm::mat4 cb_set_view(glm::mat4 const&);
+      mutable glm::mat4 inverse_view_;
+      
+      glm::mat4 const& cb_get_view() const;
+      glm::mat4        cb_set_view(glm::mat4 const&);
       
     };
     
