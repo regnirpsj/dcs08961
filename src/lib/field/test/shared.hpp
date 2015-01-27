@@ -128,7 +128,7 @@ namespace field {
 
     typedef boost::mpl::list<
        bool
-#if 0
+#if 1
       ,signed   char
       ,unsigned char
       ,char16_t
@@ -152,7 +152,7 @@ namespace field {
 
     typedef boost::mpl::list<
        std::vector<bool>
-#if 0
+#if 1
       ,std::vector<signed   char>
       ,std::vector<unsigned char>
       ,std::vector<char16_t>

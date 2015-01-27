@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -36,6 +36,36 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 #include <boost/test/test_case_template.hpp>
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_value_multi_container, T, field::test::multi_types)
+{
+  using namespace field;
+  
+  test::container_multi<T>                   c;
+  value::multi<typename T::value_type> const f(c, "f");
+
+  BOOST_CHECK(&c == &f.container());
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_value_multi_name, T, field::test::multi_types)
+{
+  using namespace field;
+  
+  test::container_multi<T>                   c;
+  value::multi<typename T::value_type> const f(c, "f");
+
+  BOOST_CHECK("f" == f.name());
+}
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_value_multi_last_change, T, field::test::multi_types)
+{
+  using namespace field;
+  
+  test::container_multi<T>                   c;
+  value::multi<typename T::value_type> const f(c, "f");
+
+  BOOST_CHECK(support::clock::now() > f.last_change());
+}
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_value_multi_get, T, field::test::multi_types)
 {
