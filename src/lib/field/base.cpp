@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -66,6 +66,14 @@ namespace field {
     return name_;
   }
 
+  support::clock::time_point const&
+  base::last_change() const
+  {
+    TRACE("field::base::last_change(get)");
+    
+    return last_change_;
+  }
+  
   void
   base::touch()
   {

@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -38,8 +38,9 @@ namespace field {
 
     typedef ::field::container container_type;
     
-    container_type const& container() const;
-    std::string const&    name() const;
+    container_type const&             container() const;
+    std::string const&                name() const;
+    support::clock::time_point const& last_change() const;
     
     void touch();
     
