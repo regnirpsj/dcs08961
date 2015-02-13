@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -119,7 +119,7 @@ namespace stats {
     using namespace std::chrono;
     
     os << '['
-       << std::string(20 - name.length(), ' ') << name
+       << std::string(std::max(unsigned(25), unsigned(name.length())) - name.length(), ' ') << name
        << ",@"
        << duration_fmt(symbol) << std::fixed << std::right
        << std::setw(9) << std::setfill(' ') << duration_cast<microseconds>(start.time_since_epoch())

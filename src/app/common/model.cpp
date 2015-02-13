@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -108,11 +108,11 @@ namespace model {
           
       mesh_.BoundingSphere(bsphere);
 
+      xform_ = glm::translate(-glm::vec3(bsphere.Center().x(),
+                                         bsphere.Center().y(),
+                                         bsphere.Center().z()));
       if (!bsphere.Degenerate()) {
-        xform_ = (glm::scale    ( glm::vec3(1.0 / bsphere.Diameter())) *
-                  glm::translate(-glm::vec3(bsphere.Center().x(),
-                                            bsphere.Center().y(),
-                                            bsphere.Center().z())));
+        xform_ = glm::scale ( glm::vec3(1.0 / bsphere.Diameter())) * xform_;
       }
     }
 

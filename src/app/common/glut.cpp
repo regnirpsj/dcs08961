@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -179,16 +179,18 @@ namespace glut {
   
   /* explicit */
   application::application(int argc, char* argv[])
-    : inherited  (argc, argv),
-      queue_max_ (1),
-      frameq_    (),
-      keyboardq_ (),
-      mouseq_    (),
-      camera_    ({ glm::mat4() }),
-      projection_({ glm::mat4(), 60.0, glm::vec2(0.001, 1000.0) }),
-      window_    ({ -1, false, glm::ivec2(90,40), glm::ivec2(1440,900), false }),
-      cpu_stats_ (nullptr),
-      gpu_stats_ (nullptr)
+    : inherited   (argc, argv),
+      layout_     ("1x1xN"),
+      input_files_(),
+      queue_max_  (1),
+      frameq_     (),
+      keyboardq_  (),
+      mouseq_     (),
+      camera_     ({ glm::mat4() }),
+      projection_ ({ glm::mat4(), 60.0, glm::vec2(0.001, 1000.0) }),
+      window_     ({ -1, false, glm::ivec2(90,40), glm::ivec2(1440,900), false }),
+      cpu_stats_  (nullptr),
+      gpu_stats_  (nullptr)
   {
     TRACE("glut::application::application");
 
@@ -196,13 +198,19 @@ namespace glut {
       namespace po = boost::program_options;
 
       po::options_description common("Command-Line Options");
-        
+
+      common.add_options()
+        ("layout,l",
+         po::value<std::string>(&layout_)
+         ->default_value (layout_),
+         "layout pattern for input file(s) (format: XxYxZ with X,Y,Z in [0..N])\n"
+         "e.g., line in Z: 1x1xN, cube: 3x3x3");
       common.add_options()
         ("file,f",
          po::value(&input_files_)->composing(),
          "input file(s)\n"
          "positional arguments are accumulated as input files");
-
+      
       cmdline_options_    .add(common);
       cmdline_positionals_.add("file", -1);
       

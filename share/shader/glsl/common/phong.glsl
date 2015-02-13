@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -189,7 +189,7 @@ light_accumulate(in    const vec3  P, // fragment position (wc)
 
     tmp.enabled  = true;
     tmp.position = C * vec4(-tmp.direction, 0);
-    tmp.ambient  = vec3(0.15);
+    tmp.ambient  = vec3(0.125);
     
     light_accumulate(tmp, P, N, C, material_shininess, ambient, diffuse, specular);
   }

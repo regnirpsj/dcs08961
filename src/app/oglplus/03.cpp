@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -18,6 +18,7 @@
 
 #include <array>
 #include <boost/filesystem.hpp> // boost::filesystem::path
+#include <boost/tokenizer.hpp>  // boost::char_separator<>, boost::tokenizer<>
 #include <GL/freeglut.h>
 #include <oglplus/all.hpp>
 #include <oglplus/bound/texture.hpp>
@@ -39,6 +40,7 @@
 
 #include <../common/glut.hpp>
 #include <../common/model.hpp>
+#include <support/chrono_io.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -52,7 +54,7 @@ namespace {
 
   class application : public glut::application {
     
-  public:    
+  public:
 
     explicit application(int argc, char* argv[])
       : glut::application(argc, argv),
@@ -154,56 +156,90 @@ namespace {
           Uniform<GLint>(prg_, "material_tex_envmap_enabled").Set(false);
         }
       }
-      
+
       if (!input_files_.empty()) {
-        static glm::vec3 const incr(0.0, 0.0, -1.5);
-        
-        glm::vec3 xlat(0.0, 0.0, 0.0);
+        glm::uvec3 size;
+        glm::vec3  incr;
 
-        if (0 == (input_files_.size() % 2)) {
-          xlat.z  = 0.75;
-          xlat.z *= input_files_.size() / 2;
-        } else {
-          xlat.z  = 1.5;
-          xlat.z *= (input_files_.size() - 1) / 2;
-        }
-        
-        for (auto f : input_files_) {
-          model::mesh* mm(nullptr);
+        {
+          typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
           
-          try {
-            mm = new model::mesh(f, prg_);
-            
-            mm->xform(glm::translate(xlat) *  mm->xform());
-            
-            model_list_.push_back(model_mesh_list_type::value_type(mm));
-            
-            xlat += incr;
-          }
+          boost::char_separator<char> const sep("x");
+          tokenizer                         tokens(layout_, sep);
+          tokenizer::iterator               current_token(tokens.begin());
           
-          catch (oglplus::Error& ex) {
-            glut::print_error_common(ex, std::cerr, "OGLPlus: GL error");
+          for (unsigned i(0); i < 3; ++i) {
+            try {
+              size[i] = std::stoi(*current_token);
+            }
+            
+            catch (std::logic_error&) {
+              size[i] = input_files_.size();
+            }
 
-            delete mm; mm = nullptr;
-          }
-          
-          catch (std::runtime_error& ex) {
-            glut::print_std_error_common(ex, std::cerr, "System: Runtime error");
-            std::cerr << std::endl;
-
-            delete mm; mm = nullptr;
-          }
-
-          if (nullptr == mm) {
-            std::cout << support::trace::prefix() << "<unnamed>::application::application: "
-                      << "unable to load file: "  << f << std::endl;
+            incr[i] = (size[i] > 1) ? 1.05 : 0;
+            
+            ++current_token;
           }
         }
+
+        support::timer                   timer;
+        string_list_type::const_iterator f(input_files_.begin());
         
-        camera_.xform = glm::inverse(glm::lookAt(glm::vec3( input_files_.size() / 10,
-                                                            0.5f,
-                                                            (input_files_.size() * 4) / 3),
-                                                 glm::vec3( 0.0f, 0.0f, 0.0f),
+        for (unsigned x(0); x < size.x; ++x) {
+          for (unsigned y(0); y < size.y; ++y) {
+            for (unsigned z(0); z < size.z; ++z) {
+              glm::vec3 const pos(glm::vec3(x,y,z) * incr);
+              model::mesh*    mm(nullptr);
+
+              timer.reset();
+              
+              try {
+                mm = new model::mesh(*f, prg_);
+            
+                mm->xform(glm::translate(pos) * mm->xform());
+                
+                model_list_.push_back(model_mesh_list_type::value_type(mm));
+              }
+          
+              catch (oglplus::Error& ex) {
+                glut::print_error_common(ex, std::cerr, "OGLPlus: GL error");
+
+                delete mm; mm = nullptr;
+              }
+          
+              catch (std::runtime_error& ex) {
+                glut::print_std_error_common(ex, std::cerr, "System: Runtime error");
+                std::cerr << std::endl;
+
+                delete mm; mm = nullptr;
+              }
+
+              if (nullptr == mm) {
+                std::cout << support::trace::prefix() << "<unnamed>::application::application: "
+                          << "unable to load file: "  << *f << std::endl;
+              } else {
+                using namespace std::chrono;
+                
+                typedef duration<double> dsec;
+                
+                std::cout << "loaded:'" << *f << "' @"
+                          << glm::io::precision(2) << glm::io::width(6)
+                          << pos << " in "
+                          << duration_fmt(symbol) << std::fixed << std::right
+                          << duration_cast<dsec>(timer.lapse())
+                          << std::endl;
+              }
+
+              if (input_files_.end() == ++f) {
+                f = input_files_.begin();
+              }
+            }
+          }
+        }
+
+        camera_.xform = glm::inverse(glm::lookAt(glm::vec3(size) * glm::vec3(2, 0.75, 2),
+                                                 glm::vec3(size - glm::uvec3(1)) * glm::vec3(0.5),
                                                  glm::vec3( 0.0f, 1.0f, 0.0f)));
       }
       

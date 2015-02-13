@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -88,7 +88,8 @@ namespace glut {
   protected:
 
     typedef std::vector<std::string> string_list_type;
-    
+
+    std::string                 layout_;
     string_list_type            input_files_;
     unsigned                    queue_max_;
     std::deque<frame_info_t>    frameq_;
