@@ -26,6 +26,16 @@
 #include <support/printable.hpp>
 #include <field/export.h>
 
+namespace boost {
+
+  namespace serialization {
+
+    class access;
+    
+  } // namespace serialization {
+  
+} // namespace boost {
+
 namespace field {
 
   class container;
@@ -57,6 +67,12 @@ namespace field {
 
     void changed();
     void notify();
+
+  private: // serialization support
+
+    friend class boost::serialization::access;
+    
+    template <typename Archive> void serialize(Archive&, unsigned int const);
     
   };
   
@@ -67,5 +83,7 @@ namespace field {
   // functions, exported (extern)
   
 } // namespace field {
+
+#include <field/base.inl>
 
 #endif // #if !defined(UKACHULLDCS_08961_FIELD_BASE_HPP)
