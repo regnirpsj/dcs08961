@@ -27,7 +27,7 @@
 //#include <>
 
 #define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
+//#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 // internal unnamed namespace
@@ -123,7 +123,8 @@ namespace event {
   {
     TRACE("event::base::base(mov)");
   }
-  
+
+#if 0
   void
   base::operator=(base const&)
   {
@@ -143,5 +144,6 @@ namespace event {
     
     std::abort();
   }
+#endif
   
 } // namespace event {

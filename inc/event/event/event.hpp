@@ -32,11 +32,11 @@ namespace event {
   // types, exported (class, enum, struct, union, typedef)
 
   template <typename T>
-  class event : public base {
-
+  class event : public ::event::base {
+    
   public:
 
-    class handler : virtual public event::event<T>::handler::template base {
+    class handler : virtual public ::event::handler::base<T> {
 
     public:
 

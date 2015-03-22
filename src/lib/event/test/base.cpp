@@ -18,7 +18,7 @@
 
 // includes, project
 
-#include <event/event/base.hpp>
+#include <shared.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -29,27 +29,10 @@
 namespace {
   
   // types, internal (class, enum, struct, union, typedef)
-
-  class simple : public event::base {
-
-  public:
-
-    virtual void notify()
-    {
-      TRACE("<unnamed>::simple::notify");
-    }
-    
-  };
   
   // variables, internal
   
   // functions, internal
-
-  event::base::time_stamp_type
-  get_time()
-  {
-    return support::clock::now();
-  }
   
 } // namespace {
 
@@ -58,6 +41,8 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_event_base_time_source)
 {
+  using namespace event::test;
+  
   typedef event::base::time_source_function_type tsft;
   
   tsft ts_old(simple::time_source());
@@ -71,6 +56,8 @@ BOOST_AUTO_TEST_CASE(test_event_base_time_source)
 
 BOOST_AUTO_TEST_CASE(test_event_base_ctor_dflt)
 {
+  using namespace event::test;
+  
   simple const e;
 
   BOOST_CHECK  (support::clock::now() > e.time_stamp());
@@ -79,6 +66,8 @@ BOOST_AUTO_TEST_CASE(test_event_base_ctor_dflt)
 
 BOOST_AUTO_TEST_CASE(test_event_base_ctor_cpy)
 {
+  using namespace event::test;
+  
   simple const e1;
   simple const e2(e1);
 
@@ -86,8 +75,20 @@ BOOST_AUTO_TEST_CASE(test_event_base_ctor_cpy)
   BOOST_MESSAGE("<unnamed>::simple:" << e1 << ',' << e2);
 }
 
+BOOST_AUTO_TEST_CASE(test_event_base_ctor_mov)
+{
+  using namespace event::test;
+  
+  simple const e(std::move(simple()));
+
+  BOOST_CHECK  (support::clock::now() > e.time_stamp());
+  BOOST_MESSAGE("<unnamed>::simple:" << e);
+}
+
 BOOST_AUTO_TEST_CASE(test_event_base_stamp)
 {
+  using namespace event::test;
+  
   simple const e;
 
   BOOST_CHECK  (support::clock::now() > e.time_stamp());

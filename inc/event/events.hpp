@@ -2,29 +2,30 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  proto.hpp                                                                       */
+/*  module     :  event/events.hpp                                                                */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PROTO_HPP)
+#if !defined(UKACHULLDCS_08961_EVENT_EVENTS_HPP)
 
-#define UKACHULLDCS_08961_PROTO_HPP
+#define UKACHULLDCS_08961_EVENT_EVENTS_HPP
 
 // includes, system
 
-#include <>
+// #include <>
 
 // includes, project
 
-#include <>
+#include <event/event.hpp>
+#include <event/event/notify.hpp>
 
-namespace ??? {
+namespace event {
   
   // types, exported (class, enum, struct, union, typedef)
 
@@ -34,6 +35,6 @@ namespace ??? {
   
   // functions, exported (extern)
   
-} // namespace ??? {
+} // namespace event {
 
-#endif // #if !defined(UKACHULLDCS_08961_PROTO_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_EVENT_EVENTS_HPP)

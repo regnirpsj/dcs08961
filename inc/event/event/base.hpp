@@ -54,15 +54,15 @@ namespace event {
     explicit base();
     explicit base(base const&);
     explicit base(base const&&);
+
+    void operator=(base const&)  = delete;
+    void operator=(base const&&) = delete;
     
     time_stamp_type const stamp_;
 
   private:
 
     static time_source_function_type time_source_; // = &support::clock::now
-
-    void operator=(base const&);  // not implemented, not usable
-    void operator=(base const&&); // not implemented, not usable
     
   };
 

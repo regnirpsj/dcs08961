@@ -16,6 +16,7 @@ SET(SRC)
 
 LIST(APPEND SRC "event/base.cpp")
 LIST(APPEND SRC "event/event.cpp")
+LIST(APPEND SRC "event/notify.cpp")
 
 SET(LIBS)
 LIST(APPEND LIBS support)

@@ -14,7 +14,7 @@ SET(SRC)
 LIST(APPEND SRC "base.cpp")
 LIST(APPEND SRC "event.cpp")
 LIST(APPEND SRC "handler.cpp")
-LIST(APPEND SRC "notifier.cpp")
+LIST(APPEND SRC "notify.cpp")
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 
