@@ -27,6 +27,7 @@
 
 // includes, project
 
+#include <loader/obj.hpp>
 #include <scene/node/group.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -80,19 +81,19 @@ namespace {
   
   // kludge to get MSVC select any overload at all!
   inline scene::node::group*
-  obj_load(std::string const& /* a */)
+  obj_load(std::string const& a)
   {
     TRACE_NEVER("scene::file::<unnamed>::obj_load");
 
-    return nullptr; /* scene::file::obj::load(a); */
+    return scene::file::obj::load(a);
   }
   
   inline bool
-  obj_save(std::string const& /* a */, scene::node::group* /* b */)
+  obj_save(std::string const& a, scene::node::group* b)
   {
     TRACE_NEVER("scene::file::<unnamed>::obj_save");
 
-    return false; /* scene::file::obj::save(a, b); */
+    return scene::file::obj::save(a, b);
   }
   
   suffix_handler_map_type

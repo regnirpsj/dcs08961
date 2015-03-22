@@ -18,6 +18,9 @@ SET(SRC)
 
 LIST(APPEND SRC "file.cpp")
 
+LIST(APPEND SRC "loader/mtl.cpp")
+LIST(APPEND SRC "loader/obj.cpp")
+
 LIST(APPEND SRC "node/base.cpp")
 LIST(APPEND SRC "node/camera.cpp")
 LIST(APPEND SRC "node/dynamic.cpp")
