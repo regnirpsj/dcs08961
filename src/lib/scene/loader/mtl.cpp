@@ -35,6 +35,7 @@
 #include <boost/spirit/include/phoenix_operator.hpp>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/tokenizer.hpp>                       // boost::char_separator<>, boost::tokenizer<>
+#include <cmath>                                     // std::pow
 #include <fstream>                                   // std::[i|o]fstream
 #include <istream>                                   // std::istream
 #include <ostream>                                   // std::ostream
@@ -69,12 +70,12 @@ namespace {
   namespace ascii = boost::spirit::ascii;
   
   template <typename IT>
-  struct color_parser : qi::grammar<IT, glm::vec3(), ascii::space_type> {
+  struct rgb_parser : qi::grammar<IT, glm::vec3(), ascii::space_type> {
     
-    color_parser()
-      : color_parser::base_type(start)
+    rgb_parser()
+      : rgb_parser::base_type(start)
     {
-      TRACE_NEVER("scene::file::mtl::<unnamed>::color_parser::color_parser");
+      TRACE_NEVER("scene::file::mtl::<unnamed>::rgb_parser::rgb_parser");
         
       using qi::debug;
       using qi::float_;
@@ -92,6 +93,32 @@ namespace {
     
   };
 
+  template <typename IT>
+  struct xyz_parser : qi::grammar<IT, glm::vec3(), ascii::space_type> {
+    
+    xyz_parser()
+      : xyz_parser::base_type(start)
+    {
+      TRACE_NEVER("scene::file::mtl::<unnamed>::xyz_parser::xyz_parser");
+        
+      using qi::debug;
+      using qi::float_;
+      using qi::lit;
+      
+      start %=
+        lit("xyz") >>  // "xyz"
+        float_     >>  // x
+        float_     >>  // y
+        float_         // z
+        ;        
+        
+      // debug(start);
+    }
+    
+    qi::rule<IT, glm::vec3(), ascii::space_type> start;
+    
+  };
+  
   template <typename IT>
   struct float_parser : qi::grammar<IT, float(), ascii::space_type> {
     
@@ -147,6 +174,27 @@ namespace {
         
     return (result && first == last);
   }
+
+  /*
+   * see [http://www.wikipedia.org/wiki/SRGB]
+   */
+  glm::vec3
+  xyz_to_rgb(glm::vec3 const& xyz)
+  {
+    static float const     a( 0.055);
+    static float const     b(12.920);
+    static glm::mat3 const c(+3.2406, -1.5372, -0.4986,
+                             -0.9689, +1.8758, +0.0415,
+                             +0.0557, -0.2040, +1.0570);
+    
+    glm::vec3 result(c * (xyz / glm::vec3(100.0)));
+    
+    result.r = (result.r > 0.0031308) ? ((1.0 + a) * std::pow(result.r, 1/2.4)) : (b * result.r);
+    result.g = (result.g > 0.0031308) ? ((1.0 + a) * std::pow(result.g, 1/2.4)) : (b * result.g);
+    result.b = (result.b > 0.0031308) ? ((1.0 + a) * std::pow(result.b, 1/2.4)) : (b * result.b);
+    
+    return result;
+  }
   
 } // namespace {
 
@@ -167,7 +215,7 @@ namespace scene {
 
         list_type result;
 
-        result.push_back(new scene::object::material(/* "dflt" */));
+        result.push_back(new scene::object::material);
         
         std::string line;
         
@@ -189,7 +237,7 @@ namespace scene {
             float             d;
               
             if (parse<float_parser<std::string::const_iterator>>(exp, d)) {
-              // (*result.rbegin())->alpha(d);
+              (*result.rbegin())->alpha = d;
             }
           }
 
@@ -201,8 +249,10 @@ namespace scene {
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             glm::vec3         c;
               
-            if (parse<color_parser<std::string::const_iterator>>(exp, c)) {
-              // (*result.rbegin())->ambient(c);
+            if        (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->ambient = c;
+            } else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->ambient = xyz_to_rgb(c);
             }
           }
 
@@ -210,8 +260,10 @@ namespace scene {
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             glm::vec3         c;
               
-            if (parse<color_parser<std::string::const_iterator>>(exp, c)) {
-              // (*result.rbegin())->emission(c);
+            if (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->emission = c;
+            }  else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->emission = xyz_to_rgb(c);
             }
           }
           
@@ -219,8 +271,10 @@ namespace scene {
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             glm::vec3         c;
               
-            if (parse<color_parser<std::string::const_iterator>>(exp, c)) {
-              // (*result.rbegin())->diffuse(c);
+            if (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->diffuse = c;
+            } else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->diffuse = xyz_to_rgb(c);
             }
           }
 
@@ -228,8 +282,10 @@ namespace scene {
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             glm::vec3         c;
               
-            if (parse<color_parser<std::string::const_iterator>>(exp, c)) {
-              // (*result.rbegin())->specular(c);
+            if (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->specular = c;
+            } else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->specular = xyz_to_rgb(c);
             }
           }
           
@@ -256,7 +312,7 @@ namespace scene {
             float             r;
               
             if (parse<float_parser<std::string::const_iterator>>(exp, r)) {
-              // (*result.rbegin())->refraction(r);
+              (*result.rbegin())->refraction = r;
             }
           }
           
@@ -265,12 +321,12 @@ namespace scene {
             float             s;
               
             if (parse<float_parser<std::string::const_iterator>>(exp, s)) {
-              // (*result.rbegin())->shininess(s);
+              (*result.rbegin())->shininess = s;
             }
           }
           
           else if ("newmtl" == *tokens.begin()) { // newmtl <string>
-            // result.push_back(new scene::object::material(boost::trim_copy(*(++(tokens.begin())))));
+            result.push_back(new scene::object::material);
           }
           
           //else if ("refl" == *tokens.begin()) { //refl -type <type> -options -args filename
@@ -280,23 +336,25 @@ namespace scene {
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             glm::vec3         c;
               
-            if (parse<color_parser<std::string::const_iterator>>(exp, c)) {
-              // (*result.rbegin())->transmission(c);
+            if (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->transmission = c;
+            } else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
+              (*result.rbegin())->transmission = xyz_to_rgb(c);
             }
           }
           
-          else if ("Tr" == *tokens.begin()) { // Tr x (= 1 - alpha)
+          else if ("Tr" == *tokens.begin()) { // Tr x (== 1 - alpha)
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             float             t;
               
             if (parse<float_parser<std::string::const_iterator>>(exp, t)) {
-              // (*result.rbegin())->alpha(1.0f - t);
+              (*result.rbegin())->alpha = (1.0f - t);
             }
           }
 
           else if ("TWOSIDE" == *tokens.begin()) { // TWOSIDE (non-standard)
-            // (*result.rbegin())->front(true);
-            // (*result.rbegin())->back (true);
+            (*result.rbegin())->front = true;
+            (*result.rbegin())->back  = true;
           }
 
 #if 0 // defined(UKACHULLDCS_USE_TRACE)
