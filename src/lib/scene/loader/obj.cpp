@@ -40,6 +40,7 @@
 #include <boost/tokenizer.hpp>                       // boost::char_separator<>, boost::tokenizer<>
 #include <fstream>                                   // std::[i|o]fstream
 #include <istream>                                   // std::istream
+#include <numeric>                                   // std::iota
 #include <ostream>                                   // std::ostream
 
 // includes, project
@@ -573,11 +574,11 @@ namespace scene {
               }
 
               {
-                mesh* m(new mesh);
+                geometry::index_list_type idx(attrs.size());
 
-                // m->attrs = attrs;
+                std::iota(idx.begin(), idx.end(), 0);
                 
-                mg->children += m;
+                mg->children += new mesh(attrs, idx);
               }
             }
             
