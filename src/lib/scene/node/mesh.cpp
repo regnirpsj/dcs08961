@@ -49,10 +49,17 @@ namespace scene {
     // functions, exported
 
     /* explicit */
-    mesh::mesh()
+    mesh::mesh(attribute_list_type const& a, index_list_type const& b)
       : geometry()
     {
       TRACE("scene::node::mesh::mesh");
+
+      attribute_list_ = a;
+      index_list_     = b;
+
+      compute_bounds();
+      compute_normals();
+      compute_tangents();
     }
     
     /* virtual */ void

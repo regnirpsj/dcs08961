@@ -35,8 +35,11 @@ namespace scene {
     public:
 
       typedef geometry subject_inherited;
-
-      explicit mesh();
+      
+      typedef geometry::attribute_list_type attribute_list_type;
+      typedef geometry::index_list_type     index_list_type;
+      
+      explicit mesh(attribute_list_type const&, index_list_type const&);
       
       virtual void accept(visitor::base&);
 
