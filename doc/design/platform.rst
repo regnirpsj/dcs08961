@@ -20,14 +20,19 @@ platform
     win32
 
       class base
+      
       class console
+      
       class windows
 
     winrt
 
       class base
+      
       class desktop
+      
       class store
+      
       class universal
 
   window
@@ -37,16 +42,19 @@ platform
     glut
 
       class base
+      
       class simple
 
     win32
 
       class base
+      
       class simple
 
     winrt
 
       class base
+      
       class simple
 
 Variant B
@@ -69,7 +77,9 @@ platform
     application
 
       class base
+      
       class console
+      
       class windows
 
   winrt
@@ -77,8 +87,11 @@ platform
     application
 
       class base
+      
       class desktop
+      
       class store
+      
       class universal
 
   window
@@ -90,6 +103,7 @@ platform
     window
 
       class base
+      
       class simple
 
   win32
@@ -97,6 +111,7 @@ platform
     window
 
       class base
+      
       class simple
 
   winrt
@@ -104,4 +119,5 @@ platform
     window
 
       class base
+      
       class simple
