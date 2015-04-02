@@ -15,7 +15,7 @@ platform
 
     posix
 
-      class application
+      class base
 
     win32
 
@@ -51,3 +51,57 @@ platform
 
 Variant B
 ---------
+
+platform
+
+  application
+
+    class base
+
+  posix
+
+    application
+
+      class base
+
+  win32
+
+    application
+
+      class base
+      class console
+      class windows
+
+  winrt
+
+    application
+
+      class base
+      class desktop
+      class store
+      class universal
+
+  window
+
+    class base
+
+  glut
+
+    window
+
+      class base
+      class simple
+
+  win32
+
+    window
+
+      class base
+      class simple
+
+  winrt
+
+    window
+
+      class base
+      class simple
