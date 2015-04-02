@@ -7,23 +7,47 @@ Platform-Design Choices
 Variant A
 ---------
 
-platform::application::base
+platform
 
-  platform::posix::application
+  application
 
-  platform::win32::application
+    class base
 
-  platform::winrt::application
+    posix
 
-platform::window::base
+      class application
 
-  platform::glut::window
+    win32
 
-  platform::win32::window::base
+      class base
+      class console
+      class windows
 
-    platform::win32::window::simple
+    winrt
 
-  platform::winrt::window::base
+      class base
+      class desktop
+      class store
+      class universal
+
+  window
+
+    class base
+
+    glut
+
+      class base
+      class simple
+
+    win32
+
+      class base
+      class simple
+
+    winrt
+
+      class base
+      class simple
 
 Variant B
 ---------
