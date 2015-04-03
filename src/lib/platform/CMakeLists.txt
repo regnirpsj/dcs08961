@@ -20,6 +20,8 @@ LIST(APPEND SRC "application/multi_instance.cpp")
 LIST(APPEND SRC "application/single_instance.cpp")
 LIST(APPEND SRC "window/base.cpp")
 
+ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
+
 SET(LIBS)
 LIST(APPEND LIBS support)
 LIST(APPEND LIBS ${Boost_LIBRARIES})

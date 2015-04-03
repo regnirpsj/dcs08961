@@ -61,7 +61,7 @@ namespace platform {
       /* virtual */ void
       simple::frame_render_one()
       {
-        TRACE("platform::glut::window::simple::frame_render_one");
+        TRACE_NEVER("platform::glut::window::simple::frame_render_one");
 
         ::glClearColor(0.95f, 0.95f, 0.95f, 0.0f);
         ::glClearDepth(1.0f);

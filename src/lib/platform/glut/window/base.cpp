@@ -88,13 +88,25 @@ namespace platform {
       {
         TRACE_NEVER("platform::glut::window::base::print_on");
       }
+
+      namespace {
+
+        std::string
+        exec_context(void const* ptr)
+        {
+          return std::string(" (@"
+                             + std::to_string(reinterpret_cast<unsigned long const>(ptr))
+                             + ')');
+        }
+        
+      }
       
       /* explicit */
       base::base(std::string const& a)
         : platform::window::base(a),
           state_                ({-1, false, glm::ivec2(90,40), glm::ivec2(1440,900), false })
       {
-        TRACE("platform::glut::window::base::base");
+        TRACE("platform::glut::window::base::base" + exec_context(this));
 
         ::glutInitWindowPosition(state_.pos.x,  state_.pos.y);
         ::glutInitWindowSize    (state_.size.x, state_.size.y);
@@ -133,7 +145,7 @@ namespace platform {
       /* virtual */ void
       base::frame_render_post()
       {
-        TRACE("platform::glut::window::base::frame_render_post");
+        TRACE_NEVER("platform::glut::window::base::frame_render_post");
 
         ::glutSwapBuffers();
       }
@@ -141,13 +153,13 @@ namespace platform {
       /* virtual */ void
       base::frame_render_pre()
       {
-        TRACE("platform::glut::window::base::frame_render_pre");
+        TRACE_NEVER("platform::glut::window::base::frame_render_pre");
       }
 
       /* virtual */ void
       base::idle()
       {
-        TRACE("platform::glut::window::base::idle");
+        TRACE_NEVER("platform::glut::window::base::idle");
 
         ::glutPostRedisplay();
       }
@@ -155,7 +167,7 @@ namespace platform {
       /* virtual */ void
       base::keyboard(unsigned char key, glm::ivec2 const&)
       {
-        TRACE("platform::glut::window::base::keyboard");
+        TRACE("platform::glut::window::base::keyboard" + exec_context(this));
 
         switch (key) {
         case 0x1B: // ESC
@@ -190,7 +202,7 @@ namespace platform {
       /* virtual */ void
       base::reshape(glm::ivec2 const&)
       {
-        TRACE("platform::glut::window::base::reshape");
+        TRACE("platform::glut::window::base::reshape" + exec_context(this));
       }
 
       /* virtual */ void
@@ -202,7 +214,7 @@ namespace platform {
       /* virtual */ void
       base::display()
       {
-        TRACE("platform::glut::window::base::display");
+        TRACE_NEVER("platform::glut::window::base::display");
 
         frame_render_pre ();
         frame_render_one ();
@@ -212,7 +224,7 @@ namespace platform {
       /* static */ void
       base::cb_display()
       {
-        TRACE("platform::glut::window::base::cb_display");
+        TRACE_NEVER("platform::glut::window::base::cb_display");
 
         base* win(static_cast<base*>(manager::get(::glutGetWindow())));
 
@@ -222,7 +234,7 @@ namespace platform {
       /* static */ void
       base::cb_idle()
       {
-        TRACE("platform::glut::window::base::cb_idle");
+        TRACE_NEVER("platform::glut::window::base::cb_idle");
 
         base* win(static_cast<base*>(manager::get(::glutGetWindow())));
 

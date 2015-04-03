@@ -138,7 +138,7 @@ namespace platform {
       /* static */ base*
       manager::get(signed a)
       {
-        TRACE("platform::glut::window::manager::get");
+        TRACE_NEVER("platform::glut::window::manager::get");
 
         base* result(nullptr);
         auto  found(std::find_if(window_list_.begin(), window_list_.end(),
