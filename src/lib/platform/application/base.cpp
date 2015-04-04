@@ -22,6 +22,7 @@
 #include <cstdlib>              // EXIT_SUCCESS
 #include <ostream>              // std::ostream
 #include <stdexcept>            // std::exception
+#include <system_error>         // std::system_error
 
 // includes, project
 
@@ -86,7 +87,9 @@ namespace platform {
                   << command_line_.descriptions
                   << std::endl;
         
-        std::exit(exit_value);
+        // std::exit(exit_value);
+        throw std::system_error(ECANCELED, std::generic_category(),
+                                "exit value:" + std::to_string(exit_value));
       }
     }
     
