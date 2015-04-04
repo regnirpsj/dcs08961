@@ -22,7 +22,6 @@
 
 // includes, project
 
-#include <platform/export.h>
 #include <platform/window/base.hpp>
 
 namespace platform {

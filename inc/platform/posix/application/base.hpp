@@ -24,7 +24,6 @@
 // includes, project
 
 #include <platform/application/single_instance.hpp>
-#include <platform/export.h>
 
 namespace platform {
 

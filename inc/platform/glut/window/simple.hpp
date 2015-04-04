@@ -22,7 +22,6 @@
 
 // includes, project
 
-#include <platform/export.h>
 #include <platform/glut/window/base.hpp>
 
 namespace platform {
