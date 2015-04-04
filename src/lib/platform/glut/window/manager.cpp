@@ -18,11 +18,11 @@
 
 // includes, system
 
-#include <algorithm> // std::find<>
+//#include <>
 
 // includes, project
 
-//#include <>
+#include <platform/glut/window/base.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -33,37 +33,6 @@
 namespace {
   
   // types, internal (class, enum, struct, union, typedef)
-
-  class window_compare {
-
-  public:
-
-    explicit window_compare(signed a, platform::glut::window::base const* b)
-      : id_  (a),
-        inst_(b)
-    {}
-
-    bool operator()(platform::glut::window::manager::window_list_type::value_type const& a)
-    {
-      bool result(false);
-
-      if        ((-1 != id_) && inst_) {
-        result = (a.first == id_) && (a.second == inst_);
-      } else if (-1 != id_) {
-        result = (a.first == id_);
-      } else if (nullptr != inst_) {
-        result = (a.second == inst_);
-      }
-      
-      return result;
-    }
-    
-  private:
-
-    signed const                        id_;
-    platform::glut::window::base const* inst_;
-    
-  };
   
   // variables, internal
   
@@ -78,8 +47,6 @@ namespace platform {
     namespace window {
   
       // variables, exported
-
-      /* static */ manager::window_list_type manager::window_list_;
   
       // functions, exported
 
@@ -88,7 +55,7 @@ namespace platform {
       {
         TRACE("platform::glut::window::manager::count");
 
-        return window_list_.size();
+        return platform::window::manager::count(type::glut);
       }
       
       /* static */ bool
@@ -96,7 +63,7 @@ namespace platform {
       {
         TRACE("platform::glut::window::manager::add");
 
-        return window_list_.insert(std::make_pair(a, b)).second;
+        return platform::window::manager::add(type::glut, a, b);
       }
 
       /* static */ bool
@@ -104,17 +71,7 @@ namespace platform {
       {
         TRACE("platform::glut::window::manager::sub(base*)");
 
-        bool result(false);
-        auto found (std::find_if(window_list_.begin(), window_list_.end(),
-                                 window_compare(-1, a)));
-
-        if (window_list_.end() != found) {
-          window_list_.erase(found);
-
-          result = true;
-        }
-      
-        return result;
+        return platform::window::manager::sub(type::glut, a);
       }
 
       /* static */ bool
@@ -122,17 +79,7 @@ namespace platform {
       {
         TRACE("platform::glut::window::manager::sub(signed)");
 
-        bool result(false);
-        auto found (std::find_if(window_list_.begin(), window_list_.end(),
-                                 window_compare(a, nullptr)));
-
-        if (window_list_.end() != found) {
-          window_list_.erase(found);
-
-          result = true;
-        }
-      
-        return result;
+        return platform::window::manager::sub(type::glut, a);
       }
 
       /* static */ base*
@@ -140,15 +87,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::glut::window::manager::get");
 
-        base* result(nullptr);
-        auto  found(std::find_if(window_list_.begin(), window_list_.end(),
-                                 window_compare(a, nullptr)));
-
-        if (window_list_.end() != found) {
-          result = found->second;
-        }
-
-        return result;
+        return static_cast<base*>(platform::window::manager::get(type::glut, a));
       }
   
     } // namespace window {
