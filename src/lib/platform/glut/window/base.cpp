@@ -28,6 +28,7 @@
 
 // includes, project
 
+#include <platform/glut/application/base.hpp>
 #include <platform/glut/window/manager.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -108,6 +109,11 @@ namespace platform {
       {
         TRACE("platform::glut::window::base::base" + exec_context(this));
 
+        if (!platform::glut::application::base::initialized()) {
+          throw std::runtime_error("<platform::glut::window::base> (and derived types) require an "
+                                   "initialized instance of <platform::glut::application::base>");
+        }
+        
         ::glutInitWindowPosition(state_.pos.x,  state_.pos.y);
         ::glutInitWindowSize    (state_.size.x, state_.size.y);
     
