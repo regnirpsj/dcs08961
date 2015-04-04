@@ -31,10 +31,35 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  // variables, internal
+  class win : public platform::glut::window::simple {
 
-  int         argc(1);
-  char const* argv[] = { "dummy" };
+    using inherited = platform::glut::window::simple;
+    
+  public:
+
+    explicit win(std::string const& a, unsigned b)
+      : inherited(a),
+        frames_  (b)
+    {}
+    
+    virtual void frame_render_one()
+    {
+      inherited::frame_render_one();
+      
+      --frames_;
+      
+      if (0 == frames_) {
+        keyboard(0x1B, glm::ivec2(-1, -1));
+      }
+    }
+    
+  private:
+
+    unsigned frames_;
+    
+  };
+  
+  // variables, internal
   
   // functions, internal
 
@@ -43,7 +68,17 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_1)
+BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_no_application)
+{
+  using namespace platform::glut;
+  
+  std::unique_ptr<window::base> w(nullptr);
+  
+  BOOST_CHECK_THROW(w.reset(new win("test_platform_glut_window_simple_no_application", 1)),
+                            std::runtime_error);
+}
+
+BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_single)
 {
   using namespace platform::glut;
   using platform::application::command_line;
@@ -54,7 +89,7 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_1)
 
     explicit app(command_line const& a)
       : application::base(a),
-        window_          (new window::simple("dummy"))
+        window_          (new win(a.argv0, 10))
     {}
 
   private:
@@ -64,11 +99,14 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_1)
   };
   
   using platform::application::execute;
+
+  int         argc(1);
+  char const* argv[] = { "test_platform_glut_window_simple_single" };
   
   BOOST_CHECK(EXIT_SUCCESS == execute<app>(command_line(argc, argv)));
 }
 
-BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_2)
+BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_multi)
 {
   using namespace platform::glut;
   using platform::application::command_line;
@@ -79,8 +117,8 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_2)
 
     explicit app(command_line const& a)
       : application::base(a),
-        window1_          (new window::simple("dummy1")),
-        window2_          (new window::simple("dummy2"))
+        window1_          (new win(a.argv0 + "1", 10)),
+        window2_          (new win(a.argv0 + "2",  5))
     {}
 
   private:
@@ -90,6 +128,9 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_2)
   };
   
   using platform::application::execute;
+
+  int         argc(1);
+  char const* argv[] = { "test_platform_glut_window_simple_multi" };
   
   BOOST_CHECK(EXIT_SUCCESS == execute<app>(command_line(argc, argv)));
 }
