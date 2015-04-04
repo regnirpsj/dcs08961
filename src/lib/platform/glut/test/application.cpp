@@ -20,6 +20,7 @@
 
 #include <platform/glut/application/base.hpp>
 #include <platform/glut/window/base.hpp>
+#include <platform/window/manager.hpp>
 #include <support/io_utils.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -78,6 +79,12 @@ namespace {
         
         std::cerr << "<unnamed>::app::process_command_line: [files:" << input_files_ << "]\n";
       }
+
+#if 0
+      std::cout << "window::manager: ";
+      platform::window::manager::print_on(std::cout);
+      std::cout << '\n';
+#endif
     }
 
   private:

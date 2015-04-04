@@ -19,6 +19,7 @@
 // includes, project
 
 #include <platform/glut/application/base.hpp>
+#include <platform/window/manager.hpp>
 #include <platform/glut/window/simple.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -40,7 +41,13 @@ namespace {
     explicit win(std::string const& a, unsigned b)
       : inherited(a),
         frames_  (b)
-    {}
+    {
+#if 0
+      std::cout << "window::manager: ";
+      platform::window::manager::print_on(std::cout);
+      std::cout << '\n';
+#endif
+    }
     
     virtual void frame_render_one()
     {
