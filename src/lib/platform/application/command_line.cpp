@@ -53,7 +53,7 @@ namespace platform {
     /* explicit */
     command_line::command_line(int argc, char const* argv[])
       : support::printable(),
-        argv0             (argv[0]),
+        argv0             (((nullptr == argv) || (nullptr == argv[0])) ? "<unspecified>" : argv[0]),
         descriptions      (),
         options           (),
         positionals       (),
