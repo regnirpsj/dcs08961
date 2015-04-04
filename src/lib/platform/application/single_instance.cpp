@@ -50,6 +50,14 @@ namespace platform {
     
     // functions, exported
 
+    /* static */ bool
+    single_instance::initialized()
+    {
+      TRACE("platform::application::single_instance::initialized");
+      
+      return nullptr != instance_;
+    }
+    
     /* explicit */
     single_instance::single_instance(command_line const& a)
       : base(a)
