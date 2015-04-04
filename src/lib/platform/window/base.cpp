@@ -63,7 +63,7 @@ namespace platform {
     }
 
     /* explicit */
-    base::base(std::string const& a)
+    base::base(std::string const& a, rect const&)
       : boost::noncopyable(),
         support::printable(),
         title_            (a)

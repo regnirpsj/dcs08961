@@ -38,9 +38,9 @@ namespace {
     
   public:
 
-    explicit win(std::string const& a, unsigned b)
-      : inherited(a),
-        frames_  (b)
+    explicit win(std::string const& a, rect const& b = inherited::dflt_rect, unsigned c = 1)
+      : inherited(a, b),
+        frames_  (c)
     {
 #if 0
       std::cout << "window::manager: ";
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_no_application)
   
   std::unique_ptr<window::base> w(nullptr);
   
-  BOOST_CHECK_THROW(w.reset(new win("test_platform_glut_window_simple_no_application", 1)),
+  BOOST_CHECK_THROW(w.reset(new win("test_platform_glut_window_simple_no_application")),
                             std::runtime_error);
 }
 
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_single)
 
     explicit app(command_line const& a)
       : application::base(a),
-        window_          (new win(a.argv0, 10))
+        window_          (new win(a.argv0, window::base::rect(100, 100, 800, 800), 10))
     {}
 
   private:
@@ -124,8 +124,8 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_multi)
 
     explicit app(command_line const& a)
       : application::base(a),
-        window1_          (new win(a.argv0 + "1", 10)),
-        window2_          (new win(a.argv0 + "2",  5))
+        window1_          (new win(a.argv0 + "1", window::base::rect(100, 100, 800, 600), 10)),
+        window2_          (new win(a.argv0 + "2", window::base::rect(910, 100, 800, 600),  5))
     {}
 
   private:

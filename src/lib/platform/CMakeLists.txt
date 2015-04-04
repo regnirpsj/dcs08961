@@ -20,6 +20,7 @@ LIST(APPEND SRC "application/multi_instance.cpp")
 LIST(APPEND SRC "application/single_instance.cpp")
 LIST(APPEND SRC "window/base.cpp")
 LIST(APPEND SRC "window/manager.cpp")
+LIST(APPEND SRC "window/rect.cpp")
 
 #ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
 

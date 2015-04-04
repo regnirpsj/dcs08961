@@ -36,7 +36,7 @@ namespace platform {
 
       public:
 
-        explicit simple(std::string const&);
+        explicit simple(std::string const& /* title */, rect const& /* rect */ = base::dflt_rect);
 
       protected:
         

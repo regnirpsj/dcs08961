@@ -52,8 +52,8 @@ namespace platform {
       // functions, exported
 
       /* explicit */
-      simple::simple(std::string const& a)
-        : base(a)
+      simple::simple(std::string const& a, rect const& b)
+        : base(a, b)
       {
         TRACE("platform::glut::window::simple::simple");
       }

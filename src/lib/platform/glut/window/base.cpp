@@ -54,7 +54,9 @@ namespace platform {
     namespace window {
   
       // variables, exported
-  
+
+      /* static */ base::rect const base::dflt_rect(100, 100, 800, 600);
+      
       // functions, exported
 
       /* static */ void
@@ -103,9 +105,9 @@ namespace platform {
       }
       
       /* explicit */
-      base::base(std::string const& a)
-        : platform::window::base(a),
-          state_                ({-1, false, glm::ivec2(90,40), glm::ivec2(1440,900), false })
+      base::base(std::string const& a, rect const& b)
+        : platform::window::base(a, b),
+          state_                ({-1, false, glm::ivec2(b.x, b.y), glm::ivec2(b.w, b.h), false })
       {
         TRACE("platform::glut::window::base::base" + exec_context(this));
 

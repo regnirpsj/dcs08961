@@ -40,7 +40,7 @@ namespace {
   public:
 
     explicit win(std::string const& a, unsigned b)
-      : inherited(a),
+      : inherited(a, rect(100, 100, 100, 100)),
         frames_  (b)
     {}
     

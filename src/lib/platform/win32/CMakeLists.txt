@@ -19,7 +19,6 @@ LIST(APPEND SRC "io.cpp")
 LIST(APPEND SRC "utilities.cpp")
 LIST(APPEND SRC "window/base.cpp")
 LIST(APPEND SRC "window/manager.cpp")
-LIST(APPEND SRC "window/rect.cpp")
 LIST(APPEND SRC "window/simple.cpp")
 
 SET(LIBS)

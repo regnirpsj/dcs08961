@@ -36,6 +36,10 @@ namespace platform {
 
       public:
 
+        using rect = platform::window::rect;
+        
+        static rect const dflt_rect; // (100, 100, 800, 600)
+        
         struct state_t {
           signed      id;
           bool        fullscreen;
@@ -51,10 +55,11 @@ namespace platform {
         virtual void print_on(std::ostream&) const;
         
       protected:
-
+        
         state_t state_;
         
-        explicit base(std::string const&);
+        explicit base(std::string const& /* title */,
+                      rect const& /* rect */ = dflt_rect);
         
         virtual void frame_render_one () =0;
         virtual void frame_render_post();
