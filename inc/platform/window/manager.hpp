@@ -47,7 +47,7 @@ namespace platform {
       static unsigned count();
       static unsigned count(type);
 
-      static std::ostream& print_on(std::ostream&);
+      static void print_on(std::ostream&);
       
     protected:
       

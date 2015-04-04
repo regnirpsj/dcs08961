@@ -123,7 +123,7 @@ namespace platform {
       return window_type_map_[a].size();
     }
 
-    /* static */ std::ostream&
+    /* static */ void
     manager::print_on(std::ostream& os)
     {
       TRACE_NEVER("platform::window::manager::print_on");
@@ -137,8 +137,6 @@ namespace platform {
       }
       
       os << ']';
-      
-      return os;
     }
     
     /* static */ bool
