@@ -24,6 +24,7 @@
 // includes, project
 
 #include <platform/application/single_instance.hpp>
+#include <platform/export.h>
 
 namespace platform {
 
@@ -39,10 +40,14 @@ namespace platform {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class base : public platform::application::single_instance {
+      class DCS08961_PLATFORM_EXPORT base : public platform::application::single_instance {
 
       public:
 
+        static bool initialized();
+        
+        virtual ~base();
+        
         virtual signed run();
 
         virtual void print_on(std::ostream&) const;
@@ -53,8 +58,8 @@ namespace platform {
       
         string_list_type input_files_;
 
-        explicit base(platform::application::command_line const&);        
-      
+        explicit base(platform::application::command_line const&);
+        
       };
       
       // variables, exported (extern)
