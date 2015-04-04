@@ -19,8 +19,9 @@ LIST(APPEND SRC "application/command_line.cpp")
 LIST(APPEND SRC "application/multi_instance.cpp")
 LIST(APPEND SRC "application/single_instance.cpp")
 LIST(APPEND SRC "window/base.cpp")
+LIST(APPEND SRC "window/manager.cpp")
 
-ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
+#ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
 
 SET(LIBS)
 LIST(APPEND LIBS support)
