@@ -22,6 +22,7 @@
 
 // includes, project
 
+#include <platform/export.h>
 #include <platform/glut/window/base.hpp>
 
 namespace platform {
@@ -32,7 +33,7 @@ namespace platform {
   
       // types, exported (class, enum, struct, union, typedef)
 
-      class simple : public base {
+      class DCS08961_PLATFORM_EXPORT simple : public base {
 
       public:
 

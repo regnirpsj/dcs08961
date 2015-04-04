@@ -23,7 +23,7 @@
 
 // includes, project
 
-//#include <>
+#include <platform/export.h>
 
 namespace platform {
 
@@ -35,7 +35,7 @@ namespace platform {
 
       class base;
 
-      class manager : private boost::noncopyable {
+      class DCS08961_PLATFORM_EXPORT manager : private boost::noncopyable {
 
       public:
 
