@@ -32,6 +32,10 @@ namespace platform {
 
     class DCS08961_PLATFORM_EXPORT single_instance : public base {
 
+    public:
+      
+      static bool initialized();
+      
     protected:
 
       static single_instance* instance_;
