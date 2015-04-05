@@ -42,15 +42,24 @@ namespace {
       : inherited(a, b),
         frames_  (c)
     {
+      TRACE("<unnamed>::win::win");
+      
 #if 0
-      std::cout << "window::manager: ";
+      std::cout << "<unnamed>::win::win: "
+                << '\n'
+                << "window::manager: ";
       platform::window::manager::print_on(std::cout);
-      std::cout << '\n';
+      std::cout << '\n'
+                << "window         : "
+                << *this
+                << '\n';
 #endif
     }
     
     virtual void frame_render_one()
     {
+      TRACE("<unnamed>::win::frame_render_one");
+      
       --frames_;
       
       if (0 == frames_) {

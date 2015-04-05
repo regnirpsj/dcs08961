@@ -109,7 +109,7 @@ namespace {
       platform::window::manager::print_on(std::cout);
       std::cout << '\n'
                 << "window         : "
-                << *this
+                << *window_
                 << '\n';
 #endif
     }

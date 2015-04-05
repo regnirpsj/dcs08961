@@ -57,7 +57,7 @@ namespace platform {
 
       template <typename T>
       inline signed
-      execute(int argc, char* argv[], std::nothrow_t const&)
+      execute(command_line const& a, std::nothrow_t const&) noexcept
       {
         TRACE("platform::oglplus::application::execute<" + support::demangle(typeid(T)) +
               ">(std::nothrow_t)");
@@ -65,7 +65,7 @@ namespace platform {
         signed result(EXIT_FAILURE);
       
         try {
-          result = execute<T>(argc, argv);
+          result = application::execute<T>(a);
         }
     
         catch (::oglplus::ProgVarError& ex) {
