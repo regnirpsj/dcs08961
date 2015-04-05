@@ -14,7 +14,8 @@
 
 // includes, system
 
-#include <memory> // std::unique_ptr<>
+#include <glm/gtx/io.hpp> // glm::operator<< (field::container::print_on)
+#include <memory>         // std::unique_ptr<>
 
 // includes, project
 
