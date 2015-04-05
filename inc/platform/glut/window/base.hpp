@@ -18,7 +18,7 @@
 
 // includes, system
 
-#include <glm/glm.hpp> // glm::ivec2
+// #include <>
 
 // includes, project
 
@@ -39,52 +39,29 @@ namespace platform {
         using rect = platform::window::rect;
         
         static rect const dflt_rect; // (100, 100, 800, 600)
-        
-        struct state_t {
-          signed      id;
-          bool        fullscreen;
-          glm::ivec2  pos;
-          glm::ivec2  size;
-          bool        show_stats;
-        };
-
-        static void flush_gl_errors(std::ostream&);
 
         virtual ~base();
         
         virtual void print_on(std::ostream&) const;
         
       protected:
+
+        signed id_;
         
-        state_t state_;
-        
-        explicit base(std::string const& /* title */,
-                      rect const& /* rect */ = dflt_rect);
-        
-        virtual void frame_render_one () =0;
-        virtual void frame_render_post();
-        virtual void frame_render_pre ();
-    
-        virtual void idle    ();
-        virtual void keyboard(unsigned char, glm::ivec2 const&);
-        virtual void mouse   (signed, signed, glm::ivec2 const&);
-        virtual void reshape (glm::ivec2 const&);
-        virtual void special (signed, glm::ivec2 const&);
+        explicit base(std::string const& /* title */, rect const& /* rect */ = dflt_rect);
+
+        virtual void close  ();
+        virtual void display() =0;
+        virtual void entry  (signed);
+        virtual void idle   ();
+        virtual void status (signed);
         
       private:
         
-        // calling order:
-        //   frame_render_pre()
-        //   frame_render_one()
-        //   frame_render_post()
-        virtual void display();
-    
-        static void cb_display ();
-        static void cb_idle    ();
-        static void cb_keyboard(unsigned char, signed, signed);
-        static void cb_mouse   (signed, signed, signed, signed);
-        static void cb_reshape (signed, signed);
-        static void cb_special (signed, signed, signed);
+        static void cb_display      ();
+        static void cb_entry        (signed);
+        static void cb_idle         ();
+        static void cb_window_status(signed);
         
       };
       
@@ -93,7 +70,9 @@ namespace platform {
       // functions, inlined (inline)
   
       // functions, exported (extern)
-  
+
+      void flush_gl_errors(std::ostream&);
+      
     } // namespace window {
 
   } // namespace glut {

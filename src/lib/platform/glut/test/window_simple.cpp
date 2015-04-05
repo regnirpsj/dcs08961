@@ -51,12 +51,10 @@ namespace {
     
     virtual void frame_render_one()
     {
-      inherited::frame_render_one();
-      
       --frames_;
       
       if (0 == frames_) {
-        keyboard(0x1B, glm::ivec2(-1, -1));
+        close();
       }
     }
     
@@ -96,7 +94,7 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_window_simple_single)
 
     explicit app(command_line const& a)
       : application::base(a),
-        window_          (new win(a.argv0, window::base::rect(100, 100, 800, 800), 10))
+        window_          (new win(a.argv0, window::base::rect(100, 100, 800, 800), 5))
     {}
 
   private:

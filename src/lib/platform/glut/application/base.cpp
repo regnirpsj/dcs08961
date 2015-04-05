@@ -79,14 +79,27 @@ namespace platform {
       {
         TRACE("platform::glut::application::base::run");
 
-        signed result(EXIT_FAILURE);
+        signed result(EXIT_SUCCESS);
       
-        if (0 != window::manager::count()) {
-          ::glutMainLoop();
-
-          result = EXIT_SUCCESS;
+        if (!window::manager::count()) {
+          result = EXIT_FAILURE;
+        } else {
+          do {
+            for (auto id : window::manager::all()) {
+              ::glutPostWindowRedisplay(id);
+            }
+            
+#if 0
+            {
+              std::cout << "platform::glut::application::base::run: ";
+              platform::window::manager::print_on(std::cout);
+              std::cout << '\n';
+            }
+#endif
+            ::glutMainLoopEvent();
+          } while (0 != window::manager::count());
         }
-      
+        
         return result;
       }
 
@@ -122,10 +135,7 @@ namespace platform {
 
         ::glutInit           (&dummy_argc, const_cast<char**>(dummy_argv));
         ::glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH|GLUT_STENCIL);
-
-        // maybe needs to go into 'run'?
-        ::glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE,
-                        GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+        ::glutSetOption      (GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
       }
       
     } // namespace application {

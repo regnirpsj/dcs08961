@@ -202,6 +202,20 @@ namespace platform {
       return result;
     }
 
+    /* static */ std::vector<signed>
+    manager::all(type a)
+    {
+      TRACE_NEVER("platform::window::manager::all");
+
+      std::vector<signed> result;
+      
+      for (auto w : window_type_map_[a]) {
+        result.push_back(w.first);
+      }
+      
+      return result;
+    }
+    
     std::ostream&
     operator<<(std::ostream& os, manager::type const& a)
     {

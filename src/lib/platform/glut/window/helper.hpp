@@ -6,24 +6,23 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform/glut/window/manager.hpp                                                */
+/*  module     :  platform/glut/window/helper.hpp                                                 */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_WINDOW_MANAGER_HPP)
+#if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_WINDOW_HELPER_HPP)
 
-#define UKACHULLDCS_08961_PLATFORM_GLUT_WINDOW_MANAGER_HPP
+#define UKACHULLDCS_08961_PLATFORM_GLUT_WINDOW_HELPER_HPP
 
 // includes, system
 
-//#include <>
+#include <string> // std::string
 
 // includes, project
 
-#include <platform/export.h>
-#include <platform/window/manager.hpp>
+//#include <>
 
 namespace platform {
 
@@ -33,31 +32,12 @@ namespace platform {
   
       // types, exported (class, enum, struct, union, typedef)
 
-      class base;
-
-      class DCS08961_PLATFORM_EXPORT manager : private platform::window::manager {
-
-      public:
-        
-        static unsigned count();
-        static base*    get(signed);
-        
-        static std::vector<signed> all();
-        
-      private:
-
-        friend class base;
-        
-        static bool  add(signed, base*);
-        static bool  sub(base*);
-        static bool  sub(signed);
-        
-      };
-        
       // variables, exported (extern)
 
       // functions, inlined (inline)
-  
+
+      std::string exec_context(void const* /* ptr */);
+      
       // functions, exported (extern)
   
     } // namespace window {
@@ -66,4 +46,4 @@ namespace platform {
   
 } // namespace platform {
 
-#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_WINDOW_MANAGER_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_WINDOW_HELPER_HPP)

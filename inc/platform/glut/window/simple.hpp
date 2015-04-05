@@ -39,8 +39,46 @@ namespace platform {
         explicit simple(std::string const& /* title */, rect const& /* rect */ = base::dflt_rect);
 
       protected:
+
+        virtual void frame_render_one () =0;
+        virtual void frame_render_post();
+        virtual void frame_render_pre ();
         
-        virtual void frame_render_one();
+        virtual void keyboard(unsigned char     /* key           */,
+                              glm::ivec2 const& /* ptr pos       */,
+                              bool              /* up/down       */);
+
+        virtual void motion  (glm::ivec2 const& /* ptr pos       */,
+                              bool              /* mouse/passive */);
+        
+        virtual void mouse   (signed            /* button        */,
+                              signed            /* state         */,
+                              glm::ivec2 const& /* ptr pos       */,
+                              bool              /* wheel         */);
+        
+        virtual void reshape (glm::ivec2 const& /* (w,h)         */);
+        
+        virtual void special (signed            /* key           */,
+                              glm::ivec2 const& /* ptr pos       */,
+                              bool              /* up/down       */);
+        
+      private:
+
+        // calling order:
+        //   frame_render_pre()
+        //   frame_render_one()
+        //   frame_render_post()
+        virtual void display();
+        
+        static void cb_keyboard      (unsigned char, signed, signed);  // -> keyboard
+        static void cb_keyboard_up   (unsigned char, signed, signed);  // -> keyboard
+        static void cb_mouse         (signed, signed, signed, signed); // -> mouse
+        static void cb_mouse_motion  (signed, signed);                 // -> motion
+        static void cb_mouse_wheel   (signed, signed, signed, signed); // -> mouse
+        static void cb_passive_motion(signed, signed);                 // -> motion
+        static void cb_reshape       (signed, signed);                 // -> reshape
+        static void cb_special       (signed, signed, signed);         // -> special
+        static void cb_special_up    (signed, signed, signed);         // -> special
         
       };
       

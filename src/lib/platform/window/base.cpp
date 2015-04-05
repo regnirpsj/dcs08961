@@ -18,7 +18,7 @@
 
 // includes, system
 
-#include <sstream> // std::ostringstream
+#include <glm/gtx/io.hpp> // glm::operator<<  (field::container::print_on)
 
 // includes, project
 
@@ -47,26 +47,14 @@ namespace platform {
     // variables, exported
   
     // functions, exported
-
-    /* virtual */
-    base::~base()
-    {
-      TRACE("platform::window::base::~base");
-    }
     
-    /* virtual */ void
-    base::print_on(std::ostream& os) const
-    {
-      TRACE_NEVER(platform::window::base::print_on);
-
-      os << "[title:'" << title_ << "']";
-    }
-
     /* explicit */
-    base::base(std::string const& a, rect const&)
+    base::base(std::string const& a, rect const& b)
       : boost::noncopyable(),
-        support::printable(),
-        title_            (a)
+        field::container  (),
+        title             (*this, "title",    a),
+        position          (*this, "position", glm::ivec2(b.x, b.y)),
+        size              (*this, "size",     glm::ivec2(b.w, b.h))
     {
       TRACE("platform::window::base::base");
     }

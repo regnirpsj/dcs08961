@@ -21,6 +21,7 @@
 #include <boost/noncopyable.hpp> // boost::noncopyable
 #include <iosfwd>                // std::ostream (fwd decl)
 #include <unordered_map>         // std::unordered_map<>
+#include <vector>                // std::vector<>
 
 // includes, project
 
@@ -51,10 +52,11 @@ namespace platform {
       
     protected:
       
-      static bool     add  (type, signed, base*);
-      static bool     sub  (type, base*);
-      static bool     sub  (type, signed);
-      static base*    get  (type, signed);
+      static bool                add(type, signed, base*);
+      static bool                sub(type, base*);
+      static bool                sub(type, signed);
+      static base*               get(type, signed);
+      static std::vector<signed> all(type);
       
     private:
 
