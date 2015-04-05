@@ -23,7 +23,7 @@
 
 // includes, project
 
-#include <platform/export.h>
+#include <platform/window/manager.hpp>
 
 namespace platform {
 
@@ -35,24 +35,22 @@ namespace platform {
 
       class base;
 
-      class DCS08961_PLATFORM_EXPORT manager : private boost::noncopyable {
+      class DCS08961_PLATFORM_EXPORT manager : private platform::window::manager {
 
       public:
-
-        using window_list_type = std::unordered_map<signed, base*>;
         
         static unsigned count();
+        static base*    get(signed);
+        
+        static std::vector<signed> all();
         
       private:
 
         friend class base;
         
-        static window_list_type window_list_;
-
         static bool  add(signed, base*);
         static bool  sub(base*);
         static bool  sub(signed);
-        static base* get(signed);
         
       };
         
