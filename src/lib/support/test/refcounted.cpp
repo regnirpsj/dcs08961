@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -109,7 +109,9 @@ BOOST_AUTO_TEST_CASE(test_support_refcounted_guard)
   BOOST_CHECK(1 == a->get_ref());
 }
 
-//BOOST_AUTO_TEST_CASE_EXPECTED_FAILURES(test_support_refcounted_intrusive_ptr_0, 1);
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+BOOST_AUTO_TEST_CASE_EXPECTED_FAILURES(test_support_refcounted_intrusive_ptr_0, 1);
+#endif
 
 BOOST_AUTO_TEST_CASE(test_support_refcounted_intrusive_ptr_0)
 {
@@ -141,7 +143,9 @@ BOOST_AUTO_TEST_CASE(test_support_refcounted_intrusive_ptr_1)
   rct->sub_ref();
 }
 
-//BOOST_AUTO_TEST_CASE_EXPECTED_FAILURES(test_support_refcounted_intrusive_ptr_2, 1);
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+BOOST_AUTO_TEST_CASE_EXPECTED_FAILURES(test_support_refcounted_intrusive_ptr_2, 1);
+#endif
 
 BOOST_AUTO_TEST_CASE(test_support_refcounted_intrusive_ptr_2)
 {  
