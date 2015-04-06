@@ -36,7 +36,7 @@ SET(CPACK_COMPONENT_LIB_GROUP "lib")
 SET(CPACK_SOURCE_IGNORE_FILES "/.git/" ".gitignore" ".#" "/#" ".*~" "/build.*/")
 
 # see [http://www.cmake.org/Wiki/CMake:CPackPackageGenerators]
-IF(WIN32)
+IF(WIN32 OR WIN64)
   MESSAGE(STATUS "Creating NSIS package-installer configuration")
 
   SET(CPACK_GENERATOR "NSIS")

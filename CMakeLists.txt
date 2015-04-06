@@ -107,7 +107,5 @@ IF(VERBOSE)
   FEATURE_SUMMARY(WHAT ALL)
 ENDIF()
 
-IF(NOT WIN32 AND NOT WIN64)
-  # keep last
-  INCLUDE(SetupPackaging)
-ENDIF()
+# keep last
+INCLUDE(SetupPackaging)
