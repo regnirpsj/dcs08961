@@ -27,6 +27,10 @@
 #include <platform/export.h>
 #include <support/printable.hpp>
 
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
+#  define noexcept
+#endif
+
 namespace platform {
 
   namespace application {
