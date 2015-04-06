@@ -2,14 +2,22 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014-2015 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8.4 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0.0 FATAL_ERROR)
+
+IF(POLICY CMP0037)
+  CMAKE_POLICY(SET CMP0037 OLD)
+ENDIF()
 
 IF(POLICY CMP0046)
   CMAKE_POLICY(SET CMP0046 OLD)
+ENDIF()
+
+IF(POLICY CMP0054)
+  CMAKE_POLICY(SET CMP0054 OLD)
 ENDIF()
 
 PROJECT(DCS08961)
@@ -91,10 +99,6 @@ ADD_SUBDIRECTORY(doc)
 ADD_SUBDIRECTORY(share)
 ADD_SUBDIRECTORY(src)
 
-IF(POLICY CMP0037)
-  CMAKE_POLICY(SET CMP0037 OLD)
-ENDIF()
-
 ADD_CUSTOM_TARGET(ALL_BUILD)
 SET_PROPERTY(TARGET ALL_BUILD PROPERTY FOLDER "CMakePredefinedTargets")
 
@@ -103,5 +107,7 @@ IF(VERBOSE)
   FEATURE_SUMMARY(WHAT ALL)
 ENDIF()
 
-# keep last
-INCLUDE(SetupPackaging)
+IF(NOT WIN32 AND NOT WIN64)
+  # keep last
+  INCLUDE(SetupPackaging)
+ENDIF()
