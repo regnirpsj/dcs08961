@@ -19,10 +19,11 @@
 // includes, system
 
 // needs to be first!!!
-#include <GL/glew.h>     // gl*
+#include <GL/glew.h>      // gl*
 
-#include <GL/freeglut.h> // ::glut*
-#include <stdexcept>     // std::logic_error
+#include <GL/freeglut.h>  // ::glut*
+#include <glm/gtx/io.hpp> // glm::operator<< (field::container::print_on)
+#include <stdexcept>      // std::logic_error
 
 // includes, project
 
