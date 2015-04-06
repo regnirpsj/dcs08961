@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_value_multi_set, T, field::test::multi_
   BOOST_CHECK(T() == f.set(T()));
 }
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_value_multi_set_initlist, T, field::test::multi_types)
 {
   using namespace field;
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_value_multi_op_assign, T, field::test::
   BOOST_CHECK(T() == *(f = T()));
 }
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_field_value_multi_op_assign_initlist, T,
                               field::test::multi_types)
 {
