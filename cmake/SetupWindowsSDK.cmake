@@ -60,7 +60,7 @@ IF(MSVC)
   ENDIF()
 
   EXECUTE_PROCESS(
-    COMMAND ${REG} query "HKLM\\SOFTWARE\\Microsoft\\Windows Kits\\Installed Roots" /v KitsRoot
+    COMMAND ${REG} query "HKLM\\SOFTWARE\\Microsoft\\Windows Kits\\Installed Roots" /v KitsRoot81
     RESULT_VARIABLE REG_QUERY_RESULT
     OUTPUT_VARIABLE REG_QUERY_OUTPUT
     ERROR_VARIABLE  REG_QUERY_ERROR)
