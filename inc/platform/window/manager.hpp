@@ -26,7 +26,6 @@
 // includes, project
 
 #include <platform/export.h>
-//#include <support/printable.hpp>
 
 namespace platform {
 
@@ -37,9 +36,6 @@ namespace platform {
     class base;
 
     class DCS08961_PLATFORM_EXPORT manager : private boost::noncopyable {
-
-      class window_compare;
-      class type_hasher;
       
     public:
 
@@ -60,6 +56,9 @@ namespace platform {
       
     private:
 
+      class window_compare;
+      class type_hasher { public: size_t operator()(type const&) const; };
+      
       using window_id_list_type  = std::unordered_map<signed, base*>;
       using window_type_map_type = std::unordered_map<type, window_id_list_type, type_hasher>;
       

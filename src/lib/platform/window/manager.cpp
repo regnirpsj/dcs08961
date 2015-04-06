@@ -76,16 +76,11 @@ namespace platform {
     
     };
 
-    class manager::type_hasher {
-
-    public:
-
-      size_t operator()(type const& a) const
-      {
-        return static_cast<size_t>(a);
-      }
-      
-    };
+    size_t
+    manager::type_hasher::operator()(manager::type const& a) const
+    {
+      return static_cast<size_t>(a);
+    }
     
   } // namespace window {
   
