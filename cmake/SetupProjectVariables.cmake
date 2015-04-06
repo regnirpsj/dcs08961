@@ -31,7 +31,7 @@ IF(WIN32 OR WIN64)
 ENDIF()
 
 # Boost
-SET(BOOST_MINIMUM_VERSION "1.53.0")
+SET(BOOST_MINIMUM_VERSION "1.55.0")
 
 # defaults
 IF(UNIX)
@@ -55,11 +55,11 @@ IF(WIN32 OR WIN64)
   SET(ATB_ROOT_DIR "C:/Tools/anttweakbar/1.16")
 
   # Boost
-  SET(BOOST_ROOT "C:/Tools/boost/1.54.0")
+  SET(BOOST_ROOT "C:/Tools/boost/1.57.0")
   IF(WIN64)
-    SET(BOOST_LIBRARYDIR "${BOOST_ROOT}/stage/lib64")
+    SET(BOOST_LIBRARYDIR "${BOOST_ROOT}/lib64-msvc-12.0")
   ELSE()
-    SET(BOOST_LIBRARYDIR "${BOOST_ROOT}/stage/lib32")
+    SET(BOOST_LIBRARYDIR "${BOOST_ROOT}/lib32-msvc-12.0")
   ENDIF()
   IF(NOT EXISTS "${BOOST_LIBRARYDIR}" OR NOT IS_DIRECTORY "${BOOST_LIBRARYDIR}")
     UNSET(BOOST_LIBRARYDIR)
@@ -70,6 +70,19 @@ IF(WIN32 OR WIN64)
 
   # GLI
   SET(GLI_INCLUDE_DIR "C:/Tools/gli/regnirpsj-git")
+  
+  # GLEW
+  SET(GLEW_ROOT_PATH "C:/Tools/glew/1.12.0")
+  SET(CMAKE_LIBRARY_PATH "${GLEW_ROOT_PATH}/lib/Release/${ARCH}")
+  set(CMAKE_PREFIX_PATH  "${GLEW_ROOT_PATH}")
+
+  # GLUT
+  SET(GLUT_ROOT_PATH "C:/Tools/freeglut/3.0.0-src/install/${ARCH}")
+  SET(GLUT_INCLUDE_DIR "${GLUT_ROOT_PATH}/include")
+  SET(GLUT_LIBRARIES   "${GLUT_ROOT_PATH}/lib/freeglut_staticd.lib")
+  
+  # OGL+
+  SET(OGLplus_ROOT_DIR "C:/Tools/oglplus/oglplus-git")
 ENDIF()
 
 IF(DCS08961_TRACE_ALL)
@@ -83,8 +96,10 @@ IF(TRUE OR VERBOSE)
     "   ATB_ROOT_DIR          = ${ATB_ROOT_DIR}\n"
     "   BOOST_MINIMUM_VERSION = ${BOOST_MINIMUM_VERSION}\n"
     "   BOOST_ROOT            = ${BOOST_ROOT}\n"
-    "   GLM_INCLUDE_DIR       = ${GLM_INCLUDE_DIR}\n"
+    "   GLEW_ROOT_PATH        = ${GLEW_ROOT_PATH}\n"
     "   GLI_INCLUDE_DIR       = ${GLI_INCLUDE_DIR}\n"
+    "   GLM_INCLUDE_DIR       = ${GLM_INCLUDE_DIR}\n"
+    "   GLUT_ROOT_PATH        = ${GLUT_ROOT_PATH}\n"
     "   OGLplus_ROOT_DIR      = ${OGLplus_ROOT_DIR}\n"
     "   DCS08961_TRACE_ALL    = ${DCS08961_TRACE_ALL}")
 ENDIF()
