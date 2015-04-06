@@ -133,7 +133,7 @@ template <class charT, class Traits, class Duration>
 #include <locale>
 #include <support/ratio_io.hpp>
 
-#if defined(_MSC_VER) && (_MSC_VER < 1800)
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
 #  define noexcept
 #  undef __min
 #endif
