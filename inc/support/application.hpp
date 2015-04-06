@@ -25,12 +25,9 @@
 
 // includes, project
 
+#include <platform/config.hpp>
 #include <support/printable.hpp>
 #include <support/export.h>
-
-#if defined(_MSC_VER) && (_MSC_VER < 1900)
-#  define noexcept
-#endif
 
 namespace support {
 
