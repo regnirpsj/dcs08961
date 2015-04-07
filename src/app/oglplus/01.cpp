@@ -27,7 +27,9 @@
 
 // includes, project
 
-#include <../common/glut.hpp>
+#include <platform/glut/application/base.hpp>
+#include <platform/glut/window/simple.hpp>
+#include <platform/oglplus/application.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -39,27 +41,30 @@ namespace {
 
   // types, internal (class, enum, struct, union, typedef)
 
-  class application : public glut::application {
+  class window : public platform::glut::window::simple {
+    
+    using inherited = platform::glut::window::simple;
+    using rect      = platform::window::rect;
+    
+  public:
 
-  public:    
-
-    explicit application(int argc, char* argv[])
-      : glut::application(argc, argv),
-        ctx_             (),
-        prg_             (),
-        make_cube_       (),
-        cube_instr_      (make_cube_.Instructions()),
-        cube_indices_    (make_cube_.Indices()),
-        frame_time_      (prg_, "Time")
+    explicit window(std::string const& a, rect const& b, std::string const& c)
+      : inherited     (a, b),
+        ctx_          (),
+        prg_          (),
+        make_cube_    (),
+        cube_instr_   (make_cube_.Instructions()),
+        cube_indices_ (make_cube_.Indices()),
+        frame_time_   (prg_, "Time")
     {
-      TRACE("<unnamed>::application::application");
-
+      TRACE("<unnamed>::window::window");
+      
       using namespace oglplus;
 
       {
         namespace bfs = boost::filesystem;
 
-        bfs::path const   p(argv[0]);
+        bfs::path const   p(c);
         std::string const d(p.parent_path().string());
         std::string const f(p.filename().string());
         
@@ -111,10 +116,17 @@ namespace {
         Set(glm::scale(glm::mat4(1.0),
                        glm::vec3(1.0, 0.3, 1.7)));
     }
+
+    virtual ~window()
+    {
+      TRACE("<unnamed>::window::~window");
+    }
     
+  private:
+
     virtual void frame_render_one()
     {
-      TRACE("<unnamed>::application::frame_render_one");
+      TRACE("<unnamed>::window::frame_render_one");
 
       ctx_.Clear().ColorBuffer().DepthBuffer();
       
@@ -122,16 +134,18 @@ namespace {
         using namespace std::chrono;
       
         frame_time_.
-          Set(duration_cast<duration<double>>(frameq_.back().stamp.time_since_epoch()).count());
+          Set(duration_cast<duration<double>>(support::clock::now().time_since_epoch()).count());
       }
       
       cube_instr_.Draw(cube_indices_, 36);
     }
-    
+
     virtual void reshape(glm::ivec2 const& size)
     {
-      TRACE("<unnamed>::application::reshape");
+      TRACE("<unnamed>::window::reshape");
 
+      inherited::reshape(size);
+      
       ctx_.Viewport(size.x, size.y);
 
       auto camera(glm::perspective(53.0f*3.1415f/180.f,
@@ -143,9 +157,7 @@ namespace {
       
       oglplus::Uniform<glm::mat4x4>(prg_, "CameraMatrix").Set(camera);
     }
-
-  private:
-
+    
     oglplus::Context                       ctx_;
     oglplus::Program                       prg_;
     oglplus::shapes::Cube                  make_cube_;
@@ -158,6 +170,41 @@ namespace {
     
   };
   
+  class application : public platform::glut::application::base {
+
+    using command_line = platform::application::command_line;
+    using inherited    = platform::glut::application::base;
+    using rect         = platform::window::rect;
+    
+  public:
+
+    explicit application(command_line const& a)
+      : inherited(a),
+        window_  (nullptr)
+    {
+      TRACE("<unnamed>::application::application");
+    }
+
+    virtual ~application()
+    {
+      TRACE("<unnamed>::application::~application");
+    }
+    
+    virtual void process_command_line()
+    {
+      TRACE("<unnamed>::application::process_command_line");
+
+      inherited::process_command_line();
+
+      window_.reset(new window(command_line_.argv0, rect(100, 100, 800, 600), command_line_.argv0));
+    }
+    
+  private:
+
+    std::unique_ptr<window> window_;
+    
+  };
+  
   // variables, internal
   
   // functions, internal
@@ -165,9 +212,12 @@ namespace {
 } // namespace {
 
 int
-main(int argc, char* argv[])
+main(int argc, char const* argv[])
 {
   TRACE("main");
+
+  namespace pa  = platform::application;
+  namespace poa = platform::oglplus::application;
   
-  return glut::execute<application>(argc, argv, std::nothrow);
+  return poa::execute<application>(pa::command_line(argc, argv), std::nothrow);
 }
