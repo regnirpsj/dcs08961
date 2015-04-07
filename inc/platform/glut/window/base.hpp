@@ -22,6 +22,7 @@
 
 // includes, project
 
+#include <field/adapter/single.hpp>
 #include <platform/window/base.hpp>
 
 namespace platform {
@@ -33,23 +34,23 @@ namespace platform {
       // types, exported (class, enum, struct, union, typedef)
 
       class DCS08961_PLATFORM_EXPORT base : public platform::window::base {
-
+        
       public:
 
         using rect = platform::window::rect;
         
         static rect const dflt_rect; // (100, 100, 800, 600)
 
+        field::adapter::single<signed> const id;
+        
         virtual ~base();
         
-        virtual void print_on(std::ostream&) const;
-        
       protected:
-
-        signed id_;
         
         explicit base(std::string const& /* title */, rect const& /* rect */ = dflt_rect);
 
+        virtual void do_changed(field::base&);
+        
         virtual void close  ();
         virtual void display() =0;
         virtual void entry  (signed);
@@ -57,12 +58,30 @@ namespace platform {
         virtual void status (signed);
         
       private:
+
+        signed id_;
         
         static void cb_display      ();
         static void cb_entry        (signed);
         static void cb_idle         ();
         static void cb_window_status(signed);
+
+        signed const& cb_get_id() const;
+        signed        cb_set_id(signed const&);
         
+      };
+
+      class DCS08961_PLATFORM_EXPORT guard : private boost::noncopyable {
+
+      public:
+
+        explicit guard();
+                ~guard();
+
+      private:
+
+        signed id_;
+                
       };
       
       // variables, exported (extern)

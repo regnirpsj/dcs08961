@@ -22,6 +22,7 @@
 #include <GL/glew.h>      // GLEWContext, ::glew*
 
 #include <GL/freeglut.h>  // ::glut*
+#include <functional>     // std::bind<>, std::placeholders::*
 #include <glm/gtx/io.hpp> // glm::operator<< (field::container::print_on)
 #include <iomanip>        // std::setfill, std::setw
 #include <iostream>       // std::cerr
@@ -69,17 +70,12 @@ namespace platform {
         close();
       }
       
-      /* virtual */ void
-      base::print_on(std::ostream& os) const
-      {
-        TRACE_NEVER("platform::glut::window::base::print_on" + exec_context(this));
-
-        platform::window::base::print_on(os);
-      }
-      
       /* explicit */
       base::base(std::string const& a, rect const& b)
         : platform::window::base(a, b),
+          id                    (*this, "id",
+                                 std::bind(&base::cb_get_id, this),
+                                 std::bind(&base::cb_set_id, this, std::placeholders::_1)),
           id_                   (-1)
       {
         TRACE("platform::glut::window::base::base" + exec_context(this));
@@ -93,13 +89,13 @@ namespace platform {
         ::glutInitWindowSize    (size->x,      size->y);
     
         if (0 >= (id_ = ::glutCreateWindow(title.get().c_str()))) {
-          throw std::runtime_error("GLUT initialization error");
+          throw std::runtime_error("GLUT initialization error in <platform::glut::window::base>");
         }
         
         // glewExperimental = true;
     
         if (GLEW_OK != ::glewInit()) {
-          throw std::runtime_error("GLEW initialization error");
+          throw std::runtime_error("GLEW initialization error in <platform::glut::window::base>");
         }
 
         flush_gl_errors(std::cerr);
@@ -112,6 +108,35 @@ namespace platform {
         window::manager::add(id_, this);
       }
 
+      /* virtual */ void
+      base::do_changed(field::base& f)
+      {
+        TRACE("platform::glut::window::base::do_changed" + exec_context(this));
+
+        if      (&f == &title) {
+          ::glutSetWindowTitle(title.get().c_str());
+          ::glutSetIconTitle  (title.get().c_str());
+        }
+
+        else if (&f == &position) {
+          if (glm::ivec2(::glutGet(GLUT_WINDOW_X),
+                         ::glutGet(GLUT_WINDOW_Y)) != *position) {
+            ::glutPositionWindow(position->x, position->y);
+          }
+        }
+        
+        else if (&f == &size) {
+          if (glm::ivec2(::glutGet(GLUT_WINDOW_WIDTH),
+                         ::glutGet(GLUT_WINDOW_HEIGHT)) != *size) {
+            ::glutReshapeWindow(size->x, size->y);
+          }
+        }
+          
+        else {
+          platform::window::base::do_changed(f);
+        }
+      }
+      
       /* virtual */ void
       base::close()
       {
@@ -130,6 +155,8 @@ namespace platform {
 
           ::glutDestroyWindow(id_);
 
+          // find the next glut window and make it current else 'glutMainLoop*' will operate on the
+          // window removed by 'glutDestroyWindow', except if no window is around anymore
           for (auto id : window::manager::all()) {
             if (id != id_) {
               ::glutSetWindow(id);
@@ -167,14 +194,14 @@ namespace platform {
       base::status(signed)
       {
         TRACE("platform::glut::window::base::status" + exec_context(this));
-
+        
         ::glutPostWindowRedisplay(id_);
       }      
       
       /* static */ void
       base::cb_display()
       {
-        TRACE("platform::glut::window::base::cb_display");
+        TRACE_NEVER("platform::glut::window::base::cb_display");
 
         base* w(static_cast<base*>(window::manager::get(::glutGetWindow())));
 
@@ -217,6 +244,44 @@ namespace platform {
         if (w) {
           w->status(a);
         }
+      }
+
+      signed const&
+      base::cb_get_id() const
+      {
+        TRACE_NEVER("platform::glut::window::base::cb_get_id");
+
+        return id_;
+      }
+      
+      signed
+      base::cb_set_id(signed const&)
+      {
+        TRACE_NEVER("platform::glut::window::base::cb_set_id");
+
+        return id_;
+      }
+
+      /* explicit */
+      guard::guard()
+        : boost::noncopyable(),
+          id_               (-1)
+      {
+        TRACE("platform::glut::window::guard::guard");
+
+        if (!platform::glut::application::base::initialized()) {
+          throw std::runtime_error("<platform::glut::window::guard> requires an initialized "
+                                   "instance of <platform::glut::application::base>");
+        }
+
+        id_ = ::glutGetWindow();
+      }
+      
+      guard::~guard()
+      {
+        TRACE("platform::glut::window::guard::~guard");
+
+        ::glutSetWindow(id_);
       }
       
       /* static */ void
