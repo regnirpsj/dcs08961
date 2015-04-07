@@ -34,11 +34,9 @@ namespace platform {
 
       class DCS08961_PLATFORM_EXPORT simple : public base {
 
-      public:
+      protected:
 
         explicit simple(std::string const& /* title */, rect const& /* rect */ = base::dflt_rect);
-
-      protected:
 
         virtual void frame_render_one () =0;
         virtual void frame_render_post();
