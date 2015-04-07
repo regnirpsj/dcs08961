@@ -40,8 +40,8 @@ namespace field {
     inline /* virtual */ void
     base<T,C>::print_on(std::ostream& os) const
     {
-      TRACE("field::multi::base::<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::print_on");
+      TRACE_NEVER("field::multi::base::<" + support::demangle(typeid(T)) + "," +
+                  support::demangle(typeid(C)) + ">::print_on");
 
       os << '[';
 
@@ -120,8 +120,8 @@ namespace field {
     inline typename base<T,C>::value_container_type const&
     base<T,C>::operator*() const
     {
-      TRACE("field::multi::base::<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::operator*");
+      TRACE_NEVER("field::multi::base::<" + support::demangle(typeid(T)) + "," +
+                  support::demangle(typeid(C)) + ">::operator*");
 
       return get();
     }
@@ -130,8 +130,8 @@ namespace field {
     inline typename base<T,C>::value_container_type const*
     base<T,C>::operator->() const
     {
-      TRACE("field::multi::base::<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::operator->");
+      TRACE_NEVER("field::multi::base::<" + support::demangle(typeid(T)) + "," +
+                  support::demangle(typeid(C)) + ">::operator->");
 
       return &(get());
     }
@@ -140,9 +140,9 @@ namespace field {
     inline base<T,C>&
     base<T,C>::operator=(value_container_type const& a)
     {
-      TRACE("field::multi::base::<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::operator=(" + support::demangle(typeid(T)) +
-            " const&)");
+      TRACE_NEVER("field::multi::base::<" + support::demangle(typeid(T)) + "," +
+                  support::demangle(typeid(C)) + ">::operator=(" + support::demangle(typeid(T)) +
+                  " const&)");
 
       set(a);
 
@@ -154,9 +154,9 @@ namespace field {
     inline base<T,C>&
     base<T,C>::operator=(std::initializer_list<value_type> a)
     {
-      TRACE("field::multi::base::<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::operator=(" +
-            ">::operator=(std::initializer_list<" + support::demangle(typeid(T)) + ">)");
+      TRACE_NEVER("field::multi::base::<" + support::demangle(typeid(T)) + "," +
+                  support::demangle(typeid(C)) + ">::operator=(" +
+                  ">::operator=(std::initializer_list<" + support::demangle(typeid(T)) + ">)");
 
       set(a);
 
@@ -168,8 +168,8 @@ namespace field {
     inline base<T,C>&
     base<T,C>::operator+=(value_type const& a)
     {
-      TRACE("field::multi::base::<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::operator+=");
+      TRACE_NEVER("field::multi::base::<" + support::demangle(typeid(T)) + "," +
+                  support::demangle(typeid(C)) + ">::operator+=");
 
       add(a);
 
@@ -180,8 +180,8 @@ namespace field {
     inline base<T,C>&
     base<T,C>::operator-=(value_type const& a)
     {
-      TRACE("field::multi::base::<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::operator-=");
+      TRACE_NEVER("field::multi::base::<" + support::demangle(typeid(T)) + "," +
+                  support::demangle(typeid(C)) + ">::operator-=");
 
       sub(a);
 
