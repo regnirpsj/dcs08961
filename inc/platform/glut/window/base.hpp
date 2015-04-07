@@ -60,7 +60,10 @@ namespace platform {
       private:
 
         signed id_;
+
+        void close_helper(bool /* invoked by cb_close? */);
         
+        static void cb_close        ();
         static void cb_display      ();
         static void cb_entry        (signed);
         static void cb_idle         ();

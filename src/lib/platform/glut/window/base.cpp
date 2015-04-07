@@ -100,10 +100,14 @@ namespace platform {
 
         flush_gl_errors(std::cerr);
 
+        ::glutCloseFunc       (&base::cb_close);
         ::glutDisplayFunc     (&base::cb_display);
         ::glutEntryFunc       (&base::cb_entry);
         ::glutIdleFunc        (&base::cb_idle);
         ::glutWindowStatusFunc(&base::cb_window_status);
+
+        ::glutShowWindow();
+        ::glutPopWindow ();
         
         window::manager::add(id_, this);
       }
@@ -142,29 +146,7 @@ namespace platform {
       {
         TRACE("platform::glut::window::base::close" + exec_context(this));
 
-        if (window::manager::get(id_)) {
-#if 0
-          {
-            std::cout << "platform::glut::window::base::close" << exec_context(this) << ": "
-                      << "closing window #" << id_
-                      << '\n';
-          }
-#endif
-          
-          window::manager::sub(id_);
-
-          ::glutDestroyWindow(id_);
-
-          // find the next glut window and make it current else 'glutMainLoop*' will operate on the
-          // window removed by 'glutDestroyWindow', except if no window is around anymore
-          for (auto id : window::manager::all()) {
-            if (id != id_) {
-              ::glutSetWindow(id);
-
-              break;
-            }
-          }
-        }
+        close_helper(false);
       }
       
       /* virtual */ void
@@ -197,6 +179,55 @@ namespace platform {
         
         ::glutPostWindowRedisplay(id_);
       }      
+
+      void
+      base::close_helper(bool invoked_by_cb_close)
+      {
+        TRACE("platform::glut::window::base::close_helper" + exec_context(this));
+
+        if (window::manager::get(id_)) {
+#if 0
+          {
+            std::cout << "platform::glut::window::base::close_helper" << exec_context(this) << ": "
+                      << "closing window #" << id_
+                      << '\n';
+          }
+#endif
+          
+          window::manager::sub(id_);
+
+          if (!invoked_by_cb_close) {
+            ::glutDestroyWindow(id_);
+            ::glutCloseFunc(nullptr);
+          
+            // find the next glut window and make it current else 'glutMainLoop*' will operate on
+            // the window removed by 'glutDestroyWindow', except if no window is around anymore
+            for (auto id : window::manager::all()) {
+              if (id != id_) {
+                ::glutSetWindow (id);
+                ::glutShowWindow();
+                ::glutPopWindow ();
+                
+                break;
+              }
+            }
+          }
+          
+          id_ = -1;
+        }
+      }
+      
+      /* static */ void
+      base::cb_close()
+      {
+        TRACE_NEVER("platform::glut::window::base::cb_close");
+
+        base* w(static_cast<base*>(window::manager::get(::glutGetWindow())));
+          
+        if (w) {
+          w->close_helper(true);
+        }
+      }
       
       /* static */ void
       base::cb_display()
