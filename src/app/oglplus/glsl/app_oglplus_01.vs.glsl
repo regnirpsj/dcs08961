@@ -12,11 +12,11 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
+#version 330
+
 #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_VS_GLSL)
 
 #define UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_VS_GLSL
-
-#version 330
 
 /* constants */
 
