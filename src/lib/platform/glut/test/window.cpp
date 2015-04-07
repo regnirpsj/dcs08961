@@ -98,7 +98,7 @@ namespace platform {
         void
         window::print_state()
         {
-#if 1
+#if 0
           TRACE("platform::glut::window::test::window::print_state");
           
           std::cout << "<unnamed>::win::print_state: "
