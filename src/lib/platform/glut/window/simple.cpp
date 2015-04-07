@@ -63,14 +63,14 @@ namespace platform {
         TRACE("platform::glut::window::simple::simple" + exec_context(this));
 
         ::glutKeyboardFunc     (&simple::cb_keyboard);
-        ::glutKeyboardUpFunc   (&simple::cb_keyboard_up);
+        //::glutKeyboardUpFunc   (&simple::cb_keyboard_up);
         ::glutMotionFunc       (&simple::cb_mouse_motion);
         ::glutMouseFunc        (&simple::cb_mouse);
         ::glutMouseWheelFunc   (&simple::cb_mouse_wheel);
         ::glutPassiveMotionFunc(&simple::cb_passive_motion);
         ::glutReshapeFunc      (&simple::cb_reshape);
         ::glutSpecialFunc      (&simple::cb_special);
-        ::glutSpecialUpFunc    (&simple::cb_special_up);
+        //::glutSpecialUpFunc    (&simple::cb_special_up);
       }
 
       /* virtual */ void
@@ -116,7 +116,10 @@ namespace platform {
             break;
 
           case 'f': // fullscreen toggle
-            ::glutFullScreenToggle();
+            {
+              ::glutFullScreenToggle   ();
+              ::glutPostWindowRedisplay(id.get());
+            }
             break;
           
           default:
@@ -154,8 +157,8 @@ namespace platform {
       {
         TRACE("platform::glut::window::simple::display" + exec_context(this));
 
-        frame_render_pre();
-        frame_render_one();
+        frame_render_pre ();
+        frame_render_one ();
         frame_render_post();
       }
 
@@ -166,7 +169,7 @@ namespace platform {
 
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
-        // update_queue(w->keyboardq_, { k, ::glutGetModifiers() }, w->queue_max_);
+        // update_queue(w->keyboardq_, { a, ::glutGetModifiers() }, w->queue_max_);
     
         w->keyboard(a, glm::ivec2(b, c), false);
       }
@@ -179,7 +182,7 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->keyboardq_, { k, ::glutGetModifiers() }, w->queue_max_);
+          // update_queue(w->keyboardq_, { a, ::glutGetModifiers() }, w->queue_max_);
     
           w->keyboard(a, glm::ivec2(b, c), true);
         }
@@ -193,7 +196,7 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->mouseq_, { b, s,  glm::ivec2(x, y) }, w->queue_max_);
+          // update_queue(w->mouseq_, { a, b,  glm::ivec2(x, y) }, w->queue_max_);
     
           w->mouse(a, b, glm::ivec2(c, d), false);
         }
@@ -207,7 +210,7 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->mouseq_, { b, s,  glm::ivec2(x, y) }, w->queue_max_);
+          // update_queue(w->mouseq_, { a, b,  glm::ivec2(x, y) }, w->queue_max_);
     
           w->motion(glm::ivec2(a, b), true);
         }
@@ -221,7 +224,7 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->mouseq_, { b, s,  glm::ivec2(x, y) }, w->queue_max_);
+          // update_queue(w->mouseq_, { a, b,  glm::ivec2(x, y) }, w->queue_max_);
     
           w->mouse(a, b, glm::ivec2(c, d), true);
         }
@@ -268,7 +271,7 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->keyboardq_, { key, ::glutGetModifiers() }, w->queue_max_);
+          // update_queue(w->keyboardq_, { a, ::glutGetModifiers() }, w->queue_max_);
     
           w->special(a, glm::ivec2(b, c), false);
         }
@@ -282,7 +285,7 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->keyboardq_, { key, ::glutGetModifiers() }, w->queue_max_);
+          // update_queue(w->keyboardq_, { a, ::glutGetModifiers() }, w->queue_max_);
     
           w->special(a, glm::ivec2(b, c), true);
         }
