@@ -143,8 +143,6 @@ namespace {
     virtual void reshape(glm::ivec2 const& size)
     {
       TRACE("<unnamed>::window::reshape");
-
-      inherited::reshape(size);
       
       ctx_.Viewport(size.x, size.y);
 

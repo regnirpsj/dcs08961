@@ -158,26 +158,28 @@ namespace platform {
                                "'platform::glut::window::base::display' called");
       }
       
-      /* virtual */ void
+      /* virtual */ bool
       base::entry(signed)
       {
         TRACE("platform::glut::window::base::entry" + exec_context(this));
+
+        return false;
       }
       
-      /* virtual */ void
+      /* virtual */ bool
       base::idle()
       {
         TRACE("platform::glut::window::base::idle" + exec_context(this));
 
-        ::glutPostWindowRedisplay(id_);
+        return false;
       }
 
-      /* virtual */ void
+      /* virtual */ bool
       base::status(signed)
       {
         TRACE("platform::glut::window::base::status" + exec_context(this));
         
-        ::glutPostWindowRedisplay(id_);
+        return false;
       }      
 
       void

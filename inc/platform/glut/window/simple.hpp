@@ -42,21 +42,21 @@ namespace platform {
         virtual void frame_render_post();
         virtual void frame_render_pre ();
         
-        virtual void keyboard(unsigned char     /* key           */,
+        virtual bool keyboard(unsigned char     /* key           */,
                               glm::ivec2 const& /* ptr pos       */,
                               bool              /* up/down       */);
 
-        virtual void motion  (glm::ivec2 const& /* ptr pos       */,
+        virtual bool motion  (glm::ivec2 const& /* ptr pos       */,
                               bool              /* mouse/passive */);
         
-        virtual void mouse   (signed            /* button        */,
+        virtual bool mouse   (signed            /* button        */,
                               signed            /* state         */,
                               glm::ivec2 const& /* ptr pos       */,
                               bool              /* wheel         */);
         
         virtual void reshape (glm::ivec2 const& /* (w,h)         */);
         
-        virtual void special (signed            /* key           */,
+        virtual bool special (signed            /* key           */,
                               glm::ivec2 const& /* ptr pos       */,
                               bool              /* up/down       */);
         

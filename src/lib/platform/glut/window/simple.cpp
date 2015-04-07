@@ -104,21 +104,29 @@ namespace platform {
         }
       }
       
-      /* virtual */ void
+      /* virtual */ bool
       simple::keyboard(unsigned char key, glm::ivec2 const&, bool)
       {
         TRACE("platform::glut::window::simple::keyboard" + exec_context(this));
 
+        bool result(false);
+        
         if (window::manager::count()) {
           switch (key) {
           case 0x1B: // ESC
-            close();
+            {
+              close();
+
+              result = true;
+            }
             break;
 
           case 'f': // fullscreen toggle
             {
               ::glutFullScreenToggle   ();
               ::glutPostWindowRedisplay(id.get());
+
+              result = true;
             }
             break;
           
@@ -126,18 +134,24 @@ namespace platform {
             break;
           }
         }
+
+        return result;
       }
       
-      /* virtual */ void
+      /* virtual */ bool
       simple::motion(glm::ivec2 const&, bool)
       {
         TRACE("platform::glut::window::simple::motion" + exec_context(this));
+
+        return false;
       }
       
-      /* virtual */ void
+      /* virtual */ bool
       simple::mouse(signed, signed, glm::ivec2 const&, bool)
       {
         TRACE("platform::glut::window::simple::mouse" + exec_context(this));
+
+        return false;
       }
 
       /* virtual */ void
@@ -146,10 +160,12 @@ namespace platform {
         TRACE("platform::glut::window::simple::reshape" + exec_context(this));
       }
 
-      /* virtual */ void
+      /* virtual */ bool
       simple::special(signed, glm::ivec2 const&, bool)
       {
         TRACE("platform::glut::window::simple::special" + exec_context(this));
+        
+        return false;
       }
 
       /* virtual */ void

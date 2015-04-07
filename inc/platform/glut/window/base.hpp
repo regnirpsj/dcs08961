@@ -53,9 +53,9 @@ namespace platform {
         
         virtual void close  ();
         virtual void display() =0;
-        virtual void entry  (signed);
-        virtual void idle   ();
-        virtual void status (signed);
+        virtual bool entry  (signed);
+        virtual bool idle   ();
+        virtual bool status (signed);
         
       private:
 
