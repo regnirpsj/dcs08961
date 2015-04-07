@@ -25,6 +25,7 @@ LIST(APPEND SRC "window/helper.cpp")
 LIST(APPEND SRC "window/manager.cpp")
 LIST(APPEND SRC "window/simple.cpp")
 
+#ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
 #ADD_DEFINITIONS("-DGLEW_MX")
 
 IF(WIN32 OR WIN64)
