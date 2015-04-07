@@ -53,7 +53,7 @@ namespace field {
     inline /* virtual */
     single<T>::~single()
     {
-      TRACE("field::adapter::single<" + support::demangle(typeid(T)) + ">::single");
+      TRACE("field::adapter::single<" + support::demangle(typeid(T)) + ">::~single");
     }
     
     template <typename T>
