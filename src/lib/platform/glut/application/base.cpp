@@ -96,6 +96,7 @@ namespace platform {
               std::cout << '\n';
             }
 #endif
+            
             ::glutMainLoopEvent();
           } while (0 != window::manager::count());
         }
