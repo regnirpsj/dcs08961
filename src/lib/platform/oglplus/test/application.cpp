@@ -14,19 +14,14 @@
 
 // includes, system
 
-#include <GL/glew.h>      // gl*
-
-#include <GL/freeglut.h>  // ::glut*
-#include <glm/gtx/io.hpp> // glm::operator<< (field::container::print_on)
-#include <memory>         // std::unique_ptr<>
+#include <memory> // std::unique_ptr<>
 
 // includes, project
 
 #include <platform/glut/application/base.hpp>
-#include <platform/glut/window/base.hpp>
-#include <platform/window/manager.hpp>
 #include <platform/oglplus/application.hpp>
 #include <support/io_utils.hpp>
+#include <window.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -38,44 +33,6 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class win : public platform::glut::window::base {
-
-    using inherited = platform::glut::window::base;
-    
-  public:
-
-    explicit win(std::string const& a, unsigned b)
-      : inherited(a, rect(100, 100, 100, 100)),
-        frames_  (b)
-    {
-      TRACE("<unnamed>::win::win");
-    }
-    
-    virtual void display()
-    {
-      TRACE("<unnamed>::win::display");
-      
-      {
-        ::glClearColor(0.95f, 0.95f, 0.95f, 0.0f);
-        ::glClearDepth(1.0f);
-        ::glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-        ::glutSwapBuffers();
-      }
-      
-      --frames_;
-      
-      if (0 == frames_) {
-        close();
-      }
-    }
-    
-  private:
-
-    unsigned frames_;
-    
-  };
-
   class app : public platform::glut::application::base {
 
     using inherited = platform::glut::application::base;
@@ -84,7 +41,7 @@ namespace {
 
     explicit app(platform::application::command_line const& a)
       : inherited(a),
-        window_  (new win(a.argv0, 2))
+        window_  (new platform::glut::window::test::window(a.argv0))
     {
       TRACE("<unnamed>::app::app");
     }
@@ -101,21 +58,13 @@ namespace {
         std::cerr << "<unnamed>::app::process_command_line: [files:" << input_files_ << "]\n";
       }
 
-#if 0
-      std::cout << "<unnamed>::app::process_command_line: "
-                << '\n'
-                << "window::manager: ";
-      platform::window::manager::print_on(std::cout);
-      std::cout << '\n'
-                << "window         : "
-                << *window_
-                << '\n';
-#endif
+      window_->print_state();
+      
     }
 
   private:
 
-    std::unique_ptr<win> window_;
+    std::unique_ptr<platform::glut::window::test::window> window_;
     
   };
 
