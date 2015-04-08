@@ -77,7 +77,7 @@ namespace platform {
       /* explicit */
       simple::simple(std::string const& a, rect const& b)
         : base            (a, b),
-          max_queue_length(*this, "max_queue_length", 3),
+          max_queue_length(*this, "max_queue_length", 0),
           keyboardq_      (),
           mouseq_         ()
       {
