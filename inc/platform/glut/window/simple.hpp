@@ -22,6 +22,7 @@
 
 // includes, project
 
+#include <platform/glut/utilities.hpp>
 #include <platform/glut/window/base.hpp>
 
 namespace platform {
@@ -38,30 +39,13 @@ namespace platform {
 
         field::value::single<unsigned> max_queue_length;
         
-      protected:
-        
-        using time_point = support::clock::time_point;
-        
-        struct keyboard_info_t {
-          signed     key;
-          signed     modifier;
-          bool       key_up;
-          time_point stamp;
-        };
-        
-        struct mouse_info_t {
-          signed     button;
-          signed     state;
-          signed     modifier;
-          glm::ivec2 pos;
-          time_point stamp;
-        };
+      protected:        
 
-        using keyboard_info_queue = std::deque<keyboard_info_t>;
-        using mouse_info_queue    = std::deque<mouse_info_t>;
+        using keyboard_record_queue = std::deque<keyboard_record_t>;
+        using mouse_record_queue    = std::deque<mouse_record_t>;
         
-        keyboard_info_queue keyboardq_;
-        mouse_info_queue    mouseq_;
+        keyboard_record_queue keyboardq_;
+        mouse_record_queue    mouseq_;
     
         explicit simple(std::string const& /* title */, rect const& /* rect */ = base::dflt_rect);
 

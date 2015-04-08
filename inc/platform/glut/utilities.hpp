@@ -60,6 +60,7 @@ namespace platform {
       signed     key;      // [char] xor [GLUT_KEY_*]
       signed     state;    // [DOWN] xor [UP]
       signed     modifier; // [ALT|CTRL|SHIFT] xor [NONE]
+      bool       special;  // 'key' is 'GLUT_KEY_*' (true) xor 'char' (false)
       glm::ivec2 pos;      // pointer position
       time_point stamp;    // time stamp
       
