@@ -20,6 +20,8 @@ SET(LIB "platform_glut")
 SET(SRC)
 
 LIST(APPEND SRC "application/base.cpp")
+LIST(APPEND SRC "io.cpp")
+LIST(APPEND SRC "utilities.cpp")
 LIST(APPEND SRC "window/base.cpp")
 LIST(APPEND SRC "window/helper.cpp")
 LIST(APPEND SRC "window/manager.cpp")

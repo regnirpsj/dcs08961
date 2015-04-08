@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform_glut.hpp                                                               */
+/*  module     :  platform/glut/utilities.cpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_PLATFORM_GLUT_HPP
+#include "platform/glut/utilities.hpp"
 
 // includes, system
 
@@ -22,26 +22,32 @@
 
 // includes, project
 
-#include <platform/glut/application/base.hpp>
-#include <platform/glut/io.hpp>
-#include <platform/glut/utilities.hpp>
-#include <platform/glut/window/manager.hpp>
-#include <platform/glut/window/simple.hpp>
+//#include <>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+} // namespace {
 
 namespace platform {
 
   namespace glut {
     
-    // types, exported (class, enum, struct, union, typedef)
-
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+    // variables, exported
   
-    // functions, exported (extern)
+    // functions, exported
 
   } // namespace glut {
   
 } // namespace platform {
-
-#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_HPP)
