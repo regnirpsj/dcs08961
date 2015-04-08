@@ -23,6 +23,7 @@
 
 #include <GL/freeglut.h>  // ::glut*
 #include <glm/gtx/io.hpp> // glm::operator<< (field::container::print_on)
+#include <sstream>        // std::ostringstream
 #include <stdexcept>      // std::logic_error
 
 // includes, project
@@ -44,6 +45,78 @@ namespace {
   
   // functions, internal
 
+  std::string const
+  button_to_string(signed a)
+  {
+    std::string result("[]");
+
+    switch (a) {
+    case GLUT_LEFT_BUTTON:   result.insert(1, "LEFT");   break;
+    case GLUT_MIDDLE_BUTTON: result.insert(1, "MIDDLE"); break;
+    case GLUT_RIGHT_BUTTON:  result.insert(1, "RIGHT");  break;
+    default:                 result.insert(1, "NONE");   break;
+    }
+
+    return result;
+  }
+
+  std::string const
+  button_key_state_to_string(signed a)
+  {
+    std::string result("[]");
+
+    result.insert(1, a ? "  UP" : "DOWN");
+    
+    return result;
+  }
+  
+  std::string const
+  modifier_to_string(signed a)
+  {
+    std::string result;
+    
+    if (GLUT_ACTIVE_ALT   & a) { result += "ALT|";   }
+    if (GLUT_ACTIVE_CTRL  & a) { result += "CTRL|";  }
+    if (GLUT_ACTIVE_SHIFT & a) { result += "SHIFT|"; }
+
+    if (result.empty()) {
+      result = "[NONE]";
+    } else {
+      result.pop_back();
+      
+      result = "[" + result + "]";
+    }
+
+    return result;
+  }
+
+  std::string const
+  time_stamp_to_string(support::clock::time_point const& a)
+  {
+    using namespace std::chrono;
+    
+    std::ostringstream ostr;
+
+    ostr << std::dec
+         << std::setw(12)
+         << duration_cast<microseconds>(a.time_since_epoch()).count();
+    
+    return ostr.str();
+  }
+  
+  template <typename T>
+  void
+  update_queue(std::deque<T>& q, T const& e, unsigned l)
+  {
+    if (0 < l) {
+      q.push_back(e);
+      
+      if (q.size() > (l + 1)) {
+        q.pop_front();
+      }
+    }
+  }
+  
 } // namespace {
 
 namespace platform {
@@ -58,7 +131,10 @@ namespace platform {
 
       /* explicit */
       simple::simple(std::string const& a, rect const& b)
-        : base(a, b)
+        : base            (a, b),
+          max_queue_length(*this, "max_queue_length", 3),
+          keyboardq_      (),
+          mouseq_         ()
       {
         TRACE("platform::glut::window::simple::simple" + exec_context(this));
 
@@ -133,6 +209,19 @@ namespace platform {
           default:
             break;
           }
+
+#if 1
+          if (!keyboardq_.empty()) {
+            auto const& k(keyboardq_.back());
+      
+            std::cout << support::trace::prefix() << "platform::glut::window::simple::keyboard: "
+                      << static_cast<unsigned char>(k.key - '\0') << ','
+                      << modifier_to_string(k.modifier)           << ','
+                      << button_key_state_to_string(k.key_up)     << ','
+                      << time_stamp_to_string(k.stamp)
+                      << '\n';
+          }
+#endif
         }
 
         return result;
@@ -143,6 +232,21 @@ namespace platform {
       {
         TRACE("platform::glut::window::simple::motion" + exec_context(this));
 
+#if 1
+        if (!mouseq_.empty()) {
+          auto const& m(mouseq_.back());
+          
+          std::cout << support::trace::prefix() << "platform::glut::window::simple::motion: "
+                    << button_to_string(m.button)          << ','
+                    << button_key_state_to_string(m.state) << ','
+                    << modifier_to_string(m.modifier)      << ','
+                    << glm::io::width(4)
+                    << m.pos                               << ','
+                    << time_stamp_to_string(m.stamp)
+                    << '\n';
+        }
+#endif
+        
         return false;
       }
       
@@ -151,6 +255,21 @@ namespace platform {
       {
         TRACE("platform::glut::window::simple::mouse" + exec_context(this));
 
+#if 1
+        if (!mouseq_.empty()) {
+          auto const& m(mouseq_.back());
+          
+          std::cout << support::trace::prefix() << "platform::glut::window::simple::mouse: "
+                    << button_to_string(m.button)          << ','
+                    << button_key_state_to_string(m.state) << ','
+                    << modifier_to_string(m.modifier)      << ','
+                    << glm::io::width(4)
+                    << m.pos                               << ','
+                    << time_stamp_to_string(m.stamp)
+                    << '\n';
+        }
+#endif
+        
         return false;
       }
 
@@ -164,7 +283,20 @@ namespace platform {
       simple::special(signed, glm::ivec2 const&, bool)
       {
         TRACE("platform::glut::window::simple::special" + exec_context(this));
-        
+
+#if 1
+        if (!keyboardq_.empty()) {
+          auto const& k(keyboardq_.back());
+      
+          std::cout << support::trace::prefix() << "platform::glut::window::simple::special: "
+                    << k.key                                << ','
+                    << modifier_to_string(k.modifier)       << ','
+                    << button_key_state_to_string(k.key_up) << ','
+                    << time_stamp_to_string(k.stamp)
+                    << '\n';
+        }
+#endif
+          
         return false;
       }
 
@@ -185,8 +317,14 @@ namespace platform {
 
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
-        // update_queue(w->keyboardq_, { a, ::glutGetModifiers() }, w->queue_max_);
-    
+        if (w) {
+          using clock = support::clock;
+          
+          update_queue(w->keyboardq_,
+                       { a, ::glutGetModifiers(), false, clock::now() },
+                       *w->max_queue_length);
+        }
+        
         w->keyboard(a, glm::ivec2(b, c), false);
       }
 
@@ -198,7 +336,11 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->keyboardq_, { a, ::glutGetModifiers() }, w->queue_max_);
+          using clock = support::clock;
+          
+          update_queue(w->keyboardq_,
+                       { a, ::glutGetModifiers(), true, clock::now() },
+                       *w->max_queue_length);
     
           w->keyboard(a, glm::ivec2(b, c), true);
         }
@@ -212,9 +354,15 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->mouseq_, { a, b,  glm::ivec2(x, y) }, w->queue_max_);
-    
-          w->mouse(a, b, glm::ivec2(c, d), false);
+          using clock = support::clock;
+          
+          glm::ivec2 const pos(c, d);
+          
+          update_queue(w->mouseq_,
+                       { a, b, ::glutGetModifiers(), pos, clock::now() },
+                       *w->max_queue_length);
+          
+          w->mouse(a, b, pos, false);
         }
       }
       
@@ -226,9 +374,23 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->mouseq_, { a, b,  glm::ivec2(x, y) }, w->queue_max_);
+          using clock = support::clock;
+
+          static mouse_info_t const dflt({ -1, false, 0, glm::ivec2(), clock::now() });
+
+          mouse_info_t info(dflt);
+
+          if (!w->mouseq_.empty()) {
+            info = w->mouseq_.back();
+          }
+
+          info.state = dflt.state;
+          info.pos   = glm::ivec2(a, b);
+          info.stamp = clock::now();
+            
+          update_queue(w->mouseq_, info, *w->max_queue_length);
     
-          w->motion(glm::ivec2(a, b), true);
+          w->motion(info.pos, true);
         }
       }
       
@@ -240,9 +402,15 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->mouseq_, { a, b,  glm::ivec2(x, y) }, w->queue_max_);
-    
-          w->mouse(a, b, glm::ivec2(c, d), true);
+          using clock = support::clock;
+          
+          glm::ivec2 const pos(c, d);
+          
+          update_queue(w->mouseq_,
+                       { (a * b), false, ::glutGetModifiers(), pos, clock::now() },
+                       *w->max_queue_length);
+          
+          w->mouse(a, b, pos, true);
         }
       }
       
@@ -252,11 +420,25 @@ namespace platform {
         TRACE("platform::glut::window::simple::cb_passive_motion");
 
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
-
+        
         if (w) {
-          // update_queue(w->mouseq_, { b, s,  glm::ivec2(x, y) }, w->queue_max_);
+          using clock = support::clock;
+
+          static mouse_info_t const dflt({ -1, true, 0, glm::ivec2(), clock::now() });
+
+          mouse_info_t info(dflt);
+
+          if (!w->mouseq_.empty()) {
+            info = w->mouseq_.back();
+          }
+
+          info.state = dflt.state;
+          info.pos   = glm::ivec2(a, b);
+          info.stamp = clock::now();
+            
+          update_queue(w->mouseq_, info, *w->max_queue_length);
     
-          w->motion(glm::ivec2(a, b), false);
+          w->motion(info.pos, false);
         }
       }
       
@@ -287,7 +469,11 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->keyboardq_, { a, ::glutGetModifiers() }, w->queue_max_);
+          using clock = support::clock;
+          
+          update_queue(w->keyboardq_,
+                       { a, ::glutGetModifiers(), false, clock::now() },
+                       *w->max_queue_length);
     
           w->special(a, glm::ivec2(b, c), false);
         }
@@ -301,7 +487,11 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          // update_queue(w->keyboardq_, { a, ::glutGetModifiers() }, w->queue_max_);
+          using clock = support::clock;
+          
+          update_queue(w->keyboardq_,
+                       { a, ::glutGetModifiers(), true, clock::now() },
+                       *w->max_queue_length);
     
           w->special(a, glm::ivec2(b, c), true);
         }

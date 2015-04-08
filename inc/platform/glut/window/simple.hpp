@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <deque> // std::deque<>
 
 // includes, project
 
@@ -34,8 +34,35 @@ namespace platform {
 
       class DCS08961_PLATFORM_EXPORT simple : public base {
 
-      protected:
+      public:
 
+        field::value::single<unsigned> max_queue_length;
+        
+      protected:
+        
+        using time_point = support::clock::time_point;
+        
+        struct keyboard_info_t {
+          signed     key;
+          signed     modifier;
+          bool       key_up;
+          time_point stamp;
+        };
+        
+        struct mouse_info_t {
+          signed     button;
+          signed     state;
+          signed     modifier;
+          glm::ivec2 pos;
+          time_point stamp;
+        };
+
+        using keyboard_info_queue = std::deque<keyboard_info_t>;
+        using mouse_info_queue    = std::deque<mouse_info_t>;
+        
+        keyboard_info_queue keyboardq_;
+        mouse_info_queue    mouseq_;
+    
         explicit simple(std::string const& /* title */, rect const& /* rect */ = base::dflt_rect);
 
         virtual void frame_render_one () =0;
