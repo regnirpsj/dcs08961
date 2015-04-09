@@ -35,6 +35,9 @@ namespace {
   // types, internal (class, enum, struct, union, typedef)
   
   // variables, internal
+
+  std::vector<signed> ids_list;
+  bool                ids_changed(false);
   
   // functions, internal
 
@@ -66,12 +69,17 @@ namespace platform {
         return static_cast<base*>(platform::window::manager::get(type::glut, a));
       }
 
-      /* static */ std::vector<signed>
+      /* static */ std::vector<signed> const&
       manager::all()
       {
         TRACE_NEVER("platform::glut::window::manager::all");
 
-        return platform::window::manager::all(type::glut);
+        if (ids_changed) {
+          ids_list    = platform::window::manager::all(type::glut);
+          ids_changed = false;
+        }
+        
+        return ids_list;
       }
       
       /* static */ bool
@@ -79,6 +87,8 @@ namespace platform {
       {
         TRACE("platform::glut::window::manager::add");
 
+        ids_changed = true;
+        
         return platform::window::manager::add(type::glut, a, b);
       }
 
@@ -87,6 +97,8 @@ namespace platform {
       {
         TRACE("platform::glut::window::manager::sub(base*)");
 
+        ids_changed = true;
+        
         return platform::window::manager::sub(type::glut, a);
       }
 
@@ -95,6 +107,8 @@ namespace platform {
       {
         TRACE("platform::glut::window::manager::sub(signed)");
 
+        ids_changed = true;
+        
         return platform::window::manager::sub(type::glut, a);
       }
   

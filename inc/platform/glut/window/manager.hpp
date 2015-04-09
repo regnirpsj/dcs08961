@@ -41,7 +41,7 @@ namespace platform {
         static unsigned count();
         static base*    get(signed);
         
-        static std::vector<signed> all();
+        static std::vector<signed> const& all();
         
       private:
 
