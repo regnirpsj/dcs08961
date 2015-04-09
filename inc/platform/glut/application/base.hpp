@@ -49,8 +49,6 @@ namespace platform {
         
         virtual signed run();
 
-        virtual void print_on(std::ostream&) const;
-      
       protected:
 
         using string_list_type = std::vector<std::string>;

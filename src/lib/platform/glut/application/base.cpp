@@ -98,18 +98,10 @@ namespace platform {
 #endif
             
             ::glutMainLoopEvent();
-          } while (0 != window::manager::count());
+          } while (!terminate && (0 != window::manager::count()));
         }
         
         return result;
-      }
-
-      /* virtual */ void
-      base::print_on(std::ostream& os) const
-      {
-        TRACE_NEVER("platform::glut::application::base::print_on");
-      
-        platform::application::single_instance::print_on(os);
       }
       
       /* explicit */
