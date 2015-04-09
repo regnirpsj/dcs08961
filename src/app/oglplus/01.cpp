@@ -30,6 +30,7 @@
 #include <platform/glut/application/base.hpp>
 #include <platform/glut/window/simple.hpp>
 #include <platform/oglplus/application.hpp>
+#include <support/signal_handler.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -126,7 +127,7 @@ namespace {
 
     virtual void frame_render_one()
     {
-      TRACE("<unnamed>::window::frame_render_one");
+      TRACE_NEVER("<unnamed>::window::frame_render_one");
 
       ctx_.Clear().ColorBuffer().DepthBuffer();
       
@@ -176,6 +177,18 @@ namespace {
     
   public:
 
+    static void terminate(::siginfo_t* a)
+    {
+      TRACE("<unnamed>::application::terminate");
+      
+      inherited::terminate = true;
+
+      std::cout << '\n'
+                << "terminating by user request ('"
+                << ::strsignal(a->si_signo) << "' " << a->si_signo << ")"
+                << '\n';
+    }
+    
     explicit application(command_line const& a)
       : inherited(a),
         window_  (nullptr)
@@ -206,7 +219,7 @@ namespace {
   // variables, internal
   
   // functions, internal
-
+  
 } // namespace {
 
 int
@@ -214,6 +227,11 @@ main(int argc, char const* argv[])
 {
   TRACE("main");
 
+  using support::signal_handler;
+  
+  signal_handler::instance->handler(SIGINT,  &application::terminate);
+  signal_handler::instance->handler(SIGTERM, &application::terminate);
+  
   namespace pa  = platform::application;
   namespace poa = platform::oglplus::application;
   
