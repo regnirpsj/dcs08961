@@ -49,7 +49,9 @@ namespace platform {
   namespace application {
   
     // variables, exported
-  
+
+    /* static */ bool base::terminate(false);
+    
     // functions, exported
 
     /* virtual */ signed

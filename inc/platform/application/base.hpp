@@ -24,12 +24,9 @@
 // includes, project
 
 #include <platform/application/command_line.hpp>
+#include <platform/config.hpp>
 #include <platform/export.h>
 #include <support/printable.hpp>
-
-#if defined(_MSC_VER) && (_MSC_VER < 1900)
-#  define noexcept
-#endif
 
 namespace platform {
 
@@ -49,6 +46,8 @@ namespace platform {
       
     protected:
 
+      static bool terminate;
+      
       command_line command_line_;
       unsigned     verbose_level_;
     
