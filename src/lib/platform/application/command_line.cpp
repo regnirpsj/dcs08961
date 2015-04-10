@@ -47,7 +47,10 @@ namespace platform {
   namespace application {
   
     // variables, exported
-  
+
+    /* static */ unsigned const command_line::line_length(111);
+    /* static */ unsigned const command_line::text_length( 55);
+    
     // functions, exported
 
     /* explicit */

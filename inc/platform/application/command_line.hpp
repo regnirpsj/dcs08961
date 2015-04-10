@@ -41,6 +41,9 @@ namespace platform {
       using positional_options_description = boost::program_options::positional_options_description;
       using variables_map                  = boost::program_options::variables_map;
 
+      static unsigned const line_length; // 100
+      static unsigned const text_length; //  60
+      
       std::string const              argv0;
       options_description            descriptions;
       variables_map                  options;
