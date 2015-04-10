@@ -96,12 +96,6 @@ namespace {
       
       inherited::process_command_line();
 
-      if (!input_files_.empty()) {
-        using support::ostream::operator<<;
-        
-        std::cerr << "<unnamed>::app::process_command_line: [files:" << input_files_ << "]\n";
-      }
-
 #if 0
       std::cout << "<unnamed>::app::process_command_line: "
                 << '\n'
@@ -156,8 +150,8 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_application_files)
   using platform::application::command_line;
   using platform::application::execute;
 
-  int         argc(4);
-  char const* argv[] = { "test_platform_glut_application_files", "-f", "file0", "file1" };
+  int         argc(2);
+  char const* argv[] = { "test_platform_glut_application_files", "-v" };
   
   BOOST_CHECK(EXIT_SUCCESS == execute<app>(command_line(argc, argv)));
 }

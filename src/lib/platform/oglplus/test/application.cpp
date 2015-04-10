@@ -52,12 +52,6 @@ namespace {
       
       inherited::process_command_line();
 
-      if (!input_files_.empty()) {
-        using support::ostream::operator<<;
-        
-        std::cerr << "<unnamed>::app::process_command_line: [files:" << input_files_ << "]\n";
-      }
-
       window_->print_state();
       
     }
