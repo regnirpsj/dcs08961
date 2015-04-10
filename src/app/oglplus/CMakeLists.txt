@@ -7,4 +7,4 @@
 ####################################################################################################
 
 ADD_SUBDIRECTORY(boxes)
-#ADD_SUBDIRECTORY(viewer)
+ADD_SUBDIRECTORY(viewer)
