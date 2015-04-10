@@ -117,7 +117,9 @@ namespace platform {
 
       namespace bpo = boost::program_options;
 
-      bpo::options_description global("Global Options");
+      bpo::options_description global("Global Options",
+                                      command_line::line_length,
+                                      command_line::text_length);
 
       global.add_options()
         ("help,h", "display command-line help and exit");

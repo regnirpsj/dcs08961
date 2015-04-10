@@ -50,11 +50,7 @@ namespace platform {
         virtual signed run();
 
       protected:
-
-        using string_list_type = std::vector<std::string>;
-      
-        string_list_type input_files_;
-
+        
         explicit base(platform::application::command_line const&);
         
       };

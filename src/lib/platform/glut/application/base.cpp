@@ -106,25 +106,9 @@ namespace platform {
       
       /* explicit */
       base::base(platform::application::command_line const& a)
-        : platform::application::single_instance(a),
-          input_files_                          ()
+        : platform::application::single_instance(a)
       {
         TRACE("platform::glut::application::base::base");
-
-        {
-          namespace bpo = boost::program_options;
-          
-          bpo::options_description od("Command-Line Options");
-
-          od.add_options()
-            ("file,f",
-             bpo::value(&input_files_)->composing(),
-             "input file(s)\n"
-             "positional arguments are accumulated as input files");
-
-          command_line_.descriptions.add(od);
-          command_line_.positionals .add("file", -1);
-        }
 
         ::glutInit           (&dummy_argc, const_cast<char**>(dummy_argv));
         ::glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA|GLUT_DEPTH|GLUT_STENCIL);
