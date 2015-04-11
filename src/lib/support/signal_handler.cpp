@@ -45,8 +45,9 @@ namespace {
   
   // variables, internal
 
-  bool             initialized(false);
-  handler_map_type handler_map;
+  bool                         initialized(false);
+  handler_map_type             handler_map;
+  std::unique_ptr<std::thread> handler_thread(nullptr);
   
   // functions, internal
 
@@ -231,8 +232,11 @@ namespace {
       ::sigfillset     (&signal_mask);
       ::pthread_sigmask(SIG_SETMASK, &signal_mask, 0);
 
-      new std::thread(signal_thread_function);
+      handler_thread.reset(new std::thread(signal_thread_function));
 
+      // avoid exception when 'handler_thread' is destructed
+      handler_thread->detach();
+      
       ::pthread_sigmask(SIG_BLOCK, &signal_mask, 0);
 
       initialized = true;
