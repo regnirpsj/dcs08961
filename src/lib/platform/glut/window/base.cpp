@@ -82,12 +82,12 @@ namespace platform {
 
         if (!platform::glut::application::base::initialized()) {
           throw std::runtime_error("initialization of <platform::glut::window::base> "
-                                   "(and derived types) require an initialized instance of "
+                                   "(and derived types) require(s) an initialized instance of "
                                    "<platform::glut::application::base> (or derived type)");
         }
         
-        ::glutInitWindowPosition(position->x,  position->y);
-        ::glutInitWindowSize    (size->x,      size->y);
+        ::glutInitWindowPosition(position->x, position->y);
+        ::glutInitWindowSize    (size->x,     size->y);
     
         if (0 >= (id_ = ::glutCreateWindow(title->c_str()))) {
           throw std::runtime_error("GLUT initialization error in <platform::glut::window::base>");
@@ -304,8 +304,9 @@ namespace platform {
         TRACE("platform::glut::window::guard::guard");
 
         if (!platform::glut::application::base::initialized()) {
-          throw std::runtime_error("<platform::glut::window::guard> requires an initialized "
-                                   "instance of <platform::glut::application::base>");
+          throw std::runtime_error("initialization of <platform::glut::window::guard> "
+                                   "(and derived types) require(s) an initialized instance of "
+                                   "<platform::glut::application::base> (or derived type)");
         }
 
         id_ = ::glutGetWindow();
