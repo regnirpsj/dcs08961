@@ -49,19 +49,6 @@ namespace {
   
   // functions, internal
   
-  template <typename T>
-  void
-  update_queue(std::deque<T>& q, T const& e, unsigned l)
-  {
-    if (0 < l) {
-      q.push_back(e);
-      
-      if (q.size() > (l + 1)) {
-        q.pop_front();
-      }
-    }
-  }
-  
 } // namespace {
 
 namespace platform {

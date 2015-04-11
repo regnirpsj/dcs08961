@@ -55,7 +55,7 @@ namespace platform {
       {
         std::ostringstream ostr;
 
-        ostr <<" (@" << ptr << ')';
+        ostr << " (@" << ptr << ')';
 
         return ostr.str();
       }
