@@ -104,12 +104,6 @@ namespace platform {
       simple::frame_render_pre()
       {
         TRACE_NEVER("platform::glut::window::simple::frame_render_pre" + exec_context(this));
-
-        if (window::manager::count()) {
-          ::glClearColor(0.95f, 0.95f, 0.95f, 0.0f);
-          ::glClearDepth(1.0f);
-          ::glClear     (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        }
       }
       
       /* virtual */ bool
@@ -215,11 +209,13 @@ namespace platform {
       {
         TRACE("platform::glut::window::simple::display" + exec_context(this));
 
-        frame_render_pre ();
-        frame_render_one ();
-        frame_render_post();
+        if (window::manager::count()) {
+          frame_render_pre ();
+          frame_render_one ();
+          frame_render_post();
+        }
       }
-
+      
       /* static */ void
       simple::cb_keyboard(unsigned char a, signed b, signed c)
       {
@@ -228,12 +224,10 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          using clock = support::clock;
-
           glm::ivec2 const pos(b, c);
           
           update_queue(w->keyboardq_,
-                       { a, false, ::glutGetModifiers(), false, pos, clock::now() },
+                       { a, false, ::glutGetModifiers(), false, pos, support::clock::now() },
                        *w->max_queue_length);
         
           w->keyboard(a,pos, false);
@@ -248,12 +242,10 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          using clock = support::clock;
-
           glm::ivec2 const pos(b, c);
           
           update_queue(w->keyboardq_,
-                       { a, true, ::glutGetModifiers(), false, pos, clock::now() },
+                       { a, true, ::glutGetModifiers(), false, pos, support::clock::now() },
                        *w->max_queue_length);
     
           w->keyboard(a, pos, true);
@@ -268,12 +260,10 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          using clock = support::clock;
-          
           glm::ivec2 const pos(c, d);
           
           update_queue(w->mouseq_,
-                       { a, b, ::glutGetModifiers(), pos, clock::now() },
+                       { a, b, ::glutGetModifiers(), pos, support::clock::now() },
                        *w->max_queue_length);
           
           w->mouse(a, b, pos, false);
@@ -288,9 +278,7 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          using clock = support::clock;
-
-          static mouse_record_t const dflt({ -1, false, 0, glm::ivec2(), clock::now() });
+          static mouse_record_t const dflt({ -1, false, 0, glm::ivec2(), support::clock::now() });
 
           mouse_record_t info(dflt);
 
@@ -300,7 +288,7 @@ namespace platform {
 
           info.state = dflt.state;
           info.pos   = glm::ivec2(a, b);
-          info.stamp = clock::now();
+          info.stamp = support::clock::now();
             
           update_queue(w->mouseq_, info, *w->max_queue_length);
     
@@ -316,12 +304,10 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          using clock = support::clock;
-          
           glm::ivec2 const pos(c, d);
           
           update_queue(w->mouseq_,
-                       { (a * b), false, ::glutGetModifiers(), pos, clock::now() },
+                       { (a * b), false, ::glutGetModifiers(), pos, support::clock::now() },
                        *w->max_queue_length);
           
           w->mouse(a, b, pos, true);
@@ -336,9 +322,7 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
         
         if (w) {
-          using clock = support::clock;
-
-          static mouse_record_t const dflt({ -1, true, 0, glm::ivec2(), clock::now() });
+          static mouse_record_t const dflt({ -1, true, 0, glm::ivec2(), support::clock::now() });
 
           mouse_record_t info(dflt);
 
@@ -348,7 +332,7 @@ namespace platform {
 
           info.state = dflt.state;
           info.pos   = glm::ivec2(a, b);
-          info.stamp = clock::now();
+          info.stamp = support::clock::now();
             
           update_queue(w->mouseq_, info, *w->max_queue_length);
     
@@ -383,12 +367,10 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          using clock = support::clock;
-
           glm::ivec2 const pos(b, c);
           
           update_queue(w->keyboardq_,
-                       { a, false, ::glutGetModifiers(), true, pos, clock::now() },
+                       { a, false, ::glutGetModifiers(), true, pos, support::clock::now() },
                        *w->max_queue_length);
     
           w->special(a, pos, true);
@@ -403,12 +385,10 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          using clock = support::clock;
-
           glm::ivec2 const pos(b, c);
           
           update_queue(w->keyboardq_,
-                       { a, true, ::glutGetModifiers(), true, pos, clock::now() },
+                       { a, true, ::glutGetModifiers(), true, pos, support::clock::now() },
                        *w->max_queue_length);
     
           w->special(a, pos, true);
