@@ -59,7 +59,7 @@
 
 #if defined(UKACHULLDCS_USE_TRACE)
 #  include <boost/fusion/include/io.hpp>
-#  include <glm/io.hpp>
+#  include <glm/gtx/io.hpp>
 #  include <support/io_utils.hpp>
 #endif
 
