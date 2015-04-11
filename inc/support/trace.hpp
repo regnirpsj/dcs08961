@@ -19,12 +19,12 @@
 // includes, system
 
 #include <boost/noncopyable.hpp> // boost::noncopyable
-#include <iosfwd>                // std::ostream (fwd)
-#include <iostream>              // std::cout
+#include <iostream>              // std::cout, std::ostream
 #include <string>                // std::string
 
 // includes, project
 
+#include <support/chrono.hpp> // clock::duration
 #include <support/export.h>
 
 namespace support {
@@ -44,8 +44,14 @@ namespace support {
     
   private:
 
-    std::string   msg_;
-    std::ostream& os_;
+    std::string const msg_;
+    std::ostream&     os_;
+    clock::duration   start_;
+    clock::duration   stop_;
+
+    static void        enter (trace* /* ctx */, std::string const& /* msg */, std::ostream&);
+    static void        leave (trace* /* ctx */, std::string const& /* msg */, std::ostream&);
+    static std::string prefix(trace* /* ctx */, bool /* show duration */);
     
   };
 
@@ -60,8 +66,8 @@ namespace support {
 #include <boost/current_function.hpp> // BOOST_CURRENT_FUNCTION
 
 #define TRACE_NEVER(x)
-#define TRACE_ALWAYS(x)       volatile support::trace const _(x)
-#define TRACE_FUNC_ALWAYS     volatile support::trace const _(BOOST_CURRENT_FUNCTION)
+#define TRACE_ALWAYS(x)       volatile support::trace const __(x)
+#define TRACE_FUNC_ALWAYS     volatile support::trace const __(BOOST_CURRENT_FUNCTION)
 #define TRACE_ENTER_ALWAYS(x)          support::trace::enter(x)
 #define TRACE_LEAVE_ALWAYS(x)          support::trace::leave(x)
 
