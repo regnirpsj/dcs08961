@@ -22,6 +22,7 @@
 
 // includes, project
 
+#include <platform/export.h>
 #include <support/chrono.hpp>
 
 namespace platform {
@@ -30,7 +31,7 @@ namespace platform {
   
     // types, exported (class, enum, struct, union, typedef)
 
-    struct frame_record_t {
+    struct DCS08961_PLATFORM_EXPORT frame_record_t {
 
       using duration   = support::clock::duration;
       using time_point = support::clock::time_point;
@@ -41,7 +42,7 @@ namespace platform {
       
     };
     
-    struct mouse_record_t {
+    struct DCS08961_PLATFORM_EXPORT mouse_record_t {
 
       using time_point = support::clock::time_point;
       
@@ -53,7 +54,7 @@ namespace platform {
       
     };
 
-    struct keyboard_record_t {
+    struct DCS08961_PLATFORM_EXPORT keyboard_record_t {
 
       using time_point = support::clock::time_point;
       
