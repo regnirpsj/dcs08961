@@ -25,7 +25,7 @@
 //#include <>
 
 #define UKACHULLDCS_USE_TRACE
-//#undef UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 #if defined(UKACHULLDCS_USE_TRACE) || defined(UKACHULLDCS_ALL_TRACE)
 #  include <typeinfo>
