@@ -123,6 +123,17 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
+BOOST_AUTO_TEST_CASE(test_platform_glut_application_glut_version)
+{
+  int         argc(1);
+  char const* argv[] = { "test_platform_glut_application_glut_version" };
+  
+  ::glutInit(&argc, const_cast<char**>(argv));
+    
+  BOOST_CHECK  (true);
+  BOOST_MESSAGE(::glutGet(GLUT_VERSION));
+}
+
 BOOST_AUTO_TEST_CASE(test_platform_glut_application_ctor)
 {
   using platform::application::command_line;
