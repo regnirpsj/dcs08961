@@ -20,7 +20,7 @@
 
 #include <array>                  // std::array<>
 #include <boost/io/ios_state.hpp> // boost::io::ios_all_saver
-#include <glm/gtx/io.hpp>         // glm::operator<<
+#include <glm/gtx/io.hpp>         // glm::io::operator<<
 #include <iomanip>                // std::fixed, std::setprecision
 #include <ostream>                // std::basic_ostream<>
 #include <string>                 // std::string
@@ -30,7 +30,7 @@
 //#include <>
 
 namespace gli {
-  
+    
   // functions, inlined (inline)
 
   template <typename CTy, typename CTr>

@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -18,8 +18,8 @@
 
 // includes, system
 
-#include <glm/glm.hpp>            // glm::vec[2,3,4], glm::mat[2,3,4]x[2,3,4]
-#include <glm/gtc/quaternion.hpp> // glm::tquat
+#include <glm/glm.hpp>            // glm::tvec[1,2,3,4]<>, glm::tmat[2,3,4]x[2,3,4]<>
+#include <glm/gtc/quaternion.hpp> // glm::tquat<>
 #include <limits>                 // std::numeric_limits<>
 
 // includes, project

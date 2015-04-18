@@ -18,8 +18,8 @@
 
 // includes, system
 
-#include <gli/gli.hpp>            // gli::format, gli::texture?D
-#include <iosfwd>                 // std::basic_ostream<> (fwd)
+#include <gli/gli.hpp> // gli::format, gli::texture?D
+#include <iosfwd>      // std::basic_ostream<> (fwd)
 
 
 // includes, project
@@ -27,7 +27,7 @@
 // #include <>
 
 namespace gli {
-  
+    
   // types, exported (class, enum, struct, union, typedef)
 
   // variables, exported (extern)
