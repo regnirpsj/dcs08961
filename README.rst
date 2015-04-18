@@ -24,19 +24,22 @@ Quick Setup
 
 ::
 
- # linux
- $> cd <src-dir>
- $> mkdir build && cd build
- $> cmake ..
- $> make -j4
- $> make -j4 test_all
+linux::
 
- # windows
- $> cd <src-dir>
+ $> cd <src-dir-created-by-git-clone>
  $> mkdir build && cd build
- $> cmake ..
- $> msbuild.exe DCS08961.sln /nologo /v:q /m:4
- $> msbuild.exe DCS08961.sln /nologo /v:q /m:4 /t:"Tests\test_all"
+ $> cmake -DCMAKE_INSTALL_PREFIX=../install ..
+ $> cmake --build . --clean-first
+ $> cmake --build . --target test_all
+
+windows::
+
+ $> cd <src-dir-created-by-git-clone>
+ $> mkdir build && cd build
+ $> cmake -DCMAKE_INSTALL_PREFIX=../install ..
+ $> cmake --build . --clean-first -- /nologo /v:q
+ $> cmake --build . --target test_all -- /nologo /v:q
+ $> cmake --build . --target install -- /nologo /v:q
 
 Overview
 --------
