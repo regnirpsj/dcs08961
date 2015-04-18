@@ -2,32 +2,28 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
-SET(SRC)
-LIST(APPEND SRC "adapter_multi.cpp")
-LIST(APPEND SRC "adapter_single.cpp")
-LIST(APPEND SRC "connection_manager.cpp")
-LIST(APPEND SRC "connection_update.cpp")
-LIST(APPEND SRC "container.cpp")
-LIST(APPEND SRC "value_multi.cpp")
-LIST(APPEND SRC "value_single.cpp")
+include_directories(SYSTEM ${Boost_INLCUDE_DIR})
+include_directories(       ${CMAKE_CURRENT_SOURCE_DIR})
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+set(SRC)
+list(APPEND SRC "adapter_multi.cpp")
+list(APPEND SRC "adapter_single.cpp")
+list(APPEND SRC "connection_manager.cpp")
+list(APPEND SRC "connection_update.cpp")
+list(APPEND SRC "container.cpp")
+list(APPEND SRC "value_multi.cpp")
+list(APPEND SRC "value_single.cpp")
 
-SET(LIBS)
-LIST(APPEND LIBS ${LIB})
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+set(LIBS)
+list(APPEND LIBS ${LIB})
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-IF(UNIX)
-  LIST(APPEND LIBS pthread)
-  LIST(APPEND LIBS rt)
-ENDIF()
-
-TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})

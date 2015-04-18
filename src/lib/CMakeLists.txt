@@ -6,11 +6,11 @@
 #                                                                                                  #
 ####################################################################################################
 
-ADD_SUBDIRECTORY(field)
-ADD_SUBDIRECTORY(geometry)
-ADD_SUBDIRECTORY(gli)
-ADD_SUBDIRECTORY(glm)
-ADD_SUBDIRECTORY(platform)
-ADD_SUBDIRECTORY(render)
-ADD_SUBDIRECTORY(scene)
-ADD_SUBDIRECTORY(support)
+add_subdirectory(field)
+add_subdirectory(geometry)
+add_subdirectory(gli)
+add_subdirectory(glm)
+add_subdirectory(platform)
+add_subdirectory(render)
+add_subdirectory(scene)
+add_subdirectory(support)

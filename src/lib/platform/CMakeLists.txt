@@ -6,40 +6,43 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS program_options)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS program_options)
 
-SET(LIB "platform")
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
-SET(SRC)
+set(SRC)
+list(APPEND SRC "application/base.cpp")
+list(APPEND SRC "application/command_line.cpp")
+list(APPEND SRC "application/multi_instance.cpp")
+list(APPEND SRC "application/single_instance.cpp")
+list(APPEND SRC "window/base.cpp")
+list(APPEND SRC "window/controller.cpp")
+list(APPEND SRC "window/manager.cpp")
+list(APPEND SRC "window/rect.cpp")
 
-LIST(APPEND SRC "application/base.cpp")
-LIST(APPEND SRC "application/command_line.cpp")
-LIST(APPEND SRC "application/multi_instance.cpp")
-LIST(APPEND SRC "application/single_instance.cpp")
-LIST(APPEND SRC "window/base.cpp")
-LIST(APPEND SRC "window/manager.cpp")
-LIST(APPEND SRC "window/rect.cpp")
+#add_definitions("-DUKACHULLDCS_ALL_TRACE")
 
-#ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
+set(LIBS)
+list(APPEND LIBS field)
+list(APPEND LIBS support)
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-SET(LIBS)
-LIST(APPEND LIBS field)
-LIST(APPEND LIBS support)
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+set(LIB "platform")
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-EXPORT_SETUP(${LIB})
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB})
 
-ADD_CUSTOM_TARGET(platform_all)
-ADD_CUSTOM_TARGET(test_platform_all)
+add_custom_target(platform_all)
+add_custom_target(test_platform_all)
 
-ADD_SUBDIRECTORY(glut)
-ADD_SUBDIRECTORY(oglplus)
-ADD_SUBDIRECTORY(posix)
-IF(WIN32 OR WIN64)
-  ADD_SUBDIRECTORY(win32)
-ENDIF()
-ADD_SUBDIRECTORY(winrt)
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+add_subdirectory(glut)
+add_subdirectory(oglplus)
+add_subdirectory(posix)
+if(CMAKE_HOST_WIN32)
+  add_subdirectory(win32)
+endif()
+add_subdirectory(winrt)
+
+add_subdirectory(test EXCLUDE_FROM_ALL)

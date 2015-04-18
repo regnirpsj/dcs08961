@@ -6,26 +6,25 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-SET(LIB "platform_winrt")
+set(SRC)
+list(APPEND SRC "application/base.cpp")
+list(APPEND SRC "application/desktop.cpp")
+list(APPEND SRC "application/store.cpp")
+list(APPEND SRC "application/universal.cpp")
+list(APPEND SRC "window/base.cpp")
+list(APPEND SRC "window/simple.cpp")
 
-SET(SRC)
+set(LIBS)
+list(APPEND LIBS platform)
+list(APPEND LIBS support)
 
-LIST(APPEND SRC "application/base.cpp")
-LIST(APPEND SRC "application/desktop.cpp")
-LIST(APPEND SRC "application/store.cpp")
-LIST(APPEND SRC "application/universal.cpp")
-LIST(APPEND SRC "window/base.cpp")
-LIST(APPEND SRC "window/simple.cpp")
+set(LIB "${LIB}_winrt")
 
-SET(LIBS)
-LIST(APPEND LIBS platform)
-LIST(APPEND LIBS support)
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB})
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+add_subdirectory(test EXCLUDE_FROM_ALL)
 
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
-
-ADD_DEPENDENCIES(platform_all ${LIB})
+add_dependencies(platform_all ${LIB})

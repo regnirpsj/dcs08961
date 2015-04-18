@@ -2,43 +2,44 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS filesystem system)
-FIND_PACKAGE(OpenGL  REQUIRED)
-FIND_PACKAGE(GLEW    REQUIRED)
-FIND_PACKAGE(GLUT    REQUIRED)
-FIND_PACKAGE(OGLplus REQUIRED)
+find_package(Boost ${BOOST_MINIMUM_VERSION}       REQUIRED COMPONENTS filesystem system)
+find_package(FreeGLUT ${FREEGLUT_MINIMUM_VERSION} REQUIRED)
+find_package(GLEW                                 REQUIRED)
+find_package(OGLplus                              REQUIRED)
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-INCLUDE_DIRECTORIES(${OGLplus_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${GLEW_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
+include_directories(SYSTEM ${FreeGLUT_INCLUDE_DIR})
+include_directories(SYSTEM ${GLEW_INCLUDE_DIRS})
+include_directories(SYSTEM ${OGLplus_INCLUDE_DIRS})
+include_directories(       ${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(LIBS)
-LIST(APPEND LIBS platform_glut)
-LIST(APPEND LIBS platform_oglplus)
-LIST(APPEND LIBS support)
-LIST(APPEND LIBS ${GLUT_LIBRARIES})
-LIST(APPEND LIBS ${GLEW_LIBRARIES})
-LIST(APPEND LIBS ${OPENGL_gl_LIBRARY})
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+set(SRC)
+list(APPEND SRC "main.cpp")
 
-SET(oglplus_boxes_SRC)
-LIST(APPEND oglplus_boxes_SRC "main.cpp")
+set(LIBS)
+list(APPEND LIBS platform_glut)
+list(APPEND LIBS platform_oglplus)
+list(APPEND LIBS support)
+list(APPEND LIBS ${FreeGLUT_LIBRARY})
+list(APPEND LIBS ${GLEW_LIBRARY})
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-APPLICATION_SETUP(oglplus_boxes SOURCES ${oglplus_boxes_SRC} DEPENDENCIES ${LIBS})
-ADD_DEPENDENCIES(app_oglplus_boxes glsl/oglplus_boxes.vs.glsl)
-ADD_DEPENDENCIES(app_oglplus_boxes glsl/oglplus_boxes.fs.glsl)
+set(APP "oglplus_boxes")
 
-SET(SHADER_SRC)
-FILE(GLOB_RECURSE SHADER_SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.glsl)
+cma_setup_application(${APP} SOURCES ${SRC} DEPENDENCIES ${LIBS})
 
-FOREACH(file ${SHADER_SRC})
-  CONFIGURE_FILE(${file} ${CMAKE_SHADER_OUTPUT_DIRECTORY}/glsl/${file} COPYONLY)
-ENDFOREACH()
+set(SHADER_SRC)
+file(GLOB_RECURSE SHADER_SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} *.glsl)
+
+foreach(file ${SHADER_SRC})
+  configure_file(${file} ${CMAKE_SHADER_OUTPUT_DIRECTORY}/glsl/${file} COPYONLY IMMEDIATE)
+endforeach()
+
+add_dependencies(app_${APP} share/shader/glsl/*.glsl)
+add_dependencies(app_${APP} share/shader/glsl/common/*.glsl)

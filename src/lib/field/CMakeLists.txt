@@ -2,35 +2,36 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS thread)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS thread)
 
-SET(LIB "field")
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
-SET(SRC)
+set(SRC)
+list(APPEND SRC "adapter/multi.cpp")
+list(APPEND SRC "adapter/single.cpp")
+list(APPEND SRC "base.cpp")
+list(APPEND SRC "connection/manager.cpp")
+list(APPEND SRC "connection/update.cpp")
+list(APPEND SRC "container.cpp")
+list(APPEND SRC "defaults.cpp")
+list(APPEND SRC "multi/base.cpp")
+list(APPEND SRC "single/base.cpp")
+list(APPEND SRC "value/multi.cpp")
+list(APPEND SRC "value/single.cpp")
 
-LIST(APPEND SRC "adapter/multi.cpp")
-LIST(APPEND SRC "adapter/single.cpp")
-LIST(APPEND SRC "base.cpp")
-LIST(APPEND SRC "connection/manager.cpp")
-LIST(APPEND SRC "connection/update.cpp")
-LIST(APPEND SRC "container.cpp")
-LIST(APPEND SRC "defaults.cpp")
-LIST(APPEND SRC "multi/base.cpp")
-LIST(APPEND SRC "single/base.cpp")
-LIST(APPEND SRC "value/multi.cpp")
-LIST(APPEND SRC "value/single.cpp")
+set(LIBS)
+list(APPEND LIBS support)
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-SET(LIBS)
-LIST(APPEND LIBS support)
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+set(LIB "field")
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-EXPORT_SETUP(${LIB})
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB})
 
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+add_subdirectory(test EXCLUDE_FROM_ALL)

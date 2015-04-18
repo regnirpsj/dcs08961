@@ -6,20 +6,24 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-SET(LIB "platform_posix")
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS thread)
 
-SET(SRC)
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
-LIST(APPEND SRC "application/base.cpp")
+set(SRC)
+list(APPEND SRC "application/base.cpp")
 
-SET(LIBS)
-LIST(APPEND LIBS platform)
-LIST(APPEND LIBS support)
+set(LIBS)
+list(APPEND LIBS platform)
+list(APPEND LIBS support)
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+set(LIB "${LIB}_posix")
 
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB})
 
-ADD_DEPENDENCIES(platform_all ${LIB})
+add_subdirectory(test EXCLUDE_FROM_ALL)
+
+add_dependencies(platform_all ${LIB})

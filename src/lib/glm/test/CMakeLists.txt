@@ -2,25 +2,23 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
-SET(SRC)
-LIST(APPEND SRC "gtx_limits.cpp")
-LIST(APPEND SRC "gtx_utilities.cpp")
+include_directories(SYSTEM ${Boost_INLCUDE_DIR})
 
-SET(LIBS)
-LIST(APPEND LIBS ${LIB})
-LIST(APPEND LIBS support)
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+set(SRC)
+list(APPEND SRC "gtx_limits.cpp")
+list(APPEND SRC "gtx_utilities.cpp")
 
-IF(UNIX)
-  LIST(APPEND LIBS rt)
-ENDIF()
+set(LIBS)
+list(APPEND LIBS ${LIB})
+list(APPEND LIBS support)
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})

@@ -2,24 +2,23 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-SET(LIB "geometry")
+set(SRC)
+list(APPEND SRC "lattice.cpp")
+list(APPEND SRC "triangle.cpp")
 
-SET(SRC)
+set(LIBS)
+list(APPEND LIBS glm)
+list(APPEND LIBS support)
 
-LIST(APPEND SRC "lattice.cpp")
-LIST(APPEND SRC "triangle.cpp")
+set(LIB "geometry")
 
-SET(LIBS)
-LIST(APPEND LIBS glm)
-LIST(APPEND LIBS support)
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB})
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-EXPORT_SETUP(${LIB})
-
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+add_subdirectory(test EXCLUDE_FROM_ALL)

@@ -6,21 +6,18 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
-SET(SRC)
-LIST(APPEND SRC "glut.cpp")
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${Boost_INCLUDE_DIR})
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+set(SRC)
+list(APPEND SRC "glut.cpp")
 
-SET(LIBS)
-LIST(APPEND LIBS ${LIB})
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+set(LIBS)
+list(APPEND LIBS ${LIB})
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-IF(UNIX)
-  LIST(APPEND LIBS rt)
-ENDIF()
-
-TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})

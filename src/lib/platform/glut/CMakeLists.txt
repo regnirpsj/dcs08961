@@ -6,47 +6,43 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(OpenGL REQUIRED)
-FIND_PACKAGE(GLEW REQUIRED)
+find_package(FreeGLUT ${FREEGLUT_MINIMUM_VERSION} REQUIRED)
+find_package(GLEW                                 REQUIRED)
+find_package(GLM      ${GLM_MINIMUM_VERSION}      REQUIRED)
+find_package(OpenGL                               REQUIRED)
 
-IF(NOT WIN32 AND NOT WIN64)
-  FIND_PACKAGE(GLUT REQUIRED)
-ENDIF()
+include_directories(SYSTEM ${FreeGLUT_INCLUDE_DIR})
+include_directories(SYSTEM ${GLEW_INCLUDE_DIR})
+include_directories(SYSTEM ${GLM_INCLUDE_DIR})
+include_directories(SYSTEM ${OPENGL_INCLUDE_DIR})
+include_directories(       ${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(LIB "platform_glut")
+set(SRC)
+list(APPEND SRC "application/base.cpp")
+list(APPEND SRC "io.cpp")
+list(APPEND SRC "utilities.cpp")
+list(APPEND SRC "window/base.cpp")
+list(APPEND SRC "window/controller.cpp")
+list(APPEND SRC "window/helper.cpp")
+list(APPEND SRC "window/manager.cpp")
+list(APPEND SRC "window/simple.cpp")
 
-SET(SRC)
+#add_definitions("-DUKACHULLDCS_ALL_TRACE")
 
-LIST(APPEND SRC "application/base.cpp")
-LIST(APPEND SRC "io.cpp")
-LIST(APPEND SRC "utilities.cpp")
-LIST(APPEND SRC "window/base.cpp")
-LIST(APPEND SRC "window/helper.cpp")
-LIST(APPEND SRC "window/manager.cpp")
-LIST(APPEND SRC "window/simple.cpp")
+set(LIBS)
+list(APPEND LIBS platform)
+list(APPEND LIBS support)
+list(APPEND LIBS ${FreeGLUT_LIBRARY})
+list(APPEND LIBS ${GLEW_LIBRARY})
+list(APPEND LIBS ${OPENGL_gl_LIBRARY})
 
-#ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
-#ADD_DEFINITIONS("-DGLEW_MX")
+set(LIB "${LIB}_glut")
 
-IF(WIN32 OR WIN64)
-  ADD_DEFINITIONS("-DFREEGLUT_STATIC -DFREEGLUT_LIB_PRAGMAS=1")
-ENDIF()
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB})
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES(${GLEW_INCLUDE_DIRS})
+add_subdirectory(test EXCLUDE_FROM_ALL)
 
-SET(LIBS)
-LIST(APPEND LIBS platform)
-LIST(APPEND LIBS support)
-LIST(APPEND LIBS ${GLUT_LIBRARIES})
-LIST(APPEND LIBS ${GLEW_LIBRARIES})
-LIST(APPEND LIBS ${OPENGL_gl_LIBRARY})
-
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
-
-ADD_DEPENDENCIES(platform_all ${LIB})
+add_dependencies(platform_all ${LIB})

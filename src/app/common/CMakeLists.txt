@@ -2,41 +2,36 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(OpenGL REQUIRED)
-IF(NOT WIN32 AND NOT WIN64)
-  FIND_PACKAGE(GLUT REQUIRED)
-ENDIF()
-FIND_PACKAGE(GLEW REQUIRED)
-FIND_PACKAGE(OGLplus REQUIRED)
+find_package(FreeGLUT ${FREEGLUT_MINIMUM_VERSION} REQUIRED)
+find_package(GLEW                                 REQUIRED)
+find_package(GLM      ${GLM_MINIMUM_VERSION}      REQUIRED)
+find_package(OGLplus                              REQUIRED)
 
-SET(LIB "app_common")
+include_directories(SYSTEM ${FreeGLUT_INCLUDE_DIR})
+include_directories(SYSTEM ${GLEW_INCLUDE_DIRS})
+include_directories(SYSTEM ${GLM_INCLUDE_DIR})
+include_directories(SYSTEM ${OGLplus_INCLUDE_DIRS})
+include_directories(       ${CMAKE_CURRENT_SOURCE_DIR})
 
-SET(SRC)
+set(SRC)
+list(APPEND SRC "glut.cpp")
+list(APPEND SRC "light.cpp")
+list(APPEND SRC "model.cpp")
+list(APPEND SRC "stats.cpp")
 
-LIST(APPEND SRC "glut.cpp")
-LIST(APPEND SRC "light.cpp")
-LIST(APPEND SRC "model.cpp")
-LIST(APPEND SRC "stats.cpp")
+set(LIBS)
+list(APPEND LIBS support)
+list(APPEND LIBS ${FreeGLUT_LIBRARY})
+list(APPEND LIBS ${GLEW_LIBRARY})
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-INCLUDE_DIRECTORIES(${OGLplus_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${GLUT_INCLUDE_DIR})
-INCLUDE_DIRECTORIES(${GLEW_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+set(LIB "app_common")
 
-SET(LIBS)
-LIST(APPEND LIBS support)
-# LIST(APPEND LIBS ${OGLplus_LIBRARIES})
-LIST(APPEND LIBS ${GLUT_LIBRARIES})
-LIST(APPEND LIBS ${GLEW_LIBRARIES})
-LIST(APPEND LIBS ${OPENGL_gl_LIBRARY})
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+add_subdirectory(test EXCLUDE_FROM_ALL)

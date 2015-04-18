@@ -2,28 +2,23 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
-SET(SRC)
+include_directories(SYSTEM ${Boost_INLCUDE_DIR})
 
-LIST(APPEND SRC "api.cpp")
+set(SRC)
+list(APPEND SRC "api.cpp")
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+set(LIBS)
+LIST(APPEND LIBS ${LIB}_d3d)
+LIST(APPEND LIBS ${LIB}_null)
+LIST(APPEND LIBS ${LIB}_ogl)
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-SET(LIBS)
-LIST(APPEND LIBS render_d3d)
-LIST(APPEND LIBS render_null)
-LIST(APPEND LIBS render_ogl)
-LIST(APPEND LIBS ${Boost_LIBRARIES})
-
-IF(UNIX)
-  LIST(APPEND LIBS rt)
-ENDIF()
-
-TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})

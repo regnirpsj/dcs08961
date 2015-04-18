@@ -6,25 +6,22 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
-SET(SRC)
-LIST(APPEND SRC "application.cpp")
+include_directories(SYSTEM ${Boost_INLCUDE_DIR})
+include_directories(       ${CMAKE_CURRENT_SOURCE_DIR}/../../glut/test)
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../../glut/test)
+set(SRC)
+list(APPEND SRC "application.cpp")
 
-SET(LIBS)
-LIST(APPEND LIBS ${LIB})
-LIST(APPEND LIBS platform_glut)
-LIST(APPEND LIBS test_platform_glut_helper)
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+set(LIBS)
+list(APPEND LIBS ${LIB})
+list(APPEND LIBS test_platform_glut_helper)
+list(APPEND LIBS platform_glut)
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-IF(UNIX)
-  LIST(APPEND LIBS rt)
-ENDIF()
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
 
-TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-
-ADD_DEPENDENCIES(test_platform_all test_${LIB})
+add_dependencies(test_platform_all test_${LIB})

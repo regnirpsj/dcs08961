@@ -6,25 +6,26 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(GLEW    REQUIRED)
-FIND_PACKAGE(OGLplus REQUIRED)
+find_package(GLEW    REQUIRED)
+find_package(OGLplus REQUIRED)
 
-SET(LIB "platform_oglplus")
+include_directories(SYSTEM ${GLEW_INCLUDE_DIRS})
+include_directories(SYSTEM ${OGLplus_INCLUDE_DIRS})
 
-SET(SRC)
+set(SRC)
+list(APPEND SRC "application.cpp")
 
-LIST(APPEND SRC "application.cpp")
+set(LIBS)
+list(APPEND LIBS platform)
+list(APPEND LIBS support)
 
-INCLUDE_DIRECTORIES(${GLEW_INCLUDE_DIRS})
-INCLUDE_DIRECTORIES(${OGLplus_INCLUDE_DIRS})
+set(LIB "${LIB}_oglplus")
 
-SET(LIBS)
-LIST(APPEND LIBS support)
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB})
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+add_subdirectory(test EXCLUDE_FROM_ALL)
 
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
-
-ADD_DEPENDENCIES(platform_all ${LIB})
+add_dependencies(platform_all ${LIB})

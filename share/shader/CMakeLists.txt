@@ -6,16 +6,17 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FILE(GLOB_RECURSE SHADER_SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} glsl/*.glsl)
+file(GLOB_RECURSE SHADER_SRC RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} glsl/*.glsl)
 
-FOREACH(file ${SHADER_SRC})
-  IF(VERBOSE)
-    MESSAGE(STATUS "copying ${file} -> ${CMAKE_SHADER_OUTPUT_DIRECTORY}/${file}")
-  ENDIF()
-  CONFIGURE_FILE(${file} ${CMAKE_SHADER_OUTPUT_DIRECTORY}/${file} COPYONLY)
-ENDFOREACH()
+foreach(file ${SHADER_SRC})
+  if(VERBOSE)
+    message(STATUS "copying ${file} -> ${CMAKE_SHADER_OUTPUT_DIRECTORY}/${file}")
+  endif()
+  configure_file(${file} ${CMAKE_SHADER_OUTPUT_DIRECTORY}/${file} COPYONLY)
+endforeach()
 
-INSTALL(DIRECTORY ${CMAKE_SHADER_OUTPUT_DIRECTORY}/glsl DESTINATION ${DCS08961_SHARE_DIRECTORY}
-  COMPONENT hdr)
+install(DIRECTORY   ${CMAKE_SHADER_OUTPUT_DIRECTORY}/glsl
+        DESTINATION ${${PROJECT_NAME}_SHARE_DIRECTORY}
+	COMPONENT   ${PROJECT_NAME}_HDR_COMPONENT_NAME)

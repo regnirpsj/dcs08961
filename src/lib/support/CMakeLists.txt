@@ -2,19 +2,18 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED
-  COMPONENTS filesystem program_options system thread)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED
+             COMPONENTS filesystem program_options system thread)
 
-SET(LIB "support")
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
-SET(SRC)
-
+set(SRC)
 LIST(APPEND SRC "application.cpp")
 LIST(APPEND SRC "chrono.cpp")
 LIST(APPEND SRC "chrono_io.cpp")
@@ -28,14 +27,17 @@ LIST(APPEND SRC "thread.cpp")
 LIST(APPEND SRC "trace.cpp")
 LIST(APPEND SRC "type_info.cpp")
 
-SET(LIBS)
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+set(LIBS)
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-IF(UNIX)
-  LIST(APPEND LIBS pthread)
-ENDIF()
+if(CMAKE_HOST_UNIX)
+  # 'pthread_sigmask' used in signal_handler.cpp
+  list(APPEND LIBS pthread)
+endif()
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-EXPORT_SETUP(${LIB})
+set(LIB "support")
 
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB})
+
+add_subdirectory(test EXCLUDE_FROM_ALL)

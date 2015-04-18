@@ -2,20 +2,23 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS filesystem program_options)
+find_package(GLI ${GLI_MINIMUM_VERSION} REQUIRED)
+find_package(GLM ${GLM_MINIMUM_VERSION} REQUIRED)
 
-SET(LIB "gli")
+include_directories(SYSTEM ${GLI_INCLUDE_DIR})
+include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 
-SET(SRC)
+set(SRC)
+list(APPEND SRC "gtx/io.cpp")
 
-LIST(APPEND SRC "gtx/io.cpp")
+set(LIB "gli")
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES)
+cma_setup_library(${LIB} SOURCES ${SRC})
 
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+add_subdirectory(test EXCLUDE_FROM_ALL)

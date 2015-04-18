@@ -2,19 +2,27 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-SET(LIB "glm")
+find_package(GLM ${GLM_MINIMUM_VERSION} REQUIRED)
 
-SET(SRC)
+include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 
-LIST(APPEND SRC "gtx/limits.cpp")
-LIST(APPEND SRC "gtx/utilities.cpp")
+set(SRC)
+list(APPEND SRC "gtx/limits.cpp")
+list(APPEND SRC "gtx/utilities.cpp")
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC})
+set(LIBS)
+list(APPEND LIBS support)
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+set(LIB "glm")
+
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB})
+
+add_subdirectory(test EXCLUDE_FROM_ALL)

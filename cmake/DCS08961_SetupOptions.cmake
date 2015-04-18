@@ -2,14 +2,13 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2015 University of Hull                                                            #
 #                                                                                                  #
 ####################################################################################################
 
-SET(CTEST_PROJECT_NAME       "DCS08961")
-SET(CTEST_NIGHTLY_START_TIME "01:00:00 EST")
-SET(CTEST_DROP_METHOD        "http")
-SET(CTEST_DROP_SITE          "www.cdash.org")
-SET(CTEST_DROP_LOCATION      "/CDash/submit.php?project=${CTEST_PROJECT_NAME}")
-SET(CTEST_DROP_SITE_CDASH    TRUE)
-SET(CTEST_USE_LAUNCHERS      0)
+if(VERBOSE)
+  message(STATUS "Loading ${PROJECT_NAME} options")
+endif()
+
+# tracing
+option(DCS08961_TRACE_ALL "Enable runtime function tracing for everything!" OFF)

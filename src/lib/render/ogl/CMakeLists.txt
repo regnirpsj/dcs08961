@@ -6,30 +6,27 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(GLEW REQUIRED)
-FIND_PACKAGE(OpenGL REQUIRED)
-FIND_PACKAGE(X11 REQUIRED)
+find_package(GLEW REQUIRED)
 
-SET(LIB "render_ogl")
+include_directories(SYSTEM ${GLEW_INCLUDE_DIR})
 
-SET(SRC)
+set(SRC)
+list(APPEND SRC "context.cpp")
+list(APPEND SRC "pass/container.cpp")
+list(APPEND SRC "stage/clear.cpp")
+list(APPEND SRC "stage/draw.cpp")
+list(APPEND SRC "stage/swap.cpp")
 
-LIST(APPEND SRC "context.cpp")
-LIST(APPEND SRC "pass/container.cpp")
-LIST(APPEND SRC "stage/clear.cpp")
-LIST(APPEND SRC "stage/draw.cpp")
-LIST(APPEND SRC "stage/swap.cpp")
+set(LIBS)
+list(APPEND LIBS render)
+list(APPEND LIBS support)
+list(APPEND LIBS ${GLEW_LIBRARY})
 
-SET(LIBS)
-LIST(APPEND LIBS render)
-LIST(APPEND LIBS support)
-LIST(APPEND LIBS ${GLEW_LIBRARY})
-LIST(APPEND LIBS ${OPENGL_gl_LIBRARY})
-LIST(APPEND LIBS ${X11_X11_LIB})
+set(LIB "${LIB}_ogl")
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-EXPORT_SETUP(${LIB} PATH render/ogl)
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB} PATH render/ogl)
 
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+add_subdirectory(test EXCLUDE_FROM_ALL)

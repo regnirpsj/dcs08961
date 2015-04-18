@@ -2,15 +2,15 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-ADD_SUBDIRECTORY(common)
-ADD_SUBDIRECTORY(deferred)
-ADD_SUBDIRECTORY(lighting)
-ADD_SUBDIRECTORY(postprocess)
-ADD_SUBDIRECTORY(oglplus)
-ADD_SUBDIRECTORY(projection)
-ADD_SUBDIRECTORY(shading)
-ADD_SUBDIRECTORY(shadows)
+add_subdirectory(common)
+add_subdirectory(deferred)
+add_subdirectory(lighting)
+add_subdirectory(postprocess)
+add_subdirectory(oglplus)
+add_subdirectory(projection)
+add_subdirectory(shading)
+add_subdirectory(shadows)

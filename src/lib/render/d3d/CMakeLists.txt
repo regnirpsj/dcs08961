@@ -2,27 +2,26 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014-2015  University of Hull                                                      #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-SET(LIB "render_d3d")
+set(SRC)
+list(APPEND SRC "context.cpp")
+list(APPEND SRC "pass/container.cpp")
+list(APPEND SRC "stage/clear.cpp")
+list(APPEND SRC "stage/draw.cpp")
+list(APPEND SRC "stage/swap.cpp")
 
-SET(SRC)
+set(LIBS)
+list(APPEND LIBS render)
+list(APPEND LIBS support)
 
-LIST(APPEND SRC "context.cpp")
-LIST(APPEND SRC "pass/container.cpp")
-LIST(APPEND SRC "stage/clear.cpp")
-LIST(APPEND SRC "stage/draw.cpp")
-LIST(APPEND SRC "stage/swap.cpp")
+set(LIB "${LIB}_d3d")
 
-SET(LIBS)
-LIST(APPEND LIBS render)
-LIST(APPEND LIBS support)
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_export(${LIB} PATH render/d3d)
 
-LIBRARY_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-EXPORT_SETUP(${LIB} PATH render/d3d)
-
-ADD_SUBDIRECTORY(test EXCLUDE_FROM_ALL)
+add_subdirectory(test EXCLUDE_FROM_ALL)

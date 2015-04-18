@@ -2,39 +2,39 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-SET(SRC)
-LIST(APPEND SRC "signal_handler.cpp")
+# 'signal_handler' unit testing not possible with boost::test
+set(SRC)
+list(APPEND SRC "signal_handler.cpp")
 
-SET(LIBS)
-LIST(APPEND LIBS ${LIB})
+set(LIBS)
+list(APPEND LIBS ${LIB})
 
-TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+# the remainder of 'support::' uses boost::test
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
-SET(SRC)
-LIST(APPEND SRC "application.cpp")
-LIST(APPEND SRC "chrono.cpp")
-LIST(APPEND SRC "hasher.cpp")
-LIST(APPEND SRC "io_utils.cpp")
-LIST(APPEND SRC "printable.cpp")
-LIST(APPEND SRC "refcounted.cpp")
-LIST(APPEND SRC "thread.cpp")
-LIST(APPEND SRC "trace.cpp")
-LIST(APPEND SRC "type_info.cpp")
+include_directories(SYSTEM ${Boost_INLCUDE_DIR})
 
-SET(LIBS)
-LIST(APPEND LIBS ${LIB})
-LIST(APPEND LIBS ${Boost_LIBRARIES})
+set(SRC)
+list(APPEND SRC "application.cpp")
+list(APPEND SRC "chrono.cpp")
+list(APPEND SRC "hasher.cpp")
+list(APPEND SRC "io_utils.cpp")
+list(APPEND SRC "printable.cpp")
+list(APPEND SRC "refcounted.cpp")
+list(APPEND SRC "thread.cpp")
+list(APPEND SRC "trace.cpp")
+list(APPEND SRC "type_info.cpp")
 
-IF(UNIX)
-  LIST(APPEND LIBS rt)
-ENDIF()
+set(LIBS)
+list(APPEND LIBS ${LIB})
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})

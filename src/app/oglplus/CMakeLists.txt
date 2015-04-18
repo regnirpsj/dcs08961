@@ -6,5 +6,5 @@
 #                                                                                                  #
 ####################################################################################################
 
-ADD_SUBDIRECTORY(boxes)
-ADD_SUBDIRECTORY(viewer)
+add_subdirectory(boxes)
+add_subdirectory(viewer)

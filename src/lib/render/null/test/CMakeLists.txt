@@ -2,31 +2,26 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
 
-SET(SRC)
+include_directories(SYSTEM ${Boost_INLCUDE_DIR})
 
-LIST(APPEND SRC "context.cpp")
-LIST(APPEND SRC "pass_container.cpp")
-LIST(APPEND SRC "stage_clear.cpp")
-LIST(APPEND SRC "stage_draw.cpp")
-LIST(APPEND SRC "stage_setup.cpp")
-LIST(APPEND SRC "stage_swap.cpp")
+set(SRC)
+list(APPEND SRC "context.cpp")
+list(APPEND SRC "pass_container.cpp")
+list(APPEND SRC "stage_clear.cpp")
+list(APPEND SRC "stage_draw.cpp")
+list(APPEND SRC "stage_setup.cpp")
+list(APPEND SRC "stage_swap.cpp")
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+set(LIBS)
+list(APPEND LIBS ${LIB})
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-SET(LIBS)
-LIST(APPEND LIBS ${LIB})
-LIST(APPEND LIBS ${Boost_LIBRARIES})
-
-IF(UNIX)
-  LIST(APPEND LIBS rt)
-ENDIF()
-
-TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})

@@ -2,22 +2,24 @@
 
 ####################################################################################################
 #                                                                                                  #
-# Copyright (C) 2014 University of Hull                                                            #
+# Copyright (C) 2014-2015 University of Hull                                                       #
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
 
-SET(APP "projection")
+find_package(GLM ${GLM_MINIMUM_VERSION} REQUIRED)
 
-SET(SRC)
+include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 
-LIST(APPEND SRC "main.cpp")
+set(SRC)
+list(APPEND SRC "main.cpp")
 
-SET(LIBS)
+set(LIBS)
+list(APPEND LIBS glm)
+list(APPEND LIBS scene)
+list(APPEND LIBS support)
 
-LIST(APPEND LIBS glm)
-LIST(APPEND LIBS scene)
-LIST(APPEND LIBS support)
+set(APP "projection")
 
-APPLICATION_SETUP(${APP} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_application(${APP} SOURCES ${SRC} DEPENDENCIES ${LIBS})

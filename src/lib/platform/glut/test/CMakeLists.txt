@@ -6,40 +6,35 @@
 #                                                                                                  #
 ####################################################################################################
 
-MESSAGE(STATUS "Setting up: ${CMAKE_CURRENT_SOURCE_DIR}")
+cma_print_current_directory()
+
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+
+include_directories(SYSTEM ${Boost_INLCUDE_DIR})
+include_directories(       ${CMAKE_CURRENT_SOURCE_DIR})
 
 # helper
-SET(SRC_HELPER)
-LIST(APPEND SRC_HELPER "window.cpp")
+set(SRC_HELPER)
+list(APPEND SRC_HELPER "window.cpp")
 
-SET(LIB_HELPER "test_${LIB}_helper")
+set(LIBS_HELPER)
+list(APPEND LIBS_HELPER ${LIB})
+list(APPEND LIBS_HELPER support)
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+set(LIB_HELPER "test_${LIB}_helper")
 
-SET(LIBS_HELPER)
-LIST(APPEND LIBS_HELPER ${LIB})
-LIST(APPEND LIBS_HELPER support)
-
-LIBRARY_SETUP(${LIB_HELPER} SOURCES ${SRC_HELPER} DEPENDENCIES ${LIBS_HELPER})
+cma_setup_library(${LIB_HELPER} SOURCES ${SRC_HELPER} DEPENDENCIES ${LIBS_HELPER})
 
 # tests
-FIND_PACKAGE(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+set(SRC)
+list(APPEND SRC "application.cpp")
+list(APPEND SRC "window_simple.cpp")
 
-SET(SRC)
-LIST(APPEND SRC "application.cpp")
-LIST(APPEND SRC "window_simple.cpp")
+set(LIBS)
+list(APPEND LIBS ${LIB_HELPER})
+list(APPEND LIBS ${LIB})
+list(APPEND LIBS ${Boost_LIBRARIES})
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
 
-SET(LIBS)
-LIST(APPEND LIBS ${LIB_HELPER})
-LIST(APPEND LIBS ${LIB})
-LIST(APPEND LIBS ${Boost_LIBRARIES})
-
-IF(UNIX)
-  LIST(APPEND LIBS rt)
-ENDIF()
-
-TEST_SETUP(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-
-ADD_DEPENDENCIES(test_platform_all test_${LIB})
+add_dependencies(test_platform_all test_${LIB})
