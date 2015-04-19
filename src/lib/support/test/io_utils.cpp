@@ -146,7 +146,7 @@ namespace {
 
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     {
-      auto const s{ 0.1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9 };
+      auto const s = { 0.1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9 };
 
       support::ostream::basic_format_saver<CTy> fs(os);
       
@@ -163,7 +163,7 @@ namespace {
     }
 
     {
-      auto const s{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
+      auto const s = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
 
       support::ostream::basic_format_saver<CTy> fs(os);
       
