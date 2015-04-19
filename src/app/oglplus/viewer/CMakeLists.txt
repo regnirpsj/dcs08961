@@ -39,5 +39,5 @@ list(APPEND LIBS ${Boost_LIBRARIES})
 set(APP "oglplus_viewer")
 
 cma_setup_application(${APP} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-add_dependencies(app_${APP} share/shader/glsl/*.glsl)
-add_dependencies(app_${APP} share/shader/glsl/common/*.glsl)
+
+add_dependencies(app_${APP} glsl_shader)
