@@ -9,8 +9,10 @@
 cma_print_current_directory()
 
 find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framework)
+find_package(GLM   ${GLM_MINIMUM_VERSION}   REQUIRED)
 
 include_directories(SYSTEM ${Boost_INLCUDE_DIR})
+include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 include_directories(       ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SRC)
