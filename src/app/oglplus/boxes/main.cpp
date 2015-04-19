@@ -207,7 +207,7 @@ namespace {
 
       inherited::process_command_line();
 
-      window_.reset(new window(command_line_.argv0, rect(100, 100, 800, 600), command_line_.argv0));
+      window_.reset(new window(command_line_.argv0, rect(50, 50, 1440, 900), command_line_.argv0));
     }
     
   private:
