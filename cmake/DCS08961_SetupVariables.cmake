@@ -57,8 +57,3 @@ if(DCS08961_TRACE_ALL)
   endif()
   add_definitions("-DUKACHULLDCS_ALL_TRACE")
 endif()
-
-if(POLICY CMP0046)
-  message(STATUS "Policy 'CMP0046' set to 'OLD'")
-  cmake_policy(SET CMP0046 OLD)
-endif()
