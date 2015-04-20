@@ -60,6 +60,7 @@ Requirements
 ------------
 
 Mandatory:
+
 - `Boost`_
 - `cmake-modules`_
 - `GLM`_/`GLI`_
@@ -67,6 +68,7 @@ Mandatory:
 - `DirectX`_
 
 Optional:
+
 - `Doxygen`_
 
 Acknowledgements
