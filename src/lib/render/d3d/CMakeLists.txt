@@ -22,6 +22,7 @@ list(APPEND LIBS support)
 set(LIB "${LIB}_d3d")
 
 cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-cma_setup_export(${LIB} PATH render/d3d)
 
 add_subdirectory(test EXCLUDE_FROM_ALL)
+
+add_dependencies(render_all ${LIB})

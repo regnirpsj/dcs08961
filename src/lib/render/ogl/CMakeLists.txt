@@ -27,6 +27,7 @@ list(APPEND LIBS ${GLEW_LIBRARY})
 set(LIB "${LIB}_ogl")
 
 cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-cma_setup_export(${LIB} PATH render/ogl)
 
 add_subdirectory(test EXCLUDE_FROM_ALL)
+
+add_dependencies(render_all ${LIB})
