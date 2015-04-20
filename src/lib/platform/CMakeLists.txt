@@ -34,8 +34,8 @@ set(LIB "platform")
 cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
 cma_setup_export(${LIB})
 
-add_custom_target(platform_all)
-add_custom_target(test_platform_all)
+add_custom_target(${LIB}_all)
+add_custom_target(test_${LIB}_all)
 
 add_subdirectory(glut)
 add_subdirectory(oglplus)
