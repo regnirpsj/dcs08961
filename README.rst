@@ -19,7 +19,7 @@ dcs08961 README
 Introduction
 ============
 
-``dcs08961`` is an infrastructure project to support the ``08961 Real-Time Graphics`` module at the ``Department of Computer Science, University of Hull``.
+``dcs08961`` is an infrastructure project to support the ``08961 Real-Time Graphics`` module at the ``Department of Computer Science, `University of Hull`_``.
 
 Building and Installation
 =========================
