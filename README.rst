@@ -31,8 +31,6 @@ Building and Installation
 Quick Setup
 -----------
 
-::
-
 Linux::
 
  $> cd <src-dir-created-by-git-clone>
@@ -62,10 +60,10 @@ Requirements
 Mandatory:
 
 - `Boost`_
-- `cmake-modules`_
 - `GLM`_/`GLI`_
 - `OGLplus`_/`GLEW`_/`FreeGLUT`_
 - `DirectX`_
+- `cmake-modules`_
 
 Optional:
 
