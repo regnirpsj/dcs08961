@@ -41,7 +41,6 @@ list(APPEND LIBS ${OPENGL_gl_LIBRARY})
 set(LIB "${LIB}_glut")
 
 cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-cma_setup_export(${LIB})
 
 add_subdirectory(test EXCLUDE_FROM_ALL)
 

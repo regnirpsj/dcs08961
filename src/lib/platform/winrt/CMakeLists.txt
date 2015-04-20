@@ -23,7 +23,6 @@ list(APPEND LIBS support)
 set(LIB "${LIB}_winrt")
 
 cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
-cma_setup_export(${LIB})
 
 add_subdirectory(test EXCLUDE_FROM_ALL)
 
