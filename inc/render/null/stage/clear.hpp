@@ -23,7 +23,6 @@
 // includes, project
 
 #include <render/base/stage/clear.hpp>
-#include <render/null/export.h>
 
 namespace render {
 
@@ -33,7 +32,7 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class DCS08961_RENDER_NULL_EXPORT clear : public base::stage::clear {
+      class DCS08961_RENDER_EXPORT clear : public base::stage::clear {
 
       public:
 

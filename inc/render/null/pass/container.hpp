@@ -23,7 +23,6 @@
 // includes, project
 
 #include <render/base/pass/container.hpp>
-#include <render/null/export.h>
 
 namespace render {
 
@@ -33,7 +32,7 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class DCS08961_RENDER_NULL_EXPORT container : public base::pass::container {
+      class DCS08961_RENDER_EXPORT container : public base::pass::container {
 
       protected:
 

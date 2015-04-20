@@ -23,7 +23,6 @@
 // includes, project
 
 #include <render/base/context.hpp>
-#include <render/null/export.h>
 
 namespace render {
 
@@ -31,7 +30,7 @@ namespace render {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class DCS08961_RENDER_NULL_EXPORT context : public base::context {
+    class DCS08961_RENDER_EXPORT context : public base::context {
 
     public:
 

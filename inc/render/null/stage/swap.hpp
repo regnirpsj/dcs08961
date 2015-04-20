@@ -23,7 +23,6 @@
 // includes, project
 
 #include <render/base/stage/swap.hpp>
-#include <render/null/export.h>
 
 namespace render {
 
@@ -33,7 +32,7 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class DCS08961_RENDER_NULL_EXPORT swap : public base::stage::swap {
+      class DCS08961_RENDER_EXPORT swap : public base::stage::swap {
 
       public:
 
