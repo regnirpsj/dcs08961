@@ -59,16 +59,14 @@ Overview
 Requirements
 ------------
 
-Mandatory::
-
+Mandatory
 - `Boost`_
 - `cmake-modules`_
 - `GLM`_/`GLI`_
 - `OGLplus`_/`GLEW`_/`FreeGLUT`_
 - `DirectX`_
 
-Optional::
-
+Optional
 - `Doxygen`_
 
 Acknowledgements
