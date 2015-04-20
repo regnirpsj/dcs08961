@@ -53,6 +53,7 @@ namespace platform {
       void swap(rect&);
 
       bool contains(glm::ivec2 const&) const;
+      
     };
         
     // variables, exported (extern)
