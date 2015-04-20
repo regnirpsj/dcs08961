@@ -59,15 +59,15 @@ Requirements
 
 Mandatory:
 
-- `Boost`_
-- `GLM`_/`GLI`_
-- `OGLplus`_/`GLEW`_/`FreeGLUT`_
-- `DirectX`_
-- `cmake-modules`_
+* `Boost`_
+* `GLM`_/`GLI`_
+* `OGLplus`_/`GLEW`_/`FreeGLUT`_
+* `DirectX`_
+* `cmake-modules`_
 
 Optional:
 
-- `Doxygen`_
+* `Doxygen`_
 
 Acknowledgements
 ================
