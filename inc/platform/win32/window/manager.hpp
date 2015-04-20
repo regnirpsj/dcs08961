@@ -19,7 +19,9 @@
 // includes, system
 
 #include <boost/noncopyable.hpp> // boost::noncopyable
-#include <unordered_map>         // std::unordered_map<>
+#include <unordered_set>         // std::unordered_set<>
+#include <vector>                // std::vector<>
+#include <windows.h>             // win32 stuff
 
 // includes, project
 
@@ -38,16 +40,28 @@ namespace platform {
       class DCS08961_PLATFORM_EXPORT manager : private platform::window::manager {
 
       public:
+
+        using devmode_list_type         = std::vector<DEVMODE>;
+        using display_devmode_pair_type = std::pair<DISPLAY_DEVICE, devmode_list_type>;
+        using display_list_type         = std::vector<display_devmode_pair_type>;
+        using monitor_list_type         = std::vector<MONITORINFOEX>;
         
         static unsigned count();
         static base*    get(signed);
         
         static std::vector<signed> all();
-        
+
+        static display_list_type const& display_list(bool /* re-scan */ = false);
+        static monitor_list_type const& monitor_list(bool /* re-scan */ = false);
+
+      
       private:
 
         friend class base;
-        
+
+        static display_list_type display_list_;
+        static monitor_list_type monitor_list_;
+      
         static bool  add(signed, base*);
         static bool  sub(base*);
         static bool  sub(signed);

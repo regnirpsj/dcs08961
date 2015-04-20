@@ -18,7 +18,8 @@
 
 // includes, system
 
-//#include <>
+#include <iosfwd>    // std::ostream (fwd)
+#include <windows.h> // win32 stuff
 
 // includes, project
 
@@ -35,7 +36,14 @@ namespace platform {
     // functions, inlined (inline)
   
     // functions, exported (extern)
-  
+
+    std::ostream& operator<<(std::ostream&, DEVMODE const&);
+    std::ostream& operator<<(std::ostream&, DISPLAY_DEVICE const&);
+    std::ostream& operator<<(std::ostream&, LUID const&);
+    std::ostream& operator<<(std::ostream&, MONITORINFOEX const&);
+    std::ostream& operator<<(std::ostream&, HWND const&);
+    std::ostream& operator<<(std::ostream&, RECT const&);
+    
   } // namespace win32 {
   
 } // namespace platform {

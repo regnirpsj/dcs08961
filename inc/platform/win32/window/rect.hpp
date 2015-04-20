@@ -6,56 +6,54 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform/win32/utilities.hpp                                                    */
+/*  module     :  platform/win32/window/rect.hpp                                                  */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_UTILITIES_HPP)
+#if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_WINDOW_RECT_HPP)
 
-#define UKACHULLDCS_08961_PLATFORM_WIN32_UTILITIES_HPP
+#define UKACHULLDCS_08961_PLATFORM_WIN32_WINDOW_RECT_HPP
 
 // includes, system
 
-#include <string>    // std::string
 #include <windows.h> // win32 stuff
 
 // includes, project
 
-//#include <>
+#include <platform/window/rect.hpp>
 
 namespace platform {
-  
+
   namespace win32 {
+
+    namespace window {
   
-    // types, exported (class, enum, struct, union, typedef)
+      // types, exported (class, enum, struct, union, typedef)
 
-    // variables, exported (extern)
+      class DCS08961_PLATFORM_EXPORT rect : public platform::window::rect {
 
-    // functions, inlined (inline)
+      public:
 
-    template <class T> T  window_long (HWND, signed);
-    template <class T> T  window_long (HWND, T, signed);
+        explicit rect(RECT const& /* l/t/r/b */);
+
+        operator RECT () const;
+
+        rect& operator=(RECT const&);
+
+      };
+      
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
   
-    template <class T> T* window_long_ptr(HWND, signed);
-    template <class T> T* window_long_ptr(HWND, T*, signed);
-
-    template <class T> T  class_long (HWND, signed);
-    template <class T> T  class_long (HWND, T, signed);
+      // functions, exported (extern)
   
-    template <class T> T* class_long_ptr(HWND, signed);
-    template <class T> T* class_long_ptr(HWND, T*, signed);
+    } // namespace window {
 
-    // functions, exported (extern)
-
-    std::string module_path(HMODULE module);
-    std::string last_error_message();
-    
   } // namespace win32 {
   
 } // namespace platform {
 
-#include <platform/win32/utilities.inl>
-
-#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_UTILITIES_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_WINDOW_RECT_HPP)
