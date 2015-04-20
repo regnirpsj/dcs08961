@@ -25,3 +25,5 @@ list(APPEND LIBS ${LIB})
 list(APPEND LIBS ${Boost_LIBRARIES})
 
 cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+
+add_dependencies(test_render_all test_${LIB})

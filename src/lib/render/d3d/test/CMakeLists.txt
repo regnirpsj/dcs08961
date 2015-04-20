@@ -23,4 +23,10 @@ set(LIBS)
 list(APPEND LIBS ${LIB})
 list(APPEND LIBS ${Boost_LIBRARIES})
 
-cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+if(FALSE)
+  cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+
+  add_dependencies(test_render_all test_${LIB})
+else()
+  message(STATUS "Target 'test_render_d3d' disabled")
+endif()
