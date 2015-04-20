@@ -34,9 +34,11 @@ list(APPEND LIBS support)
 
 set(LIB "render")
 
-
 cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
 cma_setup_export(${LIB})
+
+add_custom_target(${LIB}_all)
+add_custom_target(test_${LIB}_all)
 
 add_subdirectory(d3d)
 add_subdirectory(null)
