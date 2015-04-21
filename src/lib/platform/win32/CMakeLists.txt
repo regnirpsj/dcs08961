@@ -8,6 +8,10 @@
 
 cma_print_current_directory()
 
+find_package(GLM ${GLM_MINIMUM_VERSION} REQUIRED)
+
+include_directories(SYSTEM ${GLM_INCLUDE_DIR})
+
 set(SRC)
 list(APPEND SRC "application/base.cpp")
 list(APPEND SRC "application/console.cpp")
