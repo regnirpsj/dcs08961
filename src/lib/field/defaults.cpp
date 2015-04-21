@@ -19,6 +19,7 @@
 // includes, project
 
 #include <field/adapters.hpp>
+#include <field/export.h>
 #include <field/values.hpp>
 
 // internal unnamed namespace
@@ -30,6 +31,10 @@ namespace {
   // variables, internal
   
   // functions, internal
+
+#if defined(_MSC_VER)
+  DCS08961_SUPPORT_EXPORT void getRidOfLNK4221(){}
+#endif
 
 } // namespace {
 

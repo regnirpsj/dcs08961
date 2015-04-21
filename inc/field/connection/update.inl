@@ -32,6 +32,11 @@
 #  include <support/type_info.hpp>
 #endif
 
+#if defined(_MSC_VER)
+# pragma warning(push)
+# pragma warning(disable:4244) //  conversion from 'T1' to 'T2', possible loss of data
+#endif
+
 namespace field {
 
   namespace connection {
@@ -94,6 +99,10 @@ namespace field {
   } // namespace connection {
   
 } // namespace field {
+
+#if defined(_MSC_VER)
+# pragma warning(pop)
+#endif
 
 #if defined(UKACHULLDCS_USE_TRACE)
 #  undef UKACHULLDCS_USE_TRACE
