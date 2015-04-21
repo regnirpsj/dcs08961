@@ -23,7 +23,7 @@
 
 // includes, project
 
-//#include <>
+#include <platform/export.h>
 
 namespace platform {
   
@@ -37,15 +37,18 @@ namespace platform {
   
     // functions, exported (extern)
 
-    std::ostream& operator<<(std::ostream&, DEVMODE const&);
-    std::ostream& operator<<(std::ostream&, DISPLAY_DEVICE const&);
-    std::ostream& operator<<(std::ostream&, LUID const&);
-    std::ostream& operator<<(std::ostream&, MONITORINFOEX const&);
-    std::ostream& operator<<(std::ostream&, HWND const&);
-    std::ostream& operator<<(std::ostream&, RECT const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, DEVMODE const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, DISPLAY_DEVICE const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, LUID const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, MONITORINFOEX const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, HWND const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, RECT const&);
     
   } // namespace win32 {
   
 } // namespace platform {
+
+// AAAARRRRGGHHH, stupid m$ compiler cannot correctly do symbol lookups!!!!!!!!!
+using platform::win32::operator<<;
 
 #endif // #if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_IO_HPP)
