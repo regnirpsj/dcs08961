@@ -9,7 +9,7 @@
 cma_print_current_directory()
 
 find_package(FreeGLUT ${FREEGLUT_MINIMUM_VERSION} REQUIRED)
-find_package(GLEW                                 REQUIRED)
+find_package(GLEW                                 REQUIRED COMPONENTS STATIC)
 find_package(GLM      ${GLM_MINIMUM_VERSION}      REQUIRED)
 find_package(OpenGL                               REQUIRED)
 
@@ -33,6 +33,7 @@ list(APPEND SRC "window/simple.cpp")
 if(CMAKE_HOST_WIN32)
   add_definitions("-DFREEGLUT_STATIC -DFREEGLUT_LIB_PRAGMAS=0")
 endif()
+add_definitions(${GLEW_DEFINITIONS})
 
 set(LIBS)
 list(APPEND LIBS platform)
@@ -49,7 +50,7 @@ add_subdirectory(test EXCLUDE_FROM_ALL)
 
 add_dependencies(platform_all ${LIB})
 
-if(CMAKE_HOST_WIN32)
+if(FALSE AND CMAKE_HOST_WIN32)
   get_filename_component(path ${GLEW_LIBRARY} DIRECTORY)
   get_filename_component(file ${GLEW_LIBRARY} NAME_WE)
   set(dll "${path}/${file}.dll")
