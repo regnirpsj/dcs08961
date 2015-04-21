@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform/win32/application/simple.hpp                                           */
+/*  module     :  platform/win32/window/simple.hpp                                                */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_APPLICATION_SIMPLE_HPP)
+#if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_WINDOW_SIMPLE_HPP)
 
-#define UKACHULLDCS_08961_PLATFORM_WIN32_APPLICATION_SIMPLE_HPP
+#define UKACHULLDCS_08961_PLATFORM_WIN32_WINDOW_SIMPLE_HPP
 
 // includes, system
 
@@ -33,6 +33,27 @@ namespace platform {
       // types, exported (class, enum, struct, union, typedef)
 
       class DCS08961_PLATFORM_EXPORT simple : public platform::win32::window::base {
+        
+      public:
+      
+        using rect = platform::window::rect;
+        
+        field::value::single<bool> focused;
+        field::value::single<bool> minimized;
+        
+        explicit simple(std::string const& /* title */,
+                        rect const&        /* rect */ = rect::dflt_rect);
+
+        virtual ~simple();
+        
+      protected:
+      
+        virtual LRESULT CALLBACK cb_window_proc(HWND, UINT, WPARAM, LPARAM);
+      
+        virtual bool focus (bool /* focused or not */);
+        virtual bool redraw();
+        virtual bool resize(glm::ivec2 const& /* size */, bool /* minimized */);
+      
       };
       
       // variables, exported (extern)
@@ -47,4 +68,4 @@ namespace platform {
     
 } // namespace platform {
 
-#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_APPLICATION_SIMPLE_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_WINDOW_SIMPLE_HPP)

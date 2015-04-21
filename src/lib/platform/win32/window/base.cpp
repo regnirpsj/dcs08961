@@ -18,8 +18,9 @@
 
 // includes, system
 
-#include <sstream>   // std::ostringstream
-#include <stdexcept> // std::runtime_error
+#include <glm/gtx/io.hpp> // glm::operator<<
+#include <sstream>        // std::ostringstream
+#include <stdexcept>      // std::runtime_error
 
 // includes, project
 
@@ -28,11 +29,11 @@
 #include <platform/win32/window/manager.hpp>
 
 #define UKACHULLDCS_USE_TRACE
-//#undef UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 #define UKACHULLDCS_USE_TRACE_INTERNAL
-//#undef UKACHULLDCS_USE_TRACE_INTERNAL
+#undef UKACHULLDCS_USE_TRACE_INTERNAL
 
 // internal unnamed namespace
 
@@ -56,9 +57,9 @@ namespace {
 
 namespace platform {
 
-  namespace window {
+  namespace win32 {
 
-    namespace win32 {
+    namespace window {
       
       // variables, exported
   
@@ -69,7 +70,7 @@ namespace platform {
       {
         TRACE("platform::win32::window::base::~base");
 
-        manager::sub(this);
+        window::manager::sub(this);
       }
       
       HWND const&
@@ -85,17 +86,19 @@ namespace platform {
       {
         TRACE("platform::win32::window::base::print_on");
 
+        platform::window::base::print_on(os);
+        
         using platform::win32::operator<<;
       
-        os << "[title:'" << title_ << "',hwnd:" << hwnd_ << ']';
+        os << "\n,hwnd:" << hwnd_ << ']';
       }
       
       /* explicit */
       base::base(std::string const& a, rect const& b)
         : platform::window::base(a, b),
           hwnd_                 (nullptr),
-          flags_                (enable_window_flags    & ~disable_window_flags),
-          flags_ex_             (enable_window_flags_ex & ~disable_window_flags_ex),
+          flags_                (window_flags_enable    & ~window_flags_disable),
+          flags_ex_             (window_flags_ex_enable & ~window_flags_ex_disable),
           register_window_class_()
       {
         TRACE("platform::win32::window::base::base");
@@ -106,8 +109,8 @@ namespace platform {
         ::AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false);
       
         hwnd_ = ::CreateWindowEx(flags_ex_,                    // window border with a sunken edge
-                                 register_window_class::name.c_str(), // name of a window class
-                                 title_.c_str(),               // caption of window
+                                 register_window_class::class_name.c_str(), // window-class name
+                                 title.get().c_str(),          // caption of window
                                  flags_,                       // window style
                                  b.x,                          // x position
                                  b.y,                          // y position
@@ -121,7 +124,7 @@ namespace platform {
         if (!hwnd_) {
           std::ostringstream ostr;
 
-          ostr << "Unable to create window '" << title_ << "'";
+          ostr << "Unable to create window '" << title.get() << "'";
 
           throw std::runtime_error(ostr.str().c_str());
         }
@@ -138,7 +141,7 @@ namespace platform {
         }
 #endif
       
-        manager::add(hwnd_, this);
+        window::manager::add(reinterpret_cast<signed>(hwnd_), this);
 
 #if defined(UKACHULLDCS_USE_TRACE_INTERNAL)
         {
@@ -150,7 +153,7 @@ namespace platform {
       }
       
       /* virtual */ LRESULT CALLBACK
-      base::cb_window_proc(HWND, UINT, WPARAM, LPARAM)
+      base::cb_window_proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
       {
         TRACE("platform::win32::window::base::cb_window_proc");
 
@@ -168,7 +171,7 @@ namespace platform {
         switch (msg) {
         case WM_DESTROY:
           {
-            manager::sub(this);
+            window::manager::sub(this);
             handled = true;
           }
           break;
@@ -203,22 +206,22 @@ namespace platform {
         return result;
       }
 
-    } // namespace win32 {
+    } // namespace window {
     
-  } // namespace window {
+  } // namespace win32 {
   
 } // namespace platform {
 
 namespace platform {
 
-  namespace window {
+  namespace win32 {
 
-    namespace win32 {
+    namespace window {
       
       // variables, exported
 
-      /* static */ std::string const base::register_class::name  ("platform::win32::window");
-      /* static */ unsigned          base::register_class::count_(0);
+      /* static */ std::string const base::register_window_class::class_name("platform::win32::window");
+      /* static */ unsigned          base::register_window_class::count_    (0);
 
       // functions, exported
       
@@ -226,7 +229,7 @@ namespace platform {
       base::register_window_class::register_window_class()
         : boost::noncopyable()
       {
-        TRACE("platform::win32::window::base::base::register_window_class::register_window_class"
+        TRACE("platform::win32::window::base::base::register_window_class::register_window_class:"
               + std::to_string(count_));
 
         if (0 >= count_) {
@@ -237,20 +240,22 @@ namespace platform {
           wc.cbWndExtra    = 0;
           wc.hInstance     = ::GetModuleHandle(nullptr);
           wc.style         = (CS_HREDRAW | CS_VREDRAW);
-          wc.lpfnWndProc   = base::cb_default_window_proc;
+          wc.lpfnWndProc   = base::cb_window_proc_default;
           wc.hIcon         = ::LoadIcon  (0, IDI_APPLICATION);
           wc.hIconSm       = ::LoadIcon  (0, IDI_APPLICATION);
           wc.hCursor       = ::LoadCursor(0, IDC_ARROW);
           wc.lpszMenuName  = nullptr;
-          wc.lpszClassName = name.c_str();
+          wc.lpszClassName = class_name.c_str();
         
           if (!::RegisterClassEx(&wc)) {
             std::ostringstream ostr;
           
-            ostr << "Unable to register window class '" << name << "'";
+            ostr << "Unable to register window class '" << class_name << "'";
           
             throw std::runtime_error(ostr.str().c_str());
           }
+          
+          ++count_;
         }
       
         ++count_;
@@ -258,13 +263,13 @@ namespace platform {
       
       base::register_window_class::~register_window_class()
       {
-        TRACE("platform::win32::window::base::base::register_window_class::~register_window_class"
+        TRACE("platform::win32::window::base::base::register_window_class::~register_window_class:"
               + std::to_string(count_-1));
 
         --count_;
 
         if (0 >= count_) {
-          ::UnregisterClass(name.c_str(), ::GetModuleHandle(nullptr));
+          ::UnregisterClass(class_name.c_str(), ::GetModuleHandle(nullptr));
         }
       }
       
@@ -276,17 +281,17 @@ namespace platform {
         return count_;
       }
 
-    } // namespace win32 {
+    } // namespace window {
     
-  } // namespace window {
+  } // namespace win32 {
   
 } // namespace platform {
 
 namespace platform {
 
-  namespace window {
+  namespace win32 {
 
-    namespace win32 {
+    namespace window {
       
       // variables, exported
   
@@ -362,8 +367,8 @@ namespace platform {
         return result;
       }
       
-    } // namespace win32 {
+    } // namespace window {
     
-  } // namespace window {
+  } // namespace win32 {
   
 } // namespace platform {

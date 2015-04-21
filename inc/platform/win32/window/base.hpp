@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform/win32/application/base.hpp                                             */
+/*  module     :  platform/win32/window/base.hpp                                                  */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_APPLICATION_BASE_HPP)
+#if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_WINDOW_BASE_HPP)
 
-#define UKACHULLDCS_08961_PLATFORM_WIN32_APPLICATION_BASE_HPP
+#define UKACHULLDCS_08961_PLATFORM_WIN32_WINDOW_BASE_HPP
 
 // includes, system
 
@@ -45,6 +45,8 @@ namespace platform {
       
       protected:
 
+        using rect = platform::window::rect;
+        
         HWND  hwnd_;
         DWORD flags_;
         DWORD flags_ex_;
@@ -91,4 +93,4 @@ namespace platform {
     
 } // namespace platform {
 
-#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_APPLICATION_BASE_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_WIN32_WINDOW_BASE_HPP)

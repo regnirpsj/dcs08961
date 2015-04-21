@@ -14,7 +14,8 @@
 
 // includes, system
 
-//#include <>
+#include <glm/gtx/io.hpp> // glm::operator<<
+#include <memory>         // std::unique_ptr<>
 
 // includes, project
 
@@ -41,5 +42,10 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_platform_win32_window_simple)
 {
-  BOOST_CHECK(true);
+  using namespace platform::win32;
+  
+  std::unique_ptr<window::simple> s(new window::simple("test_platform_win32_window_simple"));
+  
+  BOOST_CHECK  (s);
+  BOOST_MESSAGE(*s);
 }
