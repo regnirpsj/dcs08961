@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
@@ -46,6 +46,7 @@ namespace viewer {
   
   // functions, exported
   
+#if !defined(_WIN32)
   /* static */ void
   application::terminate(::siginfo_t* a)
   {
@@ -58,7 +59,8 @@ namespace viewer {
               << ::strsignal(a->si_signo) << "' " << a->si_signo << ")"
               << '\n';
   }
-    
+#endif
+
   /* explicit */
   application::application(command_line const& a)
     : inherited   (a),

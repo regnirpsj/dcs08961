@@ -30,7 +30,7 @@
 
 // #include <glm/glm.hpp>
 // #include <oglplus/interop/glm.hpp>
-// #include <glm/gtx/io.hpp>
+#include <glm/gtx/io.hpp>
 // #include <glm/gtx/transform.hpp>
 
 // #include <sstream>
@@ -67,11 +67,13 @@ main(int argc, char const* argv[])
 {
   TRACE("main");
   
+#if !defined(_WIN32)
   using support::signal_handler;
   
   signal_handler::instance->handler(SIGINT,  &viewer::application::terminate);
   signal_handler::instance->handler(SIGTERM, &viewer::application::terminate);
-  
+#endif
+
   namespace pa  = platform::application;
   namespace poa = platform::oglplus::application;
   

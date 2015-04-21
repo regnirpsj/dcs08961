@@ -24,6 +24,7 @@
 #include <glm/glm.hpp>
 #include <oglplus/interop/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/io.hpp>
 
 // includes, project
 
@@ -67,10 +68,16 @@ namespace {
 
         bfs::path const   p(c);
         std::string const d(p.parent_path().string());
-        std::string const f(p.filename().string());
+        std::string const f(p.stem().string());
         
-        ResourceFile vs_src(d + "/../share/shader/glsl", f, ".vs.glsl");
-        ResourceFile fs_src(d + "/../share/shader/glsl", f, ".fs.glsl");
+#if defined(_WIN32)
+        static std::string const btrack("../..");
+#else
+        static std::string const btrack("..");
+#endif
+
+        ResourceFile vs_src(d + "/" + btrack + "/share/shader/glsl", f, ".vs.glsl");
+        ResourceFile fs_src(d + "/" + btrack + "/share/shader/glsl", f, ".fs.glsl");
         
         prg_ << VertexShader().Source(GLSLSource::FromStream(vs_src.stream()))
              << FragmentShader().Source(GLSLSource::FromStream(fs_src.stream()));
@@ -177,6 +184,7 @@ namespace {
     
   public:
 
+#if !defined(_MSC_VER)
     static void terminate(::siginfo_t* a)
     {
       TRACE("<unnamed>::application::terminate");
@@ -188,6 +196,7 @@ namespace {
                 << ::strsignal(a->si_signo) << "' " << a->si_signo << ")"
                 << '\n';
     }
+#endif
     
     explicit application(command_line const& a)
       : inherited(a),
@@ -227,10 +236,12 @@ main(int argc, char const* argv[])
 {
   TRACE("main");
 
+#if !defined(_MSC_VER)
   using support::signal_handler;
   
   signal_handler::instance->handler(SIGINT,  &application::terminate);
   signal_handler::instance->handler(SIGTERM, &application::terminate);
+#endif
   
   namespace pa  = platform::application;
   namespace poa = platform::oglplus::application;

@@ -31,6 +31,7 @@
 
 #include <platform/oglplus/application.hpp>
 #include <support/chrono_io.hpp>
+#include <support/string.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -75,11 +76,18 @@ namespace viewer {
     {
       namespace bfs = boost::filesystem;
 
-      static bfs::path::string_type const sep(bfs::path("/").make_preferred().native());
-
+      static std::string const sep(support::wstring_to_string(bfs::path("/").make_preferred().native()));
+      static std::string const dd ("..");
+      
+#if defined(_WIN32)
+      static std::string const btrack(dd + sep + dd);
+#else
+      static std::string const btrack(dd);
+#endif
+        
       bfs::path const   p(a.argv0);
       std::string const d(bfs::canonical(p.parent_path()).string());
-      std::string const b(d + sep + ".." + sep + "share" + sep + "shader" + sep + "glsl");
+      std::string const b(d + sep + btrack + sep + "share" + sep + "shader" + sep + "glsl");
 
       std::array<std::string const, 10> const file_names = {
         {
@@ -97,6 +105,9 @@ namespace viewer {
       };
 
       for (auto fn : file_names) {
+        std::cout << support::trace::prefix() << "viewer::window::window: "
+                  << "loading shader file: '" << fn << "'\n";
+                  
         std::stringstream src;
 
         src << std::ifstream(fn).rdbuf();
