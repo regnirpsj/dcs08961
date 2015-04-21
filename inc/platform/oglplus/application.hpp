@@ -25,6 +25,7 @@
 // includes, project
 
 #include <platform/application/command_line.hpp>
+#include <platform/config.hpp>
 
 namespace oglplus {
 
