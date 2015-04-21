@@ -9,8 +9,10 @@
 cma_print_current_directory()
 
 find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS program_options)
+find_package(GLM   ${GLM_MINIMUM_VERSION}   REQUIRED)
 
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
+include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 
 set(SRC)
 list(APPEND SRC "application/base.cpp")
@@ -18,7 +20,7 @@ list(APPEND SRC "application/command_line.cpp")
 list(APPEND SRC "application/multi_instance.cpp")
 list(APPEND SRC "application/single_instance.cpp")
 list(APPEND SRC "window/base.cpp")
-list(APPEND SRC "window/controller.cpp")
+#list(APPEND SRC "window/controller.cpp")
 list(APPEND SRC "window/manager.cpp")
 list(APPEND SRC "window/rect.cpp")
 

@@ -132,6 +132,8 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_application_glut_version)
     
   BOOST_CHECK  (true);
   BOOST_MESSAGE(::glutGet(GLUT_VERSION));
+  
+  ::glutExit();
 }
 
 BOOST_AUTO_TEST_CASE(test_platform_glut_application_ctor)

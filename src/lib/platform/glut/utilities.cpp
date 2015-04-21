@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <platform/export.h>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -37,6 +37,10 @@ namespace {
   // variables, internal
   
   // functions, internal
+
+#if defined(_MSC_VER)
+  DCS08961_PLATFORM_EXPORT void getRidOfLNK4221(){}
+#endif
 
 } // namespace {
 

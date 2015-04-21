@@ -18,8 +18,9 @@
 
 // includes, system
 
-#include <iomanip> // std::fixed, std::right, std::setfill
-#include <sstream> // std::ostringstream
+#include <glm/gtx/io.hpp> // glm::operator<<
+#include <iomanip>        // std::fixed, std::right, std::setfill
+#include <sstream>        // std::ostringstream
 
 // includes, project
 

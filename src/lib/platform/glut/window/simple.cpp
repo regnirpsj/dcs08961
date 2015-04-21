@@ -227,7 +227,7 @@ namespace platform {
           glm::ivec2 const pos(b, c);
           
           update_queue(w->keyboardq_,
-                       { a, false, ::glutGetModifiers(), false, pos, support::clock::now() },
+                       keyboard_record_t{ a, false, ::glutGetModifiers(), false, pos, support::clock::now() },
                        *w->max_queue_length);
         
           w->keyboard(a,pos, false);
@@ -245,7 +245,7 @@ namespace platform {
           glm::ivec2 const pos(b, c);
           
           update_queue(w->keyboardq_,
-                       { a, true, ::glutGetModifiers(), false, pos, support::clock::now() },
+                       keyboard_record_t{ a, true, ::glutGetModifiers(), false, pos, support::clock::now() },
                        *w->max_queue_length);
     
           w->keyboard(a, pos, true);
@@ -263,7 +263,7 @@ namespace platform {
           glm::ivec2 const pos(c, d);
           
           update_queue(w->mouseq_,
-                       { a, b, ::glutGetModifiers(), pos, support::clock::now() },
+                       mouse_record_t{ a, b, ::glutGetModifiers(), pos, support::clock::now() },
                        *w->max_queue_length);
           
           w->mouse(a, b, pos, false);
@@ -307,7 +307,7 @@ namespace platform {
           glm::ivec2 const pos(c, d);
           
           update_queue(w->mouseq_,
-                       { (a * b), false, ::glutGetModifiers(), pos, support::clock::now() },
+                       mouse_record_t{ (a * b), false, ::glutGetModifiers(), pos, support::clock::now() },
                        *w->max_queue_length);
           
           w->mouse(a, b, pos, true);
@@ -370,7 +370,7 @@ namespace platform {
           glm::ivec2 const pos(b, c);
           
           update_queue(w->keyboardq_,
-                       { a, false, ::glutGetModifiers(), true, pos, support::clock::now() },
+                       keyboard_record_t{ a, false, ::glutGetModifiers(), true, pos, support::clock::now() },
                        *w->max_queue_length);
     
           w->special(a, pos, true);
@@ -388,7 +388,7 @@ namespace platform {
           glm::ivec2 const pos(b, c);
           
           update_queue(w->keyboardq_,
-                       { a, true, ::glutGetModifiers(), true, pos, support::clock::now() },
+                       keyboard_record_t{ a, true, ::glutGetModifiers(), true, pos, support::clock::now() },
                        *w->max_queue_length);
     
           w->special(a, pos, true);
