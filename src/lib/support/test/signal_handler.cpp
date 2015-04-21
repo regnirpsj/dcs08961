@@ -40,7 +40,7 @@ namespace {
   // functions, internal
   
   void
-  interrupt_handler_int(::siginfo_t*)
+  interrupt_handler_int(signed)
   {
     TRACE("<unnamed>::interrupt_handler_int");
 
@@ -48,7 +48,7 @@ namespace {
   }
 
   void
-  interrupt_handler_term(::siginfo_t*)
+  interrupt_handler_term(signed)
   {
     TRACE("<unnamed>::interrupt_handler_term");
 

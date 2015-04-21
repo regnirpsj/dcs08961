@@ -38,9 +38,9 @@ namespace support {
     explicit  trace(std::string const&, std::ostream& = std::cout);
              ~trace();
     
-    static DCS08961_SUPPORT_EXPORT void        enter(std::string const&, std::ostream& = std::cout);
-    static DCS08961_SUPPORT_EXPORT void        leave(std::string const&, std::ostream& = std::cout);
-    static DCS08961_SUPPORT_EXPORT std::string prefix();
+    static void        enter(std::string const&, std::ostream& = std::cout);
+    static void        leave(std::string const&, std::ostream& = std::cout);
+    static std::string prefix();
     
   private:
 

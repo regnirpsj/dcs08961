@@ -72,8 +72,8 @@ namespace support {
   
   // functions, exported (extern)
 
-  void        sleep(clock::duration const&);
-  std::string date_time_iso8601();
+  DCS08961_SUPPORT_EXPORT void        sleep(clock::duration const&);
+  DCS08961_SUPPORT_EXPORT std::string date_time_iso8601();
 
   /**
    * \brief inserts a \c clock::time_point into an \c std::ostream (or derived)
@@ -89,7 +89,7 @@ namespace support {
    *
    * \throws nothing
    */
-  std::ostream& operator<<(std::ostream&, clock::time_point const&);
+  DCS08961_SUPPORT_EXPORT std::ostream& operator<<(std::ostream&, clock::time_point const&);
   
 } // namespace support {
 

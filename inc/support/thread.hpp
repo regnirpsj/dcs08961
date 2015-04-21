@@ -18,10 +18,10 @@
 
 // includes, system
 
-#include <iosfwd>             // std::ostream (fwd)
-#include <mutex>              // std::mutex, std::lock_guard<>
-#include <string>             // std::string
-#include <thread>             // std::this_thread, std::thread
+#include <iosfwd> // std::ostream (fwd)
+#include <mutex>  // std::mutex, std::lock_guard<>
+#include <string> // std::string
+#include <thread> // std::this_thread, std::thread
 
 // includes, project
 
@@ -51,12 +51,12 @@ namespace support {
   
   // functions, exported (extern)
 
-  void dump_thread_stats(std::ostream&          /* output_stream     */,
-                         std::string const&     /* context_string    */,
-                         clock::duration const& /* timeout/interval  */,
-                         clock::duration const& /* actual activity   */,
-                         bool                   /* thread_was_paused */,
-                         unsigned               /* dump modulo       */ = 10);
+  DCS08961_SUPPORT_EXPORT void dump_thread_stats(std::ostream&          /* output_stream     */,
+                                                 std::string const&     /* context_string    */,
+                                                 clock::duration const& /* timeout/interval  */,
+                                                 clock::duration const& /* actual activity   */,
+                                                 bool                   /* thread_was_paused */,
+                                                 unsigned               /* dump modulo       */ = 10);
 
 } // namespace support {
 

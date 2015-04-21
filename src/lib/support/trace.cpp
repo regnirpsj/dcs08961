@@ -182,7 +182,7 @@ namespace support {
 
       using std::chrono::nanoseconds;
       
-      double   duration(duration_cast<nanoseconds>(ctx->stop_ - ctx->start_).count());
+      double     duration(double(duration_cast<nanoseconds>(ctx->stop_ - ctx->start_).count()));
       unsigned idx     (0);
       
       while ((idx < suffixes.size()) && (suffixes[idx].first < duration)) {

@@ -21,7 +21,11 @@ LIST(APPEND SRC "hasher.cpp")
 LIST(APPEND SRC "io_utils.cpp")
 LIST(APPEND SRC "printable.cpp")
 LIST(APPEND SRC "refcounted.cpp")
-LIST(APPEND SRC "signal_handler.cpp")
+if(CMAKE_HOST_WIN32)
+  LIST(APPEND SRC "signal_handler_win32.cpp")
+else()
+  LIST(APPEND SRC "signal_handler_posix.cpp")
+endif()
 LIST(APPEND SRC "string.cpp")
 LIST(APPEND SRC "thread.cpp")
 LIST(APPEND SRC "trace.cpp")
@@ -31,7 +35,7 @@ set(LIBS)
 list(APPEND LIBS ${Boost_LIBRARIES})
 
 if(CMAKE_HOST_UNIX)
-  # 'pthread_sigmask' used in signal_handler.cpp
+  # 'pthread_sigmask' used in signal_handler_posix.cpp
   list(APPEND LIBS pthread)
 endif()
 

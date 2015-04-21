@@ -24,6 +24,7 @@
 // includes, project
 
 #include <platform/config.hpp>
+#include <support/export.h>
 
 namespace std {
 
@@ -52,6 +53,7 @@ namespace support {
    *
    * \throws \c std::bad_alloc or \c std::domain_error or \c std::invalid_argument
    */
+  DCS08961_SUPPORT_EXPORT
   std::string demangle(std::type_info const&);
 
   /**
@@ -68,6 +70,7 @@ namespace support {
    *
    * \throws nothing
    */
+  DCS08961_SUPPORT_EXPORT
   std::string demangle(std::type_info const&, std::nothrow_t const&) noexcept;
   
 } // namespace support {

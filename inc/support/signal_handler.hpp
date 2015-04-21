@@ -20,24 +20,23 @@
 
 
 #include <boost/utility/mutexed_singleton.hpp> // boost::singleton<>
-#include <csignal>                             // ::siginfo_t
 #include <functional>                          // std::function<>
 
 // includes, project
 
-//#include <>
+#include <support/export.h>
 
 namespace support {
   
   // types, exported (class, enum, struct, union, typedef)
 
-  class signal_handler : public boost::mutexed_singleton<signal_handler> {
+  class DCS08961_SUPPORT_EXPORT signal_handler : public boost::mutexed_singleton<signal_handler> {
 
     BOOST_SINGLETON_PLACEMENT_DECLARATION;
 
   public:
 
-    typedef std::function<void (::siginfo_t*)> handler_function_type;
+    typedef std::function<void (signed)> handler_function_type;
 
     ~signal_handler();
 

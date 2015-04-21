@@ -22,7 +22,7 @@
 
 // includes, project
 
-// #include <>
+#include <support/export.h>
 
 namespace support {
   
@@ -34,8 +34,8 @@ namespace support {
   
   // functions, exported (extern)
 
-  std::wstring string_to_wstring(std::string  const&);
-  std::string  wstring_to_string(std::wstring const&);
+  DCS08961_SUPPORT_EXPORT std::wstring string_to_wstring(std::string  const&);
+  DCS08961_SUPPORT_EXPORT std::string  wstring_to_string(std::wstring const&);
   
 } // namespace support {
 

@@ -32,17 +32,22 @@ namespace {
   public:
 
     explicit app_skeleton(int argc, char* argv[])
-      : T(argc, argv)
+      : T               (argc, argv),
+        raise_exception_(B)
     {}
     
     virtual signed run()
     {
-      if (B) {
+      if (raise_exception_) {
         throw std::runtime_error("run-time error");
       }
       
       return EXIT_SUCCESS;
     }
+    
+  private:
+  
+    bool const raise_exception_;
     
   };
 

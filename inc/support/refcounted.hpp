@@ -90,8 +90,8 @@ namespace support {
    * \throw  nothing
    */
   //@{
-  void intrusive_ptr_add_ref(refcounted const*);
-  void intrusive_ptr_release(refcounted const*);
+  DCS08961_SUPPORT_EXPORT void intrusive_ptr_add_ref(refcounted const*);
+  DCS08961_SUPPORT_EXPORT void intrusive_ptr_release(refcounted const*);
   //@}
   
 } // namespace support {

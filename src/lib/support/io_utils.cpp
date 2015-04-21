@@ -22,7 +22,7 @@
 
 // includes, project
 
-// #include <>
+#include <support/export.h>
 
 // internal unnamed namespace
 
@@ -34,6 +34,10 @@ namespace {
   
   // functions, internal
 
+#if defined(_MSC_VER)
+  DCS08961_SUPPORT_EXPORT void getRidOfLNK4221(){}
+#endif
+  
 } // namespace {
 
 namespace support {
