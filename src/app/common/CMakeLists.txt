@@ -9,12 +9,12 @@
 cma_print_current_directory()
 
 find_package(FreeGLUT ${FREEGLUT_MINIMUM_VERSION} REQUIRED)
-find_package(GLEW                                 REQUIRED)
+find_package(GLEW                                 REQUIRED COMPONENTS STATIC)
 find_package(GLM      ${GLM_MINIMUM_VERSION}      REQUIRED)
 find_package(OGLplus                              REQUIRED)
 
 include_directories(SYSTEM ${FreeGLUT_INCLUDE_DIR})
-include_directories(SYSTEM ${GLEW_INCLUDE_DIRS})
+include_directories(SYSTEM ${GLEW_INCLUDE_DIR})
 include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 include_directories(SYSTEM ${OGLplus_INCLUDE_DIRS})
 include_directories(       ${CMAKE_CURRENT_SOURCE_DIR})
@@ -24,6 +24,8 @@ list(APPEND SRC "glut.cpp")
 list(APPEND SRC "light.cpp")
 list(APPEND SRC "model.cpp")
 list(APPEND SRC "stats.cpp")
+
+add_definitions(${GLEW_DEFINITIONS})
 
 set(LIBS)
 list(APPEND LIBS support)
