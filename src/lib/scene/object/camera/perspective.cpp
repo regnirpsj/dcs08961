@@ -50,10 +50,10 @@ namespace scene {
       
       // variables, exported
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
       /* static */ float const perspective::default_fovy(60_deg);
 #else
-      /* static */ float const perspective::default_fovy(60 _deg);
+      /* static */ float const perspective::default_fovy(float(60 _deg));
 #endif
       
       // functions, exported

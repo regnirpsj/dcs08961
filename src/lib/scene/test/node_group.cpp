@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(test_scene_node_group_set_children)
 
   BOOST_CHECK(true == g0.children.get().empty());
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   g0.children.set({ g1, g2 });
 #else
   g0.children += g1;
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE(test_scene_node_group_set_children)
   group* g3(new group);
   group* g4(new group);
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   auto const old(g0.children.set({ g3, g4 }));
 #else
   auto const old(g0.children.set(group::children_field_type::value_container_type()));

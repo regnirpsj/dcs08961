@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -29,7 +29,7 @@ namespace {
   
   // variables, internal
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   float const angle45deg(float(45_deg));
 #else
   float const angle45deg(float(45 _deg));

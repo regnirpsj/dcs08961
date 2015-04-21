@@ -22,13 +22,14 @@
 
 // altough dealing w/ lowering the noise level for boost::spirit headers, the pragmas need to be
 // here
-#if defined(_MSC_VER) && (_MSC_VER < 1800)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
 // warning C4100: 'x' : unreferenced formal parameter
 #  pragma warning(disable:4100)
 // warning C4127: conditional expression is constant
 #  pragma warning(disable:4127)
 #endif
 
+#include <array>                                     // std::array<>
 #include <boost/algorithm/string.hpp>                // boost::trim
 #include <boost/config/warning_disable.hpp>
 #include <boost/filesystem.hpp>                      // boost::filesystem::*
@@ -39,6 +40,7 @@
 #include <boost/spirit/include/qi.hpp>
 #include <boost/tokenizer.hpp>                       // boost::char_separator<>, boost::tokenizer<>
 #include <fstream>                                   // std::[i|o]fstream
+#include <glm/gtx/io.hpp>                            // glm::operator<<
 #include <istream>                                   // std::istream
 #include <numeric>                                   // std::iota
 #include <ostream>                                   // std::ostream
@@ -59,7 +61,6 @@
 
 #if defined(UKACHULLDCS_USE_TRACE)
 #  include <boost/fusion/include/io.hpp>
-#  include <glm/gtx/io.hpp>
 #  include <support/io_utils.hpp>
 #endif
 

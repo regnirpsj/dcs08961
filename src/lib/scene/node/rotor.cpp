@@ -79,7 +79,7 @@ namespace scene {
         support::clock::duration const   diff(now - last_update_);
         
         if (support::clock::resolution <= diff) {
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
           static float const full_circle(float(360 _deg));
 #else
           static float const full_circle(float(360_deg));

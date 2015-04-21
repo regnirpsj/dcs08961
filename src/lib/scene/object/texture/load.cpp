@@ -18,6 +18,11 @@
 
 // includes, system
 
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
+// warning C4310: cast truncates constant value
+#  pragma warning(disable:4310)
+#endif
+
 #include <array>                // std::array<>
 #include <boost/filesystem.hpp> // boost::filesystem::path
 #include <functional>           // std::function<>, std::placeholders::*
