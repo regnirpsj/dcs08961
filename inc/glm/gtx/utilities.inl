@@ -28,7 +28,7 @@ namespace glm {
   
   // functions, inlined (inline)
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
   inline double
 #else
   inline constexpr double
@@ -38,7 +38,7 @@ namespace glm {
     return (3.14159265358979323846264338327950288 / 180.0) * a;
   }
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
   inline double
 #else
   inline constexpr double
@@ -48,7 +48,7 @@ namespace glm {
     return (180.0 / 3.14159265358979323846264338327950288) * a;
   }
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
   // not going to reapeat warning here
 #else
   inline constexpr double
@@ -90,7 +90,7 @@ namespace glm {
     return a * (180.0 / 3.14159265358979323846264338327950288);
 #  endif
   }
-#endif // #if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#endif // #if defined(_MSC_VER) && (_MSC_VER <= 1800)
 
   // http://stackoverflow.com/questions/1903954
   template <typename T>

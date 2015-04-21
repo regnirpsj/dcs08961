@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_rad2deg)
 
 BOOST_AUTO_TEST_CASE(test_glm_utilities_op_literal_deg)
 {
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
   BOOST_CHECK(glm::pi<double>() == 180.0 _deg);
 
   BOOST_MESSAGE(std::setprecision(12)
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_op_literal_deg)
 
 BOOST_AUTO_TEST_CASE(test_glm_utilities_op_literal_rad)
 {
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
   BOOST_CHECK(glm::pi<double>() == 180.0 _deg);
 
   BOOST_MESSAGE(std::setprecision(12)
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_convert_transform)
 {
   typedef std::pair<glm::mat4 const, glm::mat4 const> matrix_pair;
   
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
   glm::vec3::value_type const angle(float(45 _deg));
 #else
   glm::vec3::value_type const angle(float(45_deg));
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_convert_transform)
                     << i.second << ':' << std::string(47 - i.second.length(), ' ')
                     << e.second << ':' << p << '\n');
 
-      static float const epsilon(17 * std::numeric_limits<float>::epsilon());
+      static float const epsilon(33 * std::numeric_limits<float>::epsilon());
       
       for (unsigned i(0); i < 4; ++i) {
         for (unsigned j(0); j < 4; ++j) {

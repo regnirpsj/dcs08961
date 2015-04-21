@@ -22,13 +22,13 @@
 
 // includes, project
 
-// #include <>
+#include <glm/export.h>
 
 namespace glm {
   
   // types, exported (class, enum, struct, union, typedef)
 
-  struct decompose {
+  struct DCS08961_GLM_EXPORT decompose {
         
   public:
 
@@ -44,7 +44,7 @@ namespace glm {
   
   // variables, exported (extern)
 
-  namespace convert {
+  namespace DCS08961_GLM_EXPORT convert {
 
     /**
      * \brief transformtion to be left multiplied to an opengl projection matrix for in a
@@ -66,7 +66,7 @@ namespace glm {
    *
    * \return argument in radians
    */
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
   double deg2rad(double);
 #else
   constexpr double deg2rad(double);
@@ -77,13 +77,13 @@ namespace glm {
    *
    * \return argument in degrees
    */
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
   double rad2deg(double);
 #else
   constexpr double rad2deg(double);
 #endif
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
 #  pragma message("Note: user-defined string literal operators not supported ")
 #  pragma message("      using (unreliable) macro workaround for _deg/_rad")
 #else
@@ -109,7 +109,16 @@ namespace glm {
   constexpr double operator "" _rad(unsigned long long);
   constexpr double operator "" _rad(long double);
   //@}
-#endif // #if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#endif // #if defined(_MSC_VER) && (_MSC_VER <= 1800)
+  
+  /**
+   * \brief compute the signum of T
+   *
+   * \param  T
+   *
+   * \return signum(T)
+   */
+  template <typename T> signed sgn(T);
   
   // functions, exported (extern)
 
@@ -123,7 +132,7 @@ namespace glm {
      *
      * \return converted matrix
      */
-    mat4 transform(mat4 const&, decompose::order);
+    DCS08961_GLM_EXPORT mat4 transform(mat4 const&, decompose::order);
   
     /**
      * \brief converts the input matrix into its equivalent as
@@ -133,25 +142,16 @@ namespace glm {
      *
      * \return converted matrix as well as rotation, scale, and translation parts
      */
-    mat4 transform(mat4 const&, decompose::order,
-                   mat4& /* rotation */,
-                   mat4& /* scale */,
-                   mat4& /* translation */);
+    DCS08961_GLM_EXPORT mat4 transform(mat4 const&, decompose::order,
+                                       mat4& /* rotation */,
+                                       mat4& /* scale */,
+                                       mat4& /* translation */);
     
   } // namespace convert {
 
-  /**
-   * \brief compute the signum of T
-   *
-   * \param  T
-   *
-   * \return signum(T)
-   */
-  template <typename T> signed sgn(T);
-
 } // namespace glm {
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#if defined(_MSC_VER) && (_MSC_VER <= 1800)
 // poor solution to still keep _deg/_rad around, so '180.0_deg' should still work, well actually it
 // must then be '180.0 _deg'; will possible break at the most inconvenient of times
 #  if defined(GLM_FORCE_RADIANS)
@@ -165,7 +165,7 @@ namespace glm {
 // for convenience, to avoid cumbersome lines like 'using glm::operator "" _deg;'
 using glm::operator "" _deg;
 using glm::operator "" _rad;
-#endif // #if defined(_MSC_VER) && (_MSC_VER <= 1700)
+#endif // #if defined(_MSC_VER) && (_MSC_VER <= 1800)
 
 #include <glm/gtx/utilities.inl>
 

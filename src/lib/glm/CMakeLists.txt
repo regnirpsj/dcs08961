@@ -8,8 +8,10 @@
 
 cma_print_current_directory()
 
-find_package(GLM ${GLM_MINIMUM_VERSION} REQUIRED)
+find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED)
+find_package(GLM   ${GLM_MINIMUM_VERSION}   REQUIRED)
 
+include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 
 set(SRC)
@@ -18,7 +20,6 @@ list(APPEND SRC "gtx/utilities.cpp")
 
 set(LIBS)
 list(APPEND LIBS support)
-list(APPEND LIBS ${Boost_LIBRARIES})
 
 set(LIB "glm")
 
