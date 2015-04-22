@@ -44,7 +44,7 @@ add_subdirectory(oglplus)
 add_subdirectory(posix)
 if(CMAKE_HOST_WIN32)
   add_subdirectory(win32)
+  add_subdirectory(winrt)
 endif()
-add_subdirectory(winrt)
 
 add_subdirectory(test EXCLUDE_FROM_ALL)
