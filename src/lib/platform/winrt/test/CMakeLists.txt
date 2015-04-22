@@ -22,6 +22,6 @@ set(LIBS)
 list(APPEND LIBS ${LIB})
 list(APPEND LIBS ${Boost_LIBRARIES})
 
-cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS} WINRT)
 
 add_dependencies(test_platform_all test_${LIB})

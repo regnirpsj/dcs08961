@@ -8,6 +8,8 @@
 
 cma_print_current_directory()
 
+find_package(WindowsSDK ${WINSDK_MINIMUM_VERSION} REQUIRED)
+
 set(SRC)
 list(APPEND SRC "application/base.cpp")
 list(APPEND SRC "application/desktop.cpp")
@@ -22,7 +24,7 @@ list(APPEND LIBS support)
 
 set(LIB "${LIB}_winrt")
 
-cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
+cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS} WINRT)
 
 add_subdirectory(test EXCLUDE_FROM_ALL)
 
