@@ -48,6 +48,11 @@ else()
   endif()
 endif()
 
+# WindowsSDK
+if(CMAKE_HOST_WIN32)
+  set(WINSDK_MINIMUM_VERSION 8.1)
+endif()
+
 if(DCS08961_TRACE_ALL)
   if(VERBOSE)
     message(STATUS "Enabling run-time tracing for complete project!")
