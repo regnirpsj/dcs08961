@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform_win32.hpp                                                              */
+/*  module     :  platform/win32.hpp                                                              */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -27,6 +27,7 @@
 #include <platform/win32/io.hpp>
 #include <platform/win32/utilities.hpp>
 #include <platform/win32/window/manager.hpp>
+#include <platform/win32/window/rect.hpp>
 #include <platform/win32/window/simple.hpp>
 
 namespace platform {
