@@ -35,6 +35,7 @@ namespace support {
   // functions, exported (extern)
 
   DCS08961_SUPPORT_EXPORT std::wstring string_to_wstring(std::string  const&);
+  DCS08961_SUPPORT_EXPORT std::string  wstring_to_string(std::string  const&);
   DCS08961_SUPPORT_EXPORT std::string  wstring_to_string(std::wstring const&);
   
 } // namespace support {
