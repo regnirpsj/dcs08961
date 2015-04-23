@@ -14,34 +14,12 @@
 
 // includes, system
 
-//#include <GL/glew.h>            // ::gl*
-
-//#include <array>
-//#include <boost/filesystem.hpp> // boost::filesystem::path
-//#include <boost/tokenizer.hpp>  // boost::char_separator<>, boost::tokenizer<>
-//#include <GL/freeglut.h>
-//#include <oglplus/all.hpp>
-//#include <oglplus/bound/texture.hpp>
-//#include <oglplus/images/checker.hpp>
-//#include <oglplus/images/random.hpp>
-//#include <oglplus/images/sphere_bmap.hpp>
-//#include <oglplus/images/squares.hpp>
-// #include <oglplus/opt/smart_enums.hpp>
-
-// #include <glm/glm.hpp>
-// #include <oglplus/interop/glm.hpp>
-#include <glm/gtx/io.hpp>
-// #include <glm/gtx/transform.hpp>
-
-// #include <sstream>
-// #include <vector>
+#include <csignal>        // SIG*
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
-// #include <platform/glut/application/base.hpp>
-// #include <platform/glut/window/simple.hpp>
 #include <platform/oglplus/application.hpp>
-// #include <support/chrono_io.hpp>
 #include <support/signal_handler.hpp>
 
 #include <application.hpp>
@@ -67,12 +45,8 @@ main(int argc, char const* argv[])
 {
   TRACE("main");
   
-#if !defined(_WIN32)
-  using support::signal_handler;
-  
-  signal_handler::instance->handler(SIGINT,  &viewer::application::terminate);
-  signal_handler::instance->handler(SIGTERM, &viewer::application::terminate);
-#endif
+  support::signal_handler::instance->handler(SIGINT,  &viewer::application::terminate);
+  support::signal_handler::instance->handler(SIGTERM, &viewer::application::terminate);
 
   namespace pa  = platform::application;
   namespace poa = platform::oglplus::application;

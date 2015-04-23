@@ -18,6 +18,7 @@
 
 // includes, system
 
+#include <cstring>        // ::strsignal
 #include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
@@ -46,9 +47,8 @@ namespace viewer {
   
   // functions, exported
   
-#if !defined(_WIN32)
   /* static */ void
-  application::terminate(::siginfo_t* a)
+  application::terminate(signed signo)
   {
     TRACE("viewer::application::terminate");
       
@@ -56,10 +56,9 @@ namespace viewer {
 
     std::cout << '\n'
               << "terminating by user request ('"
-              << ::strsignal(a->si_signo) << "' " << a->si_signo << ")"
+              << ::strsignal(signo) << "' " << signo << ")"
               << '\n';
   }
-#endif
 
   /* explicit */
   application::application(command_line const& a)

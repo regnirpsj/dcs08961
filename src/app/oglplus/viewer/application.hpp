@@ -39,9 +39,7 @@ namespace viewer {
     
   public:
 
-#if !defined(_WIN32)  
-    static void terminate(::siginfo_t*);
-#endif
+    static void terminate(signed);
     
     explicit application(command_line const&);
     virtual ~application();

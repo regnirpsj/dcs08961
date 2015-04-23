@@ -14,13 +14,15 @@
 
 // includes, system
 
-#include <GL/glew.h> // ::glew*
+#include <GL/glew.h>                    // ::glew*
 
-#include <boost/filesystem.hpp>    // boost::filesystem::path
+#include <boost/filesystem.hpp>         // boost::filesystem::path
 #include <oglplus/all.hpp>
 #include <oglplus/opt/resources.hpp>
 #include <oglplus/shapes/cube.hpp>
 
+#include <csignal>                      // SIG*
+#include <cstring>                      // ::strsignal
 #include <glm/glm.hpp>
 #include <oglplus/interop/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -184,8 +186,7 @@ namespace {
     
   public:
 
-#if !defined(_MSC_VER)
-    static void terminate(::siginfo_t* a)
+    static void terminate(signed signo)
     {
       TRACE("<unnamed>::application::terminate");
       
@@ -193,10 +194,9 @@ namespace {
 
       std::cout << '\n'
                 << "terminating by user request ('"
-                << ::strsignal(a->si_signo) << "' " << a->si_signo << ")"
+                << ::strsignal(signo) << "' " << signo << ")"
                 << '\n';
     }
-#endif
     
     explicit application(command_line const& a)
       : inherited(a),
@@ -236,12 +236,8 @@ main(int argc, char const* argv[])
 {
   TRACE("main");
 
-#if !defined(_MSC_VER)
-  using support::signal_handler;
-  
-  signal_handler::instance->handler(SIGINT,  &application::terminate);
-  signal_handler::instance->handler(SIGTERM, &application::terminate);
-#endif
+  support::signal_handler::instance->handler(SIGINT,  &application::terminate);
+  support::signal_handler::instance->handler(SIGTERM, &application::terminate);
   
   namespace pa  = platform::application;
   namespace poa = platform::oglplus::application;
