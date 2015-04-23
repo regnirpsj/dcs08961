@@ -56,11 +56,11 @@ namespace {
   {
     TRACE("support::signal_handler::<unnamed>::default_handler_indirect");
     
-    handler_map[value->si_signo](value);
+    handler_map[value->si_signo](value->si_signo);
   }
 
   void
-  default_handler(::siginfo_t* value)
+  default_handler(signed signo)
   {
     TRACE("support::signal_handler::<unnamed>::default_handler");
     
@@ -68,7 +68,7 @@ namespace {
     volatile bool create_core(false);
     volatile bool fatal_exit(false);
 
-    switch (value->si_signo) {
+    switch (signo) {
     case SIGUSR1:
     case SIGUSR2:
     case SIGCHLD:
@@ -85,7 +85,7 @@ namespace {
       break;
     }
 
-    switch (value->si_signo) {
+    switch (signo) {
     case SIGQUIT:
     case SIGILL:
     case SIGABRT:
@@ -124,10 +124,10 @@ namespace {
     {
       std::cerr << '\n'
                 << "support::signal_handler::<unnamed>::default_handler: "
-                << "caught signal '" << ::strsignal(value->si_signo) << "'; "
+                << "caught signal '" << ::strsignal(signo)              << "'; "
                 << "ignore:"         << std::boolalpha << ignore_signal << ", "
-                << "core:"           << std::boolalpha << create_core << ", "
-                << "fatal:"          << std::boolalpha << fatal_exit << ", "
+                << "core:"           << std::boolalpha << create_core   << ", "
+                << "fatal:"          << std::boolalpha << fatal_exit    << ", "
                 << '\n';
     }
 #endif
@@ -155,7 +155,7 @@ namespace {
     bool done(false);
 
     while (!done) {
-      TRACE("support::signal_handler::<unnamed>::signal_thread_function[loop]");
+      TRACE_NEVER("support::signal_handler::<unnamed>::signal_thread_function[loop]");
       
       ::sigset_t signal_mask;
 
@@ -192,7 +192,7 @@ namespace {
 #endif
         
       if (evaluate) {
-        handler_map[value.si_signo](&value);
+        handler_map[value.si_signo](value.si_signo);
       }
     }
   }
@@ -231,13 +231,13 @@ namespace {
       
       ::sigfillset     (&signal_mask);
       ::pthread_sigmask(SIG_SETMASK, &signal_mask, 0);
-
-      handler_thread.reset(new std::thread(signal_thread_function));
-
+      {
+        handler_thread.reset(new std::thread(signal_thread_function));
+      }
+      ::pthread_sigmask(SIG_BLOCK, &signal_mask, 0);
+      
       // avoid exception when 'handler_thread' is destructed
       handler_thread->detach();
-      
-      ::pthread_sigmask(SIG_BLOCK, &signal_mask, 0);
 
       initialized = true;
     }

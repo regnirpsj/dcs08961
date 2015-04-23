@@ -51,18 +51,6 @@ namespace support {
   // variables, exported
   
   // functions, exported
-
-  std::string
-  wstring_to_string(std::wstring const& a)
-  {
-    TRACE("support::wstring_to_string");
-
-#if defined(__GLIBCXX__) && (__GLIBCXX__ <= GLIBCXX_NO_CODECVT)
-    return std::string(a.begin(), a.end());
-#else
-    return std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t>().to_bytes(a);
-#endif
-  }
   
   std::wstring
   string_to_wstring(std::string const& a)
@@ -71,5 +59,25 @@ namespace support {
     
     return std::wstring(a.begin(), a.end());
   }
-  
+
+  std::string
+  wstring_to_string(std::string const& a)
+  {
+    TRACE("support::wstring_to_string(std::string)");
+
+    return a;
+  }
+
+  std::string
+  wstring_to_string(std::wstring const& a)
+  {
+    TRACE("support::wstring_to_string(std::wstring)");
+
+#if defined(__GLIBCXX__) && (__GLIBCXX__ <= GLIBCXX_NO_CODECVT)
+    return std::string(a.begin(), a.end());
+#else
+    return std::wstring_convert<std::codecvt_utf8<wchar_t>, wchar_t>().to_bytes(a);
+#endif
+  }
+
 } // namespace support {

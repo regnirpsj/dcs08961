@@ -34,25 +34,34 @@ namespace {
   
   // variables, internal
 
-  volatile bool handled_int (false);
-  volatile bool handled_term(false);
+  bool handled_int (false);
+  bool handled_term(false);
   
   // functions, internal
   
   void
-  interrupt_handler_int(signed)
+  signal_handler(signed signo)
   {
-    TRACE("<unnamed>::interrupt_handler_int");
-
-    handled_int = true;
+    TRACE("<unnamed>::signal_handler(" + std::to_string(signo) + ")");
+    
+    switch (signo) {
+    case SIGINT:  handled_int  = true; break;
+    case SIGTERM: handled_term = true; break;
+    default:                           break;
+    }
   }
-
-  void
-  interrupt_handler_term(signed)
+  
+  signed
+  raise_signal(signed signo)
   {
-    TRACE("<unnamed>::interrupt_handler_term");
-
-    handled_term = true;
+    // current linux/glibc implementation provides raise(2) as a wrapper for tgkill(2), which sends
+    // the signal to the current thread/thread group but not all threads in the process; need to
+    // find out how to make the signal-handler thread part of the parent thread's group!
+#if !defined(_WIN32)
+    return ::kill(::getpid(), signo);
+#else
+    return ::raise(signo);
+#endif
   }
   
 } // namespace {
@@ -61,22 +70,30 @@ int
 main()
 {
   TRACE("main");
-
-  using namespace support;
   
-  signal_handler::instance->handler(SIGINT,  interrupt_handler_int);
-  signal_handler::instance->handler(SIGTERM, interrupt_handler_term);
-  
-  sleep(std::chrono::milliseconds(750));
+  support::signal_handler::instance->handler(SIGINT,  signal_handler);
+  support::signal_handler::instance->handler(SIGTERM, signal_handler);
 
   int result(EXIT_SUCCESS);
 
-  if (std::raise(SIGINT) || !handled_int) {
-    result |= EXIT_FAILURE;
-  }
+  {
+    static support::clock::duration const delay(std::chrono::microseconds(725));
+    
+    int const raised_sigint(raise_signal(SIGINT));
+  
+    support::sleep(delay);
+  
+    if ((0 != raised_sigint) || !handled_int) {
+      result = EXIT_FAILURE;
+    }
 
-  if (std::raise(SIGTERM) || !handled_term) {
-    result |= EXIT_FAILURE;
+    int const raised_sigterm(raise_signal(SIGTERM));
+  
+    support::sleep(delay);
+  
+    if ((0 != raised_sigterm) || !handled_term) {
+      result = EXIT_FAILURE;
+    }
   }
   
   return result;

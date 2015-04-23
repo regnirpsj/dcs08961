@@ -31,6 +31,8 @@ LIST(APPEND SRC "thread.cpp")
 LIST(APPEND SRC "trace.cpp")
 LIST(APPEND SRC "type_info.cpp")
 
+#add_definitions("-DUKACHULLDCS_ALL_TRACE")
+
 set(LIBS)
 list(APPEND LIBS ${Boost_LIBRARIES})
 

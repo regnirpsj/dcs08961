@@ -36,7 +36,7 @@ namespace support {
 
   public:
 
-    typedef std::function<void (signed)> handler_function_type;
+    using handler_function_type = std::function<void (signed)>;
 
     ~signal_handler();
 

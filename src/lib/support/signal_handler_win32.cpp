@@ -18,12 +18,12 @@
 
 // includes, system
 
-#include <csignal>       // ::sigfillset, ::pthread_sigmask
+#include <array>         // std::array<>
+#include <csignal>       // ::signal
 #include <cstdlib>       // std::abort, std::exit
 #include <cstring>       // ::strsignal
 #include <iomanip>       // std::boolalpha
 #include <iostream>      // std::cerr
-#include <thread>        // std::thread
 #include <unordered_map> // std::unordered_map<>
 
 // includes, project
@@ -45,9 +45,14 @@ namespace {
   
   // variables, internal
 
-  bool                         initialized(false);
-  handler_map_type             handler_map;
-  std::unique_ptr<std::thread> handler_thread(nullptr);
+  std::array<signed const, 6> const supported_signals = {
+    {
+      SIGINT, SIGILL, SIGABRT, SIGFPE, SIGSEGV, SIGTERM,
+    }
+  };
+  
+  bool             initialized(false);
+  handler_map_type handler_map;
   
   // functions, internal
 
@@ -55,52 +60,44 @@ namespace {
   default_handler(signed signo)
   {
     TRACE("support::signal_handler::<unnamed>::default_handler");
-    
-    volatile bool ignore_signal(false);
-    volatile bool create_core(false);
-    volatile bool fatal_exit(false);
 
-    switch (signo) {
-    case SIGILL:
-    case SIGABRT:
-    case SIGFPE:
-    case SIGSEGV:
-      create_core = true;
-      break;
+    if (handler_map.end() != handler_map.find(signo)) {
+      handler_map[signo](signo);
+    } else {
+      volatile bool create_core(false);
 
-    case SIGINT:
-    case SIGTERM:
-      break;
-
-    default:
-      break;
-    }
+      switch (signo) {
+      case SIGILL:
+      case SIGABRT:
+      case SIGFPE:
+      case SIGSEGV:
+        create_core = true;
+        break;
+        
+      case SIGINT:
+      case SIGTERM:
+        break;
+        
+      default:
+        break;
+      }
 
 #if 0
-    {
-      std::cerr << '\n'
-                << "support::signal_handler::<unnamed>::default_handler: "
-                << "caught signal '" << ::strsignal(signo) << "'; "
-                << "ignore:"         << std::boolalpha << ignore_signal << ", "
-                << "core:"           << std::boolalpha << create_core << ", "
-                << "fatal:"          << std::boolalpha << fatal_exit << ", "
-                << '\n';
-    }
+      {
+        std::cerr << '\n'
+                  << "support::signal_handler::<unnamed>::default_handler: "
+                  << "caught signal '" << ::strsignal(signo)            << "'; "
+                  << "core:"           << std::boolalpha << create_core << ", "
+                  << '\n';
+      }
 #endif
 
-    if (ignore_signal) {
-      return;
-    }
+      if (create_core) {
+        std::abort();
+      }
 
-    if (create_core) {
-      std::abort();
+      std::exit(EXIT_SUCCESS);
     }
-
-    if (fatal_exit) {
-      std::exit(EXIT_FAILURE);
-    }
-
-    std::exit(EXIT_SUCCESS);
   }
 
   
@@ -110,6 +107,12 @@ namespace {
     TRACE("support::signal_handler::<unnamed>::initialize");
     
     if (!initialized) {
+      for (auto signo : supported_signals) {
+        if (0 !=  signo) {
+          ::signal(signo, &default_handler);
+        }
+      }
+      
       initialized = true;
     }
   }
