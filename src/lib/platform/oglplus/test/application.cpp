@@ -54,7 +54,6 @@ namespace {
       inherited::process_command_line();
 
       window_->print_state();
-      
     }
 
   private:
