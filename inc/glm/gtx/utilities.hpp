@@ -44,18 +44,18 @@ namespace glm {
   
   // variables, exported (extern)
 
-  namespace DCS08961_GLM_EXPORT convert {
+  namespace convert {
 
     /**
      * \brief transformtion to be left multiplied to an opengl projection matrix for in a
      *        d3d11 pipeline
      */
-    extern mat4 const opengl_to_d3d;
+    extern DCS08961_GLM_EXPORT mat4 const opengl_to_d3d;
 
     /**
      * \brief glm::inverse(opengl_to_d3d); \see opengl_to_d3d
      */
-    extern mat4 const d3d_to_opengl;
+    extern DCS08961_GLM_EXPORT mat4 const d3d_to_opengl;
     
   } // namespace convert {
   
