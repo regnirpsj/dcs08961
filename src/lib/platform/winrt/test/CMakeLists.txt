@@ -21,6 +21,7 @@ list(APPEND SRC "window_simple.cpp")
 set(LIBS)
 list(APPEND LIBS ${LIB})
 list(APPEND LIBS ${Boost_LIBRARIES})
+list(APPEND LIBS ${LIB}_addons)
 
 cma_setup_test(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS} WINRT)
 

@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <wrl.h>
 
 // includes, project
 
@@ -33,6 +33,15 @@ namespace platform {
       // types, exported (class, enum, struct, union, typedef)
 
       class DCS08961_PLATFORM_EXPORT base : public platform::application::single_instance {
+        
+      public:
+        
+        virtual void print_on(std::ostream&) const;
+        
+      protected:
+        
+        explicit base(platform::application::command_line const&);
+        
       };
       
       // variables, exported (extern)
