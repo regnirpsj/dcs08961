@@ -6,11 +6,13 @@
 #                                                                                                  #
 ####################################################################################################
 
-return()
+find_package(WindowsSDK ${WINSDK_MINIMUM_VERSION})
+
+if(TRUE OR NOT WindowsSDK_FOUND)
+  return()
+endif()
 
 cma_print_current_directory()
-
-find_package(WindowsSDK ${WINSDK_MINIMUM_VERSION} REQUIRED)
 
 set(SRC)
 list(APPEND SRC "application/base.cpp")

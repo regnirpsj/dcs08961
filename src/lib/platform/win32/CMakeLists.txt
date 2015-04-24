@@ -6,10 +6,15 @@
 #                                                                                                  #
 ####################################################################################################
 
+find_package(WindowsSDK ${WINSDK_MINIMUM_VERSION})
+
+if(NOT WindowsSDK_FOUND)
+  return()
+endif()
+
 cma_print_current_directory()
 
-find_package(GLM        ${GLM_MINIMUM_VERSION}    REQUIRED)
-find_package(WindowsSDK ${WINSDK_MINIMUM_VERSION} REQUIRED)
+find_package(GLM ${GLM_MINIMUM_VERSION} REQUIRED)
 
 include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 
