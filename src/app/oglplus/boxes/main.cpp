@@ -22,7 +22,6 @@
 #include <oglplus/shapes/cube.hpp>
 
 #include <csignal>                      // SIG*
-#include <cstring>                      // ::strsignal
 #include <glm/glm.hpp>
 #include <oglplus/interop/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -36,7 +35,7 @@
 #include <support/signal_handler.hpp>
 
 #define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
+//#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 // internal unnamed namespace
@@ -194,7 +193,7 @@ namespace {
 
       std::cout << '\n'
                 << "terminating by user request ('"
-                << ::strsignal(signo) << "' " << signo << ")"
+                << support::signal_name(signo) << "' " << signo << ")"
                 << '\n';
     }
     

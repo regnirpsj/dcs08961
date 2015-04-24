@@ -18,6 +18,7 @@
 
 // includes, system
 
+#include <array>         // std::array<>
 #include <csignal>       // ::sigfillset, ::pthread_sigmask
 #include <cstdlib>       // std::abort, std::exit
 #include <cstring>       // ::strsignal
@@ -203,18 +204,21 @@ namespace {
     TRACE("support::signal_handler::<unnamed>::initialize");
     
     if (!initialized) {
-      signed const   sync_signal_list[] = { SIGSEGV, SIGFPE, SIGILL, };
-      unsigned const sync_signal_size(sizeof(sync_signal_list) / sizeof(sync_signal_list[0]));
-
+      static std::array<signed const, 3> const sync_signals = {
+        {
+          SIGSEGV, SIGFPE, SIGILL,
+        }
+      };
+      
       ::sigset_t signal_mask;
 
       ::sigfillset(&signal_mask);
 
-      for (unsigned i(0); i < sync_signal_size; ++i) {
-        ::sigdelset(&signal_mask, sync_signal_list[i]);
+      for (unsigned i(0); i < sync_signals.size(); ++i) {
+        ::sigdelset(&signal_mask, sync_signals[i]);
       }
       
-      for (unsigned i(0); i < _NSIG; ++i) {
+      for (unsigned i(1); i < _NSIG; ++i) {
         handler_map[i] = default_handler;
       }
       
@@ -225,8 +229,8 @@ namespace {
 
       ::sigemptyset(&sa.sa_mask);
 
-      for (unsigned i(0); i < sync_signal_size; ++i) {
-        ::sigaction(sync_signal_list[i], &sa, 0);
+      for (unsigned i(0); i < sync_signals.size(); ++i) {
+        ::sigaction(sync_signals[i], &sa, 0);
       }
       
       ::sigfillset     (&signal_mask);
@@ -286,4 +290,18 @@ namespace support {
     initialize();
   }
 
+  std::string
+  signal_name(signed signo)
+  {
+    TRACE("support::signal_name");
+
+    std::string result("UNKNOWN SIGNAL");
+
+    if ((0 < signo) && (_NSIG > signo)) {
+      result = sys_signame[signo];
+    }
+    
+    return result;
+  }
+  
 } // namespace support {

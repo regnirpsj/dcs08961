@@ -21,17 +21,17 @@
 #include <array>         // std::array<>
 #include <csignal>       // ::signal
 #include <cstdlib>       // std::abort, std::exit
-#include <cstring>       // ::strsignal
 #include <iomanip>       // std::boolalpha
 #include <iostream>      // std::cerr
 #include <unordered_map> // std::unordered_map<>
+#include <utility>       // std::pair<>
 
 // includes, project
 
 //#include <>
 
 #define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
+//#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 // internal unnamed namespace
@@ -45,9 +45,14 @@ namespace {
   
   // variables, internal
 
-  std::array<signed const, 6> const supported_signals = {
+  std::array<std::pair<signed const, std::string const>, 6> const supported_signals = {
     {
-      SIGINT, SIGILL, SIGABRT, SIGFPE, SIGSEGV, SIGTERM,
+      std::make_pair(SIGINT,  "SIGINT"),
+      std::make_pair(SIGILL,  "SIGILL"),
+      std::make_pair(SIGABRT, "SIGABRT"),
+      std::make_pair(SIGFPE,  "SIGFPE"),
+      std::make_pair(SIGSEGV, "SIGSEGV"),
+      std::make_pair(SIGTERM, "SIGTERM"),
     }
   };
   
@@ -86,7 +91,7 @@ namespace {
       {
         std::cerr << '\n'
                   << "support::signal_handler::<unnamed>::default_handler: "
-                  << "caught signal '" << ::strsignal(signo)            << "'; "
+                  << "caught signal '" << signo                         << "'; "
                   << "core:"           << std::boolalpha << create_core << ", "
                   << '\n';
       }
@@ -107,9 +112,9 @@ namespace {
     TRACE("support::signal_handler::<unnamed>::initialize");
     
     if (!initialized) {
-      for (auto signo : supported_signals) {
-        if (0 !=  signo) {
-          ::signal(signo, &default_handler);
+      for (auto s : supported_signals) {
+        if (0 != s.first) {
+          ::signal(s.first, &default_handler);
         }
       }
       
@@ -160,4 +165,22 @@ namespace support {
     initialize();
   }
 
+  std::string
+  signal_name(signed signo)
+  {
+    TRACE("support::signal_name");
+    
+    std::string result("UNKNOWN SIGNAL");
+
+    for (auto s : supported_signals) {
+      if (signo == s.first) {
+        result = s.second;
+
+        break;
+      }
+    }
+    
+    return result;
+  }
+  
 } // namespace support {

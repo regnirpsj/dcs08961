@@ -57,6 +57,8 @@ namespace support {
   // functions, inlined (inline)
   
   // functions, exported (extern)
+
+  DCS08961_SUPPORT_EXPORT std::string signal_name(signed);
   
 } // namespace support {
 

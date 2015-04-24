@@ -6,6 +6,8 @@
 #                                                                                                  #
 ####################################################################################################
 
+return()
+
 cma_print_current_directory()
 
 find_package(WindowsSDK ${WINSDK_MINIMUM_VERSION} REQUIRED)

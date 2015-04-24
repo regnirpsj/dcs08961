@@ -18,12 +18,11 @@
 
 // includes, system
 
-#include <cstring>        // ::strsignal
 #include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
-//#include <>
+#include <support/signal_handler.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -56,7 +55,7 @@ namespace viewer {
 
     std::cout << '\n'
               << "terminating by user request ('"
-              << ::strsignal(signo) << "' " << signo << ")"
+              << support::signal_name(signo) << "' " << signo << ")"
               << '\n';
   }
 
