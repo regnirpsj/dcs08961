@@ -23,7 +23,6 @@ find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED COMPONENTS unit_test_framew
 include_directories(SYSTEM ${Boost_INLCUDE_DIR})
 
 set(SRC)
-list(APPEND SRC "application.cpp")
 list(APPEND SRC "chrono.cpp")
 list(APPEND SRC "hasher.cpp")
 list(APPEND SRC "io_utils.cpp")

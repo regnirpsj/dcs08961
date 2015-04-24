@@ -6,7 +6,6 @@
 #                                                                                                  #
 ####################################################################################################
 
-add_subdirectory(common)
 add_subdirectory(deferred)
 add_subdirectory(lighting)
 add_subdirectory(postprocess)

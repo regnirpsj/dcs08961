@@ -14,7 +14,6 @@ find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
 set(SRC)
-LIST(APPEND SRC "application.cpp")
 LIST(APPEND SRC "chrono.cpp")
 LIST(APPEND SRC "chrono_io.cpp")
 LIST(APPEND SRC "hasher.cpp")
