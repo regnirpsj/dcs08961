@@ -22,6 +22,7 @@
 
 // includes, project
 
+#include <platform/export.h>
 #include <platform/glut/utilities.hpp>
 
 namespace platform {
@@ -36,9 +37,9 @@ namespace platform {
   
     // functions, exported (extern)
 
-    std::ostream& operator<<(std::ostream&, frame_record_t const&);
-    std::ostream& operator<<(std::ostream&, mouse_record_t const&);
-    std::ostream& operator<<(std::ostream&, keyboard_record_t const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, frame_record_t const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, mouse_record_t const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, keyboard_record_t const&);
     
   } // namespace glut {
   
