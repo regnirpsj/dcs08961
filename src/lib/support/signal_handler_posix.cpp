@@ -298,7 +298,7 @@ namespace support {
     std::string result("UNKNOWN SIGNAL");
 
     if ((0 < signo) && (_NSIG > signo)) {
-      result = sys_signame[signo];
+      result = sys_siglist[signo];
     }
     
     return result;
