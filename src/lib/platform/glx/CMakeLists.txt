@@ -22,7 +22,7 @@ list(APPEND SRC "window/base.cpp")
 list(APPEND SRC "window/manager.cpp")
 list(APPEND SRC "window/simple.cpp")
 
-add_definitions("-DUKACHULLDCS_ALL_TRACE")
+#add_definitions("-DUKACHULLDCS_ALL_TRACE")
 add_definitions(${GLEW_DEFINITIONS})
 
 set(LIBS)
