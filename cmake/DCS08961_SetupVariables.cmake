@@ -26,6 +26,7 @@ endif()
 # GLEW
 if(CMAKE_HOST_WIN32)
   set(GLEW_ROOT_DIR "C:/Tools/glew/1.12.0")
+  set(GLEW_COMPONENTS "COMPONENTS STATIC")
 endif()
 
 # GL[I|M]
@@ -44,7 +45,7 @@ if(CMAKE_HOST_WIN32)
   set(OGLplus_ROOT_DIR "C:/Tools/oglplus/oglplus-git/_install")
 else()
   if(UNIX)
-    set(OGLplus_ROOT_DIR "~/Projects/others/oglplus-develop-git/_install")
+    set(OGLplus_ROOT_DIR "~/Projects/others/oglplus-master-git/_install")
   endif()
 endif()
 
