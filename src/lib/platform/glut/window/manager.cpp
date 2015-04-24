@@ -36,8 +36,8 @@ namespace {
   
   // variables, internal
 
-  std::vector<signed> ids_list;
-  bool                ids_changed(false);
+  std::vector<platform::glut::window::manager::id_type> ids_list;
+  bool                                                  ids_changed(false);
   
   // functions, internal
 
@@ -58,24 +58,24 @@ namespace platform {
       {
         TRACE("platform::glut::window::manager::count");
 
-        return platform::window::manager::count(type::glut);
+        return platform::window::manager::count(window_type::glut);
       }
 
       /* static */ base*
-      manager::get(signed a)
+      manager::get(id_type a)
       {
         TRACE_NEVER("platform::glut::window::manager::get");
 
-        return static_cast<base*>(platform::window::manager::get(type::glut, a));
+        return static_cast<base*>(platform::window::manager::get(window_type::glut, a));
       }
 
-      /* static */ std::vector<signed> const&
+      /* static */ std::vector<manager::id_type> const&
       manager::all()
       {
         TRACE_NEVER("platform::glut::window::manager::all");
 
         if (ids_changed) {
-          ids_list    = platform::window::manager::all(type::glut);
+          ids_list    = platform::window::manager::all(window_type::glut);
           ids_changed = false;
         }
         
@@ -83,13 +83,13 @@ namespace platform {
       }
       
       /* static */ bool
-      manager::add(signed a, base* b)
+      manager::add(id_type a, base* b)
       {
         TRACE("platform::glut::window::manager::add");
 
         ids_changed = true;
         
-        return platform::window::manager::add(type::glut, a, b);
+        return platform::window::manager::add(window_type::glut, a, b);
       }
 
       /* static */ bool
@@ -99,17 +99,17 @@ namespace platform {
 
         ids_changed = true;
         
-        return platform::window::manager::sub(type::glut, a);
+        return platform::window::manager::sub(window_type::glut, a);
       }
 
       /* static */ bool
-      manager::sub(signed a)
+      manager::sub(id_type a)
       {
-        TRACE("platform::glut::window::manager::sub(signed)");
+        TRACE("platform::glut::window::manager::sub(id_type)");
 
         ids_changed = true;
         
-        return platform::window::manager::sub(type::glut, a);
+        return platform::window::manager::sub(window_type::glut, a);
       }
   
     } // namespace window {

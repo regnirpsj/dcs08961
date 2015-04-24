@@ -37,19 +37,21 @@ namespace platform {
       class DCS08961_PLATFORM_EXPORT manager : private platform::window::manager {
 
       public:
+
+        using id_type = platform::window::manager::id_type;
         
         static unsigned count();
-        static base*    get(signed);
+        static base*    get(id_type);
         
-        static std::vector<signed> const& all();
+        static std::vector<id_type> const& all();
         
       private:
 
         friend class base;
         
-        static bool  add(signed, base*);
+        static bool  add(id_type, base*);
         static bool  sub(base*);
-        static bool  sub(signed);
+        static bool  sub(id_type);
         
       };
         
