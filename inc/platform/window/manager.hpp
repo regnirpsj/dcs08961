@@ -39,28 +39,32 @@ namespace platform {
       
     public:
 
-      enum class type { glut, win32, winrt, };
+      using id_type = signed long long;
+      
+      enum class window_type { glut, glx, win32, winrt, };
       
       static unsigned count();
-      static unsigned count(type);
+      static unsigned count(window_type);
 
       static void print_on(std::ostream&);
       
     protected:
       
-      static bool                add(type, signed, base*);
-      static bool                sub(type, base*);
-      static bool                sub(type, signed);
-      static base*               get(type, signed);
-      static std::vector<signed> all(type);
+      static bool                 add(window_type, id_type, base*);
+      static bool                 sub(window_type, base*);
+      static bool                 sub(window_type, id_type);
+      static base*                get(window_type, id_type);
+      static std::vector<id_type> all(window_type);
       
     private:
 
       class window_compare;
-      class type_hasher { public: size_t operator()(type const&) const; };
+      class window_type_hasher { public: size_t operator()(window_type const&) const; };
       
-      using window_id_list_type  = std::unordered_map<signed, base*>;
-      using window_type_map_type = std::unordered_map<type, window_id_list_type, type_hasher>;
+      using window_id_list_type  = std::unordered_map<id_type, base*>;
+      using window_type_map_type = std::unordered_map<window_type,
+                                                      window_id_list_type,
+                                                      window_type_hasher>;
       
       static window_type_map_type window_type_map_;
       
@@ -72,7 +76,7 @@ namespace platform {
   
     // functions, exported (extern)
 
-    std::ostream& operator<<(std::ostream&, manager::type const&);
+    DCS08961_PLATFORM_EXPORT  std::ostream& operator<<(std::ostream&, manager::window_type const&);
     
   } // namespace window {
   

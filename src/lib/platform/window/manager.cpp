@@ -49,7 +49,7 @@ namespace platform {
 
     public:
 
-      explicit window_compare(signed a, base const* b)
+      explicit window_compare(id_type a, base const* b)
         : id_  (a),
           inst_(b)
       {}
@@ -71,13 +71,13 @@ namespace platform {
     
     private:
 
-      signed const id_;
+      id_type const id_;
       base const*  inst_;
     
     };
 
     size_t
-    manager::type_hasher::operator()(manager::type const& a) const
+    manager::window_type_hasher::operator()(manager::window_type const& a) const
     {
       return static_cast<size_t>(a);
     }
@@ -111,9 +111,9 @@ namespace platform {
     }
     
     /* static */ unsigned
-    manager::count(type a)
+    manager::count(window_type a)
     {
-      TRACE("platform::window::manager::count(type)");
+      TRACE("platform::window::manager::count(window_type)");
 
       return window_type_map_[a].size();
     }
@@ -135,7 +135,7 @@ namespace platform {
     }
     
     /* static */ bool
-    manager::add(type a, signed b, base* c)
+    manager::add(window_type a, id_type b, base* c)
     {
       TRACE("platform::window::manager::add");
 
@@ -143,7 +143,7 @@ namespace platform {
     }
 
     /* static */ bool
-    manager::sub(type a, base* b)
+    manager::sub(window_type a, base* b)
     {
       TRACE("platform::window::manager::sub(base*)");
 
@@ -162,9 +162,9 @@ namespace platform {
     }
 
     /* static */ bool
-    manager::sub(type a, signed b)
+    manager::sub(window_type a, id_type b)
     {
-      TRACE("platform::window::manager::sub(signed)");
+      TRACE("platform::window::manager::sub(id_type)");
 
       bool result(false);
       auto found (std::find_if(window_type_map_[a].begin(),
@@ -181,7 +181,7 @@ namespace platform {
     }
 
     /* static */ base*
-    manager::get(type a, signed b)
+    manager::get(window_type a, id_type b)
     {
       TRACE_NEVER("platform::window::manager::get");
 
@@ -197,12 +197,12 @@ namespace platform {
       return result;
     }
 
-    /* static */ std::vector<signed>
-    manager::all(type a)
+    /* static */ std::vector<manager::id_type>
+    manager::all(window_type a)
     {
       TRACE_NEVER("platform::window::manager::all");
 
-      std::vector<signed> result;
+      std::vector<id_type> result;
       
       for (auto w : window_type_map_[a]) {
         result.push_back(w.first);
@@ -212,17 +212,18 @@ namespace platform {
     }
     
     std::ostream&
-    operator<<(std::ostream& os, manager::type const& a)
+    operator<<(std::ostream& os, manager::window_type const& a)
     {
-      TRACE_NEVER("platform::window::operator<<(manager::type)");
+      TRACE_NEVER("platform::window::operator<<(manager::window_type)");
       
       std::ostream::sentry const cerberus(os);
 
       if (cerberus) {
         switch (a) {
-        case manager::type::glut:  os << "GLUT";  break;
-        case manager::type::win32: os << "Win32"; break;
-        case manager::type::winrt: os << "WinRT"; break;
+        case manager::window_type::glut:  os << "GLUT";  break;
+        case manager::window_type::glx:   os << "GLX";  break;
+        case manager::window_type::win32: os << "Win32"; break;
+        case manager::window_type::winrt: os << "WinRT"; break;
         }
       }
 
