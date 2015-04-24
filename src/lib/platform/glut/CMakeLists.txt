@@ -9,7 +9,7 @@
 cma_print_current_directory()
 
 find_package(FreeGLUT ${FREEGLUT_MINIMUM_VERSION} REQUIRED)
-find_package(GLEW                                 REQUIRED COMPONENTS STATIC)
+find_package(GLEW                                 REQUIRED ${GLEW_COMPONENTS})
 find_package(GLM      ${GLM_MINIMUM_VERSION}      REQUIRED)
 find_package(OpenGL                               REQUIRED)
 
