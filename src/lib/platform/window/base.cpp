@@ -53,8 +53,10 @@ namespace platform {
       : boost::noncopyable(),
         field::container  (),
         title             (*this, "title",    a),
-        position          (*this, "position", glm::ivec2(b.x, b.y)),
-        size              (*this, "size",     glm::ivec2(b.w, b.h))
+        position          (*this, "position", glm::ivec2((0 > b.x) ? 0 : b.x,
+                                                         (0 > b.y) ? 0 : b.y)),
+        size              (*this, "size",     glm::ivec2((1 > b.w) ? 1 : b.w,
+                                                         (1 > b.h) ? 1 : b.h))
     {
       TRACE("platform::window::base::base");
     }
