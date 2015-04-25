@@ -32,15 +32,26 @@ namespace platform {
 
       class DCS08961_PLATFORM_EXPORT simple : public base {
 
-      public:
-
-        using rect           = base::rect;
+      protected:
+        
         using attribute_list = base::attribute_list;
         
         explicit simple(std::string const&    /* title   */,
                         rect const&           /* rect    */ = rect::dflt_rect,
                         std::string const&    /* display */ = dflt_display_name,
                         attribute_list const& /* attrs   */ = dflt_attributes);
+
+        virtual void frame_render_one () =0;
+        virtual void frame_render_post();
+        virtual void frame_render_pre ();
+
+      private:
+
+        // calling order:
+        //   frame_render_pre()
+        //   frame_render_one()
+        //   frame_render_post()
+        virtual void display();
         
       };
       

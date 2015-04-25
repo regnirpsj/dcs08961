@@ -50,19 +50,47 @@ namespace platform {
     // functions, exported
 
     std::ostream&
-    operator<<(std::ostream& os, GLXContext const& a)
+    operator<<(std::ostream& os, Display const& a)
     {
       std::ostream::sentry const cerberus(os);
 
       if (cerberus) {
         os << '['
-           << "@" << std::hex << reinterpret_cast<void*>(a)
+           << "@" << std::hex << reinterpret_cast<void const*>(&a)
            << ']';
       }
 
       return os;
     }
 
+    std::ostream&
+    operator<<(std::ostream& os, GLXContext const& a)
+    {
+      std::ostream::sentry const cerberus(os);
+
+      if (cerberus) {
+        os << '['
+           << "@" << std::hex << reinterpret_cast<void const*>(a)
+           << ']';
+      }
+
+      return os;
+    }
+
+    std::ostream&
+    operator<<(std::ostream& os, XVisualInfo const& a)
+    {
+      std::ostream::sentry const cerberus(os);
+
+      if (cerberus) {
+        os << '['
+           << "@" << std::hex << reinterpret_cast<void const*>(&a)
+           << ']';
+      }
+
+      return os;
+    }
+    
   } // namespace glx {
   
 } // namespace platform {

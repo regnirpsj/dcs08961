@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <platform/glx/window/manager.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -56,6 +56,45 @@ namespace platform {
         : base(a, b, c, d)
       {
         TRACE("platform::glx::window::simple::simple");
+      }
+
+      /* virtual */ void
+      simple::frame_render_one()
+      {
+        TRACE("platform::glx::window::simple::frame_render_one");
+
+        throw std::logic_error("pure virtual function "
+                               "'platform::glx::window::simple::frame_render_one' called");
+      }
+
+      /* virtual */ void
+      simple::frame_render_post()
+      {
+        TRACE_NEVER("platform::glx::window::simple::frame_render_post");
+
+        if (window::manager::count()) {
+          ::glXSwapBuffers(display_, window_);
+        }
+      }
+      
+      /* virtual */ void
+      simple::frame_render_pre()
+      {
+        TRACE_NEVER("platform::glx::window::simple::frame_render_pre");
+
+        ::glXMakeCurrent(display_, None, nullptr);
+      }
+
+      /* virtual */ void
+      simple::display()
+      {
+        TRACE("platform::glx::window::simple::display");
+
+        if (window::manager::count()) {
+          frame_render_pre ();
+          frame_render_one ();
+          frame_render_post();
+        }
       }
       
     } // namespace window {

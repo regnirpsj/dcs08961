@@ -45,19 +45,24 @@ namespace platform {
         static std::string const    dflt_display_name; // ":0.0"
         
         virtual ~base();
+
+        virtual void print_on(std::ostream&) const;
         
       protected:
 
-        Display*     x11_display_;
-        Window       x11_window_;
-        XVisualInfo* x11_visual_;
-        Colormap     x11_colormap_;
-        GLXContext   glx_context_;
+        Display*     display_;
+        Colormap     colormap_;
+        Window       window_;
+        XVisualInfo* vinfo_;
+        GLXContext   context_;
         
         explicit base(std::string const&    /* title   */,
                       rect const&           /* rect    */ = rect::dflt_rect,
                       std::string const&    /* display */ = dflt_display_name,
                       attribute_list const& /* attrs   */ = dflt_attributes);
+
+        virtual void close  ();
+        virtual void display() =0;
         
       };
       

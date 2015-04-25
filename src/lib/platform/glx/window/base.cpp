@@ -23,6 +23,7 @@
 
 // includes, project
 
+#include <platform/glx/io.hpp>
 #include <platform/glx/window/manager.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -39,6 +40,14 @@ namespace {
   
   // functions, internal
 
+  signed
+  wait_for_map_notify(Display*, XEvent* evt, XPointer arg)
+  {
+    TRACE("platform::glx::window::base::<unnamed>::wait_for_map_notify");
+    
+    return ((MapNotify == evt->type) && (reinterpret_cast<Window>(arg) == evt->xmap.window));
+  }
+  
 } // namespace {
 
 namespace platform {
@@ -50,6 +59,7 @@ namespace platform {
       // variables, exported
 
       /* static */ base::attribute_list const base::dflt_attributes = { GLX_RGBA,
+                                                                        GLX_DEPTH_SIZE, 24,
                                                                         GLX_DOUBLEBUFFER,
                                                                         None };
       /* static */ std::string const          base::dflt_display_name(":0.0");
@@ -63,74 +73,161 @@ namespace platform {
 
         window::manager::sub(this);
         
-        if (x11_display_) {
-          if (glx_context_)  { glXDestroyContext(x11_display_, glx_context_);  }
-          if (x11_window_)   { XDestroyWindow   (x11_display_, x11_window_);   }
-          if (x11_colormap_) { XFreeColormap    (x11_display_, x11_colormap_); }
-          if (x11_visual_)   { XFree            (x11_visual_);                 }
-                               XCloseDisplay    (x11_display_);
+        if (display_) {
+          if (context_) {
+            ::glXDestroyContext(display_, context_);
+          }
+
+          if (vinfo_) {
+            ::XFree(vinfo_);
+          }
+          
+          if (window_) {
+            ::XDestroyWindow(display_, window_);
+          }
+
+          if (colormap_) {
+            ::XFreeColormap(display_, colormap_);
+          }
+          
+          ::XCloseDisplay(display_);
         }
+      }
+
+      /* virtual */ void
+      base::print_on(std::ostream& os) const
+      {
+        TRACE_NEVER("platform::glx::window::base::print_on");
+
+        platform::window::base::print_on(os);
+
+        os << "\b,"
+           << "dpy:";
+
+        if (display_) {
+          os << *display_ << ',';
+        } else {
+          os << "invalid,";
+        }
+
+        os << "win:" << window_ << ','
+           << "vis:";
+
+        if (vinfo_) {
+          os << *vinfo_ << ',';
+        } else {
+          os << "invalid,";
+        }
+        
+        os << "ctx:" << context_
+           << ']';
       }
       
       /* explicit */
       base::base(std::string const& a, rect const& b, std::string const& c, attribute_list const& d)
         : platform::window::base(a, b),
-          x11_display_          (XOpenDisplay(c.c_str())),
-          x11_window_           (0),
-          x11_visual_           (nullptr),
-          x11_colormap_         (0),
-          glx_context_          (nullptr)
+          display_              (::XOpenDisplay((c.empty()) ? nullptr : c.c_str())),
+          colormap_             (0),
+          window_               (0),
+          vinfo_                (nullptr),
+          context_              (nullptr)
       {
         TRACE("platform::glx::window::base::base");
 
-        if (!x11_display_) {
-          throw std::runtime_error("XOpenDisplay");
+        if (!display_) {
+          std::runtime_error("platform::glx::window::base: 'XOpenDisplay'");
         }
 
-        int dummy;
+        signed dummy;
+
+        if (!::glXQueryExtension(display_, &dummy, &dummy)) {
+          std::runtime_error("platform::glx::window::base: 'glXQueryExtension'");
+        }
+
+        vinfo_ = ::glXChooseVisual(display_, DefaultScreen(display_),
+                                   const_cast<signed*>(&(d[0])));
+
+        if (!vinfo_) {
+          std::runtime_error("platform::glx::window::base: 'glXChooseVisual'");
+        }
+
+        if (TrueColor != vinfo_->c_class) {
+          std::runtime_error("platform::glx::window::base: 'TrueColor != vinfo_->c_class'");
+        }
+
+        context_ = ::glXCreateContext(display_, vinfo_, None, True);
+
+        if (!context_) {
+          std::runtime_error("platform::glx::window::base: 'glXCreateContext'");
+        }
         
-        if (!glXQueryExtension(x11_display_, &dummy, &dummy)) {
-          throw std::runtime_error("glXQueryExtension");
-        }
+        colormap_ = ::XCreateColormap(display_,RootWindow(display_, vinfo_->screen),
+                                      vinfo_->visual, AllocNone);
 
-        attribute_list attributes(d);
+        if (!colormap_) {
+          std::runtime_error("platform::glx::window::base: 'XCreateColormap'");
+        }
         
-        if (nullptr == (x11_visual_ = glXChooseVisual(x11_display_,
-                                                      DefaultScreen(x11_display_),
-                                                      &(attributes[0])))) {
-          throw std::runtime_error("glXChooseVisual");
-        }
-          
-        if (nullptr == (glx_context_ = glXCreateContext(x11_display_, x11_visual_, None, True))) {
-          throw std::runtime_error("glXCreateContext");
-        }
-
-        x11_colormap_ = XCreateColormap(x11_display_,
-                                        RootWindow(x11_display_, x11_visual_->screen),
-                                        x11_visual_->visual, AllocNone);
-
         XSetWindowAttributes swa;
 
         swa.border_pixel = 0;
-        swa.colormap     = x11_colormap_;
+        swa.colormap     = colormap_;
+        swa.event_mask   = (ExposureMask       | 
+                            ButtonPressMask    | 
+                            ButtonReleaseMask  | 
+                            KeyPressMask       | 
+                            Button1MotionMask  | 
+                            Button2MotionMask  | 
+                            Button3MotionMask  | 
+                            StructureNotifyMask);
 
-        x11_window_ = XCreateWindow(x11_display_,
-                                    RootWindow(x11_display_, x11_visual_->screen),
-                                    b.x, b.y, b.w, b.h,
-                                    0,
-                                    x11_visual_->depth,
-                                    InputOutput,
-                                    x11_visual_->visual,
-                                    (CWBorderPixel|CWColormap),
-                                    &swa);
+        window_ = ::XCreateWindow(display_,
+                                  RootWindow(display_, vinfo_->screen), 
+                                  position->x, position->y, size->x, size->y,
+                                  0,
+                                  vinfo_->depth,
+                                  InputOutput,
+                                  vinfo_->visual,
+                                  (CWBorderPixel | CWColormap | CWEventMask), 
+                                  &swa);
 
-        if (!glXMakeCurrent(x11_display_, x11_window_, glx_context_)) {
-          throw std::runtime_error("glXMakeCurrent");
+        if (!window_) {
+          std::runtime_error("platform::glx::window::base: 'XCreateWindow'");
+        }
+
+        // display, w, window_name, icon_name, icon_pixmap, argv, argc, hints
+        ::XSetStandardProperties(display_, window_, a.c_str(), a.c_str(), None, nullptr, 0,
+                                 nullptr);
+        
+        {
+          ::XEvent evt;
+
+          ::XMapWindow(display_, window_);
+          ::XIfEvent  (display_, &evt, wait_for_map_notify, reinterpret_cast<XPointer>(window_));
+        }
+
+        if (!::glXMakeCurrent(display_, window_, context_)) {
+          std::runtime_error("platform::glx::window::base: 'glXMakeCurrent'");
         }
           
-        window::manager::add(reinterpret_cast<window::manager::id_type>(glx_context_), this);
+        window::manager::add(reinterpret_cast<window::manager::id_type>(context_), this);
       }
-  
+
+      /* virtual */ void
+      base::close()
+      {
+        TRACE("platform::glx::window::base::close");
+      }
+      
+      /* virtual */ void
+      base::display()
+      {
+        TRACE("platform::glx::window::base::display");
+
+        throw std::logic_error("pure virtual function "
+                               "'platform::glx::window::base::display' called");
+      }
+      
     } // namespace window {
     
   } // namespace glx {

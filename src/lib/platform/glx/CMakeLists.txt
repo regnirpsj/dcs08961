@@ -6,15 +6,22 @@
 #                                                                                                  #
 ####################################################################################################
 
+find_package(X11)
+
+if(NOT X11_FOUND)
+  return()
+endif()
+
 cma_print_current_directory()
 
-find_package(GLEW                                 REQUIRED ${GLEW_COMPONENTS})
-find_package(GLM      ${GLM_MINIMUM_VERSION}      REQUIRED)
-find_package(OpenGL                               REQUIRED)
+find_package(GLEW                          REQUIRED ${GLEW_COMPONENTS})
+find_package(GLM    ${GLM_MINIMUM_VERSION} REQUIRED)
+find_package(OpenGL                        REQUIRED)
 
 include_directories(SYSTEM ${GLEW_INCLUDE_DIR})
 include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 include_directories(SYSTEM ${OPENGL_INCLUDE_DIR})
+include_directories(SYSTEM ${X11_X11_INCLUDE_PATH})
 
 set(SRC)
 list(APPEND SRC "io.cpp")
@@ -29,6 +36,7 @@ set(LIBS)
 list(APPEND LIBS platform)
 list(APPEND LIBS support)
 list(APPEND LIBS ${GLEW_LIBRARY})
+list(APPEND LIBS ${X11_X11_LIB})
 
 set(LIB "${LIB}_glx")
 

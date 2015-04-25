@@ -19,7 +19,7 @@
 
 // includes, project
 
-#include <platform/glx/window/simple.hpp>
+#include <window.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -44,7 +44,8 @@ BOOST_AUTO_TEST_CASE(test_platform_glx_window_simple)
 {
   using namespace platform::glx;
   
-  std::unique_ptr<window::simple> s(new window::simple("test_platform_glx_window_simple"));
+  std::unique_ptr<window::base>
+    s(new window::test::window("test_platform_glx_window_simple"));
   
   BOOST_CHECK  (s);
   BOOST_MESSAGE(*s);

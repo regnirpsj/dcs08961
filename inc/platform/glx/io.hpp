@@ -36,8 +36,10 @@ namespace platform {
     // functions, inlined (inline)
   
     // functions, exported (extern)
-
+    
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, Display const&);
     DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, GLXContext const&);
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, XVisualInfo const&);
     
   } // namespace glx {
   

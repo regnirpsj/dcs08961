@@ -19,9 +19,8 @@
 
 // includes, project
 
-#include <platform/glx/io.hpp>
 #include <platform/glx/window/manager.hpp>
-#include <platform/glx/window/simple.hpp>
+#include <window.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -46,17 +45,27 @@ BOOST_AUTO_TEST_CASE(test_platform_glx_window_manager_count)
 {
   using namespace platform::glx;
   
-  std::unique_ptr<window::simple> s(new window::simple("test_platform_glx_window_manager_count"));
+  std::unique_ptr<window::base>
+    s(new window::test::window("test_platform_glx_window_manager_count"));
   
   BOOST_CHECK(s);
   BOOST_CHECK(1 == window::manager::count());
+
+  {
+    std::ostringstream ostr;
+    
+    platform::window::manager::print_on(ostr);
+    
+    BOOST_MESSAGE(ostr.str());
+  }
 }
 
 BOOST_AUTO_TEST_CASE(test_platform_glx_window_manager_all)
 {
   using namespace platform::glx;
   
-  std::unique_ptr<window::simple> s(new window::simple("test_platform_glx_window_manager_all"));
+  std::unique_ptr<window::base>
+    s(new window::test::window("test_platform_glx_window_manager_all"));
   
   BOOST_CHECK(s);
   
@@ -67,8 +76,8 @@ BOOST_AUTO_TEST_CASE(test_platform_glx_window_manager_all)
   for(auto i : l) {
     std::ostringstream ostr;
     
-    ostr << reinterpret_cast<GLXContext>(i);
+    ostr << reinterpret_cast<GLXContext const>(i);
     
-    BOOST_MESSAGE(ostr.str() << '\n');
+    BOOST_MESSAGE(ostr.str());
   }
 }
