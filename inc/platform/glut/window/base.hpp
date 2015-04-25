@@ -38,8 +38,6 @@ namespace platform {
       public:
 
         using rect = platform::window::rect;
-        
-        static rect const dflt_rect; // (100, 100, 800, 600)
 
         field::adapter::single<signed> const id;
         
@@ -47,7 +45,7 @@ namespace platform {
         
       protected:
         
-        explicit base(std::string const& /* title */, rect const& /* rect */ = dflt_rect);
+        explicit base(std::string const& /* title */, rect const& /* rect */ = rect::dflt_rect);
 
         virtual void do_changed(field::base&);
         

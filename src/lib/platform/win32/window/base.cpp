@@ -104,7 +104,7 @@ namespace platform {
         TRACE("platform::win32::window::base::base");
 
         // calculate the size of the client area
-        RECT wr = { 0, 0, b.w, b.h };
+        RECT wr = { 0, 0, size->x, size->y };
 
         ::AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false);
       
@@ -112,8 +112,8 @@ namespace platform {
                                  register_window_class::class_name.c_str(), // window-class name
                                  title.get().c_str(),          // caption of window
                                  flags_,                       // window style
-                                 b.x,                          // x position
-                                 b.y,                          // y position
+                                 position->x,                  // x position
+                                 position->y,                  // y position
                                  wr.right - wr.left,           // witdh
                                  wr.bottom - wr.top,           // height
                                  nullptr,                      // handle to parent window

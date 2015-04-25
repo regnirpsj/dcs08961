@@ -47,7 +47,7 @@ namespace platform {
         keyboard_record_queue keyboardq_;
         mouse_record_queue    mouseq_;
     
-        explicit simple(std::string const& /* title */, rect const& /* rect */ = base::dflt_rect);
+        explicit simple(std::string const& /* title */, rect const& /* rect */ = rect::dflt_rect);
 
         virtual void frame_render_one () =0;
         virtual void frame_render_post();

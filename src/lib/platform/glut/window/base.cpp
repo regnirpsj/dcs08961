@@ -57,8 +57,6 @@ namespace platform {
     namespace window {
   
       // variables, exported
-
-      /* static */ base::rect const base::dflt_rect(100, 100, 800, 600);
       
       // functions, exported
 
