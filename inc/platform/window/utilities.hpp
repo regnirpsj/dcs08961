@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform/glut/utilities.hpp                                                     */
+/*  module     :  platform/window/utilities.hpp                                                   */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_UTILITIES_HPP)
+#if !defined(UKACHULLDCS_08961_PLATFORM_WINDOW_UTILITIES_HPP)
 
-#define UKACHULLDCS_08961_PLATFORM_GLUT_UTILITIES_HPP
+#define UKACHULLDCS_08961_PLATFORM_WINDOW_UTILITIES_HPP
 
 // includes, system
 
@@ -27,8 +27,8 @@
 
 namespace platform {
 
-  namespace glut {
-  
+  namespace window {
+    
     // types, exported (class, enum, struct, union, typedef)
 
     struct DCS08961_PLATFORM_EXPORT frame_record_t {
@@ -39,18 +39,6 @@ namespace platform {
       unsigned   counter; // frame number
       duration   delta_t; // length
       time_point stamp;   // time stamp
-      
-    };
-    
-    struct DCS08961_PLATFORM_EXPORT mouse_record_t {
-
-      using time_point = support::clock::time_point;
-      
-      signed     button;   // [LEFT] xor [MIDLLE] xor [RIGHT]
-      signed     state;    // [DOWN] xor [UP]
-      signed     modifier; // [ALT|CTRL|SHIFT] xor [NONE]
-      glm::ivec2 pos;      // pointer position
-      time_point stamp;    // time stamp
       
     };
 
@@ -66,15 +54,27 @@ namespace platform {
       time_point stamp;    // time stamp
       
     };
-    
+
+    struct DCS08961_PLATFORM_EXPORT mouse_record_t {
+
+      using time_point = support::clock::time_point;
+      
+      signed     button;   // [LEFT] xor [MIDLLE] xor [RIGHT]
+      signed     state;    // [DOWN] xor [UP]
+      signed     modifier; // [ALT|CTRL|SHIFT] xor [NONE]
+      glm::ivec2 pos;      // pointer position
+      time_point stamp;    // time stamp
+      
+    };
+  
     // variables, exported (extern)
 
     // functions, inlined (inline)
   
     // functions, exported (extern)
-    
-  } // namespace glut {
+
+  } // namespace window {
   
 } // namespace platform {
 
-#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_UTILITIES_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_WINDOW_UTILITIES_HPP)

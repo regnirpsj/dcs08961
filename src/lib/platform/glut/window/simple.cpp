@@ -28,7 +28,7 @@
 
 // includes, project
 
-#include <platform/glut/io.hpp>
+#include <platform/glut/window/io.hpp>
 #include <platform/glut/window/manager.hpp>
 #include <window/helper.hpp>
 

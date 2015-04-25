@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform/glut/io.hpp                                                            */
+/*  module     :  platform/window/io.hpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_IO_HPP)
+#if !defined(UKACHULLDCS_08961_PLATFORM_WINDOW_IO_HPP)
 
-#define UKACHULLDCS_08961_PLATFORM_GLUT_IO_HPP
+#define UKACHULLDCS_08961_PLATFORM_WINDOW_IO_HPP
 
 // includes, system
 
@@ -23,12 +23,12 @@
 // includes, project
 
 #include <platform/export.h>
-#include <platform/glut/utilities.hpp>
+#include <platform/window/utilities.hpp>
 
 namespace platform {
 
-  namespace glut {
-  
+  namespace window {
+    
     // types, exported (class, enum, struct, union, typedef)
     
     // variables, exported (extern)
@@ -38,11 +38,11 @@ namespace platform {
     // functions, exported (extern)
 
     DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, frame_record_t const&);
-    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, mouse_record_t const&);
     DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, keyboard_record_t const&);
-    
-  } // namespace glut {
+    DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, mouse_record_t const&);
+
+  } // namespace window {
   
 } // namespace platform {
 
-#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_IO_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_WINDOW_IO_HPP)

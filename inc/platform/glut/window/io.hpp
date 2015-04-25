@@ -6,52 +6,52 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform/glut/utilities.cpp                                                     */
+/*  module     :  platform/glut/window/io.hpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-// include i/f header
+#if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_WINDOW_IO_HPP)
 
-#include "platform/glut/utilities.hpp"
+#define UKACHULLDCS_08961_PLATFORM_GLUT_WINDOW_IO_HPP
 
 // includes, system
 
-//#include <>
+#include <iosfwd> // std::ostream (fwd decl)
 
 // includes, project
 
 #include <platform/export.h>
-
-#define UKACHULLDCS_USE_TRACE
-#undef UKACHULLDCS_USE_TRACE
-#include <support/trace.hpp>
-
-// internal unnamed namespace
-
-namespace {
-  
-  // types, internal (class, enum, struct, union, typedef)
-
-  // variables, internal
-  
-  // functions, internal
-
-#if defined(_MSC_VER)
-  DCS08961_PLATFORM_EXPORT void getRidOfLNK4221(){}
-#endif
-
-} // namespace {
+#include <platform/window/utilities.hpp>
 
 namespace platform {
 
   namespace glut {
+
+    namespace window {
+      
+      // types, exported (class, enum, struct, union, typedef)
     
-    // variables, exported
+      // variables, exported (extern)
+
+      // functions, inlined (inline)
   
-    // functions, exported
+      // functions, exported (extern)
+
+      DCS08961_PLATFORM_EXPORT
+      std::ostream& operator<<(std::ostream&, platform::window::frame_record_t const&);
+
+      DCS08961_PLATFORM_EXPORT
+      std::ostream& operator<<(std::ostream&, platform::window::keyboard_record_t const&);
+
+      DCS08961_PLATFORM_EXPORT
+      std::ostream& operator<<(std::ostream&, platform::window::mouse_record_t const&);
+
+    } // namespace window {
 
   } // namespace glut {
   
 } // namespace platform {
+
+#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_WINDOW_IO_HPP)

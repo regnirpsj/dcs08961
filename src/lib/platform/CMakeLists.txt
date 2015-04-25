@@ -21,8 +21,10 @@ list(APPEND SRC "application/multi_instance.cpp")
 list(APPEND SRC "application/single_instance.cpp")
 list(APPEND SRC "window/base.cpp")
 #list(APPEND SRC "window/controller.cpp")
+list(APPEND SRC "window/io.cpp")
 list(APPEND SRC "window/manager.cpp")
 list(APPEND SRC "window/rect.cpp")
+list(APPEND SRC "window/utilities.cpp")
 
 #add_definitions("-DUKACHULLDCS_ALL_TRACE")
 

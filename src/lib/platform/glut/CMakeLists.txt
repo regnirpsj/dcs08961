@@ -21,11 +21,10 @@ include_directories(       ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(SRC)
 list(APPEND SRC "application/base.cpp")
-list(APPEND SRC "io.cpp")
-list(APPEND SRC "utilities.cpp")
 list(APPEND SRC "window/base.cpp")
 #list(APPEND SRC "window/controller.cpp")
 list(APPEND SRC "window/helper.cpp")
+list(APPEND SRC "window/io.cpp")
 list(APPEND SRC "window/manager.cpp")
 list(APPEND SRC "window/simple.cpp")
 

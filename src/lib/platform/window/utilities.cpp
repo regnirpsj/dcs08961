@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform/glut.hpp                                                               */
+/*  module     :  platform/window/utilities.cpp                                                   */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_HPP)
+// include i/f header
 
-#define UKACHULLDCS_08961_PLATFORM_GLUT_HPP
+#include "platform/window/utilities.hpp"
 
 // includes, system
 
@@ -22,26 +22,36 @@
 
 // includes, project
 
-#include <platform/glut/application/base.hpp>
-//#include <platform/glut/window/controller.hpp>
-#include <platform/glut/window/io.hpp>
-#include <platform/glut/window/manager.hpp>
-#include <platform/glut/window/simple.hpp>
+#include <platform/export.h>
+
+#define UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
+#include <support/trace.hpp>
+
+// internal unnamed namespace
+
+namespace {
+  
+  // types, internal (class, enum, struct, union, typedef)
+
+  // variables, internal
+  
+  // functions, internal
+
+#if defined(_MSC_VER)
+  DCS08961_PLATFORM_EXPORT void getRidOfLNK4221(){}
+#endif
+
+} // namespace {
 
 namespace platform {
 
-  namespace glut {
+  namespace window {
     
-    // types, exported (class, enum, struct, union, typedef)
-
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
+    // variables, exported
   
-    // functions, exported (extern)
+    // functions, exported
 
-  } // namespace glut {
+  } // namespace window {
   
 } // namespace platform {
-
-#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_GLUT_HPP)

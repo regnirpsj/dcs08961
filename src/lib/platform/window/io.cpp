@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  platform/glut/io.cpp                                                            */
+/*  module     :  platform/window/io.cpp                                                          */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
@@ -14,14 +14,10 @@
 
 // include i/f header
 
-#include "platform/glut/io.hpp"
+#include "platform/window/io.hpp"
 
 // includes, system
 
-// needs to be first!!!
-#include <GL/glew.h>      // gl*
-
-#include <GL/freeglut.h>  // ::glut*
 #include <array>          // std::array<>
 #include <glm/gtx/io.hpp> // glm::operator<<
 #include <ostream>        // std::ostream
@@ -47,14 +43,7 @@ namespace {
   std::string const
   button_to_string(signed a)
   {
-    std::string result("[]");
-
-    switch (a) {
-    case GLUT_LEFT_BUTTON:   result.insert(1, "LEFT");   break;
-    case GLUT_MIDDLE_BUTTON: result.insert(1, "MIDDLE"); break;
-    case GLUT_RIGHT_BUTTON:  result.insert(1, "RIGHT");  break;
-    default:                 result.insert(1, "NONE");   break;
-    }
+    std::string result("[" + std::to_string(a) + "]");
 
     return result;
   }
@@ -115,47 +104,7 @@ namespace {
       {
         { 0x7F, "DEL" },
       }
-    };
-    
-    static std::array<std::pair<signed const, std::string const>, 12> const keys_function = {
-      {
-        { GLUT_KEY_F1,  "F1"  },
-        { GLUT_KEY_F2,  "F2"  },
-        { GLUT_KEY_F3,  "F3"  },
-        { GLUT_KEY_F4,  "F4"  },
-        { GLUT_KEY_F5,  "F5"  },
-        { GLUT_KEY_F6,  "F5"  },
-        { GLUT_KEY_F7,  "F7"  },
-        { GLUT_KEY_F8,  "F8"  },
-        { GLUT_KEY_F9,  "F9"  },
-        { GLUT_KEY_F10, "F10" },
-        { GLUT_KEY_F11, "F11" },
-        { GLUT_KEY_F12, "F12" },
-      }
-    };
-
-    static std::array<std::pair<signed const, std::string const>, 18> const keys_special = {
-      {
-        { GLUT_KEY_LEFT,      "LEFT"      },
-        { GLUT_KEY_UP,        "UP"        },
-        { GLUT_KEY_RIGHT,     "RIGHT"     },
-        { GLUT_KEY_DOWN,      "DOWN"      },
-        { GLUT_KEY_PAGE_UP,   "PAGE_UP"   },
-        { GLUT_KEY_PAGE_DOWN, "PAGE_DOWN" },
-        { GLUT_KEY_HOME,      "HOME"      },
-        { GLUT_KEY_END,       "END"       },
-        { GLUT_KEY_INSERT,    "INSERT"    },
-        { GLUT_KEY_NUM_LOCK,  "NUM_LOCK"  },
-        { GLUT_KEY_BEGIN,     "BEGIN"     },
-        { GLUT_KEY_DELETE,    "DELETE"    },
-        { GLUT_KEY_SHIFT_L,   "SHIFT_L"   },
-        { GLUT_KEY_SHIFT_R,   "SHIFT_R"   },
-        { GLUT_KEY_CTRL_L,    "CTRL_L"    },
-        { GLUT_KEY_CTRL_R,    "CTRL_R"    },
-        { GLUT_KEY_ALT_L,     "ALT_L"     },
-        { GLUT_KEY_ALT_R,     "ALT_R"     },
-      }
-    };
+    };    
     
     std::ostringstream ostr;
 
@@ -164,17 +113,9 @@ namespace {
     bool handled(true);
     
     if (b) {
-      if        ((keys_function[0].first <= a) &&
-                 ((keys_function[0].first + signed(keys_function.size())) > a)) {
-        ostr << keys_function[a - keys_function[0].first].second;
-      } else if ((keys_special[0].first <= a) &&
-                 (keys_special[0].first + signed(keys_special.size()) > a)) {
-        ostr << keys_special[a - keys_special[0].first].second;
-      } else {
-        ostr << "KEY?";
+      ostr << "KEY?";
         
-        handled = false;
-      }
+      handled = false;
     } else {
       if        ((keys_ascii1[0].first <= a) &&
                  ((keys_ascii1[0].first + signed(keys_ascii1.size())) > a)) {
@@ -206,19 +147,7 @@ namespace {
   std::string const
   modifier_to_string(signed a)
   {
-    std::string result;
-    
-    if (GLUT_ACTIVE_ALT   & a) { result += "ALT|";   }
-    if (GLUT_ACTIVE_CTRL  & a) { result += "CTRL|";  }
-    if (GLUT_ACTIVE_SHIFT & a) { result += "SHIFT|"; }
-
-    if (result.empty()) {
-      result = "[NONE]";
-    } else {
-      result.pop_back();
-      
-      result = "[" + result + "]";
-    }
+    std::string result("[" + std::to_string(a) + "]");    
 
     return result;
   }
@@ -251,7 +180,7 @@ namespace {
 
 namespace platform {
 
-  namespace glut {
+  namespace window {
     
     // variables, exported
   
@@ -259,7 +188,7 @@ namespace platform {
 
     std::ostream& operator<<(std::ostream& os, frame_record_t const& a)
     {
-      TRACE_NEVER("platform::glut::operator<<(frame_record_t)");
+      TRACE_NEVER("platform::window::operator<<(frame_record_t)");
 
       std::ostream::sentry const cerberus(os);
 
@@ -275,9 +204,29 @@ namespace platform {
       return os;
     }
     
+    std::ostream& operator<<(std::ostream& os, keyboard_record_t const& a)
+    {
+      TRACE_NEVER("platform::window::operator<<(keyboard_record_t)");
+
+      std::ostream::sentry const cerberus(os);
+
+      if (cerberus) {
+        os << glm::io::width(4)
+           << '['
+           << key_to_string(a.key, a.special) << ','
+           << state_to_string(a.state)        << ','
+           << modifier_to_string(a.modifier)  << ','
+           << a.pos                           << ','
+           << stamp_to_string(a.stamp)
+           << ']';
+      }
+
+      return os;
+    }
+
     std::ostream& operator<<(std::ostream& os, mouse_record_t const& a)
     {
-      TRACE_NEVER("platform::glut::operator<<(mouse_record_t)");
+      TRACE_NEVER("platform::window::operator<<(mouse_record_t)");
 
       std::ostream::sentry const cerberus(os);
 
@@ -295,26 +244,6 @@ namespace platform {
       return os;
     }
     
-    std::ostream& operator<<(std::ostream& os, keyboard_record_t const& a)
-    {
-      TRACE_NEVER("platform::glut::operator<<( )");
-
-      std::ostream::sentry const cerberus(os);
-
-      if (cerberus) {
-        os << glm::io::width(4)
-           << '['
-           << key_to_string(a.key, a.special) << ','
-           << state_to_string(a.state)        << ','
-           << modifier_to_string(a.modifier)  << ','
-           << a.pos                           << ','
-           << stamp_to_string(a.stamp)
-           << ']';
-      }
-
-      return os;
-    }
-    
-  } // namespace glut {
+  } // namespace window {
   
 } // namespace platform {

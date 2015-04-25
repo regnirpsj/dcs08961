@@ -21,9 +21,8 @@
 #include <deque> // std::deque<>
 
 // includes, project
-
-#include <platform/glut/utilities.hpp>
 #include <platform/glut/window/base.hpp>
+#include <platform/window/utilities.hpp>
 
 namespace platform {
 
@@ -41,6 +40,8 @@ namespace platform {
         
       protected:        
 
+        using keyboard_record_t     = platform::window::keyboard_record_t;
+        using mouse_record_t        = platform::window::mouse_record_t;
         using keyboard_record_queue = std::deque<keyboard_record_t>;
         using mouse_record_queue    = std::deque<mouse_record_t>;
         
