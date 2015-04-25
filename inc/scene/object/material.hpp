@@ -114,9 +114,9 @@ namespace scene {
   
     // functions, exported (extern)
 
-    bool operator==(material::rep const&, material::rep const&);
+    DCS08961_SCENE_EXPORT bool operator==(material::rep const&, material::rep const&);
     
-    std::ostream& operator<<(std::ostream&, material::rep const&);
+    DCS08961_SCENE_EXPORT std::ostream& operator<<(std::ostream&, material::rep const&);
     
   } // namespace object {
   

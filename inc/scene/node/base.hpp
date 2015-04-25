@@ -98,7 +98,7 @@ namespace scene {
     
     // functions, exported (extern)
 
-    std::ostream& operator<<(std::ostream&, base::bounds const&);
+    DCS08961_SCENE_EXPORT  std::ostream& operator<<(std::ostream&, base::bounds const&);
     
   } // namespace node {
 

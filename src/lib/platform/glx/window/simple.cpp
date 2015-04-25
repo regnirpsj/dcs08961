@@ -75,6 +75,8 @@ namespace platform {
         if (window::manager::count()) {
           ::glXSwapBuffers(display_, window_);
         }
+
+        ::glXMakeCurrent(display_, None, nullptr);
       }
       
       /* virtual */ void
@@ -82,7 +84,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::glx::window::simple::frame_render_pre");
 
-        ::glXMakeCurrent(display_, None, nullptr);
+        ::glXMakeCurrent(display_, window_, context_);
       }
 
       /* virtual */ void

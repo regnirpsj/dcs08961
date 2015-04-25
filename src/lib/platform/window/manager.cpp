@@ -221,7 +221,7 @@ namespace platform {
       if (cerberus) {
         switch (a) {
         case manager::window_type::glut:  os << "GLUT";  break;
-        case manager::window_type::glx:   os << "GLX";  break;
+        case manager::window_type::glx:   os << "GLX";   break;
         case manager::window_type::win32: os << "Win32"; break;
         case manager::window_type::winrt: os << "WinRT"; break;
         }

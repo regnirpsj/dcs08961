@@ -18,8 +18,9 @@
 
 // includes, system
 
-#include <ctime>  // ::clock_get*, std::localtime, std::time, std::strftime
-#include <locale> // std::locale
+#include <boost/io/ios_state.hpp> // boost::io::ios_all_saver
+#include <ctime>                  // ::clock_get*, std::localtime, std::time, std::strftime
+#include <locale>                 // std::locale
 
 #if defined(_WIN32)
 #  include <cerrno>  // errno, E*
@@ -371,6 +372,8 @@ namespace support {
     std::ostream::sentry const cerberus(os);
     
     if (cerberus) {
+      boost::io::ios_all_saver const ias(os);
+      
       os << std::chrono::duration_fmt(std::chrono::symbol) << (a - null);
     }
     

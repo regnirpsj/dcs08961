@@ -18,8 +18,9 @@
 
 // includes, system
 
-#include <iomanip> // std::hex
-#include <ostream> // std::ostream
+#include <boost/io/ios_state.hpp> // boost::io::ios_all_save
+#include <iomanip>                // std::hex
+#include <ostream>                // std::ostream
 
 // includes, project
 
@@ -55,6 +56,8 @@ namespace platform {
       std::ostream::sentry const cerberus(os);
 
       if (cerberus) {
+        boost::io::ios_all_saver const ias(os);
+        
         os << '['
            << "@" << std::hex << reinterpret_cast<void const*>(&a)
            << ']';
@@ -69,6 +72,8 @@ namespace platform {
       std::ostream::sentry const cerberus(os);
 
       if (cerberus) {
+        boost::io::ios_all_saver const ias(os);
+        
         os << '['
            << "@" << std::hex << reinterpret_cast<void const*>(a)
            << ']';
@@ -83,6 +88,8 @@ namespace platform {
       std::ostream::sentry const cerberus(os);
 
       if (cerberus) {
+        boost::io::ios_all_saver const ias(os);
+        
         os << '['
            << "@" << std::hex << reinterpret_cast<void const*>(&a)
            << ']';

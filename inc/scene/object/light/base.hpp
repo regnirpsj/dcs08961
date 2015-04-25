@@ -102,9 +102,9 @@ namespace scene {
   
       // functions, exported (extern)
 
-      bool operator==(base::rep const&, base::rep const&);
+      DCS08961_SCENE_EXPORT bool operator==(base::rep const&, base::rep const&);
     
-      std::ostream& operator<<(std::ostream&, base::rep const&);
+      DCS08961_SCENE_EXPORT std::ostream& operator<<(std::ostream&, base::rep const&);
 
     } // namespace light {
     

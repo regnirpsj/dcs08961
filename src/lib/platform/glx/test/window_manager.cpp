@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(test_platform_glx_window_manager_all)
   for(auto i : l) {
     std::ostringstream ostr;
     
-    ostr << reinterpret_cast<GLXContext const>(i);
+    ostr << "[@" << reinterpret_cast<GLXContext const>(i) << ']';
     
     BOOST_MESSAGE(ostr.str());
   }

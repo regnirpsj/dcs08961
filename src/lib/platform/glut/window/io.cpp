@@ -19,12 +19,13 @@
 // includes, system
 
 // needs to be first!!!
-#include <GL/glew.h>      // gl*
+#include <GL/glew.h>              // gl*
 
-#include <GL/freeglut.h>  // ::glut*
-#include <array>          // std::array<>
-#include <glm/gtx/io.hpp> // glm::operator<<
-#include <ostream>        // std::ostream
+#include <GL/freeglut.h>          // ::glut*
+#include <array>                  // std::array<>
+#include <boost/io/ios_state.hpp> // boost::io::ios_all_save
+#include <glm/gtx/io.hpp>         // glm::operator<<
+#include <ostream>                // std::ostream
 
 // includes, project
 
@@ -266,6 +267,8 @@ namespace platform {
         std::ostream::sentry const cerberus(os);
 
         if (cerberus) {
+          boost::io::ios_all_saver const ias(os);
+          
           os << '['
              << std::dec << std::setw(9)
              << a.counter                     << ','
@@ -284,6 +287,8 @@ namespace platform {
         std::ostream::sentry const cerberus(os);
 
         if (cerberus) {
+          boost::io::ios_all_saver const ias (os);
+          glm::io::format_saver const    iofs(os);
           os << glm::io::width(4)
              << '['
              << key_to_string(a.key, a.special) << ','
@@ -304,6 +309,8 @@ namespace platform {
         std::ostream::sentry const cerberus(os);
 
         if (cerberus) {
+          boost::io::ios_all_saver const ias (os);
+          glm::io::format_saver const    iofs(os); 
           os << glm::io::width(4)
              << '['
              << button_to_string(a.button)     << ','

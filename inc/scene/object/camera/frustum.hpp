@@ -71,7 +71,7 @@ namespace scene {
   
       // functions, exported (extern)
 
-      std::ostream& operator<<(std::ostream&, frustum const&);
+      DCS08961_SCENE_EXPORT std::ostream& operator<<(std::ostream&, frustum const&);
       
     } // namespace camera {
 

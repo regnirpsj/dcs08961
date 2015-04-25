@@ -74,6 +74,8 @@ namespace platform {
         window::manager::sub(this);
         
         if (display_) {
+          ::glXMakeCurrent(display_, None, nullptr);
+          
           if (context_) {
             ::glXDestroyContext(display_, context_);
           }
