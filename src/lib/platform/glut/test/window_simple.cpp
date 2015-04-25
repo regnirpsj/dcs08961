@@ -20,7 +20,6 @@
 // includes, project
 
 #include <platform/glut/application/base.hpp>
-#include <platform/glut/window/simple.hpp>
 #include <window.hpp>
 
 #define UKACHULLDCS_USE_TRACE
