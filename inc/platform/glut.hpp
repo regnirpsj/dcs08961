@@ -23,7 +23,6 @@
 // includes, project
 
 #include <platform/glut/application/base.hpp>
-//#include <platform/glut/window/controller.hpp>
 #include <platform/glut/window/io.hpp>
 #include <platform/glut/window/manager.hpp>
 #include <platform/glut/window/simple.hpp>
