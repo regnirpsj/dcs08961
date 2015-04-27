@@ -15,6 +15,7 @@ include_directories(SYSTEM ${Boost_INLCUDE_DIR})
 set(SRC)
 LIST(APPEND SRC "application.cpp")
 LIST(APPEND SRC "command_line.cpp")
+LIST(APPEND SRC "handler.cpp")
 LIST(APPEND SRC "window.cpp")
 
 set(LIBS)
