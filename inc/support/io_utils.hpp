@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -24,6 +24,7 @@
 #include <iosfwd>                // std::basic_istream<>, std::basic_iostream<>,
                                  // std::basic_ostream<> (fwd decl), std::streampos
 #include <locale>                // std::locale, std::locale::facet, std::locale::id
+#include <string>                // std::basic_string<>
 #include <utility>               // std::pair<>
 
 // includes, project
@@ -136,11 +137,12 @@ namespace support {
 
       static std::locale::id id;
 
-      bool       formatted;
-      char_type  separator;
-      char_type  delim_left;
-      char_type  delim_right;
-      char_type  space;
+      bool                         formatted;
+      char_type                    delim_left;
+      char_type                    delim_right;
+      char_type                    separator;
+      std::basic_string<char_type> indent;
+      char_type                    space;
       
       explicit format_punct(size_t = 0);
       explicit format_punct(format_punct const&);
@@ -172,6 +174,16 @@ namespace support {
       explicit delimeter(CTy /* left */, CTy /* right */, CTy /* separator */ = ',');
 
     };
+
+    template <typename CTy>
+    struct indent { 
+    
+      std::basic_string<CTy> value;
+
+      explicit indent(std::basic_string<CTy> const& = "");
+      explicit indent(unsigned /* #chars */, CTy /* char proto */ = '\0');
+      
+    };
     
     // variables, exported (extern)
     
@@ -189,6 +201,9 @@ namespace support {
     template <typename CTy, typename CTr = std::char_traits<CTy>>
     std::basic_ostream<CTy, CTr>& operator<<(std::basic_ostream<CTy, CTr>&, delimeter<CTy> const&);
 
+    template <typename CTy, typename CTr = std::char_traits<CTy>>
+    std::basic_ostream<CTy, CTr>& operator<<(std::basic_ostream<CTy, CTr>&, indent<CTy> const&);
+    
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     template <typename CTy, typename CTr,
               typename ResultTy, typename... ArgTy>

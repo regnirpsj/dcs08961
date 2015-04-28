@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -34,7 +34,7 @@ namespace support {
     // functions, inlined (inline)
 
     template <typename CTy, typename CTr>
-    /* explicit */ inline
+    inline /* explicit */
     position_saver<CTy,CTr>::position_saver(std::basic_istream<CTy,CTr>& s)
       : boost::noncopyable(),
         s_                (s),
@@ -84,7 +84,7 @@ namespace support {
     }
     
     template <typename CTy, typename CTr>
-    /* explicit */ inline
+    inline /* explicit */
     scoped_redirect<CTy,CTr>::scoped_redirect(std::basic_ostream<CTy,CTr>& a,
                                               std::basic_ostream<CTy,CTr>& b)
       : boost::noncopyable(),
@@ -100,31 +100,33 @@ namespace support {
     }
 
     template <typename CTy>
-    /* explicit */ inline
+    inline /* explicit */
     format_punct<CTy>::format_punct(size_t a)
       : std::locale::facet(a),
         formatted         (true),
-        separator         (','), 
-        delim_left        ('('), 
+        delim_left        ('('),
         delim_right       (')'),
+        separator         (','),
+        indent            (""),
         space             (' ')
     {}
     
     template <typename CTy>
-    /* explicit */ inline
+    inline /* explicit */
     format_punct<CTy>::format_punct(format_punct const& a)
       : std::locale::facet(0),
         formatted         (a.formatted),
-        separator         (a.separator),
         delim_left        (a.delim_left),
         delim_right       (a.delim_right),
+        separator         (a.separator),
+        indent            (a.indent),
         space             (a.space)
     {}
 
     template <typename CTy> std::locale::id format_punct<CTy>::id;
 
     template <typename CTy, typename CTr>
-    /* explicit */ inline
+    inline /* explicit */
     basic_format_saver<CTy,CTr>::basic_format_saver(std::basic_ios<CTy,CTr>& a)
       : boost::noncopyable(),
         ias_              (a)
@@ -138,7 +140,7 @@ namespace support {
     {}
 
     template <typename CTy>
-    /* explicit */ inline
+    inline /* explicit */
     delimeter<CTy>::delimeter(CTy a, CTy b, CTy c)
       : value()
     { 
@@ -147,6 +149,18 @@ namespace support {
       value[2] = c;
     }
 
+    template <typename CTy>
+    inline /* explicit */
+    indent<CTy>::indent(std::basic_string<CTy> const& a)
+      : value(a)
+    {}
+    
+    template <typename CTy>
+    inline /* explicit */
+    indent<CTy>::indent(unsigned a, CTy b)
+      : value(a, b)
+    {}
+    
     template <typename FTy, typename CTy, typename CTr>
     inline FTy const&
     get_facet(std::basic_ios<CTy,CTr>& ios)
@@ -159,7 +173,7 @@ namespace support {
     }
     
     template <typename CTy, typename CTr>
-    std::basic_ios<CTy,CTr>&
+    inline std::basic_ios<CTy,CTr>&
     formatted(std::basic_ios<CTy,CTr>& os)
     {
       const_cast<format_punct<CTy>&>(get_facet<format_punct<CTy>>(os)).formatted = true;
@@ -168,7 +182,7 @@ namespace support {
     }
 
     template <typename CTy, typename CTr>
-    std::basic_ios<CTy,CTr>&
+    inline std::basic_ios<CTy,CTr>&
     unformatted(std::basic_ios<CTy,CTr>& os)
     {
       const_cast<format_punct<CTy>&>(get_facet<format_punct<CTy>>(os)).formatted = false;
@@ -177,8 +191,8 @@ namespace support {
     }
 
     template <typename CTy, typename CTr>
-    std::basic_ostream<CTy, CTr>& operator<<(std::basic_ostream<CTy, CTr>& os,
-                                             delimeter<CTy> const& a)
+    inline std::basic_ostream<CTy, CTr>&
+    operator<<(std::basic_ostream<CTy, CTr>& os, delimeter<CTy> const& a)
     {                                        
       format_punct<CTy>& fmt(const_cast<format_punct<CTy>&>(get_facet<format_punct<CTy>>(os)));
       
@@ -189,6 +203,17 @@ namespace support {
       return os;
     }
 
+    template <typename CTy, typename CTr>
+    inline std::basic_ostream<CTy, CTr>&
+    operator<<(std::basic_ostream<CTy, CTr>& os, indent<CTy> const& a)
+    {                                        
+      format_punct<CTy>& fmt(const_cast<format_punct<CTy>&>(get_facet<format_punct<CTy>>(os)));
+      
+      fmt.indent = a.value;
+
+      return os;
+    }
+    
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     template <typename CTy, typename CTr,
               typename ResultTy, typename... ArgTy>
@@ -287,8 +312,8 @@ namespace support {
 
     template <typename CTy, typename CTr,
               template <typename, std::size_t> class Container, class V, std::size_t N>
-    std::basic_ostream<CTy,CTr>& operator<<(std::basic_ostream<CTy,CTr>& os,
-                                            Container<V,N> const& a)
+    inline std::basic_ostream<CTy,CTr>&
+    operator<<(std::basic_ostream<CTy,CTr>& os, Container<V,N> const& a)
     {
       typename std::basic_ostream<CTy,CTr>::sentry const cerberus(os);
 
@@ -299,7 +324,7 @@ namespace support {
           os << fmt.delim_left;
 
           for (auto e : a) {
-            os << e << fmt.separator;
+            os << fmt.indent << e << fmt.separator;
           }
 
           if (!a.empty()) {
@@ -331,7 +356,7 @@ namespace support {
           os << fmt.delim_left;
 
           for (auto e : a) {
-            os << e << fmt.separator;
+            os << fmt.indent << e << fmt.separator;
           }
       
           if (!a.empty()) {
@@ -363,7 +388,7 @@ namespace support {
           os << fmt.delim_left;
 
           for (auto e : a) {
-            os << e << fmt.separator;
+            os << fmt.indent << e << fmt.separator;
           }
       
           if (!a.empty()) {
@@ -401,7 +426,7 @@ namespace support {
 
           for (auto e : a) {
             os << fmt.delim_left
-               << e.first << fmt.separator << e.second
+               << fmt.indent << e.first << fmt.separator << e.second
                << fmt.delim_right
                << fmt.separator;
           }
@@ -440,7 +465,7 @@ namespace support {
 
           for (auto e : a) {
             os << fmt.delim_left
-               << e.first << fmt.separator << e.second
+               << fmt.indent << e.first << fmt.separator << e.second
                << fmt.delim_right
                << fmt.separator;
           }
@@ -478,7 +503,7 @@ namespace support {
           os << fmt.delim_left;
 
           for (auto e : a) {
-            os << e << fmt.separator;
+            os << fmt.indent << e << fmt.separator;
           }
           
           if (a.size()) {
@@ -504,7 +529,7 @@ namespace support {
     // functions, inlined (inline)
 
     template <typename CTy, typename CTr>
-    /* explicit */ inline
+    inline /* explicit */
     position_saver<CTy,CTr>::position_saver(std::basic_iostream<CTy,CTr>& s)
       : istream::position_saver<CTy,CTr>(s),
         ostream::position_saver<CTy,CTr>(s)
