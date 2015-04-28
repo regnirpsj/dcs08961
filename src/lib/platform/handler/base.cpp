@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <ostream> // std::ostream
 
 // includes, project
 
@@ -56,8 +56,17 @@ namespace platform {
       TRACE("platform::handler::base::~base");
     }
 
+    /* virtual */ void
+    base::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("platform::handler::base::print_on");
+
+      os << "[platform::handler]";
+    }
+    
     /* explicit */
     base::base()
+      : support::printable()
     {
       TRACE("platform::handler::base::base");
     }

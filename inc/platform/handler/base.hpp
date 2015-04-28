@@ -39,6 +39,8 @@ namespace platform {
           
       virtual ~base() =0;
 
+      virtual void print_on(std::ostream&) const;
+      
     protected:
 
       explicit base();
