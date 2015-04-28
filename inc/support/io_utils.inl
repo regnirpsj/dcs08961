@@ -107,7 +107,7 @@ namespace support {
         delim_left        ('('),
         delim_right       (')'),
         separator         (','),
-        indent            (""),
+        indent            (),
         space             (' ')
     {}
     
