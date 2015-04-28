@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  pltaform/handler/common.hpp                                                     */
+/*  module     :  platform/handler/common.hpp                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLTAFORM_HANDLER_COMMON_HPP)
+#if !defined(UKACHULLDCS_08961_PLATFORM_HANDLER_COMMON_HPP)
 
-#define UKACHULLDCS_08961_PLTAFORM_HANDLER_COMMON_HPP
+#define UKACHULLDCS_08961_PLATFORM_HANDLER_COMMON_HPP
 
 // includes, system
 
@@ -44,4 +44,4 @@ namespace platform {
 
 #include <handler/common.inl>
 
-#endif // #if !defined(UKACHULLDCS_08961_PLTAFORM_HANDLER_COMMON_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_HANDLER_COMMON_HPP)

@@ -6,15 +6,15 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  pltaform/handler/common.inl                                                     */
+/*  module     :  platform/handler/common.inl                                                     */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_PLTAFORM_HANDLER_COMMON_INL)
+#if !defined(UKACHULLDCS_08961_PLATFORM_HANDLER_COMMON_INL)
 
-#define UKACHULLDCS_08961_PLTAFORM_HANDLER_COMMON_INL
+#define UKACHULLDCS_08961_PLATFORM_HANDLER_COMMON_INL
 
 // includes, system
 
@@ -61,4 +61,4 @@ namespace platform {
 #  undef UKACHULLDCS_USE_TRACE
 #endif
 
-#endif // #if !defined(UKACHULLDCS_08961_PLTAFORM_HANDLER_COMMON_INL)
+#endif // #if !defined(UKACHULLDCS_08961_PLATFORM_HANDLER_COMMON_INL)
