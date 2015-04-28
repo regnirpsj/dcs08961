@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_convert_transform)
                     << i.second << ':' << std::string(47 - i.second.length(), ' ')
                     << e.second << ':' << p << '\n');
 
-      static float const epsilon(33 * std::numeric_limits<float>::epsilon());
+      static float const epsilon(37 * std::numeric_limits<float>::epsilon());
       
       for (unsigned i(0); i < 4; ++i) {
         for (unsigned j(0); j < 4; ++j) {
