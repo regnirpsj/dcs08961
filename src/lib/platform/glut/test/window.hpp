@@ -58,7 +58,7 @@ namespace platform {
           duration const    duration_;
           timer             timer_;
           std::string const title_orig_;
-            
+          
         };
         
         // variables, exported (extern)

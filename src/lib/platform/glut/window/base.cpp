@@ -32,6 +32,7 @@
 
 #include <platform/glut/application/base.hpp>
 #include <platform/glut/window/manager.hpp>
+#include <support/chrono.hpp>
 #include <window/helper.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -74,6 +75,7 @@ namespace platform {
           id                    (*this, "id",
                                  std::bind(&base::cb_get_id, this),
                                  std::bind(&base::cb_set_id, this, std::placeholders::_1)),
+          frame_handler         (*this, "frame_handler"),
           id_                   (-1)
       {
         TRACE("platform::glut::window::base::base" + exec_context(this));
@@ -239,6 +241,14 @@ namespace platform {
 
         if (w) {
           w->display();
+
+          support::clock::time_point const stamp(support::clock::now());
+          
+          for (auto fh: w->frame_handler.get()) {
+            if (fh) {
+              fh->update(stamp);
+            }
+          }
         }
       }
       
@@ -292,29 +302,6 @@ namespace platform {
         TRACE_NEVER("platform::glut::window::base::cb_set_id");
 
         return id_;
-      }
-
-      /* explicit */
-      guard::guard()
-        : boost::noncopyable(),
-          id_               (-1)
-      {
-        TRACE("platform::glut::window::guard::guard");
-
-        if (!platform::glut::application::base::initialized()) {
-          throw std::runtime_error("initialization of <platform::glut::window::guard> "
-                                   "(and derived types) require(s) an initialized instance of "
-                                   "<platform::glut::application::base> (or derived type)");
-        }
-
-        id_ = ::glutGetWindow();
-      }
-      
-      guard::~guard()
-      {
-        TRACE("platform::glut::window::guard::~guard");
-
-        ::glutSetWindow(id_);
       }
       
       /* static */ void

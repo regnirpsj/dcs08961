@@ -23,6 +23,8 @@
 // includes, project
 
 #include <field/adapter/single.hpp>
+#include <field/value/multi.hpp>
+#include <platform/handler/frame.hpp>
 #include <platform/window/base.hpp>
 
 namespace platform {
@@ -39,7 +41,8 @@ namespace platform {
 
         using rect = platform::window::rect;
 
-        field::adapter::single<signed> const id;
+        field::adapter::single<signed> const                 id;
+        field::value::multi<platform::handler::frame::base*> frame_handler;
         
         virtual ~base();
         
@@ -70,19 +73,6 @@ namespace platform {
         signed const& cb_get_id() const;
         signed        cb_set_id(signed const&);
         
-      };
-
-      class DCS08961_PLATFORM_EXPORT guard : private boost::noncopyable {
-
-      public:
-
-        explicit guard();
-                ~guard();
-
-      private:
-
-        signed id_;
-                
       };
       
       // variables, exported (extern)

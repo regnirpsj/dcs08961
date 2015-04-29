@@ -18,35 +18,16 @@
 
 // includes, system
 
-#include <deque> // std::deque<>
+#include <deque>  // std::deque<>
+#include <memory> // std::unique_ptr<>
 
 // includes, project
 
 #include <platform/glut/window/base.hpp>
+#include <platform/handler/keyboard.hpp>
+#include <platform/handler/mouse.hpp>
 
-namespace platform {
-  
-  namespace handler {
-
-    namespace frame {
-
-      class base;
-      
-    } // namespace frame {
-    
-    namespace keyboard {
-
-      class base;
-      
-    } // namespace keyboard {
-
-    namespace mouse {
-
-      class base;
-      
-    } // namespace mouse {
-    
-  } // namespace handler {
+namespace platform {  
 
   namespace glut {
 
@@ -58,20 +39,16 @@ namespace platform {
 
       public:
 
-        field::value::single<unsigned> max_queue_length;
+        field::value::multi<platform::handler::keyboard::base*> keyboard_handler;
+        field::value::multi<platform::handler::mouse::base*>    mouse_handler;
         
-      protected:        
-
-        handler::frame::base*    hndlr_frame_;
-        handler::keyboard::base* hndlr_kbd_;
-        handler::mouse::base*    hndlr_mouse_;        
+      protected:
     
-        explicit simple(std::string const&       /* title       */,
-                        rect const&              /* rect        */ = rect::dflt_rect,
-                        handler::frame::base*    /* frame hndlr */ = nullptr,
-                        handler::keyboard::base* /* kbd handlr  */ = nullptr,
-                        handler::mouse::base*    /* mouse hndlr */ = nullptr);
+        explicit simple(std::string const& /* title */,
+                        rect const&        /* rect  */ = rect::dflt_rect);
 
+        virtual void do_changed(field::base&);
+        
         virtual void frame_render_one () =0;
         virtual void frame_render_post();
         virtual void frame_render_pre ();
@@ -80,6 +57,27 @@ namespace platform {
         
       private:
 
+        class dflt_keyboard_handler : public platform::handler::keyboard::base {
+
+        public:
+
+          using inherited = platform::handler::keyboard::base;
+          using key       = platform::handler::keyboard::key;
+          
+          explicit dflt_keyboard_handler(simple&);
+
+          virtual bool press(key::ascii        /* ascii    */,
+                             uint8_t           /* modifier */ = key::modifier::None,
+                             glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                             time_point const& /* stamp    */ = support::clock::now());
+        private:
+
+          simple& window_;
+          
+        };
+        
+        std::unique_ptr<platform::handler::keyboard::base> dflt_keyboard_handler_;
+        
         // calling order:
         //   frame_render_pre()
         //   frame_render_one()
@@ -95,6 +93,9 @@ namespace platform {
         static void cb_reshape       (signed, signed);                 // -> reshape
         static void cb_special       (signed, signed, signed);         // -> kbd hndlr
         static void cb_special_up    (signed, signed, signed);         // -> kbd hndlr
+
+        void adjust_keyboard_handler_callbacks();
+        void adjust_mouse_handler_callbacks   ();
         
       };
       

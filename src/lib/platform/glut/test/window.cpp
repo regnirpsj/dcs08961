@@ -18,9 +18,10 @@
 
 // includes, system
 
-#include <glm/gtx/io.hpp> // glm::operator<<
-#include <iomanip>        // std::fixed, std::right, std::setfill
-#include <sstream>        // std::ostringstream
+#include <boost/test/test_tools.hpp> // BOOST_MESSAGE
+#include <glm/gtx/io.hpp>            // glm::operator<<
+#include <iomanip>                   // std::fixed, std::right, std::setfill
+#include <sstream>                   // std::ostringstream
 
 // includes, project
 
@@ -37,6 +38,34 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
+  class frame_handler : public platform::handler::frame::base {
+
+    using inherited = platform::handler::frame::base;
+    using record    = platform::handler::frame::record;
+    
+  public:
+
+    explicit frame_handler()
+      : platform::handler::frame::base(11)
+    {}
+    
+    unsigned fps() const
+    {
+      double const acc(std::accumulate(frameq_.begin(), frameq_.end(), 0.0,
+                                       [](double a, record const& r)
+                                       {
+                                         using namespace std::chrono;
+                                         
+                                         auto const d(duration_cast<duration<double>>(r.delta_t));
+                                         
+                                         return a + d.count();
+                                       }));
+      
+      return (frameq_.size() / acc);
+    }
+    
+  } dflt_frame_handler;
+  
   // variables, internal
   
   // functions, internal
@@ -44,7 +73,7 @@ namespace {
 } // namespace {
 
 namespace platform {
-
+  
   namespace glut {
 
     namespace window {
@@ -67,6 +96,8 @@ namespace platform {
         {
           TRACE("platform::glut::window::test::window::window");
 
+          frame_handler += &dflt_frame_handler;
+          
           print_state();
         }
         
@@ -88,29 +119,31 @@ namespace platform {
                  << " ["
                  << std::fixed << std::right << std::setfill(' ') << sc::duration_fmt(sc::symbol)
                  << sc::duration_cast<sc::duration<double>>(duration_ - now)
+                 << "]["
+                 << std::setw(3) << dflt_frame_handler.fps()
                  << ']';
 
             title = ostr.str();
       
-            print_state();
+            // print_state();
           }
         }
         
         void
         window::print_state()
         {
-#if 0
           TRACE("platform::glut::window::test::window::print_state");
-          
-          std::cout << "<unnamed>::win::print_state: "
-                    << '\n'
-                    << "window::manager: ";
-          platform::window::manager::print_on(std::cout);
-          std::cout << '\n'
-                    << "window         : "
-                    << *this
-                    << '\n';
+
+#if 0
+          BOOST_MESSAGE("<unnamed>::win::print_state: "
+                        << '\n'
+                        << "window::manager: ");
+          platform::window::manager::print_on(boost::unit_test::lazy_ostream::instance()());
 #endif
+          BOOST_MESSAGE('\n'
+                        << "window         : "
+                        << *this
+                        << '\n');
         }
         
       } // namespace test {
