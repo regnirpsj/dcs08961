@@ -22,6 +22,9 @@
 #include <field/export.h>
 #include <field/values.hpp>
 
+#define UKACHULLDCS_08961_FIELD_DEFAULT_SPECIALIZATIONS
+//#undef UKACHULLDCS_08961_FIELD_DEFAULT_SPECIALIZATIONS
+
 // internal unnamed namespace
 
 namespace {
@@ -40,12 +43,12 @@ namespace {
 
 // variables, exported
 
-#if 0 // what for?
+#if defined(UKACHULLDCS_08961_FIELD_DEFAULT_SPECIALIZATIONS)
 
-#define DEFAULT_FIELD_TYPES_FOR(type)           \
-  template class field::value::multi   <type>; \
-  template class field::value::single  <type>; \
-  template class field::adapter::multi <type>; \
+#  define DEFAULT_FIELD_TYPES_FOR(type)           \
+  template class field::value::multi   <type>;    \
+  template class field::value::single  <type>;    \
+  template class field::adapter::multi <type>;    \
   template class field::adapter::single<type>
 
 DEFAULT_FIELD_TYPES_FOR(         bool);
@@ -65,7 +68,8 @@ DEFAULT_FIELD_TYPES_FOR(         float);
 DEFAULT_FIELD_TYPES_FOR(         double);
 DEFAULT_FIELD_TYPES_FOR(         long double);
 DEFAULT_FIELD_TYPES_FOR(         std::string);
+DEFAULT_FIELD_TYPES_FOR(         std::wstring);
 
 #undef DEFAULT_FIELD_TYPES_FOR
 
-#endif // #if 0
+#endif // #if defined(UKACHULLDCS_08961_FIELD_DEFAULT_SPECIALIZATIONS)

@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -47,10 +47,11 @@ namespace field {
 
       typedef std::function<void ()> update_function_type;
       
-      bool connect   (::field::base* const /* src */, ::field::base* const /* dst */,
-                      update_function_type);
+      bool connect   (::field::base* const /* src     */,
+                      ::field::base* const /* dst     */,
+                      update_function_type /* upd     */);
       bool disconnect(::field::base* const /* src/dst */);
-      bool update    (::field::base* const /* src */);
+      bool update    (::field::base* const /* src     */);
       
       std::string status() const;
       
@@ -64,18 +65,19 @@ namespace field {
       struct src {};
       struct upd {};
       
-      typedef boost::bimaps::unordered_multiset_of<boost::bimaps::tagged<::field::base*, src>>
-        connection_src_type;
-      typedef boost::bimaps::unordered_multiset_of<boost::bimaps::tagged<::field::base*, dst>>
-        connection_dst_type;
-      typedef boost::bimaps::with_info<boost::bimaps::tagged<update_function_type, upd>>
-        connection_upd_type;
-      typedef boost::bimaps::unordered_multiset_of_relation<> connection_rel_type;
-      typedef boost::bimaps::bimap<connection_src_type,
-                                   connection_dst_type,
-                                   connection_rel_type,
-                                   connection_upd_type>
-        connection_map_type;
+      using connection_src_type =
+        boost::bimaps::unordered_multiset_of<boost::bimaps::tagged<::field::base*, src>>;
+      using connection_dst_type =
+        boost::bimaps::unordered_multiset_of<boost::bimaps::tagged<::field::base*, dst>>;
+      using connection_upd_type =
+        boost::bimaps::with_info<boost::bimaps::tagged<update_function_type, upd>>;
+      using connection_rel_type =
+        boost::bimaps::unordered_multiset_of_relation<>;
+      using connection_map_type =
+        boost::bimaps::bimap<connection_src_type,
+                             connection_dst_type,
+                             connection_rel_type,
+                             connection_upd_type>;
 
       connection_map_type connection_map_;
       
@@ -109,7 +111,8 @@ namespace field {
    * \thow   nothing
    */
   template <typename T1, typename T2 = T1>
-  bool connect   (T1* const /* src */, T2* const /* dst */,
+  bool connect   (T1* const                                  /* src */,
+                  T2* const                                  /* dst */,
                   std::function<void (T1* const, T2* const)> /* upd */ =
                   connection::update::assign<T1,T2>);
 
@@ -124,7 +127,7 @@ namespace field {
    * \thow   nothing
    */
   template <typename T>
-  bool disconnect(T* const /* src/dst */);
+  bool disconnect(T* const /* src || dst */);
   
 } // namespace field {
 

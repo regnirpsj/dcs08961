@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -35,11 +35,11 @@ namespace field {
 
     public:
 
-      typedef ::field::single::base<T>           inherited;
-      typedef typename inherited::container_type container_type;
-      typedef typename inherited::value_type     value_type;
-      typedef std::function<T const& ()>         get_callback_type;
-      typedef std::function<T        (T const&)> set_callback_type;
+      using inherited         = ::field::single::base<T>;
+      using container_type    = typename inherited::container_type;
+      using value_type        = typename inherited::value_type;
+      using get_callback_type = std::function<T const& ()>;
+      using set_callback_type = std::function<T        (T const&)>;
       
       explicit single(container_type&    /* container */,
                       std::string const& /* name */,

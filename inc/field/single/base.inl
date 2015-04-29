@@ -23,6 +23,7 @@
 
 // includes, project
 
+#include <support/string.hpp>
 #include <support/type_info.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -48,6 +49,19 @@ namespace field {
       os << ',' << get() << ']';
     }
 
+    template <>
+    inline /* virtual */ void
+    base<std::wstring>::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("field::single::base::<std::wstring>::print_on");
+
+      os << '[';
+
+      inherited::print_on(os);
+
+      os << ',' << support::wstring_to_string(get()) << ']';
+    }
+    
     template <typename T>
     inline /* virtual */ typename base<T>::value_type const&
     base<T>::get() const

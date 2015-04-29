@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -35,10 +35,10 @@ namespace field {
 
     public:
 
-      typedef ::field::multi::base<T,C>                inherited;
-      typedef typename inherited::container_type       container_type;
-      typedef typename inherited::value_container_type value_container_type;
-      typedef typename inherited::value_type           value_type;        
+      using inherited            = ::field::multi::base<T,C>;
+      using container_type       = typename inherited::container_type;
+      using value_container_type = typename inherited::value_container_type;
+      using value_type           = typename inherited::value_type;        
 
       explicit multi(container_type&             /* container */,
                      std::string const&          /* name */,

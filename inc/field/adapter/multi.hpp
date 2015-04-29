@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -36,21 +36,21 @@ namespace field {
 
     public:
 
-      typedef ::field::multi::base<T,C>                inherited;
-      typedef typename inherited::container_type       container_type;
-      typedef typename inherited::value_container_type value_container_type;
-      typedef typename inherited::value_type           value_type;
-      typedef std::function<C const& ()>               get_callback_type;
-      typedef std::function<C (C const&)>              set_callback_type;
-      typedef std::function<bool (T const&)>           add_callback_type;
-      typedef std::function<bool (T const&)>           sub_callback_type;
+      using inherited            = ::field::multi::base<T,C>;
+      using container_type       = typename inherited::container_type;
+      using value_container_type = typename inherited::value_container_type;
+      using value_type           = typename inherited::value_type;
+      using get_callback_type    = std::function<C const& ()>;
+      using set_callback_type    = std::function<C        (C const&)>;
+      using add_callback_type    = std::function<bool     (T const&)>;
+      using sub_callback_type    = std::function<bool     (T const&)>;
       
       explicit multi(container_type&    /* container */,
-                     std::string const& /* name */,
-                     get_callback_type  /* get_cb */,
-                     set_callback_type  /* set_cb */,
-                     add_callback_type  /* add_cb */,
-                     sub_callback_type  /* sub_cb */);
+                     std::string const& /* name      */,
+                     get_callback_type  /* get_cb    */,
+                     set_callback_type  /* set_cb    */,
+                     add_callback_type  /* add_cb    */,
+                     sub_callback_type  /* sub_cb    */);
       virtual ~multi();
       
       virtual value_container_type const& get() const;

@@ -35,9 +35,9 @@ namespace field {
 
     public:
 
-      typedef ::field::base             inherited;
-      typedef inherited::container_type container_type;
-      typedef T                         value_type;
+      using inherited      = ::field::base;
+      using container_type = inherited::container_type;
+      using value_type     = T;
 
       virtual void print_on(std::ostream&) const;
     
@@ -51,7 +51,7 @@ namespace field {
     protected:
 
       explicit base(container_type&    /* container */,
-                    std::string const& /* name */);
+                    std::string const& /* name      */);
       
     };
     

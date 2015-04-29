@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -35,13 +35,13 @@ namespace field {
 
     public:
 
-      typedef ::field::single::base<T>           inherited;
-      typedef typename inherited::container_type container_type;
-      typedef typename inherited::value_type     value_type;
+      using inherited      = ::field::single::base<T>;
+      using container_type = typename inherited::container_type;
+      using value_type     = typename inherited::value_type;
     
       explicit single(container_type&    /* container */,
-                      std::string const& /* name */,
-                      value_type const&  /* init */ = value_type());
+                      std::string const& /* name      */,
+                      value_type const&  /* init      */ = value_type());
       virtual ~single();
     
       virtual value_type const& get() const;
