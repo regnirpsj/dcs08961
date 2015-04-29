@@ -203,13 +203,13 @@ namespace platform {
 
           for (auto m : modifier) {
             if (a.mod & m) {
-              os << a.mod << '|';
+              os << key::modifier(a.mod) << '|';
             }
           }
           
           os << "\b,"
              << glm::io::width(4)
-             << a.pos   << ','
+             << a.pos << ','
              << std::dec
              << std::setw(12)
              << duration_cast<microseconds>(a.stamp.time_since_epoch()).count()

@@ -162,7 +162,7 @@ namespace platform {
           } else if (( 32 <= idx) && (126 >= idx)) {
             os << static_cast<unsigned char>(idx - '\0');
           } else if ((127 <= idx) /* && (127 >= idx) */) {
-            os << ascii2[idx];
+            os << ascii2[idx-127];
           } else {
             boost::io::ios_all_saver const ias(os);
             
@@ -300,7 +300,7 @@ namespace platform {
           
           for (auto m : modifier) {
             if (a.mod & m) {
-              os << a.mod << '|';
+              os << key::modifier(a.mod) << '|';
 
               insert = true;
             }
@@ -314,7 +314,7 @@ namespace platform {
           
           os << "],"
              << glm::io::width(4)
-             << a.pos   << ','
+             << a.pos << ','
              << std::dec
              << std::setw(12)
              << duration_cast<microseconds>(a.stamp.time_since_epoch()).count()
