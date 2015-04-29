@@ -23,7 +23,6 @@ set(SRC)
 list(APPEND SRC "application/base.cpp")
 list(APPEND SRC "window/base.cpp")
 list(APPEND SRC "window/helper.cpp")
-list(APPEND SRC "window/io.cpp")
 list(APPEND SRC "window/manager.cpp")
 list(APPEND SRC "window/simple.cpp")
 

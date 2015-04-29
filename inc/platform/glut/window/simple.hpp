@@ -21,10 +21,32 @@
 #include <deque> // std::deque<>
 
 // includes, project
+
 #include <platform/glut/window/base.hpp>
-#include <platform/window/utilities.hpp>
 
 namespace platform {
+  
+  namespace handler {
+
+    namespace frame {
+
+      class base;
+      
+    } // namespace frame {
+    
+    namespace keyboard {
+
+      class base;
+      
+    } // namespace keyboard {
+
+    namespace mouse {
+
+      class base;
+      
+    } // namespace mouse {
+    
+  } // namespace handler {
 
   namespace glut {
 
@@ -40,37 +62,21 @@ namespace platform {
         
       protected:        
 
-        using keyboard_record_t     = platform::window::keyboard_record_t;
-        using mouse_record_t        = platform::window::mouse_record_t;
-        using keyboard_record_queue = std::deque<keyboard_record_t>;
-        using mouse_record_queue    = std::deque<mouse_record_t>;
-        
-        keyboard_record_queue keyboardq_;
-        mouse_record_queue    mouseq_;
+        handler::frame::base*    hndlr_frame_;
+        handler::keyboard::base* hndlr_kbd_;
+        handler::mouse::base*    hndlr_mouse_;        
     
-        explicit simple(std::string const& /* title */, rect const& /* rect */ = rect::dflt_rect);
+        explicit simple(std::string const&       /* title       */,
+                        rect const&              /* rect        */ = rect::dflt_rect,
+                        handler::frame::base*    /* frame hndlr */ = nullptr,
+                        handler::keyboard::base* /* kbd handlr  */ = nullptr,
+                        handler::mouse::base*    /* mouse hndlr */ = nullptr);
 
         virtual void frame_render_one () =0;
         virtual void frame_render_post();
         virtual void frame_render_pre ();
         
-        virtual bool keyboard(unsigned char     /* key           */,
-                              glm::ivec2 const& /* ptr pos       */,
-                              bool              /* up/down       */);
-
-        virtual bool motion  (glm::ivec2 const& /* ptr pos       */,
-                              bool              /* mouse/passive */);
-        
-        virtual bool mouse   (signed            /* button        */,
-                              signed            /* state         */,
-                              glm::ivec2 const& /* ptr pos       */,
-                              bool              /* wheel         */);
-        
-        virtual void reshape (glm::ivec2 const& /* (w,h)         */);
-        
-        virtual bool special (signed            /* key           */,
-                              glm::ivec2 const& /* ptr pos       */,
-                              bool              /* up/down       */);
+        virtual void reshape (glm::ivec2 const& /* (w,h) */);
         
       private:
 
@@ -80,15 +86,15 @@ namespace platform {
         //   frame_render_post()
         virtual void display();
         
-        static void cb_keyboard      (unsigned char, signed, signed);  // -> keyboard
-        static void cb_keyboard_up   (unsigned char, signed, signed);  // -> keyboard
-        static void cb_mouse         (signed, signed, signed, signed); // -> mouse
-        static void cb_mouse_motion  (signed, signed);                 // -> motion
-        static void cb_mouse_wheel   (signed, signed, signed, signed); // -> mouse
-        static void cb_passive_motion(signed, signed);                 // -> motion
+        static void cb_keyboard      (unsigned char, signed, signed);  // -> kbd hndlr
+        static void cb_keyboard_up   (unsigned char, signed, signed);  // -> kbd hndlr
+        static void cb_mouse         (signed, signed, signed, signed); // -> mouse hndlr
+        static void cb_mouse_motion  (signed, signed);                 // -> mouse hndlr
+        static void cb_mouse_wheel   (signed, signed, signed, signed); // -> mouse hndlr
+        static void cb_passive_motion(signed, signed);                 // -> mouse hndlr
         static void cb_reshape       (signed, signed);                 // -> reshape
-        static void cb_special       (signed, signed, signed);         // -> special
-        static void cb_special_up    (signed, signed, signed);         // -> special
+        static void cb_special       (signed, signed, signed);         // -> kbd hndlr
+        static void cb_special_up    (signed, signed, signed);         // -> kbd hndlr
         
       };
       

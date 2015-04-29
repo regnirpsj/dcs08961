@@ -47,7 +47,7 @@ namespace platform {
       if (0 < l) {
         q.push_back(e);
 
-        if (q.size() > (l + 1)) {
+        if (q.size() > l) {
           q.pop_front();
         }
       }

@@ -28,8 +28,9 @@
 
 // includes, project
 
-#include <platform/glut/window/io.hpp>
 #include <platform/glut/window/manager.hpp>
+#include <platform/handler/keyboard.hpp>
+#include <platform/handler/mouse.hpp>
 #include <window/helper.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -62,23 +63,31 @@ namespace platform {
       // functions, exported
 
       /* explicit */
-      simple::simple(std::string const& a, rect const& b)
+      simple::simple(std::string const& a, rect const& b,
+                     handler::frame::base* c, handler::keyboard::base* d, handler::mouse::base* e)
         : base            (a, b),
           max_queue_length(*this, "max_queue_length", 0),
-          keyboardq_      (),
-          mouseq_         ()
+          hndlr_frame_    (c),
+          hndlr_kbd_      (d),
+          hndlr_mouse_    (e)
       {
         TRACE("platform::glut::window::simple::simple" + exec_context(this));
 
-        ::glutKeyboardFunc     (&simple::cb_keyboard);
-        ::glutKeyboardUpFunc   (&simple::cb_keyboard_up);
-        ::glutMotionFunc       (&simple::cb_mouse_motion);
-        ::glutMouseFunc        (&simple::cb_mouse);
-        ::glutMouseWheelFunc   (&simple::cb_mouse_wheel);
-        ::glutPassiveMotionFunc(&simple::cb_passive_motion);
-        ::glutReshapeFunc      (&simple::cb_reshape);
-        ::glutSpecialFunc      (&simple::cb_special);
-        ::glutSpecialUpFunc    (&simple::cb_special_up);
+        if (hndlr_kbd_) {
+          ::glutKeyboardFunc  (&simple::cb_keyboard);
+          ::glutKeyboardUpFunc(&simple::cb_keyboard_up);
+          ::glutSpecialFunc   (&simple::cb_special);
+          ::glutSpecialUpFunc (&simple::cb_special_up);
+        }
+
+        if (hndlr_mouse_) {
+          ::glutMotionFunc       (&simple::cb_mouse_motion);
+          ::glutMouseFunc        (&simple::cb_mouse);
+          ::glutMouseWheelFunc   (&simple::cb_mouse_wheel);
+          ::glutPassiveMotionFunc(&simple::cb_passive_motion);
+        }
+        
+        ::glutReshapeFunc(&simple::cb_reshape);
       }
 
       /* virtual */ void
@@ -105,7 +114,8 @@ namespace platform {
       {
         TRACE_NEVER("platform::glut::window::simple::frame_render_pre" + exec_context(this));
       }
-      
+
+#if 0
       /* virtual */ bool
       simple::keyboard(unsigned char key, glm::ivec2 const&, bool pressed)
       {
@@ -149,7 +159,7 @@ namespace platform {
         
         return result;
       }
-      
+
       /* virtual */ bool
       simple::motion(glm::ivec2 const&, bool)
       {
@@ -181,13 +191,15 @@ namespace platform {
         
         return false;
       }
-
+#endif // #if 0
+      
       /* virtual */ void
       simple::reshape(glm::ivec2 const&)
       {
         TRACE("platform::glut::window::simple::reshape" + exec_context(this));
       }
 
+#if 0
       /* virtual */ bool
       simple::special(signed, glm::ivec2 const&, bool)
       {
@@ -203,7 +215,8 @@ namespace platform {
           
         return false;
       }
-
+#endif // #if 0
+      
       /* virtual */ void
       simple::display()
       {
@@ -224,13 +237,11 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          glm::ivec2 const pos(b, c);
+          using key = platform::handler::keyboard::key;
           
-          update_queue(w->keyboardq_,
-                       keyboard_record_t{ a, false, ::glutGetModifiers(), false, pos, support::clock::now() },
-                       *w->max_queue_length);
-        
-          w->keyboard(a,pos, false);
+          w->hndlr_kbd_->press(key::ascii(a),
+                               key::modifier(::glutGetModifiers()),
+                               glm::ivec2(b, c));
         }
       }
       
@@ -242,13 +253,11 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          glm::ivec2 const pos(b, c);
+          using key = platform::handler::keyboard::key;
           
-          update_queue(w->keyboardq_,
-                       keyboard_record_t{ a, true, ::glutGetModifiers(), false, pos, support::clock::now() },
-                       *w->max_queue_length);
-    
-          w->keyboard(a, pos, true);
+          w->hndlr_kbd_->release(key::ascii(a),
+                                 key::modifier(::glutGetModifiers()),
+                                 glm::ivec2(b, c));
         }
       }
       
@@ -260,13 +269,18 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          glm::ivec2 const pos(c, d);
-          
-          update_queue(w->mouseq_,
-                       mouse_record_t{ a, b, ::glutGetModifiers(), pos, support::clock::now() },
-                       *w->max_queue_length);
-          
-          w->mouse(a, b, pos, false);
+          using key = platform::handler::keyboard::key;
+          using namespace platform::handler::mouse;
+
+          if (b) {
+            w->hndlr_mouse_->press  (button(a),
+                                     key::modifier(::glutGetModifiers()),
+                                     glm::ivec2(c, d));
+          } else {
+            w->hndlr_mouse_->release(button(a),
+                                     key::modifier(::glutGetModifiers()),
+                                     glm::ivec2(c, d));
+          }
         }
       }
       
@@ -278,39 +292,26 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          static mouse_record_t const dflt({ -1, false, 0, glm::ivec2(), support::clock::now() });
-
-          mouse_record_t info(dflt);
-
-          if (!w->mouseq_.empty()) {
-            info = w->mouseq_.back();
-          }
-
-          info.state = dflt.state;
-          info.pos   = glm::ivec2(a, b);
-          info.stamp = support::clock::now();
-            
-          update_queue(w->mouseq_, info, *w->max_queue_length);
-    
-          w->motion(info.pos, true);
+          using key = platform::handler::keyboard::key;
+          using namespace platform::handler::mouse;
+          
+          w->hndlr_mouse_->motion(key::modifier(::glutGetModifiers()), glm::ivec2(a, b));
         }
       }
       
       /* static */ void
-      simple::cb_mouse_wheel(signed a, signed b, signed c, signed d)
+      simple::cb_mouse_wheel(signed /* wheel */, signed b, signed c, signed d)
       {
         TRACE("platform::glut::window::simple::cb_mouse_wheel");
 
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          glm::ivec2 const pos(c, d);
+          using key = platform::handler::keyboard::key;
+          using namespace platform::handler::mouse;
           
-          update_queue(w->mouseq_,
-                       mouse_record_t{ (a * b), false, ::glutGetModifiers(), pos, support::clock::now() },
-                       *w->max_queue_length);
-          
-          w->mouse(a, b, pos, true);
+          w->hndlr_mouse_->scroll(1.0, direction(b),
+                                  key::modifier(::glutGetModifiers()), glm::ivec2(c, d));
         }
       }
       
@@ -322,21 +323,10 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
         
         if (w) {
-          static mouse_record_t const dflt({ -1, true, 0, glm::ivec2(), support::clock::now() });
-
-          mouse_record_t info(dflt);
-
-          if (!w->mouseq_.empty()) {
-            info = w->mouseq_.back();
-          }
-
-          info.state = dflt.state;
-          info.pos   = glm::ivec2(a, b);
-          info.stamp = support::clock::now();
-            
-          update_queue(w->mouseq_, info, *w->max_queue_length);
-    
-          w->motion(info.pos, false);
+          using key = platform::handler::keyboard::key;
+          using namespace platform::handler::mouse;
+          
+          w->hndlr_mouse_->motion(key::modifier(::glutGetModifiers()), glm::ivec2(a, b));
         }
       }
       
@@ -367,13 +357,11 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          glm::ivec2 const pos(b, c);
+          using key = platform::handler::keyboard::key;
           
-          update_queue(w->keyboardq_,
-                       keyboard_record_t{ a, false, ::glutGetModifiers(), true, pos, support::clock::now() },
-                       *w->max_queue_length);
-    
-          w->special(a, pos, true);
+          w->hndlr_kbd_->press(key::code(a),
+                               key::modifier(::glutGetModifiers()),
+                               glm::ivec2(b, c));
         }
       }
       
@@ -385,13 +373,11 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
-          glm::ivec2 const pos(b, c);
+          using key = platform::handler::keyboard::key;
           
-          update_queue(w->keyboardq_,
-                       keyboard_record_t{ a, true, ::glutGetModifiers(), true, pos, support::clock::now() },
-                       *w->max_queue_length);
-    
-          w->special(a, pos, true);
+          w->hndlr_kbd_->release(key::code(a),
+                                 key::modifier(::glutGetModifiers()),
+                                 glm::ivec2(b, c));
         }
       }
       
