@@ -126,8 +126,7 @@ namespace viewer {
       };
 
       for (auto fn : file_names) {
-        std::cout << support::trace::prefix() << "viewer::window::window: "
-                  << "loading shader file: '" << fn << "'\n";
+        // std::cout << "loading shader file: '" << fn << "'\n";
                   
         std::stringstream src;
 
@@ -173,6 +172,8 @@ namespace viewer {
         }
       }
 
+      size = glm::max(size, glm::uvec3(1, 1, 1));
+      
       unsigned                         load_count(0);
       support::timer                   timer_single;
       support::timer                   timer_total;
@@ -212,8 +213,7 @@ namespace viewer {
             }
 
             if (nullptr == mm) {
-              std::cout << support::trace::prefix() << "viewer::window::window: "
-                        << "unable to load file: "  << *f << std::endl;
+              std::cout << "unable to load file: "  << *f << std::endl;
             } else {
               using namespace std::chrono;
 
@@ -237,7 +237,7 @@ namespace viewer {
       {
         using namespace std::chrono;
           
-        std::cout << "loaded " << load_count << " in "
+        std::cout << "loaded " << load_count << " file" << ((1 != load_count) ? "s" : "") << " in "
                   << duration_fmt(symbol) << std::fixed << std::right
                   << duration_cast<duration<double>>(timer_total.lapse())
                   << std::endl;
