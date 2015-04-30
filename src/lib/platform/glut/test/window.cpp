@@ -51,17 +51,9 @@ namespace {
     
     unsigned fps() const
     {
-      double const acc(std::accumulate(frameq_.begin(), frameq_.end(), 0.0,
-                                       [](double a, record const& r)
-                                       {
-                                         using namespace std::chrono;
-                                         
-                                         auto const d(duration_cast<duration<double>>(r.delta_t));
-                                         
-                                         return a + d.count();
-                                       }));
+      using namespace std::chrono;
       
-      return (frameq_.size() / acc);
+      return (1.0 / duration_cast<duration<double>>(frameq_.back().cma).count());
     }
     
   } dflt_frame_handler;
