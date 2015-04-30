@@ -43,6 +43,23 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
+  class frame_handler : public platform::handler::frame::base {
+
+  public:
+
+    explicit frame_handler()
+      : platform::handler::frame::base(7)
+    {}
+    
+    double fps() const
+    {
+      using namespace std::chrono;
+      
+      return (1.0 / duration_cast<duration<double>>(frameq_.back().cma).count());
+    }
+    
+  } dflt_frame_handler;
+  
   // variables, internal
   
   // functions, internal
@@ -58,19 +75,23 @@ namespace viewer {
   /* explicit */
   window::window(command_line const& a, rect const& b,
                  std::string const& c, string_list_type const& d)
-    : inherited     (a.argv0 + " [" + c + "]", b),
-      ctx_          (),
-      prg_          (),
-      tex_diffuse_  (),
-      tex_envmap_   (),
-      model_list_   (),
-      cpu_stats_    (a.argv0 + ":cpu"),
-      gpu_stats_    (a.argv0 + ":gpu"),
-      camera_       ({ glm::mat4() }),
-      projection_   ({ glm::mat4(), 60.0, glm::vec2(0.001, 1000.0) })
+    : inherited        (a.argv0 + " [" + c + "]", b),
+      ctx_             (),
+      prg_             (),
+      tex_diffuse_     (),
+      tex_envmap_      (),
+      model_list_      (),
+      cpu_stats_       (a.argv0 + ":cpu"),
+      gpu_stats_       (a.argv0 + ":gpu"),
+      camera_          ({ glm::mat4() }),
+      projection_      ({ glm::mat4(), 60.0, glm::vec2(0.001, 1000.0) }),
+      title_base_      (title.get()),
+      navigation_hndlr_(nullptr)
   {
     TRACE("viewer::window::window");
 
+    frame_handler += &dflt_frame_handler;
+    
     using namespace oglplus;
 
     {
@@ -227,6 +248,14 @@ namespace viewer {
                                                glm::vec3( 0.0f, 1.0f, 0.0f)));
     }
 
+    {
+      using namespace platform::handler;
+      
+      navigation_hndlr_.reset(new navigation::simple);
+      
+      keyboard_handler += dynamic_cast<keyboard::base*>(navigation_hndlr_.get());
+    }
+    
     ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
     ctx_.ClearDepth(1.0f);
     ctx_.Enable(smart_enums::DepthTest());
@@ -254,7 +283,8 @@ namespace viewer {
 
       // view
       if (Uniform<glm::mat4>(prg_, "xform_view").IsActive()) {
-        Uniform<glm::mat4>(prg_, "xform_view").Set(glm::inverse(camera_.xform));
+        Uniform<glm::mat4>(prg_, "xform_view").Set(glm::inverse(camera_.xform *
+                                                                navigation_hndlr_->xform.get()));
       }
 
       // model(s)
@@ -273,12 +303,24 @@ namespace viewer {
       std::cout << cpu_stats_.fetch() << '\t' << gpu_stats_.fetch() << '\n';
     }
   }
-    
+
   /* virtual */ void
   window::frame_render_pre()
   {
-    TRACE_NEVER("viewer::window::frame_render_one");
+    TRACE_NEVER("viewer::window::frame_render_pre");
 
+    {
+      std::ostringstream ostr;
+
+      ostr << title_base_
+           << " ["
+           << std::fixed << std::right << std::setfill(' ') << std::setw(7) << std::setprecision(3)
+           << dflt_frame_handler.fps()
+           << "Hz]";
+      
+      title = ostr.str();
+    }
+    
     ctx_.Clear().ColorBuffer().DepthBuffer();
   }
     

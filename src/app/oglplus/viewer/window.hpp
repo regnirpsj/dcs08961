@@ -24,6 +24,7 @@
 
 #include <platform/application/command_line.hpp>
 #include <platform/glut/window/simple.hpp>
+#include <platform/handler/navigation.hpp>
 #include <model.hpp>
 
 namespace viewer {
@@ -72,6 +73,8 @@ namespace viewer {
     stats::gpu           gpu_stats_;
     camera_info_t        camera_;
     projection_info_t    projection_;
+    std::string const    title_base_;
+    std::unique_ptr<platform::handler::navigation::base> navigation_hndlr_;
     
   };
   
