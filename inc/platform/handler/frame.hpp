@@ -40,6 +40,7 @@ namespace platform {
       
         unsigned   counter; // frame number
         duration   delta_t; // length
+        duration   cma;     // cumulative moving average
         time_point stamp;   // time stamp
         
       };

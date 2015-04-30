@@ -75,11 +75,12 @@ namespace platform {
       {
         TRACE("platform::handler::frame::base::update");
 
-        record r = { 0, a - stamp_initial, a };
+        record r = { 0, a - stamp_initial, std::chrono::nanoseconds(0), a };
 
         if (!frameq_.empty()) {
-          r.counter = frameq_.back().counter + 1;
-          r.delta_t = r.stamp - frameq_.back().stamp;
+          r.counter  = frameq_.back().counter + 1;
+          r.delta_t  = r.stamp - frameq_.back().stamp;
+          r.cma      = (r.delta_t + ((r.counter - 1) * frameq_.back().cma)) / r.counter;
         }
         
         update_queue(frameq_, r, frameq_max_len_);
@@ -123,6 +124,7 @@ namespace platform {
              << a.counter                                                      << ','
              << std::setw(7)
              << duration_fmt(symbol) << duration_cast<microseconds>(a.delta_t) << ','
+             << duration_fmt(symbol) << duration_cast<microseconds>(a.cma)     << ','
              << std::setw(12)
              << duration_cast<microseconds>(a.stamp.time_since_epoch()).count()
              << ']';
