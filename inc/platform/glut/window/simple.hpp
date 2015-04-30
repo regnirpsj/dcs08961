@@ -45,7 +45,8 @@ namespace platform {
       protected:
     
         explicit simple(std::string const& /* title */,
-                        rect const&        /* rect  */ = rect::dflt_rect);
+                        rect const&        /* rect  */               = rect::dflt_rect,
+                        bool               /* enable dflt_handler */ = true);
 
         virtual void do_changed(field::base&);
         
@@ -57,26 +58,71 @@ namespace platform {
         
       private:
 
-        class dflt_keyboard_handler : public platform::handler::keyboard::base {
+        class dflt_handler : public platform::handler::keyboard::base,
+                             public platform::handler::mouse::base {
 
         public:
 
-          using inherited = platform::handler::keyboard::base;
-          using key       = platform::handler::keyboard::key;
+          using kbd_base   = platform::handler::keyboard::base;
+          using mouse_base = platform::handler::mouse::base;
           
-          explicit dflt_keyboard_handler(simple&);
+          explicit dflt_handler(simple&);
 
-          virtual bool press(key::ascii        /* ascii    */,
-                             uint8_t           /* modifier */ = key::modifier::None,
-                             glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
-                             time_point const& /* stamp    */ = support::clock::now());
+          using time_point = support::clock::time_point;
+          using key        = platform::handler::keyboard::key;
+          
+          virtual bool press  (key::ascii        /* ascii    */,
+                               uint8_t           /* modifier */ = key::modifier::None,
+                               glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                               time_point const& /* stamp    */ = support::clock::now());
+          
+          virtual bool press  (key::code         /* code     */,
+                               uint8_t           /* modifier */ = key::modifier::None,
+                               glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                               time_point const& /* stamp    */ = support::clock::now());
+          
+          virtual bool release(key::ascii        /* ascii    */,
+                               uint8_t           /* modifier */ = key::modifier::None,
+                               glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                               time_point const& /* stamp    */ = support::clock::now());
+          
+          virtual bool release(key::code         /* code    */,
+                               uint8_t           /* modifier */ = key::modifier::None,
+                               glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                               time_point const& /* stamp    */ = support::clock::now());
+
+          using button    = platform::handler::mouse::button;
+          using direction = platform::handler::mouse::direction;
+          
+          virtual bool motion (uint8_t           /* modifier */ = key::modifier::None,
+                               glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                               time_point const& /* stamp    */ = support::clock::now());
+        
+          virtual bool press  (button            /* button   */,
+                               uint8_t           /* modifier */ = key::modifier::None,
+                               glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                               time_point const& /* stamp    */ = support::clock::now());        
+        
+          virtual bool release(button            /* button   */,
+                               uint8_t           /* modifier */ = key::modifier::None,
+                               glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                               time_point const& /* stamp    */ = support::clock::now());
+
+          virtual bool scroll (float             /* value    */,
+                               direction         /* dir      */,
+                               uint8_t           /* modifier */ = key::modifier::None,
+                               glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                               time_point const& /* stamp    */ = support::clock::now());
+
+          virtual void print_on(std::ostream&) const;
+          
         private:
 
           simple& window_;
           
         };
         
-        std::unique_ptr<platform::handler::keyboard::base> dflt_keyboard_handler_;
+        std::unique_ptr<platform::handler::base> dflt_handler_;
         
         // calling order:
         //   frame_render_pre()
