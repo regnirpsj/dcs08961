@@ -174,7 +174,6 @@ namespace {
     oglplus::Buffer                        positions_;
     oglplus::Buffer                        normals_;
     oglplus::Lazy<oglplus::Uniform<float>> frame_time_;
-    
   };
   
   class application : public platform::glut::application::base {
