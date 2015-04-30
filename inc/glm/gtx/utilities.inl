@@ -28,29 +28,29 @@ namespace glm {
   
   // functions, inlined (inline)
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
-  inline double
-#else
-  inline constexpr double
+  template <typename T>
+  inline
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+  constexpr
 #endif
-  deg2rad(double a)
+  T
+  deg2rad(T a)
   {
     return (3.14159265358979323846264338327950288 / 180.0) * a;
   }
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
-  inline double
-#else
-  inline constexpr double
+  template <typename T>
+  inline
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+  constexpr
 #endif
-  rad2deg(double a)
+  T
+  rad2deg(T a)
   {
     return (180.0 / 3.14159265358979323846264338327950288) * a;
   }
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
-  // not going to reapeat warning here
-#else
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   inline constexpr double
   operator "" _deg(unsigned long long a)
   {
@@ -90,7 +90,7 @@ namespace glm {
     return a * (180.0 / 3.14159265358979323846264338327950288);
 #  endif
   }
-#endif // #if defined(_MSC_VER) && (_MSC_VER <= 1800)
+#endif // #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
 
   // http://stackoverflow.com/questions/1903954
   template <typename T>

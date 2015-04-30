@@ -66,27 +66,24 @@ namespace glm {
    *
    * \return argument in radians
    */
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
-  double deg2rad(double);
-#else
-  constexpr double deg2rad(double);
+  template <typename T>
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+  constexpr
 #endif
+  T deg2rad(T);
   
   /**
    * \brief converts the input value from (assumed) radians to degrees
    *
    * \return argument in degrees
    */
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
-  double rad2deg(double);
-#else
-  constexpr double rad2deg(double);
+  template <typename T>
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+  constexpr
 #endif
-
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
-#  pragma message("Note: user-defined string literal operators not supported ")
-#  pragma message("      using (unreliable) macro workaround for _deg/_rad")
-#else
+  T rad2deg(T);
+  
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   /**
    * \brief user-defined literals for distinguishing degrees and radians
    *
@@ -109,7 +106,10 @@ namespace glm {
   constexpr double operator "" _rad(unsigned long long);
   constexpr double operator "" _rad(long double);
   //@}
-#endif // #if defined(_MSC_VER) && (_MSC_VER <= 1800)
+#else
+#  pragma message("Note: user-defined string literal operators not supported ")
+#  pragma message("      using (unreliable) macro workaround for _deg/_rad")
+#endif // !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   
   /**
    * \brief compute the signum of T
@@ -151,7 +151,11 @@ namespace glm {
 
 } // namespace glm {
 
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+// for convenience, to avoid cumbersome lines like 'using glm::operator "" _deg;'
+using glm::operator "" _deg;
+using glm::operator "" _rad;
+#else
 // poor solution to still keep _deg/_rad around, so '180.0_deg' should still work, well actually it
 // must then be '180.0 _deg'; will possible break at the most inconvenient of times
 #  if defined(GLM_FORCE_RADIANS)
@@ -161,11 +165,7 @@ namespace glm {
 #    define _deg
 #    define _rad *(180.0/3.14159265358979323846264338327950288)
 #  endif // if defined(GLM_FORCE_RADIANS)
-#else
-// for convenience, to avoid cumbersome lines like 'using glm::operator "" _deg;'
-using glm::operator "" _deg;
-using glm::operator "" _rad;
-#endif // #if defined(_MSC_VER) && (_MSC_VER <= 1800)
+#endif // !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
 
 #include <glm/gtx/utilities.inl>
 
