@@ -48,8 +48,8 @@ namespace platform {
       enum class direction : int8_t {
         none  =  0,
         down  = -1,
-        left  = -1,
-        right =  1,
+        left  = -2,
+        right =  2,
         up    =  1,
       };
 

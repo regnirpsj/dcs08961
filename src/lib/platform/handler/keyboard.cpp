@@ -197,13 +197,13 @@ namespace platform {
 
           uint8_t const idx(static_cast<uint8_t>(a));
           
-          if ((0 < idx) && (code.size()-1 > idx)) {
+          if ((0 < idx) && (code.size() > idx)) {
             os << code[idx];
           } else {
             boost::io::ios_all_saver const ias(os);
 
-            os << code[0] << " ("
-               << std::hex << std::setw(2) << std::setfill('0') << idx
+            os << code.front() << " (0x"
+               << std::right << std::hex << std::setw(2) << std::setfill('0') << idx
                << ")";
           }
           
@@ -254,15 +254,24 @@ namespace platform {
         typename std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
-          std::string result("[]");
+          boost::io::ios_all_saver const ias(os);
+          
+          os << '['
+             << std::right << std::setw(4);
 
           switch (a) {
-          case key::state::down: result.insert(1, "DOWN"); break;
-          case key::state::up:   result.insert(1, "  UP");   break;
-          default:                                         break;
+          case key::state::down: os << "DOWN";    break;
+          case key::state::up:   os << "UP";      break;
+          default:
+            {
+              os << "INVALID ("
+                 << std::setw(2) << std::setfill('0') << static_cast<int8_t>(a)
+                 << ")";
+            }
+            break;
           }
           
-          os << result;
+          os << ']';
         }
     
         return os;
@@ -299,8 +308,8 @@ namespace platform {
           bool insert(false);
           
           for (auto m : modifier) {
-            if (a.mod & m) {
-              os << key::modifier(a.mod) << '|';
+            if (m & a.mod) {
+              os << key::modifier(m) << '|';
 
               insert = true;
             }

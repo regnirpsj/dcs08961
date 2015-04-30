@@ -51,6 +51,7 @@ namespace platform {
         };
 
         enum class code : uint8_t {
+          Invalid    = 0x00,
           F1         = 0x01,
           F2         = 0x02,
           F3         = 0x03,
@@ -76,13 +77,13 @@ namespace platform {
           Begin      = 0x17,
           Delete     = 0x18,
           AltLeft    = 0x19,
-          AltRight   = 0x20,
-          CtrlLeft   = 0x21,
-          CtrlRight  = 0x22,
-          ShiftLeft  = 0x23,
-          ShiftRight = 0x24,
-          SuperLeft  = 0x25,
-          SuperRight = 0x26,
+          AltRight   = 0x1A,
+          CtrlLeft   = 0x1B,
+          CtrlRight  = 0x1C,
+          ShiftLeft  = 0x1D,
+          ShiftRight = 0x1E,
+          SuperLeft  = 0x1F,
+          SuperRight = 0x20,
         };
 
         enum modifier : uint8_t {

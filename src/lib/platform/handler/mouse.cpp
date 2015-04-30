@@ -136,42 +136,104 @@ namespace platform {
       }
       
       std::ostream&
-      operator<<(std::ostream& os, button const&)
+      operator<<(std::ostream& os, button const& a)
       {
         TRACE_NEVER("platform::handler::mouse::operator<<(button)");
 
         typename std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
-          os << "[]";
+          boost::io::ios_all_saver const ias (os);
+          
+          os << '['
+             << std::right << std::setw(6);
+
+          switch (a) {
+          case button::none:   os << "NONE";   break;
+          case button::left:   os << "LEFT";   break;
+          case button::middle: os << "MIDDLE"; break;
+          case button::right:  os << "RIGHT";  break;
+          case button::wheel:  os << "WHEEL";  break;
+          case button::aux5:   os << "AUX5";   break;
+          case button::aux6:   os << "AUX6";   break;
+          case button::aux7:   os << "AUX7";   break;
+          case button::aux8:   os << "AUX8";   break;
+          case button::aux9:   os << "AUX9";   break;
+          default:
+            {
+              os << "INVALID ("
+                 << std::setw(2) << std::setfill('0') << static_cast<int8_t>(a)
+                 << ")";
+            }
+            break;
+          }
+          
+          os << ']';
         }
 
         return os;
       }
       
       std::ostream&
-      operator<<(std::ostream& os, direction const&)
+      operator<<(std::ostream& os, direction const& a)
       {
         TRACE_NEVER("platform::handler::mouse::operator<<(direction)");
 
         typename std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
-          os << "[]";
+          boost::io::ios_all_saver const ias (os);
+          
+          os << '['
+             << std::right << std::setw(5);
+
+          switch (a) {
+          case direction::none:  os << "NONE";  break;
+          case direction::down:  os << "DOWN";  break;
+          case direction::left:  os << "LEFT";  break;
+          case direction::right: os << "RIGHT"; break;
+          case direction::up:    os << "UP";    break;
+          default:
+            {
+              os << "INVALID ("
+                 << std::setw(2) << std::setfill('0') << static_cast<int8_t>(a)
+                 << ")";
+            }
+            break;
+          }
+          
+          os << ']';
         }
 
         return os;
       }
 
       std::ostream&
-      operator<<(std::ostream& os, state const&)
+      operator<<(std::ostream& os, state const& a)
       {
         TRACE_NEVER("platform::handler::mouse::operator<<(state)");
 
         typename std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
-          os << "[]";
+          boost::io::ios_all_saver const ias(os);
+          
+          os << '['
+             << std::right << std::setw(4);
+
+          switch (a) {
+          case state::down: os << "DOWN";    break;
+          case state::up:   os << "UP";      break;
+          default:
+            {
+              os << "INVALID ("
+                 << std::setw(2) << std::setfill('0') << static_cast<int8_t>(a)
+                 << ")";
+            }
+            break;
+          }
+          
+          os << ']';
         }
 
         return os;
@@ -202,8 +264,8 @@ namespace platform {
           };
 
           for (auto m : modifier) {
-            if (a.mod & m) {
-              os << key::modifier(a.mod) << '|';
+            if (m & a.mod) {
+              os << key::modifier(m) << '|';
             }
           }
           
