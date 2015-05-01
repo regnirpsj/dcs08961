@@ -37,7 +37,7 @@ if(CMAKE_HOST_WIN32)
   set(GLM_ROOT_DIR "C:/Tools/glm/glm-git")
 elseif(UNIX)
   set(GLI_ROOT_DIR "~/Projects/others/gli-git")
-  set(GLM_ROOT_DIR "~/Projects/others/glm-git")
+  set(GLM_ROOT_DIR "~/Projects/others/glm-regnirpsj-git")
 endif()
 
 # OGLplus
