@@ -30,6 +30,10 @@ list(APPEND SRC "window.cpp")
 
 add_definitions(${GLEW_DEFINITIONS})
 
+if("Clang" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
+  add_definitions("-DOGLPLUS_NO_INITIALIZER_LISTS=0")
+endif()
+
 set(LIBS)
 list(APPEND LIBS platform_glut)
 list(APPEND LIBS platform_oglplus)
