@@ -74,14 +74,14 @@ namespace platform {
 
         glm::mat4 xform_;
         
-        glm::mat4 const& cb_get_rotation() const;
-        glm::mat4        cb_set_rotation(glm::mat4 const&);
-        glm::mat4 const& cb_get_scale() const;
-        glm::mat4        cb_set_scale(glm::mat4 const&);
+        glm::mat4 const& cb_get_rotation   () const;
+        glm::mat4        cb_set_rotation   (glm::mat4 const&);
+        glm::mat4 const& cb_get_scale      () const;
+        glm::mat4        cb_set_scale      (glm::mat4 const&);
         glm::mat4 const& cb_get_translation() const;
         glm::mat4        cb_set_translation(glm::mat4 const&);
-        glm::mat4 const& cb_get_xform() const;
-        glm::mat4        cb_set_xform(glm::mat4 const&);
+        glm::mat4 const& cb_get_xform      () const;
+        glm::mat4        cb_set_xform      (glm::mat4 const&);
         
       };
 
@@ -93,7 +93,12 @@ namespace platform {
         
         explicit simple();
 
-        virtual bool press  (key::code         /* key code */,
+        virtual bool press  (key::ascii        /* ascii    */,
+                             uint8_t           /* modifier */ = key::modifier::None,
+                             glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
+                             time_point const& /* stamp    */ = support::clock::now());
+        
+        virtual bool press  (key::code         /* code     */,
                              uint8_t           /* modifier */ = key::modifier::None,
                              glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
                              time_point const& /* stamp    */ = support::clock::now());
@@ -110,6 +115,8 @@ namespace platform {
 
       private:
 
+        bool mouse_active_;
+        
         void apply_rotation   (glm::vec4 const& /* xyz, angle */);
         void apply_scale      (glm::vec3 const& /* xyz        */);
         void apply_translation(glm::vec3 const& /* xyz        */);

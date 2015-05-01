@@ -23,6 +23,7 @@
 
 // includes, project
 
+#include <glm/gtx/limits.hpp>
 #include <glm/gtx/utilities.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -46,6 +47,20 @@ namespace {
   
   // functions, internal
 
+  float
+  factor_from_modifier(uint8_t a, glm::vec4 const& b)
+  {
+    using key = platform::handler::keyboard::key;
+    
+    float result(b.x);
+
+    if      ((key::modifier::Ctrl & a) && (key::modifier::Shift & a)) { result = b.w; }
+    else if (key::modifier::Ctrl  & a)                                { result = b.y; }
+    else if (key::modifier::Shift & a)                                { result = b.z; }
+
+    return result;
+  }
+  
 } // namespace {
 
 namespace platform {
@@ -174,9 +189,49 @@ namespace platform {
       
       /* explicit */
       simple::simple()
-        : base(glm::uvec2(1, 2))
+        : base(glm::uvec2(1, 2)),
+          mouse_active_  (false)
       {
         TRACE("platform::handler::navigation::simple::simple");
+      }
+
+      /* virtual */ bool
+      simple::press(key::ascii a, uint8_t b, glm::ivec2 const& c, time_point const& d)
+      {
+         TRACE("platform::handler::navigation::simple::press(key::ascii)");
+        
+        bool result(keyboard::base::press(a, b, c, d));
+
+        if (!result) {
+          using key = keyboard::key;
+          
+          switch (a) {
+          case key::ascii::r:
+            {
+#if defined(UKACHULLDCS_HANDLER_NAVIGATION_DEBUG)
+              std::cout << support::trace::prefix()
+                        << "platform::handler::navigation::simple::press(key::ascii): "
+                        << "before reset [xform][rotation]"
+                        << std::make_pair(*xform, *rotation)
+                        << '\n';
+#endif
+              
+              rotation_    = glm::mat4();
+              scale_       = glm::mat4();
+              translation_ = glm::mat4();
+
+              update();
+              
+              result = true;
+            }
+            break;
+            
+          default:
+            break;
+          }
+        }
+
+        return result;
       }
       
       /* virtual */ bool
@@ -188,84 +243,81 @@ namespace platform {
 
         if (!result) {
           using key = keyboard::key;
-          
-          if (key::modifier::Alt & b) {
-            
-            switch (a) {
-            case key::code::Left:     // -trans.x
-            case key::code::Right:    // +trans.x
-            case key::code::Down:     // -trans.y
-            case key::code::Up:       // +trans.y
-            case key::code::PageUp:   // -trans.z
-            case key::code::PageDown: // +trans.z
-              {
-                float factor(translation_factors->x);
 
-                if        ((key::modifier::Ctrl|key::modifier::Shift) & b) {
-                  factor *= translation_factors->w;
-                } else if (key::modifier::Shift & b) {
-                  factor *= translation_factors->z;
-                } else if (key::modifier::Ctrl & b) {
-                  factor *= translation_factors->y;
-                }
-            
-                glm::vec3 incr;
+          if (!mouse_active_) {
+            if (key::modifier::Alt & keyboardq_.back().mod) {
+              switch (a) {
+              case key::code::Left:     // -trans.x
+              case key::code::Right:    // +trans.x
+              case key::code::Down:     // -trans.y
+              case key::code::Up:       // +trans.y
+              case key::code::PageUp:   // -trans.z
+              case key::code::PageDown: // +trans.z
+                {
+                  float const factor(factor_from_modifier(keyboardq_.back().mod,
+                                                          *translation_factors));            
+                  glm::vec3   incr;
                 
-                switch (a) {
-                case key::code::Left:     incr.x -= factor; break;
-                case key::code::Right:    incr.x += factor; break;
-                case key::code::Down:     incr.y -= factor; break;
-                case key::code::Up:       incr.y += factor; break;
-                case key::code::PageUp:   incr.z -= factor; break;
-                case key::code::PageDown: incr.z += factor; break;
-                default:                                    break;
-                }
+                  switch (a) {
+                  case key::code::Left:     incr.x -= factor; break;
+                  case key::code::Right:    incr.x += factor; break;
+                  case key::code::Down:     incr.y -= factor; break;
+                  case key::code::Up:       incr.y += factor; break;
+                  case key::code::PageUp:   incr.z -= factor; break;
+                  case key::code::PageDown: incr.z += factor; break;
+                  default:                                    break;
+                  }
 
-                apply_translation(incr);
+                  apply_translation(incr);
                 
-                result |= true;
-              }
-              break;
+                  result = true;
+                }
+                break;
               
-            default:
-              break;
+              default:
+                break;
+              }
+            } else {
+              switch (a) {
+              case key::code::Right: // +rot.y
+              case key::code::Left:  // -rot.y
+              case key::code::Down:  // -rot.x
+              case key::code::Up:    // +rot.x
+                {
+                  glm::vec3 axis;
+
+                  switch (a) {
+                  case key::code::Left:  axis.y += 1; break;
+                  case key::code::Right: axis.y -= 1; break;
+                  case key::code::Down:  axis.x -= 1; break;
+                  case key::code::Up:    axis.x += 1; break;
+                  default:                            break;
+                  }
+
+                  float const angle(factor_from_modifier(keyboardq_.back().mod,
+                                                         *rotation_factors));
+
+#if defined(UKACHULLDCS_HANDLER_NAVIGATION_DEBUG)
+                  std::cout << support::trace::prefix()
+                            << "platform::handler::navigation::simple::press(key::code): "
+                            << "axis:" << axis << ",angle:" << angle
+                            << ',' << keyboardq_.back()
+                            << '\n';
+#endif
+
+                  apply_rotation(glm::vec4(axis, angle));
+                
+                  result = true;
+                }
+                break;
+
+              default:
+                break;
+              }
             }
           } else {
-            switch (a) {
-            case key::code::Right:    // +rot.y
-            case key::code::Left:     // -rot.y
-            case key::code::Down:     // -rot.x
-            case key::code::Up:       // +rot.x
-              {
-                float angle(rotation_factors->x);
-
-                if        ((key::modifier::Ctrl|key::modifier::Shift) & b) {
-                  angle *= rotation_factors->w;
-                } else if (key::modifier::Shift & b) {
-                  angle *= rotation_factors->z;
-                } else if (key::modifier::Ctrl & b) {
-                  angle *= rotation_factors->y;
-                }
-            
-                glm::vec3 axis;
-
-                switch (a) {
-                case key::code::Left:  axis.y += 1; break;
-                case key::code::Right: axis.y -= 1; break;
-                case key::code::Down:  axis.x -= 1; break;
-                case key::code::Up:    axis.x += 1; break;
-                default:                            break;
-                }
-
-                apply_rotation(glm::vec4(axis, angle));
-                
-                result |= true;
-              }
-              break;
-
-            default:
-              break;
-            }
+            // potential modifier adjustment during mouse activity here
+            ;
           }
         }
         
@@ -277,8 +329,85 @@ namespace platform {
       {
         TRACE("platform::handler::navigation::simple::press(mouse::button)");
         
-        bool const result(mouse::base::press(a, b, c, d));
+        bool result(mouse::base::press(a, b, c, d));
 
+        if (!result) {
+          switch (mouseq_.back().btn) {
+          case mouse::button::left:
+            {
+              if (mouse_active_) {
+                glm::vec2 const direction(mouseq_.back().pos - mouseq_.front().pos);
+
+#if defined(UKACHULLDCS_HANDLER_NAVIGATION_DEBUG)
+                std::cout << support::trace::prefix()
+                          << "platform::handler::navigation::simple::press(mouse::button): "
+                          << direction << ',' << glm::length(direction)
+                          << '\n';
+#endif
+
+                if (key::modifier::Alt & mouseq_.back().mod) {
+                  float const factor(0.2 * factor_from_modifier(mouseq_.back().mod,
+                                                                *translation_factors));
+                  
+                  glm::vec3 incr;
+
+                  if (glm::abs(direction.x) > glm::abs(direction.y)) {
+                    incr.x += glm::sgn(direction.x) * factor;
+                  }
+                
+                  if (glm::abs(direction.y) > glm::abs(direction.x)) {
+                    incr.y -= glm::sgn(direction.y) * factor;
+                  }
+                  
+#if defined(UKACHULLDCS_HANDLER_NAVIGATION_DEBUG)
+                  std::cout << support::trace::prefix()
+                            << "platform::handler::navigation::simple::press(mouse::button): "
+                            << "incr:" << incr << ',' << mouseq_.back()
+                            << '\n';
+#endif
+
+                  apply_translation(incr);
+                } else {
+                  glm::vec3 axis;
+
+                  if (glm::abs(direction.x) > glm::abs(direction.y)) {
+                    axis.y += glm::sgn(direction.x);
+                  }
+                
+                  if (glm::abs(direction.y) > glm::abs(direction.x)) {
+                    axis.x += glm::sgn(direction.y);
+                  }
+
+                  if (!glm::dot(axis, axis)) {
+                    axis.x += 1;
+                    axis.y += 1;
+                  }
+                  
+                  float const angle(0.1 * factor_from_modifier(mouseq_.back().mod,
+                                                               *rotation_factors));
+                  
+#if defined(UKACHULLDCS_HANDLER_NAVIGATION_DEBUG)
+                  std::cout << support::trace::prefix()
+                            << "platform::handler::navigation::simple::press(mouse::button): "
+                            << "axis:" << axis << ",angle:" << angle << ',' << mouseq_.back()
+                            << '\n';
+#endif
+                
+                  apply_rotation(glm::vec4(axis, angle));
+                }
+              } else {
+                mouse_active_ = true;
+              }
+              
+              result = true;
+            }
+            break;
+              
+          default:
+            break;
+          }
+        }
+        
         return result;
       }
 
@@ -287,8 +416,22 @@ namespace platform {
       {
         TRACE("platform::handler::navigation::simple::release(mouse::button)");
         
-        bool const result(mouse::base::release(a, b, c, d));
+        bool result(mouse::base::release(a, b, c, d));
 
+        if (!result) {
+          switch (mouseq_.back().btn) {
+          case mouse::button::left:
+            if (mouse_active_) {
+              mouse_active_ = false;
+              result        = true;
+            }
+            break;
+            
+          default:
+            break;
+          }
+        }
+        
         return result;
       }
 
@@ -304,7 +447,8 @@ namespace platform {
 #if defined(UKACHULLDCS_HANDLER_NAVIGATION_DEBUG)
         std::cout << support::trace::prefix()
                   << "platform::handler::navigation::simple::apply_rotation: "
-                  << std::make_pair(*xform, *rotation) << '\n';
+                  << std::make_pair(*xform, *rotation)
+                  << '\n';
 #endif
       }
 
@@ -320,7 +464,8 @@ namespace platform {
 #if defined(UKACHULLDCS_HANDLER_NAVIGATION_DEBUG)
         std::cout << support::trace::prefix()
                   << "platform::handler::navigation::simple::apply_scale: "
-                  << std::make_pair(*xform, *scale) << '\n';
+                  << std::make_pair(*xform, *scale)
+                  << '\n';
 #endif
       }
       
@@ -336,7 +481,8 @@ namespace platform {
 #if defined(UKACHULLDCS_HANDLER_NAVIGATION_DEBUG)
         std::cout << support::trace::prefix()
                   << "platform::handler::navigation::simple::apply_translation: "
-                  << std::make_pair(*xform, *translation) << '\n';
+                  << std::make_pair(*xform, *translation)
+                  << '\n';
 #endif
       }
       
