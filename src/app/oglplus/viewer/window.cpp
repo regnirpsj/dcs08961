@@ -283,8 +283,10 @@ namespace viewer {
 
       // view
       if (Uniform<glm::mat4>(prg_, "xform_view").IsActive()) {
-        Uniform<glm::mat4>(prg_, "xform_view").Set(glm::inverse(camera_.xform *
-                                                                navigation_hndlr_->xform.get()));
+        glm::mat4 const xlat(camera_.xform * navigation_hndlr_->translation.get());
+        glm::mat4 const rotl(                navigation_hndlr_->rotation.get());
+        
+        Uniform<glm::mat4>(prg_, "xform_view").Set(rotl * glm::inverse(xlat));
       }
 
       // model(s)
