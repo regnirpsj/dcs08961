@@ -229,6 +229,7 @@ namespace platform {
           case key::modifier::Ctrl:  os << "CTRL";  break;
           case key::modifier::Shift: os << "SHIFT"; break;
           case key::modifier::Super: os << "SUPER"; break;
+          case key::modifier::Last:  os << "LAST";  break;
           default:
             {
               boost::io::ios_all_saver const ias (os);
@@ -301,15 +302,20 @@ namespace platform {
           os << ','
              << a.updwn << ",[";
 
-          static std::array<uint8_t const, 4> const modifier = {
-            { key::modifier::Alt, key::modifier::Ctrl, key::modifier::Shift, key::modifier::Super, }
+          static std::array<std::pair<uint8_t const, std::string>, 4> const modifier = {
+            {
+              std::make_pair(key::modifier::Alt,   "ALT"  ),
+              std::make_pair(key::modifier::Ctrl,  "CTRL" ),
+              std::make_pair(key::modifier::Shift, "SHIFT"),
+              std::make_pair(key::modifier::Super, "SUPER"),
+            }
           };
 
           bool insert(false);
           
           for (auto m : modifier) {
-            if (m & a.mod) {
-              os << key::modifier(m) << '|';
+            if (m.first & a.mod) {
+              os << m.second << '|';
 
               insert = true;
             }
@@ -318,7 +324,11 @@ namespace platform {
           if (insert) {
             os << '\b';
           } else {
-            os << "NONE";
+            if (key::modifier::Last == a.mod) {
+              os << "LAST";
+            } else {
+              os << "NONE";
+            }
           }
           
           os << "],"

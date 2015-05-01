@@ -73,8 +73,14 @@ namespace platform {
       {
         TRACE("platform::handler::mouse::base::motion");
 
+        using key = platform::handler::keyboard::key;
+        
+        uint8_t const mod((key::modifier::Last == a)
+                          ? (!mouseq_.empty() ? mouseq_.back().mod : 0)
+                          : a);
+        
         update_queue(mouseq_,
-                     record{ button::none, state::up, direction::none, a, b, c },
+                     record{ button::none, state::up, direction::none, mod, b, c },
                      mouseq_max_len_);
 
         return false;
@@ -85,10 +91,18 @@ namespace platform {
       {
         TRACE("platform::handler::mouse::base::press");
 
-        button const btn((button::last == a) ? mouseq_.back().btn : a);
+        button const  btn((button::last == a)
+                          ? (!mouseq_.empty() ? mouseq_.back().btn : button::none)
+                          : a);
+
+        using key = platform::handler::keyboard::key;
+        
+        uint8_t const mod((key::modifier::Last == b)
+                          ? (!mouseq_.empty() ? mouseq_.back().mod : 0)
+                          : b);
         
         update_queue(mouseq_,
-                     record{ btn, state::down, direction::none, b, c, d },
+                     record{ btn, state::down, direction::none, mod, c, d },
                      mouseq_max_len_);
 
         return false;
@@ -257,21 +271,40 @@ namespace platform {
           os << '['
              << a.btn   << ','
              << a.updwn << ','
-             << a.dir   <<  ',';
+             << a.dir   << ",[";
 
-          using key = keyboard::key;
-          
-          static std::array<uint8_t const, 4> const modifier = {
-            { key::modifier::Alt, key::modifier::Ctrl, key::modifier::Shift, key::modifier::Super, }
+          using key = handler::keyboard::key;
+
+          static std::array<std::pair<uint8_t const, std::string>, 4> const modifier = {
+            {
+              std::make_pair(key::modifier::Alt,   "ALT"  ),
+              std::make_pair(key::modifier::Ctrl,  "CTRL" ),
+              std::make_pair(key::modifier::Shift, "SHIFT"),
+              std::make_pair(key::modifier::Super, "SUPER"),
+            }
           };
 
+          bool insert(false);
+          
           for (auto m : modifier) {
-            if (m & a.mod) {
-              os << key::modifier(m) << '|';
+            if (m.first & a.mod) {
+              os << m.second << '|';
+
+              insert = true;
+            }
+          }
+
+          if (insert) {
+            os << '\b';
+          } else {
+            if (key::modifier::Last == a.mod) {
+              os << "LAST";
+            } else {
+              os << "NONE";
             }
           }
           
-          os << "\b,"
+          os << "],"
              << glm::io::width(4)
              << a.pos << ','
              << std::dec

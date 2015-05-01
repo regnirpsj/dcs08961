@@ -92,6 +92,7 @@ namespace platform {
           Ctrl  = 0x02,
           Shift = 0x04,
           Super = 0x08,
+          Last  = 0xFF, // use the modifier from the last queue record
         };
         
         enum class state : bool {
