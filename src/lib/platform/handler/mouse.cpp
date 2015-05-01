@@ -85,8 +85,10 @@ namespace platform {
       {
         TRACE("platform::handler::mouse::base::press");
 
+        button const btn((button::last == a) ? mouseq_.back().btn : a);
+        
         update_queue(mouseq_,
-                     record{ a, state::down, direction::none, b, c, d },
+                     record{ btn, state::down, direction::none, b, c, d },
                      mouseq_max_len_);
 
         return false;

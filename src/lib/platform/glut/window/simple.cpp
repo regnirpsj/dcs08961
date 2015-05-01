@@ -541,10 +541,10 @@ namespace platform {
           button const                     btn(convert::to_mouse_button(a));
           
           for (auto mh: w->mouse_handler.get()) {
-            if (b) {
-              mh->press  (btn, mod, pos, now);
-            } else {
-              mh->release(btn, mod, pos, now);
+            switch (b) {
+            case GLUT_DOWN: mh->press  (btn, mod, pos, now); break;
+            case GLUT_UP:   mh->release(btn, mod, pos, now); break;
+            default:                                         break;
             }
           }
         }
@@ -564,7 +564,7 @@ namespace platform {
           glm::ivec2 const                 pos(a, b);
           
           for (auto mh: w->mouse_handler.get()) {
-            mh->press(button::none, convert::to_key_modifier(::glutGetModifiers()), pos, now);
+            mh->press(button::last, convert::to_key_modifier(::glutGetModifiers()), pos, now);
           }
         }
       }

@@ -33,6 +33,7 @@ namespace platform {
       // types, exported (class, enum, struct, union, typedef)
 
       enum class button : int8_t {
+        last   = -2,
         none   = -1,
         left   =  0,
         middle =  1,
