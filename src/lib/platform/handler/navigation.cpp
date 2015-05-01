@@ -180,16 +180,6 @@ namespace platform {
       }
       
       /* virtual */ bool
-      simple::press(key::ascii a, uint8_t b, glm::ivec2 const& c, time_point const& d)
-      {
-        TRACE("platform::handler::navigation::simple::press(key::ascii)");
-        
-        bool const result(keyboard::base::press(a, b, c, d));
-        
-        return result;
-      }
-      
-      /* virtual */ bool
       simple::press(key::code a, uint8_t b, glm::ivec2 const& c, time_point const& d)
       {
         TRACE("platform::handler::navigation::simple::press(key::code)");

@@ -93,11 +93,6 @@ namespace platform {
         
         explicit simple();
 
-        virtual bool press  (key::ascii        /* ascii    */,
-                             uint8_t           /* modifier */ = key::modifier::None,
-                             glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
-                             time_point const& /* stamp    */ = support::clock::now());
-        
         virtual bool press  (key::code         /* key code */,
                              uint8_t           /* modifier */ = key::modifier::None,
                              glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
