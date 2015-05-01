@@ -254,6 +254,7 @@ namespace viewer {
       navigation_hndlr_.reset(new navigation::simple);
       
       keyboard_handler += dynamic_cast<keyboard::base*>(navigation_hndlr_.get());
+      mouse_handler    += dynamic_cast<mouse::base*>   (navigation_hndlr_.get());
     }
     
     ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
