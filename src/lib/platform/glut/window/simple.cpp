@@ -495,13 +495,15 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
+          using key = platform::handler::keyboard::key;
+          
           support::clock::time_point const now(support::clock::now());
           glm::ivec2 const                 pos(b, c);
+          uint8_t const                    mod(convert::to_key_modifier(::glutGetModifiers()));
+          key::ascii const                 chr(convert::to_key_ascii(a));
           
-          for (auto kh: w->keyboard_handler.get()) {
-            kh->press(convert::to_key_ascii   (a),
-                      convert::to_key_modifier(::glutGetModifiers()),
-                      pos, now);
+          for (auto kh : w->keyboard_handler.get()) {
+            kh->press(chr, mod, pos, now);
           }
         }
       }
@@ -514,13 +516,15 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
+          using key = platform::handler::keyboard::key;
+          
           support::clock::time_point const now(support::clock::now());
           glm::ivec2 const                 pos(b, c);
+          uint8_t const                    mod(convert::to_key_modifier(::glutGetModifiers()));
+          key::ascii const                 chr(convert::to_key_ascii(a));
           
-          for (auto kh: w->keyboard_handler.get()) {
-            kh->release(convert::to_key_ascii   (a),
-                        convert::to_key_modifier(::glutGetModifiers()),
-                        pos, now);
+          for (auto kh : w->keyboard_handler.get()) {
+            kh->release(chr, mod, pos, now);
           }
         }
       }
@@ -540,7 +544,7 @@ namespace platform {
           uint8_t const                    mod(convert::to_key_modifier(::glutGetModifiers()));
           button const                     btn(convert::to_mouse_button(a));
           
-          for (auto mh: w->mouse_handler.get()) {
+          for (auto mh : w->mouse_handler.get()) {
             switch (b) {
             case GLUT_DOWN: mh->press  (btn, mod, pos, now); break;
             case GLUT_UP:   mh->release(btn, mod, pos, now); break;
@@ -558,13 +562,14 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
+          using key    = platform::handler::keyboard::key;
           using button = platform::handler::mouse::button;
 
           support::clock::time_point const now(support::clock::now());
           glm::ivec2 const                 pos(a, b);
           
-          for (auto mh: w->mouse_handler.get()) {
-            mh->press(button::last, convert::to_key_modifier(::glutGetModifiers()), pos, now);
+          for (auto mh : w->mouse_handler.get()) {
+            mh->press(button::last, key::modifier::Last, pos, now);
           }
         }
       }
@@ -577,14 +582,15 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
+          using direction = platform::handler::mouse::direction;
+          
           support::clock::time_point const now(support::clock::now());
           glm::ivec2 const                 pos(c, d);
+          uint8_t const                    mod(convert::to_key_modifier(::glutGetModifiers()));
+          direction const                  dir(convert::to_wheel_direction(a, b));
           
-          for (auto mh: w->mouse_handler.get()) {
-            mh->scroll(1.0,
-                       convert::to_wheel_direction(a, b),
-                       convert::to_key_modifier   (::glutGetModifiers()),
-                       pos, now);
+          for (auto mh : w->mouse_handler.get()) {
+            mh->scroll(1.0, dir, mod, pos, now);
           }
         }
       }
@@ -597,11 +603,13 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
         
         if (w) {
+          using key = platform::handler::keyboard::key;
+          
           support::clock::time_point const now(support::clock::now());
           glm::ivec2 const                 pos(a, b);
           
-          for (auto mh: w->mouse_handler.get()) {
-            mh->motion(convert::to_key_modifier(::glutGetModifiers()), pos, now);
+          for (auto mh : w->mouse_handler.get()) {
+            mh->motion(key::modifier::Last, pos, now);
           }
         }
       }
@@ -633,13 +641,15 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
+          using key = platform::handler::keyboard::key;
+          
           support::clock::time_point const now(support::clock::now());
           glm::ivec2 const                 pos(b, c);
+          uint8_t const                    mod(convert::to_key_modifier(::glutGetModifiers()));
+          key::code                        cde(convert::to_key_code(a));
           
-          for (auto kh: w->keyboard_handler.get()) {
-            kh->press(convert::to_key_code    (a),
-                      convert::to_key_modifier(::glutGetModifiers()),
-                      pos, now);
+          for (auto kh : w->keyboard_handler.get()) {
+            kh->press(cde, mod, pos, now);
           }
         }
       }
@@ -652,13 +662,15 @@ namespace platform {
         simple* w(static_cast<simple*>(window::manager::get(::glutGetWindow())));
 
         if (w) {
+          using key = platform::handler::keyboard::key;
+          
           support::clock::time_point const now(support::clock::now());
           glm::ivec2 const                 pos(b, c);
+          uint8_t const                    mod(convert::to_key_modifier(::glutGetModifiers()));
+          key::code                        cde(convert::to_key_code(a));
           
-          for (auto kh: w->keyboard_handler.get()) {
-            kh->release(convert::to_key_code    (a),
-                        convert::to_key_modifier(::glutGetModifiers()),
-                        pos, now);
+          for (auto kh : w->keyboard_handler.get()) {
+            kh->release(cde, mod, pos, now);
           }
         }
       }
