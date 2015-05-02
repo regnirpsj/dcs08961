@@ -54,6 +54,9 @@ namespace {
 
     light_list_type& light_list_;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Woverloaded-virtual"
+
     virtual void visit(scene::node::global_light& a)
     {
       TRACE("render::null:stage::draw::<unnamed>::light_visitor::visit"
@@ -64,6 +67,8 @@ namespace {
       }      
     }
 
+#pragma clang diagnostic pop
+    
     virtual void visit(scene::visitor::subject&)
     {
       TRACE_NEVER("render::null:stage::draw::<unnamed>::light_visitor::visit"
@@ -89,6 +94,9 @@ namespace {
 
     material_list_type& material_list_;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Woverloaded-virtual"
+
     virtual void visit(scene::node::material_group& a)
     {
       TRACE("render::null:stage::draw::<unnamed>::material_visitor::visit"
@@ -96,7 +104,9 @@ namespace {
 
       material_list_.push_back(static_cast<scene::object::material::rep>(*a.material.get()));
     }
-
+    
+#pragma clang diagnostic pop
+    
     virtual void visit(scene::visitor::subject&)
     {
       TRACE_NEVER("render::null:stage::draw::<unnamed>::material_visitor::visit"
