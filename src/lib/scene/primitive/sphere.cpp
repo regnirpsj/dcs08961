@@ -46,11 +46,13 @@ namespace {
   calc_sphere_tcoords(glm::vec3 const& n)
   {
     TRACE("scene::primitive::sphere::<unnamed>::calc_sphere_tcoords");
+
+    using float_type = glm::vec3::value_type;
     
-    static float const pi(glm::pi<float>());
+    static float_type const pi(glm::pi<float_type>());
     
-    float const t((pi - std::acos(n.x)) / pi);
-    float       s(std::atan2(-n.z, n.x) - (pi / 2.0f));
+    float_type const t((pi - std::acos(n.x)) / pi);
+    float_type       s(std::atan2(-n.z, n.x) - (pi / 2.0f));
 
     if (s <= -std::numeric_limits<glm::vec4>::epsilon()) {
       s += 2.0f * pi;
@@ -144,6 +146,8 @@ namespace scene {
     /* virtual */ void
     sphere::do_changed(field::base& f)
     {
+      TRACE("scene::primitive::do_changed");
+      
       if (&f == &subdivision) {
         attribute_list_.clear();
         index_list_.clear();
