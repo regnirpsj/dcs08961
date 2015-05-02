@@ -93,6 +93,9 @@ namespace platform {
         
         explicit simple();
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Woverloaded-virtual"
+
         virtual bool press  (key::ascii        /* ascii    */,
                              uint8_t           /* modifier */ = key::modifier::None,
                              glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
@@ -113,6 +116,8 @@ namespace platform {
                              glm::ivec2 const& /* ptr pos  */ = glm::ivec2(),
                              time_point const& /* stamp    */ = support::clock::now());
 
+#pragma clang diagnostic pop
+        
       private:
 
         bool mouse_active_;
