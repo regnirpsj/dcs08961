@@ -42,7 +42,7 @@ endif()
 
 # OGLplus
 if(CMAKE_HOST_WIN32)
-  set(OGLplus_ROOT_DIR "C:/Tools/oglplus/oglplus-git/_install")
+  set(OGLplus_ROOT_DIR "C:/Tools/oglplus/oglplus-develop-git/_install")
 else()
   if(UNIX)
     set(OGLplus_ROOT_DIR "~/Projects/others/oglplus-master-git/_install")
