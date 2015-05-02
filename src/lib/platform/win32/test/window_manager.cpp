@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(test_platform_win32_window_manager_all)
   
   BOOST_CHECK(s);
   
-  std::vector<signed> const l(window::manager::all());
+  std::vector<window::manager::id_type> const l(window::manager::all());
   
   BOOST_CHECK(1 == l.size());
   

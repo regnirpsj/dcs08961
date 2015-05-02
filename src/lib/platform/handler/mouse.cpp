@@ -18,6 +18,7 @@
 
 // includes, system
 
+#include <array>                  // std::array<>
 #include <boost/io/ios_state.hpp> // boost::io::ios_all_saver
 #include <glm/gtx/io.hpp>         // glm::operator<<
 #include <ostream>                // std::ostream
@@ -156,7 +157,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::mouse::operator<<(button)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           boost::io::ios_all_saver const ias (os);
@@ -195,7 +196,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::mouse::operator<<(direction)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           boost::io::ios_all_saver const ias (os);
@@ -229,7 +230,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::mouse::operator<<(state)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           boost::io::ios_all_saver const ias(os);
@@ -260,7 +261,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::mouse::operator<<(record)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           using namespace std::chrono;

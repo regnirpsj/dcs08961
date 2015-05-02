@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                          */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -98,7 +98,7 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-#if defined(_WIN32)
+#if 0 // defined(_WIN32)
   
   class context_win32 : public render::ogl::context::implementation {
 

@@ -112,7 +112,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::frame::operator<<(record)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           boost::io::ios_all_saver const ias (os);

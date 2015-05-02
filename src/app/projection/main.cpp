@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -222,7 +222,7 @@ namespace {
   test_d3d_native(glm::mat4 const& model, glm::mat4 const& view, bool terse)
   {
 #if defined(_WIN32)
-    glm::mat4 const proj1;
+    glm::mat4 proj1;
     {
       using namespace DirectX;
 
@@ -237,9 +237,9 @@ namespace {
                         xmflt._21, xmflt._22, xmflt._23, xmflt._24,
                         xmflt._31, xmflt._32, xmflt._33, xmflt._34,
                         xmflt._41, xmflt._42, xmflt._43, xmflt._44);
-      proj1 *= glm::scale(1.0f,1.0f,-1.0f);
+      proj1 *= glm::scale(glm::vec3(1.0f, 1.0f, -1.0f));
     }
-    glm::mat4 const proj2;
+    glm::mat4 proj2;
     {
       using namespace DirectX;
 

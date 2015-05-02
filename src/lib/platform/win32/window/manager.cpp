@@ -160,7 +160,7 @@ namespace platform {
       {
         TRACE("platform::win32::window::manager::count");
 
-        return platform::window::manager::count(type::win32);
+        return platform::window::manager::count(window_type::win32);
       }
 
       /* static */ base*
@@ -168,15 +168,15 @@ namespace platform {
       {
         TRACE_NEVER("platform::win32::window::manager::get");
 
-        return static_cast<base*>(platform::window::manager::get(type::win32, a));
+        return static_cast<base*>(platform::window::manager::get(window_type::win32, a));
       }
 
-      /* static */ std::vector<signed>
+      /* static */ std::vector<manager::id_type> const&
       manager::all()
       {
         TRACE_NEVER("platform::win32::window::manager::all");
 
-        return platform::window::manager::all(type::win32);
+        return platform::window::manager::all(window_type::win32);
       }
 
       /* static */ manager::display_list_type const&
@@ -208,7 +208,7 @@ namespace platform {
       {
         TRACE("platform::win32::window::manager::add");
 
-        return platform::window::manager::add(type::win32, a, b);
+        return platform::window::manager::add(window_type::win32, a, b);
       }
 
       /* static */ bool
@@ -216,7 +216,7 @@ namespace platform {
       {
         TRACE("platform::win32::window::manager::sub(base*)");
 
-        return platform::window::manager::sub(type::win32, a);
+        return platform::window::manager::sub(window_type::win32, a);
       }
 
       /* static */ bool
@@ -224,7 +224,7 @@ namespace platform {
       {
         TRACE("platform::win32::window::manager::sub(signed)");
 
-        return platform::window::manager::sub(type::win32, a);
+        return platform::window::manager::sub(window_type::win32, a);
       }
   
     } // namespace window {

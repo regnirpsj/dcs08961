@@ -18,6 +18,7 @@
 
 // includes, system
 
+#include <array>                  // std::array<>
 #include <boost/io/ios_state.hpp> // boost::io::ios_all_saver
 #include <glm/gtx/io.hpp>         // glm::operator<<
 #include <ostream>                // std::ostream
@@ -140,7 +141,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::keyboard::operator<<(key::ascii)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           static std::array<std::string const, 32> const ascii1 = {
@@ -182,7 +183,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::keyboard::operator<<(key::code)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           static std::array<std::string const, 33> const code = {
@@ -218,7 +219,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::keyboard::operator<<(key::modifier)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           os << '[';
@@ -252,7 +253,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::keyboard::operator<<(key::state)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           boost::io::ios_all_saver const ias(os);
@@ -283,7 +284,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::keyboard::operator<<(record)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           using namespace std::chrono;

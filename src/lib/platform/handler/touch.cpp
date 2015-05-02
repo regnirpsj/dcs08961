@@ -122,7 +122,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::touch::operator<<(type)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           switch (a) {
@@ -140,7 +140,7 @@ namespace platform {
       {
         TRACE_NEVER("platform::handler::touch::operator<<(record)");
 
-        typename std::ostream::sentry const cerberus(os);
+        std::ostream::sentry const cerberus(os);
     
         if (cerberus) {
           using namespace std::chrono;

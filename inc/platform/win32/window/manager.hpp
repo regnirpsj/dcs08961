@@ -45,11 +45,12 @@ namespace platform {
         using display_devmode_pair_type = std::pair<DISPLAY_DEVICE, devmode_list_type>;
         using display_list_type         = std::vector<display_devmode_pair_type>;
         using monitor_list_type         = std::vector<MONITORINFOEX>;
+        using id_type                   = platform::window::manager::id_type;
         
         static unsigned count();
         static base*    get(signed);
         
-        static std::vector<signed> all();
+        static std::vector<id_type> const& all();
 
         static display_list_type const& display_list(bool /* re-scan */ = false);
         static monitor_list_type const& monitor_list(bool /* re-scan */ = false);
