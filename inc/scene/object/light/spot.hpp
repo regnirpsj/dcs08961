@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -38,7 +38,7 @@ namespace scene {
 
       public:      
 
-        typedef base::rep rep;
+        using rep = base::rep;
       
         static spot const dflt_light;
 

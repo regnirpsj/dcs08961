@@ -52,7 +52,7 @@ namespace viewer {
     
   private:
 
-    typedef std::vector<std::unique_ptr<model::mesh>> model_mesh_list_type;
+    using model_mesh_list_type = std::vector<std::unique_ptr<model::mesh>>;
 
     struct camera_info_t {
       glm::mat4 xform;

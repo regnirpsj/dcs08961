@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -57,7 +57,7 @@ namespace field {
     // functions, exported
 
     bool
-    manager::connect(::field::base* const s, ::field::base* const d, update_function_type u)
+    manager::connect(field_type* const s, field_type* const d, update_function_type u)
     {
       TRACE("field::connection::manager::connect");
 
@@ -135,7 +135,7 @@ namespace field {
     }
     
     bool
-    manager::disconnect(::field::base* const f)
+    manager::disconnect(field_type* const f)
     {
       TRACE("field::connection::manager::disconnect");
 
@@ -197,7 +197,7 @@ namespace field {
     }
 
     bool
-    manager::update(::field::base* const s)
+    manager::update(field_type* const s)
     {
       TRACE("field::connection::manager::update");
 
@@ -295,7 +295,7 @@ namespace field {
 
     template <typename L, typename R>
     void
-    manager::print_helper(::field::base* a, std::ostream& os) const
+    manager::print_helper(field_type* a, std::ostream& os) const
     {
       TRACE_NEVER("field::connection::manager::print_helper");
       

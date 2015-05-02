@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -36,7 +36,7 @@ namespace scene {
 
       public:
 
-        typedef base subject_inherited;
+        using subject_inherited = base;
 
         explicit orthographic(viewport_type const& /* viewport */ = viewport_type(),
                               glm::vec2 const&     /* near/far */ = glm::vec2(frustum_type().near,

@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -35,10 +35,10 @@ namespace scene {
 
     public:
 
-      typedef base                                      subject_inherited;
-      typedef boost::intrusive_ptr<object::light::base> source_ptr_type;
+      using subject_inherited = base;
+      using source_ptr_type   = boost::intrusive_ptr<object::light::base>;
       
-      field::value::single<source_ptr_type> source;
+      field::value::single<source_ptr_type> source; ///< source
       
       explicit global_light();
 

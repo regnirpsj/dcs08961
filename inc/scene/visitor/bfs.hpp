@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -43,7 +43,7 @@ namespace scene {
 
     protected:
 
-      typedef std::queue<boost::intrusive_ptr<node::base>> node_queue_type;
+      using node_queue_type = std::queue<boost::intrusive_ptr<node::base>>;
 
       node_queue_type node_queue_;
       

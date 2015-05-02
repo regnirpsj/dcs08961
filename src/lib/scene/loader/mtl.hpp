@@ -35,7 +35,7 @@ namespace scene {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      typedef std::vector<boost::intrusive_ptr<object::material>> list_type;
+      using list_type = std::vector<boost::intrusive_ptr<object::material>>;
       
       // variables, exported (extern)
 

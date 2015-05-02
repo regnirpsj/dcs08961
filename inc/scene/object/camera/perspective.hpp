@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -36,7 +36,7 @@ namespace scene {
 
       public:
 
-        typedef base subject_inherited;
+        using subject_inherited = base;
 
         static float const default_fovy; ///< default vertical vield-of-view (60 degrees)
         

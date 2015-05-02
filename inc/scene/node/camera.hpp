@@ -38,8 +38,8 @@ namespace scene {
       
     public:
       
-      typedef base                                       subject_inherited;
-      typedef boost::intrusive_ptr<object::camera::base> camera_ptr_type;
+      using subject_inherited = base;
+      using camera_ptr_type   = boost::intrusive_ptr<object::camera::base>;
       
       field::value::single<camera_ptr_type>   object; ///< camera object
       field::adapter::single<glm::mat4> const view;   ///< inverse(absolute_xform)

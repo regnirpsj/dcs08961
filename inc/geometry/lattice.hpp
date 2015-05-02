@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -33,7 +33,7 @@ namespace geometry {
 
   public:
 
-    typedef T value_type;
+    using value_type = T;
     
     explicit lattice(value_type const& = value_type());
     
@@ -43,8 +43,10 @@ namespace geometry {
     value_type&       at(unsigned, unsigned, unsigned);
     
   protected:
+
+    using data_container_type = std::vector<std::vector<std::vector<value_type>>>;
     
-    std::vector<std::vector<std::vector<value_type>>> data_;
+    data_container_type data_;
     
   };
   

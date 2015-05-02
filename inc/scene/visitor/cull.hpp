@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -37,7 +37,7 @@ namespace scene {
 
     public:
 
-      typedef std::unordered_set<boost::intrusive_ptr<node::geometry>> visible_list_type;
+      using visible_list_type = std::unordered_set<boost::intrusive_ptr<node::geometry>>;
       
       explicit cull(node::camera const&, visible_list_type&);
       virtual ~cull();

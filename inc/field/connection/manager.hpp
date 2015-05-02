@@ -45,13 +45,14 @@ namespace field {
       
     public:
 
-      typedef std::function<void ()> update_function_type;
+      using field_type           = ::field::base;
+      using update_function_type = std::function<void ()>;
       
-      bool connect   (::field::base* const /* src     */,
-                      ::field::base* const /* dst     */,
+      bool connect   (field_type* const    /* src     */,
+                      field_type* const    /* dst     */,
                       update_function_type /* upd     */);
-      bool disconnect(::field::base* const /* src/dst */);
-      bool update    (::field::base* const /* src     */);
+      bool disconnect(field_type* const    /* src/dst */);
+      bool update    (field_type* const    /* src     */);
       
       std::string status() const;
       
@@ -66,9 +67,9 @@ namespace field {
       struct upd {};
       
       using connection_src_type =
-        boost::bimaps::unordered_multiset_of<boost::bimaps::tagged<::field::base*, src>>;
+        boost::bimaps::unordered_multiset_of<boost::bimaps::tagged<field_type*, src>>;
       using connection_dst_type =
-        boost::bimaps::unordered_multiset_of<boost::bimaps::tagged<::field::base*, dst>>;
+        boost::bimaps::unordered_multiset_of<boost::bimaps::tagged<field_type*, dst>>;
       using connection_upd_type =
         boost::bimaps::with_info<boost::bimaps::tagged<update_function_type, upd>>;
       using connection_rel_type =
@@ -84,7 +85,7 @@ namespace field {
       explicit manager(boost::restricted);
 
       template <typename, typename>
-      void print_helper(::field::base*, std::ostream&) const;
+      void print_helper(field_type*, std::ostream&) const;
       
     };
     

@@ -40,7 +40,7 @@ namespace scene {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      typedef std::forward_list<std::string> path_list_type;
+      using path_list_type = std::forward_list<std::string>;
       
       // variables, exported (extern)
 

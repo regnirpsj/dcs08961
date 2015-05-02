@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -34,7 +34,7 @@ namespace scene {
 
     public:
 
-      typedef dynamic subject_inherited;
+      using subject_inherited = dynamic;
       
       field::value::single<glm::vec3> direction; ///< direction [(1,0,0)]
       field::value::single<float>     speed;     ///< speed     [1.0]

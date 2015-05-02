@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -40,10 +40,10 @@ namespace scene {
 
       public:
 
-        typedef object::base     subject_inherited;
-        typedef glm::mat4        matrix_type;
-        typedef camera::frustum  frustum_type;
-        typedef camera::viewport viewport_type;
+        using subject_inherited = object::base;
+        using matrix_type       = glm::mat4;
+        using frustum_type      = camera::frustum;
+        using viewport_type     = camera::viewport;
 
         virtual ~base() =0;
 
@@ -57,13 +57,13 @@ namespace scene {
         frustum_type frustum_;
 
         explicit base(matrix_type const&   /* projection */,
-                      viewport_type const& /* viewport */,
-                      glm::vec2 const&     /* near/far */);
+                      viewport_type const& /* viewport   */,
+                      glm::vec2 const&     /* near/far   */);
 
         virtual void do_changed(field::base&);
 
         frustum_type compute_frustum(viewport_type const& /* viewport */,
-                                     glm::vec2 const& /* near/far */);
+                                     glm::vec2 const&     /* near/far */);
           
       private:
         

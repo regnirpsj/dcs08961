@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -34,9 +34,9 @@ namespace scene {
 
     public:
 
-      typedef group subject_inherited;
+      using subject_inherited = group;
 
-      field::value::single<glm::mat4> xform;
+      field::value::single<glm::mat4> xform; ///< xform
 
       explicit transform(glm::mat4 const& /* xform */ = glm::mat4());
       

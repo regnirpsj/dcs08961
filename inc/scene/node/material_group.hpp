@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -18,7 +18,7 @@
 
 // includes, system
 
-// #include <>
+#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
 
 // includes, project
 
@@ -35,9 +35,10 @@ namespace scene {
 
     public:
 
-      typedef group subject_inherited;
-
-      field::value::single<boost::intrusive_ptr<object::material>> material;
+      using subject_inherited = group;
+      using source_ptr_type   = boost::intrusive_ptr<object::material>;
+      
+      field::value::single<source_ptr_type> material; ///< source
       
       explicit material_group();
 

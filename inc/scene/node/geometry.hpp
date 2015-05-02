@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -36,7 +36,7 @@ namespace scene {
 
     public:
 
-      typedef base subject_inherited;
+      using subject_inherited = base;
       
       struct attribute {
 
@@ -56,10 +56,10 @@ namespace scene {
         
       };
 
-      typedef field::adapter::multi<attribute>           attribute_field_type;
-      typedef attribute_field_type::value_container_type attribute_list_type;
-      typedef field::adapter::multi<unsigned>            index_field_type;
-      typedef index_field_type::value_container_type     index_list_type;
+      using attribute_field_type = field::adapter::multi<attribute>;
+      using attribute_list_type  = attribute_field_type::value_container_type;
+      using index_field_type     = field::adapter::multi<unsigned>;
+      using index_list_type      = index_field_type::value_container_type;
       
       attribute_field_type const attributes; ///< attributes
       index_field_type const     indices;    ///< indices
@@ -72,14 +72,14 @@ namespace scene {
       void compute_tangents();
       
     protected:
-
+      
       attribute_list_type attribute_list_;
       index_list_type     index_list_;
       
       explicit geometry();
 
     private:
-
+      
       attribute_list_type const& cb_get_attributes() const;
       attribute_list_type        cb_set_attributes(attribute_list_type const&);
       bool                       cb_add_attribute (attribute const&);

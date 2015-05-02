@@ -42,8 +42,8 @@ namespace support {
 
   namespace this_thread = std::this_thread;
   
-  typedef std::mutex                   simple_lock;
-  typedef std::lock_guard<simple_lock> simple_lock_guard;
+  using simple_lock       = std::mutex;
+  using simple_lock_guard = std::lock_guard<simple_lock>;
   
   // variables, exported (extern)
 
@@ -51,12 +51,13 @@ namespace support {
   
   // functions, exported (extern)
 
-  DCS08961_SUPPORT_EXPORT void dump_thread_stats(std::ostream&          /* output_stream     */,
-                                                 std::string const&     /* context_string    */,
-                                                 clock::duration const& /* timeout/interval  */,
-                                                 clock::duration const& /* actual activity   */,
-                                                 bool                   /* thread_was_paused */,
-                                                 unsigned               /* dump modulo       */ = 10);
+  DCS08961_SUPPORT_EXPORT
+  void dump_thread_stats(std::ostream&          /* output_stream     */,
+                         std::string const&     /* context_string    */,
+                         clock::duration const& /* timeout/interval  */,
+                         clock::duration const& /* actual activity   */,
+                         bool                   /* thread_was_paused */,
+                         unsigned               /* dump modulo       */ = 10);
 
 } // namespace support {
 

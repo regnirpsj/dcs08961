@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -35,8 +35,8 @@ namespace scene {
 
     public:
 
-      typedef transform                  subject_inherited;
-      typedef support::clock::time_point time_point;
+      using subject_inherited = transform;
+      using time_point        = support::clock::time_point;
 
       field::value::single<time_point> update;
       

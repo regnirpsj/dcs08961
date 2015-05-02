@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -50,8 +50,10 @@ namespace field {
     protected:
 
       friend class container;
+
+      using container_list_type = std::vector<container*>;
       
-      std::vector<container*> container_list_;
+      container_list_type container_list_;
 
       explicit manager();
 
@@ -60,7 +62,7 @@ namespace field {
       
     };
 
-    typedef std::vector<base*> field_list_type;
+    using field_list_type = std::vector<base*>;
     
     static manager& eval_manager();
 

@@ -36,11 +36,12 @@ namespace field {
 
   public:
 
-    typedef ::field::container container_type;
+    using container_type = ::field::container;
+    using time_point     = support::clock::time_point;
     
-    container_type const&             container() const;
-    std::string const&                name() const;
-    support::clock::time_point const& last_change() const;
+    container_type const& container() const;
+    std::string const&    name() const;
+    time_point const&     last_change() const;
     
     void touch();
     
@@ -48,9 +49,9 @@ namespace field {
     
   protected:
 
-    container_type&            container_;
-    std::string                name_;
-    support::clock::time_point last_change_;
+    container_type& container_;
+    std::string     name_;
+    time_point      last_change_;
     
     explicit base(container_type&, std::string const&);
     virtual ~base() =0;

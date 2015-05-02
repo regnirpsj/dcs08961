@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -37,7 +37,7 @@ namespace scene {
 
     public:
 
-      typedef visitor::subject subject_inherited;
+      using subject_inherited = visitor::subject;
 
       struct bounds {
 
@@ -55,10 +55,11 @@ namespace scene {
         
       };
       
+      using parent_field_type = field::adapter::single<base*>;
       
-      field::adapter::single<base*> const parent;   ///< parent node
-      field::value::single<unsigned>      travmask; ///< traversal mask
-      field::value::single<bounds>        bbox;     ///< bounding box
+      parent_field_type const        parent;   ///< parent node
+      field::value::single<unsigned> travmask; ///< traversal mask
+      field::value::single<bounds>   bbox;     ///< bounding box
 
       virtual ~base() =0;
       
@@ -81,8 +82,7 @@ namespace scene {
       
     private:
 
-      typedef field::adapter::single<base*>          parent_field_type;
-      typedef /*typename*/ parent_field_type::value_type parent_type;
+      using parent_type = parent_field_type::value_type;
       
       parent_type const& cb_get_parent() const;
       parent_type        cb_set_parent(parent_type const&);

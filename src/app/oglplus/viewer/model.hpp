@@ -38,7 +38,7 @@ namespace model {
 
   public:
 
-    typedef std::pair<stats::timer::result, stats::timer::result> stats_result_type;
+    using stats_result_type = std::pair<stats::timer::result, stats::timer::result>;
     
     explicit mesh(std::string const&, oglplus::Program&);
 

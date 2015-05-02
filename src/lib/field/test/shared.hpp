@@ -82,7 +82,7 @@ namespace field {
     template <typename T>
     class container_multi : public container_single<T> {
 
-      typedef container_single<T> inherited;
+      using inherited = container_single<T>;
       
     public:
 
@@ -126,7 +126,7 @@ namespace field {
       
     };
 
-    typedef boost::mpl::list<
+    using single_types = boost::mpl::list<
        bool
 #if 1
       ,signed   char
@@ -148,9 +148,9 @@ namespace field {
       ,glm::mat4
       ,glm::vec3
 #endif
-      > single_types;
+      >;
 
-    typedef boost::mpl::list<
+    using multi_types = boost::mpl::list<
        std::vector<bool>
 #if 1
       ,std::vector<signed   char>
@@ -172,7 +172,7 @@ namespace field {
       ,std::vector<glm::mat4>
       ,std::vector<glm::vec3>
 #endif
-      > multi_types;
+      >;
     
     // variables, exported (extern)
   

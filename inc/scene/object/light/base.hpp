@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -79,7 +79,7 @@ namespace scene {
       
       protected:
 
-        typedef std::vector<rep> rep_list_type;
+        using rep_list_type = std::vector<rep>;
         
         rep_list_type rep_list_;
 

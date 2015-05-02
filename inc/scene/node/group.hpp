@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -35,10 +35,10 @@ namespace scene {
       
     public:
 
-      typedef base                                              subject_inherited;
-      typedef field::adapter::multi<boost::intrusive_ptr<base>> children_field_type;
+      using subject_inherited   = base;
+      using children_field_type = field::adapter::multi<boost::intrusive_ptr<base>>;
       
-      children_field_type children;
+      children_field_type children; ///< children
 
       explicit group();
       virtual ~group();
@@ -47,8 +47,8 @@ namespace scene {
 
     protected:
       
-      typedef /*typename*/ children_field_type::value_container_type children_list_type;
-      typedef /*typename*/ children_field_type::value_type           children_type;
+      using children_list_type = children_field_type::value_container_type;
+      using children_type      = children_field_type::value_type;
 
       children_list_type children_list_;
       

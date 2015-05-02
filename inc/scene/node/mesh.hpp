@@ -34,10 +34,10 @@ namespace scene {
 
     public:
 
-      typedef geometry subject_inherited;
+      using subject_inherited = geometry;
       
-      typedef geometry::attribute_list_type attribute_list_type;
-      typedef geometry::index_list_type     index_list_type;
+      using attribute_list_type = geometry::attribute_list_type;
+      using index_list_type     = geometry::index_list_type;
       
       explicit mesh(attribute_list_type const&, index_list_type const&);
       
