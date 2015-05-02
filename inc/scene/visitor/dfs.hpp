@@ -35,7 +35,7 @@ namespace scene {
     public:
       
       virtual ~dfs() =0;
-      
+
       virtual void visit(node::group&);
       
       virtual void print_on(std::ostream&) const;      
