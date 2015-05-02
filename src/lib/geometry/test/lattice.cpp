@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -33,11 +33,10 @@ namespace {
 
   // variables, internal
 
-#if !defined(_MSC_VER) || (_MSC_VER > 1700)
-  constexpr unsigned const dflt[3] = { 5, 3, 2 };
-#else
-            unsigned const dflt[3] = { 5, 3, 2 };
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+  constexpr
 #endif
+  unsigned const dflt[3] = { 5, 3, 2 };
   
   // functions, internal
 
@@ -48,35 +47,52 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_geometry_lattice_ctor)
 {
-  using namespace geometry;
-
-  typedef lattice<glm::vec3, dflt[0], dflt[1], dflt[2]> ltype;
+  using ltype = geometry::lattice<glm::vec3, dflt[0], dflt[1], dflt[2]>;
 
   glm::vec3 const v(0,1,2);
   ltype const     l(v);
   
-  BOOST_CHECK(v == l.at(0,0,0));
-  BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(4) << l);
+  BOOST_CHECK  (v == l.at(0,0,0));
+}
+
+BOOST_AUTO_TEST_CASE(test_geometry_lattice_print_on)
+{
+  using ltype = geometry::lattice<glm::vec3, 1, 2, 3>;
+
+  ltype const l;
+  
+  BOOST_CHECK  (true);
+  BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(3) << l);
 }
 
 BOOST_AUTO_TEST_CASE(test_geometry_lattice_at)
 {
-  using namespace geometry;
+  using ltype = geometry::lattice<glm::vec3, dflt[0], dflt[1], dflt[2]>;
 
-  typedef lattice<glm::vec3, dflt[0], dflt[1], dflt[2]> ltype;
-  
   {
     ltype const l;
     
-    BOOST_CHECK(ltype::value_type() == l.at(0,0,0));
+    BOOST_CHECK  (ltype::value_type() == l.at(0,0,0));
   }
 
   {
     glm::vec3 const v(1,-1,1);
     ltype           l;
-
+    
     l.at(0,0,0) = v;
     
-    BOOST_CHECK(v == l.at(0,0,0));
+    BOOST_CHECK  (v == l.at(0,0,0));
+  }
+
+  {
+    ltype l;
+  
+    BOOST_CHECK_THROW(l.at(dflt[0], dflt[1], dflt[2]), std::range_error);
+  }
+
+  {
+    ltype const l;
+
+    BOOST_CHECK_THROW(l.at(dflt[0], dflt[1], dflt[2]), std::range_error);
   }
 }
