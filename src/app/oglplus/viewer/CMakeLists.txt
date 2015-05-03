@@ -8,7 +8,7 @@
 
 cma_print_current_directory()
 
-find_package(Boost ${BOOST_MINIMUM_VERSION}       REQUIRED COMPONENTS filesystem system)
+find_package(Boost    ${BOOST_MINIMUM_VERSION}    REQUIRED COMPONENTS filesystem system)
 find_package(FreeGLUT ${FREEGLUT_MINIMUM_VERSION} REQUIRED)
 find_package(GLEW                                 REQUIRED ${GLEW_COMPONENTS})
 find_package(GLM      ${GLM_MINIMUM_VERSION}      REQUIRED)
