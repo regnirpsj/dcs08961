@@ -346,7 +346,7 @@ namespace platform {
 #endif
 
                 if (key::modifier::Alt & mouseq_.back().mod) {
-                  float const factor(0.2 * factor_from_modifier(mouseq_.back().mod,
+                  float const factor(0.2f * factor_from_modifier(mouseq_.back().mod,
                                                                 *translation_factors));
                   
                   glm::vec3 incr;
@@ -383,7 +383,7 @@ namespace platform {
                     axis.y += 1;
                   }
                   
-                  float const angle(0.1 * factor_from_modifier(mouseq_.back().mod,
+                  float const angle(0.1f * factor_from_modifier(mouseq_.back().mod,
                                                                *rotation_factors));
                   
 #if defined(UKACHULLDCS_HANDLER_NAVIGATION_DEBUG)

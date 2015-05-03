@@ -52,10 +52,14 @@ namespace platform {
       explicit window_compare(id_type a, base const* b)
         : id_  (a),
           inst_(b)
-      {}
+      {
+        TRACE_NEVER("platform::window::manager::window_compare::window_compare");
+      }
 
       bool operator()(window_id_list_type::value_type const& a) const
       {
+        TRACE_NEVER("platform::window::manager::window_compare::operator()");
+        
         bool result(false);
 
         if        ((-1 != id_) && inst_) {
@@ -79,6 +83,8 @@ namespace platform {
     size_t
     manager::window_type_hasher::operator()(manager::window_type const& a) const
     {
+      TRACE_NEVER("platform::window::manager::window_type_hasher::operator()");
+      
       return static_cast<size_t>(a);
     }
     
@@ -104,7 +110,7 @@ namespace platform {
       unsigned result(0);
 
       for (auto m : window_type_map_) {
-        result += m.second.size();
+        result += unsigned(m.second.size());
       }
       
       return result;
@@ -115,7 +121,7 @@ namespace platform {
     {
       TRACE("platform::window::manager::count(window_type)");
 
-      return window_type_map_[a].size();
+      return unsigned(window_type_map_[a].size());
     }
 
     /* static */ void

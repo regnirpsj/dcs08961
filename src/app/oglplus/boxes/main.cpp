@@ -91,7 +91,7 @@ namespace {
       positions_.Bind(Buffer::Target::Array);
       {
         std::vector<GLfloat> data;
-        GLfloat              size(make_cube_.Positions(data));
+        GLuint               size(make_cube_.Positions(data));
         
         Buffer::Data(Buffer::Target::Array, data);
 
@@ -104,7 +104,7 @@ namespace {
       normals_.Bind(Buffer::Target::Array);
       {
         std::vector<GLfloat> data;
-        GLfloat              size(make_cube_.Normals(data));
+        GLuint               size(make_cube_.Normals(data));
         
         Buffer::Data(Buffer::Target::Array, data);
         

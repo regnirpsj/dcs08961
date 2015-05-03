@@ -86,7 +86,7 @@ namespace platform {
         } else {
           do {
             for (auto id : window::manager::all()) {
-              ::glutPostWindowRedisplay(id);
+              ::glutPostWindowRedisplay(unsigned(id));
             }
             
 #if 0

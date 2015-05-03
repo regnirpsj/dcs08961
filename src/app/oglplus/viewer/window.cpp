@@ -163,10 +163,10 @@ namespace viewer {
           }
 
           catch (std::logic_error&) {
-            size[i] = d.size();
+            size[i] = unsigned(d.size());
           }
 
-          incr[i] = (size[i] > 1) ? 1.05 : 0;
+          incr[i] = (size[i] > 1) ? 1.05f : 0.0f;
 
           ++current_token;
         }
@@ -296,7 +296,8 @@ namespace viewer {
       }
     }
 
-    if (false) {
+#if 0
+    {
       for (auto const& m : model_list_) {
         model::mesh::stats_result_type const sm(m->fetch_stats());
 
@@ -305,6 +306,7 @@ namespace viewer {
 
       std::cout << cpu_stats_.fetch() << '\t' << gpu_stats_.fetch() << '\n';
     }
+#endif
   }
 
   /* virtual */ void

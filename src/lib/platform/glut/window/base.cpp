@@ -207,7 +207,7 @@ namespace platform {
             // the window removed by 'glutDestroyWindow', except if no window is around anymore
             for (auto id : window::manager::all()) {
               if (id != id_) {
-                ::glutSetWindow (id);
+                ::glutSetWindow (unsigned(id));
                 ::glutShowWindow();
                 ::glutPopWindow ();
                 
