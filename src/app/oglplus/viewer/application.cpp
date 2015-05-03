@@ -79,7 +79,7 @@ namespace viewer {
         ("layout,l",
          bpo::value<std::string>(&layout_)->default_value(layout_),
          "layout pattern for input file(s)\n"
-         "format: XxYxZ with X,Y,Z in [0..N] (e.g., line in Z: 1x1xN, cube: 3x3x3)");
+         "format: XxYxZ with X,Y,Z in [1..N] (e.g., line in Z: 1x1xN, cube: 3x3x3)");
         
       od.add_options()
         ("file,f",
