@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -77,6 +77,8 @@ namespace scene {
     /* virtual */ void
     cylinder::do_changed(field::base& f)
     {
+      TRACE("scene::primitive::cylinder::do_changed");
+      
       if (&f == &sides) {
         make_cylinder(*sides, attribute_list_, index_list_);
         

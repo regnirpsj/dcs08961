@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -18,7 +18,8 @@
 
 // includes, system
 
-//#include <>
+#include <sstream>   // std::ostringstream
+#include <stdexcept> // std::range_error
 
 // includes, project
 
@@ -42,28 +43,40 @@ namespace geometry {
     : support::printable(),
       data_             (X, std::vector<std::vector<T>>(Y, std::vector<T>(Z, a)))
   {
-    TRACE("geometry::lattice<T,X,Y,Z>::lattice");
+    TRACE("geometry::lattice<T," + std::to_string(X) + "," + std::to_string(Y) + "," +
+          std::to_string(Z) + ">::lattice");
   }
 
   template <typename T, unsigned X, unsigned Y, unsigned Z>
   inline /* virtual */ void
   lattice<T,X,Y,Z>::print_on(std::ostream& os) const
   {
-    TRACE_NEVER("geometry::lattice<T,X,Y,Z>::print_on");
+    TRACE_NEVER("geometry::lattice<T," + std::to_string(X) + "," + std::to_string(Y) + "," +
+                std::to_string(Z) + ">::print_on");
 
     using support::ostream::operator<<;
     
-    os << '{'
+    os << '['
        << data_.size() << 'x' << data_[0].size() << 'x' << data_[0][0].size() << ':'
        << data_
-       << '}';
+       << ']';
   }
 
   template <typename T, unsigned X, unsigned Y, unsigned Z>
   inline typename lattice<T,X,Y,Z>::value_type const&
   lattice<T,X,Y,Z>::at(unsigned x, unsigned y, unsigned z) const
   {
-    TRACE("geometry::lattice<T,X,Y,Z>::at(const)");
+    TRACE("geometry::lattice<T," + std::to_string(X) + "," + std::to_string(Y) + "," +
+          std::to_string(Z) + ">::at(const)");
+
+    if ((X <= x) || (Y <= y) || (Z <= z)) {
+      std::ostringstream ostr;
+
+      ostr << "geometry::lattice<T," << X << ',' << Y << ',' << Z << ">::at(const): "
+           << "index access at [" << x << ',' << y << ',' << z << "] out of range";
+      
+      throw std::range_error(ostr.str());
+    }
     
     return data_[x][y][z];
   }
@@ -72,7 +85,17 @@ namespace geometry {
   inline typename lattice<T,X,Y,Z>::value_type&
   lattice<T,X,Y,Z>::at(unsigned x, unsigned y, unsigned z)
   {
-    TRACE("geometry::lattice<T,X,Y,Z>::at");
+    TRACE("geometry::lattice<T," + std::to_string(X) + "," + std::to_string(Y) + "," +
+          std::to_string(Z) + ">::at");
+
+    if ((X <= x) || (Y <= y) || (Z <= z)) {
+      std::ostringstream ostr;
+
+      ostr << "geometry::lattice<T," << X << ',' << Y << ',' << Z << ">::at: "
+           << "index access at [" << x << ',' << y << ',' << z << "] out of range";
+      
+      throw std::range_error(ostr.str());
+    }
     
     return data_[x][y][z];
   }
