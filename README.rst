@@ -40,15 +40,28 @@ Linux::
  $> cmake --build . --target test_all
  $> cmake --build . --target install
 
-Windows::
+Windows x86::
 
  $> cd <src-dir-created-by-git-clone>
- $> mkdir build && cd build
- $> cmake -DCMAKE_INSTALL_PREFIX=../install ..
+ $> mkdir build.x86 && cd build.x86
+ $> cmake -DCMAKE_INSTALL_PREFIX=../install.x86 ..
  $> cmake --build . --clean-first -- /nologo /v:q
  $> cmake --build . --target test_all -- /nologo /v:q
  $> cmake --build . --target install -- /nologo /v:q
 
+ Options after `--` apply to `MSBuild.exe`.
+ 
+Windows x64::
+
+ $> cd <src-dir-created-by-git-clone>
+ $> mkdir build.x64 && cd build.x64
+ $> cmake -G "Visual Studio 12 2013 Win64" -DCMAKE_INSTALL_PREFIX=../install.x64 ..
+ $> cmake --build . --clean-first -- /nologo /v:q
+ $> cmake --build . --target test_all -- /nologo /v:q
+ $> cmake --build . --target install -- /nologo /v:q
+
+ Replace the `Visual Studio 12 2013 Win64` generator version as needed.
+ 
 Overview
 --------
 
