@@ -55,7 +55,7 @@ namespace glm {
   operator "" _deg(unsigned long long a)
   {
 #  if defined(GLM_FORCE_RADIANS)
-    return a * T(3.14159265358979323846264338327950288 / 180.0);
+    return a * (3.14159265358979323846264338327950288 / 180.0);
 #  else
     return a;
 #  endif
@@ -65,7 +65,7 @@ namespace glm {
   operator "" _deg(long double a)
   {
 #  if defined(GLM_FORCE_RADIANS)
-    return a * T(3.14159265358979323846264338327950288 / 180.0);
+    return a * (3.14159265358979323846264338327950288 / 180.0);
 #  else
     return a;
 #  endif
@@ -77,7 +77,7 @@ namespace glm {
 #  if defined(GLM_FORCE_RADIANS)
     return a;
 #  else
-    return a * T(180.0 / 3.14159265358979323846264338327950288);
+    return a * (180.0 / 3.14159265358979323846264338327950288);
 #  endif
   }
   
@@ -87,7 +87,7 @@ namespace glm {
 #  if defined(GLM_FORCE_RADIANS)
     return a;
 #  else
-    return a * T(180.0 / 3.14159265358979323846264338327950288);
+    return a * (180.0 / 3.14159265358979323846264338327950288);
 #  endif
   }
 #endif // #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
