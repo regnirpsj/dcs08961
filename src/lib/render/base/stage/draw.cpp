@@ -33,7 +33,7 @@
 namespace {
   
   // types, internal (class, enum, struct, union, typedef)
-
+  
   // variables, internal
   
   // functions, internal
@@ -50,6 +50,27 @@ namespace render {
   
       // functions, exported
 
+      /* virtual */
+      draw::~draw()
+      {
+        TRACE("render::base::stage::draw::~draw");
+      }
+
+      /* explicit */
+      draw::draw(context& a)
+        : base(a)
+      {
+        TRACE("render::base::stage::draw::draw");
+
+        name = "[render::base::stage::draw]";
+      }
+
+      /* virtual */ void
+      draw::do_resize(glm::ivec2 const&)
+      {
+        TRACE("render::base::stage::draw::do_resize");
+      }
+      
     } // namespace stage {
     
   } // namespace base {

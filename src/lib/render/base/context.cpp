@@ -48,6 +48,28 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    context::~context()
+    {
+      TRACE("render::base::context::~context");
+    }
+    
+    /* virtual */ void
+    context::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("render::base::context::print_on");
+
+      os << "[render::base::context]";
+    }
+
+    /* explicit */
+    context::context()
+      : boost::noncopyable(),
+        support::printable()
+    {
+      TRACE("render::base::context::context");
+    }
+    
   } // namespace base {
   
 } // namespace render {

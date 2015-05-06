@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <stdexcept> // std::logic_error
 
 // includes, project
 
@@ -50,6 +50,42 @@ namespace render {
   
       // functions, exported
 
+      /* virtual */
+      container::~container()
+      {
+        TRACE("render::base::pass::container::~container");
+      }      
+
+      /* explicit */
+      container::container(context& a)
+        : base  (a),
+          stages(*this, "stages")
+      {
+        TRACE("render::base::pass::container::container");
+
+        name = "[render::base::pass::container]";
+      }
+
+      /* virtual */ void
+      container::do_apply()
+      {
+        TRACE("render::base::pass::container::do_apply");
+
+        for (auto s : stages.get()) {
+          s->apply();
+        }
+      }
+
+      /* virtual */ void
+      container::do_resize(glm::ivec2 const& a)
+      {
+        TRACE("render::base::pass::container::do_resize");
+
+        for (auto s : stages.get()) {
+          s->resize(a);
+        }
+      }
+      
     } // namespace pass {
     
   } // namespace base {

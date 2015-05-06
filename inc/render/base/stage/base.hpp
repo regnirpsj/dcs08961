@@ -18,7 +18,8 @@
 
 // includes, system
 
-#include <string> // std::string
+#include <glm/glm.hpp> // glm::ivec2
+#include <string>      // std::string
 
 // includes, project
 
@@ -47,8 +48,9 @@ namespace render {
         
         virtual ~base();
 
-        void apply();
-      
+        void apply ();
+        void resize(glm::ivec2 const&);
+         
         virtual void print_on(std::ostream&) const;
 
       protected:
@@ -57,8 +59,9 @@ namespace render {
         
         explicit base(context&);
 
-        virtual void do_apply() =0;
-        
+        virtual void do_apply ()                  =0;
+        virtual void do_resize(glm::ivec2 const&) =0;
+
       };
       
       // variables, exported (extern)

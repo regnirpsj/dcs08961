@@ -22,7 +22,7 @@
 
 // includes, project
 
-#include <field/adapter/multi.hpp>
+#include <field/value/multi.hpp>
 #include <render/base/pass/base.hpp>
 
 namespace render {
@@ -33,21 +33,22 @@ namespace render {
       
       // types, exported (class, enum, struct, union, typedef)
 
-      class DCS08961_RENDER_EXPORT container : public stage::base {
+      class DCS08961_RENDER_EXPORT container : public pass::base {
 
       public:
 
-        using stage_field_type = field::adapter::multi<boost::intrusive_ptr<stage::base>>;
+        using stage_field_type = field::value::multi<boost::intrusive_ptr<stage::base>>;
       
         stage_field_type stages;
-      
+
         virtual ~container();      
 
       protected:
         
         explicit container(context&);
 
-        virtual void do_execute();
+        virtual void do_apply ();
+        virtual void do_resize(glm::ivec2 const&);
         
       };
       

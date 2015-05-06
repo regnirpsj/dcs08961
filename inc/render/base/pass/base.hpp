@@ -18,7 +18,7 @@
 
 // includes, system
 
-// #include <>
+//#include <>
 
 // includes, project
 
@@ -37,17 +37,11 @@ namespace render {
       public:
 
         virtual ~base();
-
-        void execute();
-      
-        virtual void print_on(std::ostream&) const;
-
+        
       protected:
         
         explicit base(context&);
 
-        virtual void do_execute() =0;
-        
       };
       
       // variables, exported (extern)

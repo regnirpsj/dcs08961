@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <stdexcept> // std::logic_error
 
 // includes, project
 
@@ -50,6 +50,19 @@ namespace render {
   
       // functions, exported
 
+      /* virtual */
+      base::~base()
+      {
+        TRACE("render::base::pass::base::~base");
+      }
+      
+      /* explicit */
+      base::base(context& a)
+        : stage::base(a)
+      {
+        TRACE("render::base::pass::base::base");
+      }
+      
     } // namespace pass {
     
   } // namespace base {

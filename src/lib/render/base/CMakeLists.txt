@@ -23,10 +23,11 @@ list(APPEND SRC "stage/base.cpp")
 list(APPEND SRC "stage/clear.cpp")
 list(APPEND SRC "stage/draw.cpp")
 list(APPEND SRC "stage/null.cpp")
+list(APPEND SRC "stage/setup.cpp")
 list(APPEND SRC "stage/swap.cpp")
 list(APPEND SRC "window.cpp")
 
-# ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
+ADD_DEFINITIONS("-DUKACHULLDCS_ALL_TRACE")
 
 set(LIBS)
 list(APPEND LIBS scene)
@@ -37,7 +38,6 @@ set(LIB "render")
 cma_setup_library(${LIB} SOURCES ${SRC} DEPENDENCIES ${LIBS})
 cma_setup_export(${LIB})
 
-add_custom_target(${LIB}_all)
-add_custom_target(test_${LIB}_all)
-
 add_subdirectory(test EXCLUDE_FROM_ALL)
+
+add_dependencies(render_all ${LIB})

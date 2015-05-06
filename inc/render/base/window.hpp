@@ -24,7 +24,7 @@
 
 // includes, project
 
-#include <field/adapter/multi.hpp>
+#include <field/value/multi.hpp>
 #include <field/container.hpp>
 #include <render/export.h>
 
@@ -44,7 +44,7 @@ namespace render {
 
     public:
 
-      using pass_field_type = field::adapter::multi<boost::intrusive_ptr<pass::container>>;
+      using pass_field_type = field::value::multi<boost::intrusive_ptr<pass::container>>;
       
       pass_field_type passes;
       

@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <render/base/pass/container.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -48,6 +48,40 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    window::~window()
+    {
+      TRACE("render::base::window::~window");
+    }
+    
+    /* explicit */
+    window::window()
+      : field::container(),
+        passes          (*this, "passes")
+    {
+      TRACE("render::base::window::window");
+    }
+    
+    /* virtual */ void
+    window::render()
+    {
+      TRACE("render::base::window::render");
+
+      for (auto p : passes.get()) {
+        p->apply();
+      }
+    }
+    
+    /* virtual */ void
+    window::resize(glm::ivec2 const& a)
+    {
+      TRACE("render::base::window::resize");
+
+      for (auto p : passes.get()) {
+        p->resize(a);
+      }
+    }
+    
   } // namespace base {
   
 } // namespace render {

@@ -50,6 +50,27 @@ namespace render {
   
       // functions, exported
 
+      /* virtual */
+      clear::~clear()
+      {
+        TRACE("render::base::stage::clear::~clear");
+      }
+
+      /* explicit */
+      clear::clear(context& a)
+        : base(a)
+      {
+        TRACE("render::base::stage::clear::clear");
+
+        name = "[render::base::stage::clear]";
+      }
+
+      /* virtual */ void
+      clear::do_resize(glm::ivec2 const&)
+      {
+        TRACE("render::base::stage::clear::do_resize");
+      }
+      
     } // namespace stage {
     
   } // namespace base {

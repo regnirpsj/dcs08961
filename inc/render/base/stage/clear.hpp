@@ -41,8 +41,8 @@ namespace render {
       protected:
         
         explicit clear(context&);
-
-        virtual void do_apply();
+        
+        virtual void do_resize(glm::ivec2 const&);
         
       };
       

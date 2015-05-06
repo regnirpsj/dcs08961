@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <stdexcept> // std::logic_error
 
 // includes, project
 
@@ -50,6 +50,33 @@ namespace render {
   
       // functions, exported
 
+      /* virtual */
+      null::~null()
+      {
+        TRACE("render::base::pass::null::~null");
+      }      
+
+      /* explicit */
+      null::null(context& a)
+        : base(a)
+      {
+        TRACE("render::base::pass::null::null");
+
+        name = "[render::base::pass::null]";
+      }
+
+      /* virtual */ void
+      null::do_apply()
+      {
+        TRACE("render::base::pass::null::do_apply");
+      }
+
+      /* virtual */ void
+      null::do_resize(glm::ivec2 const&)
+      {
+        TRACE("render::base::pass::null::do_resize");
+      }
+      
     } // namespace pass {
     
   } // namespace base {

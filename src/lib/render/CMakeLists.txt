@@ -6,4 +6,7 @@
 #                                                                                                  #
 ####################################################################################################
 
+add_custom_target(render_all)
+add_custom_target(test_render_all)
+
 add_subdirectory(base)

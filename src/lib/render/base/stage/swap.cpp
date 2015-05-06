@@ -50,6 +50,27 @@ namespace render {
   
       // functions, exported
 
+      /* virtual */
+      swap::~swap()
+      {
+        TRACE("render::base::stage::swap::~swap");
+      }
+
+      /* explicit */
+      swap::swap(context& a)
+        : base(a)
+      {
+        TRACE("render::base::stage::swap::swap");
+
+        name = "[render::base::stage::swap]";
+      }
+
+      /* virtual */ void
+      swap::do_resize(glm::ivec2 const&)
+      {
+        TRACE("render::base::stage::swap::do_resize");
+      }
+      
     } // namespace stage {
     
   } // namespace base {
