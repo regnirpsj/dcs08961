@@ -18,6 +18,7 @@
 
 // includes, project
 
+#include <render/base/context.hpp>
 #include <render/base/stage/clear.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -30,6 +31,24 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
+  class context : public render::base::context {
+  };
+  
+  class clear_stage : public render::base::stage::clear {
+
+  public:
+
+    explicit clear_stage(render::base::context& a)
+      : render::base::stage::clear(a)
+    {}
+
+  private:
+
+    virtual void do_execute()
+    {}
+    
+  };
+  
   // variables, internal
   
   // functions, internal
@@ -41,5 +60,9 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_stage_clear_ctor)
 {
-  BOOST_CHECK(true);
+  context           c;
+  clear_stage const s(c);
+  
+  BOOST_CHECK  (true);
+  BOOST_MESSAGE(s);
 }

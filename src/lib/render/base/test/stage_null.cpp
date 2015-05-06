@@ -18,6 +18,7 @@
 
 // includes, project
 
+#include <render/base/context.hpp>
 #include <render/base/stage/null.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -30,6 +31,9 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
+  class context : public render::base::context {
+  };
+  
   // variables, internal
   
   // functions, internal
@@ -41,5 +45,9 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_stage_null_ctor)
 {
-  BOOST_CHECK(true);
+  context                         c;
+  render::base::stage::null const n(c);
+  
+  BOOST_CHECK  (true);
+  BOOST_MESSAGE(n);
 }

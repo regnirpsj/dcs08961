@@ -35,12 +35,11 @@ namespace render {
       class DCS08961_RENDER_EXPORT null : public base {
 
       public:
-        
+
+        explicit null(context&);
         virtual ~null();
         
       protected:
-        
-        explicit null(context&);
 
         virtual void do_execute();
         virtual void do_resize (glm::ivec2 const&);

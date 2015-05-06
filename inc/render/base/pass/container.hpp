@@ -41,11 +41,10 @@ namespace render {
       
         stage_field_type stages;
 
+        explicit container(context&);
         virtual ~container();      
 
       protected:
-        
-        explicit container(context&);
 
         virtual void do_execute();
         virtual void do_resize (glm::ivec2 const&);

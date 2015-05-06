@@ -18,6 +18,7 @@
 
 // includes, project
 
+#include <render/base/context.hpp>
 #include <render/base/stage/swap.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -30,6 +31,24 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
+  class context : public render::base::context {
+  };
+  
+  class swap_stage : public render::base::stage::swap {
+
+  public:
+
+    explicit swap_stage(render::base::context& a)
+      : render::base::stage::swap(a)
+    {}
+
+  private:
+
+    virtual void do_execute()
+    {}
+    
+  };
+  
   // variables, internal
   
   // functions, internal
@@ -41,5 +60,9 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_stage_swap_ctor)
 {
-  BOOST_CHECK(true);
+  context           c;
+  swap_stage const s(c);
+  
+  BOOST_CHECK  (true);
+  BOOST_MESSAGE(s);
 }

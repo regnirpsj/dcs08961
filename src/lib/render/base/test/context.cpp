@@ -30,6 +30,16 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
+  class context : public render::base:: context {
+
+  public:
+
+    explicit context()
+      : render::base:: context()
+    {}
+    
+  };
+  
   // variables, internal
   
   // functions, internal
@@ -41,5 +51,8 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_context_ctor)
 {
-  BOOST_CHECK(true);
+  context const c;
+  
+  BOOST_CHECK  (true);
+  BOOST_MESSAGE(c);
 }

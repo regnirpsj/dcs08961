@@ -50,12 +50,6 @@ namespace render {
   
       // functions, exported
 
-      /* virtual */
-      container::~container()
-      {
-        TRACE("render::base::pass::container::~container");
-      }      
-
       /* explicit */
       container::container(context& a)
         : base  (a),
@@ -66,6 +60,12 @@ namespace render {
         name = "[render::base::pass::container]";
       }
 
+      /* virtual */
+      container::~container()
+      {
+        TRACE("render::base::pass::container::~container");
+      }
+      
       /* virtual */ void
       container::do_execute()
       {

@@ -50,12 +50,6 @@ namespace render {
   
       // functions, exported
 
-      /* virtual */
-      null::~null()
-      {
-        TRACE("render::base::stage::null::~null");
-      }
-
       /* explicit */
       null::null(context& a)
         : base(a)
@@ -65,6 +59,12 @@ namespace render {
         name = "[render::base::stage::null]";
       }
 
+      /* virtual */
+      null::~null()
+      {
+        TRACE("render::base::stage::null::~null");
+      }
+      
       /* virtual */ void
       null::do_execute()
       {
