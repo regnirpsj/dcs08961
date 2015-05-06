@@ -68,7 +68,7 @@ namespace render {
       TRACE("render::base::window::render");
 
       for (auto p : passes.get()) {
-        p->apply();
+        p->execute();
       }
     }
     

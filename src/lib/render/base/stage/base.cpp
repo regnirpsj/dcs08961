@@ -57,11 +57,11 @@ namespace render {
       }
       
       void
-      base::apply()
+      base::execute()
       {
-        TRACE("render::base::stage::base::apply");
+        TRACE("render::base::stage::base::execute");
 
-        do_apply();
+        do_execute();
       }
 
       void
@@ -92,11 +92,11 @@ namespace render {
       }
 
       /* virtual */ void
-      base::do_apply()
+      base::do_execute()
       {
-        TRACE("render::base::stage::base::do_apply");
+        TRACE("render::base::stage::base::do_execute");
 
-        throw std::logic_error("pure virtual function 'render::base::stage::base::do_apply' "
+        throw std::logic_error("pure virtual function 'render::base::stage::base::do_execute' "
                                "called");
       }
 

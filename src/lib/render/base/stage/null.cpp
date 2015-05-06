@@ -66,9 +66,9 @@ namespace render {
       }
 
       /* virtual */ void
-      null::do_apply()
+      null::do_execute()
       {
-        TRACE("render::base::stage::null::do_apply");
+        TRACE("render::base::stage::null::do_execute");
       }
       
       /* virtual */ void

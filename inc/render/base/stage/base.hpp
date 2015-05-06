@@ -48,8 +48,8 @@ namespace render {
         
         virtual ~base();
 
-        void apply ();
-        void resize(glm::ivec2 const&);
+        void execute();
+        void resize (glm::ivec2 const&);
          
         virtual void print_on(std::ostream&) const;
 
@@ -59,8 +59,8 @@ namespace render {
         
         explicit base(context&);
 
-        virtual void do_apply ()                  =0;
-        virtual void do_resize(glm::ivec2 const&) =0;
+        virtual void do_execute()                  =0;
+        virtual void do_resize (glm::ivec2 const&) =0;
 
       };
       

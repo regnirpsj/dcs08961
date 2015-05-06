@@ -67,12 +67,12 @@ namespace render {
       }
 
       /* virtual */ void
-      container::do_apply()
+      container::do_execute()
       {
-        TRACE("render::base::pass::container::do_apply");
+        TRACE("render::base::pass::container::do_execute");
 
         for (auto s : stages.get()) {
-          s->apply();
+          s->execute();
         }
       }
 

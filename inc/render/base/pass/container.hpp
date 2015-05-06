@@ -47,8 +47,8 @@ namespace render {
         
         explicit container(context&);
 
-        virtual void do_apply ();
-        virtual void do_resize(glm::ivec2 const&);
+        virtual void do_execute();
+        virtual void do_resize (glm::ivec2 const&);
         
       };
       
