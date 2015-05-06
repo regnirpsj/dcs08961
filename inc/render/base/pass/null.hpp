@@ -36,11 +36,10 @@ namespace render {
 
       public:
 
+        explicit null(context&);
         virtual ~null();      
 
       protected:
-        
-        explicit null(context&);
 
         virtual void do_execute();
         virtual void do_resize (glm::ivec2 const&);
