@@ -296,6 +296,15 @@ namespace support {
   
 } // namespace support {
 
+namespace std {
+
+  template <typename T, typename D> class unique_ptr;
+  
+  template <typename CTy, typename CTr, typename T, typename D>
+  basic_ostream<CTy,CTr>& operator<<(basic_ostream<CTy,CTr>&, unique_ptr<T,D> const&);
+  
+} // namespace std {
+
 #include <support/io_utils.inl>
 
 #endif // #if !defined(UKACHULLDCS_08961_SUPPORT_IO_UTILS_HPP)

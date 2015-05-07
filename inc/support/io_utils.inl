@@ -554,4 +554,22 @@ namespace support {
     
 } // namespace support {
 
+namespace std {
+
+  template <typename CTy, typename CTr,
+            typename T, typename D>
+  inline basic_ostream<CTy,CTr>&
+  operator<<(basic_ostream<CTy,CTr>& os, unique_ptr<T,D> const& a)
+  {
+    typename basic_ostream<CTy,CTr>::sentry const cerberus(os);
+    
+    if (cerberus) {
+      os << a.get();
+    }
+      
+    return os;
+  }
+  
+} // namespace std {
+
 #endif // #if !defined(UKACHULLDCS_08961_SUPPORT_IO_UTILS_INL)

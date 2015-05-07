@@ -21,6 +21,7 @@
 #include <iostream>                // std::cout, std::endl
 #include <list>                    // std::list<>
 #include <map>                     // std::map<>
+#include <memory>                  // std::unique_ptr<>
 #include <set>                     // std::set<>
 #include <typeinfo>                // typeid usage
 #include <unordered_map>           // std::unordered_map<>
@@ -215,4 +216,12 @@ BOOST_AUTO_TEST_CASE(test_support_io_utils_initializer_list)
 {
   BOOST_CHECK(test_initializer_list(std::cout));
   BOOST_CHECK(test_initializer_list(std::wcout));
+}
+
+BOOST_AUTO_TEST_CASE(test_support_io_utils_std_unique_ptr)
+{
+  std::unique_ptr<unsigned> p(new unsigned(42));
+  
+  BOOST_CHECK  (nullptr != p.get());
+  BOOST_MESSAGE("\nstd::unique_ptr<unsigned>:" << p << ':' << *p);
 }
