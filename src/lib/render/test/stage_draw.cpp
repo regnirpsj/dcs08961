@@ -20,6 +20,9 @@
 
 #include <render/context.hpp>
 #include <render/stage/draw.hpp>
+#include <scene/node/camera.hpp>
+#include <scene/node/group.hpp>
+#include <scene/object/camera/perspective.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -30,9 +33,6 @@
 namespace {
   
   // types, internal (class, enum, struct, union, typedef)
-
-  class context : public render::context {
-  };
   
   class draw_stage : public render::stage::draw {
 
@@ -48,6 +48,9 @@ namespace {
     {}
     
   };
+
+  class context : public render::context {
+  };
   
   // variables, internal
   
@@ -60,9 +63,17 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_stage_draw_ctor)
 {
-  context          c;
-  draw_stage const d(c);
+  context    c;
+  draw_stage d(c);
+
+  {
+    using namespace scene;
+    
+    d.camera = new node::camera(new object::camera::perspective);
+    d.scene  = new node::group;
+  }
   
-  BOOST_CHECK  (true);
+  BOOST_CHECK  (nullptr != d.camera.get());
+  BOOST_CHECK  (nullptr != d.scene. get());
   BOOST_MESSAGE(d);
 }
