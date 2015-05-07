@@ -38,7 +38,7 @@ namespace render {
       using stage_field_type = field::value::multi<boost::intrusive_ptr<stage::base>>;
       
       stage_field_type stages;
-
+      
       explicit container(context&);
       virtual ~container();      
 
