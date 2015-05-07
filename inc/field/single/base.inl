@@ -40,7 +40,7 @@ namespace field {
     inline /* virtual */ void
     base<T>::print_on(std::ostream& os) const
     {
-      TRACE_NEVER("field::single::base::<" + support::demangle(typeid(T)) + ">::print_on");
+      TRACE_NEVER("field::single::base<" + support::demangle(typeid(T)) + ">::print_on");
 
       os << '[';
 
@@ -53,7 +53,7 @@ namespace field {
     inline /* virtual */ void
     base<std::wstring>::print_on(std::ostream& os) const
     {
-      TRACE_NEVER("field::single::base::<std::wstring>::print_on");
+      TRACE_NEVER("field::single::base<std::wstring>::print_on");
 
       os << '[';
 
@@ -66,9 +66,9 @@ namespace field {
     inline /* virtual */ typename base<T>::value_type const&
     base<T>::get() const
     {
-      TRACE("field::single::base::<" + support::demangle(typeid(T)) + ">::get");
+      TRACE("field::single::base<" + support::demangle(typeid(T)) + ">::get");
 
-      throw std::logic_error("pure virtual function 'field::single::base::<" +
+      throw std::logic_error("pure virtual function 'field::single::base<" +
                              support::demangle(typeid(T)) + ">::get' called");
     }
 
@@ -76,9 +76,9 @@ namespace field {
     inline /* virtual */ typename base<T>::value_type
     base<T>::set(value_type const&)
     {
-      TRACE("field::single::base::<" + support::demangle(typeid(T)) + ">::set");
+      TRACE("field::single::base<" + support::demangle(typeid(T)) + ">::set");
 
-      throw std::logic_error("pure virtual function 'field::single::base::<" +
+      throw std::logic_error("pure virtual function 'field::single::base<" +
                              support::demangle(typeid(T)) + ">::set' called");
     }
 
@@ -86,7 +86,7 @@ namespace field {
     inline typename base<T>::value_type const&
     base<T>::operator*() const
     {
-      TRACE_NEVER("field::single::base::<" + support::demangle(typeid(T)) + ">::operator*");
+      TRACE_NEVER("field::single::base<" + support::demangle(typeid(T)) + ">::operator*");
 
       return get();
     }
@@ -95,7 +95,7 @@ namespace field {
     inline typename base<T>::value_type const*
     base<T>::operator->() const
     {
-      TRACE_NEVER("field::single::base::<" + support::demangle(typeid(T)) + ">::operator->");
+      TRACE_NEVER("field::single::base<" + support::demangle(typeid(T)) + ">::operator->");
 
       return &(get());
     }
@@ -104,7 +104,7 @@ namespace field {
     inline base<T>&
     base<T>::operator=(value_type const& a)
     {
-      TRACE_NEVER("field::single::base::<" + support::demangle(typeid(T)) + ">::operator=");
+      TRACE_NEVER("field::single::base<" + support::demangle(typeid(T)) + ">::operator=");
 
       set(a);
 
@@ -116,7 +116,7 @@ namespace field {
     base<T>::base(container_type& a, std::string const& b)
       : inherited(a, b)
     {
-      TRACE("field::single::base::<" + support::demangle(typeid(T)) + ">::base");
+      TRACE("field::single::base<" + support::demangle(typeid(T)) + ">::base");
     }
     
   } // namespace single {
