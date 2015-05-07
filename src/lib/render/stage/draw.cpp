@@ -22,7 +22,8 @@
 
 // includes, project
 
-//#include <>
+#include <scene/node/camera.hpp>
+#include <scene/node/group.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -56,7 +57,9 @@ namespace render {
 
     /* explicit */
     draw::draw(context& a)
-      : base(a)
+      : base  (a),
+        camera(*this, "camera", nullptr),
+        scene (*this, "scene",  nullptr)
     {
       TRACE("render::stage::draw::draw");
 

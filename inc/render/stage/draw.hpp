@@ -18,11 +18,22 @@
 
 // includes, system
 
-//#include <>
+#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
 
 // includes, project
 
 #include <render/stage/base.hpp>
+
+namespace scene {
+
+  namespace node {
+
+    class camera;
+    class group;
+    
+  } // namespace node {
+  
+} // namespace scene {
 
 namespace render {
 
@@ -33,11 +44,17 @@ namespace render {
     class DCS08961_RENDER_EXPORT draw : public base {
 
     public:
-        
+
+      using camera_field_type = field::value::single<boost::intrusive_ptr<scene::node::camera>>;
+      using scene_field_type  = field::value::single<boost::intrusive_ptr<scene::node::group>>;
+
+      camera_field_type camera;
+      scene_field_type  scene;
+      
       virtual ~draw();
         
     protected:
-        
+      
       explicit draw(context&);
 
       virtual void do_resize(glm::ivec2 const&);
