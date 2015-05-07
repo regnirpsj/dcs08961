@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <render/stats/cpu.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -34,7 +34,12 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
+  class context : public render::context {
+  } dummy_ctx;
+  
   // variables, internal
+
+  render::stats::cpu dflt_cpu_stats(dummy_ctx);
   
   // functions, internal
 
@@ -45,7 +50,9 @@ namespace render {
   namespace stats {
   
     // variables, exported
-  
+
+    /* static */ base& base::dflt_stats(dflt_cpu_stats);
+    
     // functions, exported
 
     /* virtual */

@@ -18,20 +18,22 @@
 
 // includes, system
 
-#include <glm/glm.hpp> // glm::ivec2
-#include <string>      // std::string
+#include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
+#include <glm/glm.hpp>             // glm::ivec2
+#include <string>                  // std::string
 
 // includes, project
 
 #include <field/container.hpp>
 #include <field/value/single.hpp>
-#include <support/refcounted.hpp>
 #include <render/export.h>
+#include <render/stats/cpu.hpp>
+#include <support/refcounted.hpp>
 
 namespace render {
 
   class context;
-    
+  
   namespace stage {
       
     // types, exported (class, enum, struct, union, typedef)
@@ -43,7 +45,7 @@ namespace render {
 
       field::value::single<bool>        active;
       field::value::single<std::string> name;
-        
+      
       virtual ~base();
 
       void execute();
@@ -53,9 +55,13 @@ namespace render {
 
     protected:
 
-      context& ctx_;
-        
-      explicit base(context&);
+      context&     ctx_;
+      stats::base& stats_execute_;
+      stats::base& stats_resize_;
+      
+      explicit base(context&     /* ctx    */,
+                    stats::base& /* exec   */ = stats::base::dflt_stats,
+                    stats::base& /* resize */ = stats::base::dflt_stats);
 
       virtual void do_execute()                  =0;
       virtual void do_resize (glm::ivec2 const&) =0;

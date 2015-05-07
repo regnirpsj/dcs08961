@@ -22,7 +22,8 @@
 
 // includes, project
 
-//#include <>
+#include <render/stats/cpu.hpp>
+#include <support/io_utils.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -59,6 +60,8 @@ namespace render {
     {
       TRACE("render::stage::base::execute");
 
+      stats::guard const sg(stats_execute_);
+      
       do_execute();
     }
 
@@ -67,7 +70,9 @@ namespace render {
     {
       TRACE("render::stage::base::resize");
 
-      resize(a);
+      stats::guard const sg(stats_resize_);
+      
+      do_resize(a);
     }
     
     /* virtual */ void
@@ -79,12 +84,14 @@ namespace render {
     }
 
     /* explicit */
-    base::base(context& a)
+    base::base(context& a, stats::base& b, stats::base& c)
       : field::container   (),
         support::refcounted(),
         active             (*this, "active", true),
         name               (*this, "name",   "[render::stage::base]"),
-        ctx_               (a)
+        ctx_               (a),
+        stats_execute_     (b),
+        stats_resize_      (c)
     {
       TRACE("render::stage::base::base");
     }

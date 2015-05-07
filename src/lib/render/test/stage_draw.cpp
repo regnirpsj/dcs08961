@@ -40,12 +40,16 @@ namespace {
 
     explicit draw_stage(render::context& a)
       : render::stage::draw(a)
-    {}
+    {
+      TRACE("<unnamed>::draw_stage::draw_stage");
+    }
 
   private:
 
     virtual void do_execute()
-    {}
+    {
+      TRACE("<unnamed>::draw_stage::do_execute");
+    }
     
   };
 
@@ -75,5 +79,26 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_stage_draw_ctor)
   
   BOOST_CHECK  (nullptr != d.camera.get());
   BOOST_CHECK  (nullptr != d.scene. get());
+  BOOST_MESSAGE(d);
+}
+
+BOOST_AUTO_TEST_CASE(test_render_base_test_stage_draw_execute)
+{
+  context    c;
+  draw_stage d(c);
+
+  {
+    using namespace scene;
+    
+    d.camera = new node::camera(new object::camera::perspective);
+    d.scene  = new node::group;
+  }
+  
+  BOOST_CHECK  (nullptr != d.camera.get());
+  BOOST_CHECK  (nullptr != d.scene. get());
+
+  d.resize (glm::ivec2(10, 10));
+  d.execute();
+  
   BOOST_MESSAGE(d);
 }

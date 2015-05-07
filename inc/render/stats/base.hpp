@@ -33,6 +33,8 @@ namespace render {
     
     // types, exported (class, enum, struct, union, typedef)
 
+    class guard;
+    
     class DCS08961_RENDER_EXPORT base : private boost::noncopyable,
                                         public support::printable {
 
@@ -49,7 +51,9 @@ namespace render {
         virtual void print_on(std::ostream&) const;
         
       };
-        
+
+      static base& dflt_stats; // -> cpu
+      
       virtual ~base() =0;
 
       virtual std::unique_ptr<data> fetch() const;
@@ -58,7 +62,7 @@ namespace render {
 
     protected:
 
-      friend class guard;
+      friend class stats::guard;
 
       bool updated_;
         
