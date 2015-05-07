@@ -51,8 +51,6 @@ namespace render {
         virtual void print_on(std::ostream&) const;
         
       };
-
-      static base& dflt_stats; // -> cpu
       
       virtual ~base() =0;
 

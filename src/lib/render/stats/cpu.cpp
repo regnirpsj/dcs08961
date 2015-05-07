@@ -67,7 +67,7 @@ namespace render {
     {
       TRACE_NEVER("render::stats::cpu::data::print_on");
 
-      os << "[render::stats::cpu::data]";
+      os << "[" << rate_in_hz << "Hz," << time_in_ns << "ns]";
     }
 
     /* explicit */

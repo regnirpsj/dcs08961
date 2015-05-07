@@ -60,19 +60,32 @@ namespace render {
     {
       TRACE("render::stage::base::execute");
 
-      stats::guard const sg(stats_execute_);
-      
-      do_execute();
-    }
+      if (*active) {
+        stats::base* s(*stats_execute);
 
+        if (nullptr != s) {
+          stats::guard const sg(*s);
+      
+          do_execute();
+        } else {
+          do_execute();
+        }
+      }
+    }
+    
     void
     base::resize(glm::ivec2 const& a)
     {
       TRACE("render::stage::base::resize");
+      stats::base* s(*stats_resize);
 
-      stats::guard const sg(stats_resize_);
+      if (nullptr != s) {
+        stats::guard const sg(*s);
       
-      do_resize(a);
+        do_resize(a);
+      } else {
+        do_resize(a);
+      }
     }
     
     /* virtual */ void
@@ -84,14 +97,14 @@ namespace render {
     }
 
     /* explicit */
-    base::base(context& a, stats::base& b, stats::base& c)
+    base::base(context& a)
       : field::container   (),
         support::refcounted(),
-        active             (*this, "active", true),
-        name               (*this, "name",   "[render::stage::base]"),
-        ctx_               (a),
-        stats_execute_     (b),
-        stats_resize_      (c)
+        active             (*this, "active",        true),
+        name               (*this, "name",          "[render::stage::base]"),
+        stats_execute      (*this, "stats_execute", nullptr),
+        stats_resize       (*this, "stats_resize",  nullptr),
+        ctx_               (a)
     {
       TRACE("render::stage::base::base");
     }
