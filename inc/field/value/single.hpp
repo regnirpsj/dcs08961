@@ -42,6 +42,9 @@ namespace field {
       explicit single(container_type&    /* container */,
                       std::string const& /* name      */,
                       value_type const&  /* init      */ = value_type());
+      explicit single(container_type&    /* container */,
+                      std::string const& /* name      */,
+                      value_type&&       /* init      */ = value_type());
       virtual ~single();
     
       virtual value_type const& get() const;

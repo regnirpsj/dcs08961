@@ -44,9 +44,18 @@ namespace field {
       : inherited(a, b),
         value_   (c)
     {
-      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::single");
+      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::single(T const&)");
     }
 
+    template <typename T>
+    inline /* explicit */
+    single<T>::single(container_type& a, std::string const& b, value_type&& c)
+      : inherited(a, b),
+        value_   (std::move(c))
+    {
+      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::single(T&&)");
+    }
+    
     template <typename T>
     inline /* virtual */
     single<T>::~single()
