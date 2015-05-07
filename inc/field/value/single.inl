@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -44,16 +44,7 @@ namespace field {
       : inherited(a, b),
         value_   (c)
     {
-      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::single(T const&)");
-    }
-
-    template <typename T>
-    inline /* explicit */
-    single<T>::single(container_type& a, std::string const& b, value_type&& c)
-      : inherited(a, b),
-        value_   (std::move(c))
-    {
-      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::single(T&&)");
+      TRACE("field::value::single<" + support::demangle(typeid(T)) + ">::single");
     }
     
     template <typename T>
