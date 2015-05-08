@@ -37,7 +37,7 @@ namespace {
   // variables, internal
   
   // functions, internal
-
+  
 } // namespace {
 
 namespace render {
