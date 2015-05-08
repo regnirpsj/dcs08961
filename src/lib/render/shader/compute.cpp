@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <stdexcept> // std::logic_error
 
 // includes, project
 
@@ -53,12 +53,34 @@ namespace render {
     {
       TRACE("render::shader::compute::~compute");
     }
+    
+    void
+    compute::dispatch(glm::uvec3 const& a)
+    {
+      TRACE("render::shader::compute::dispatch");
 
+      do_dispatch(a);
+    }
+    
     /* explicit */
     compute::compute(context& a)
       : base(a)
     {
       TRACE("render::shader::compute::compute");
+    }
+
+    /* virtual */ void
+    compute::do_activate()
+    {
+      TRACE("render::shader::compute::do_activate");
+    }
+    
+    /* virtual */ void
+    compute::do_dispatch(glm::uvec3 const&)
+    {
+      TRACE("render::shader::compute::do_dispatch");
+      
+      throw std::logic_error("pure virtual function 'render::shader::compute::do_dispatch' called");
     }
     
   } // namespace shader {

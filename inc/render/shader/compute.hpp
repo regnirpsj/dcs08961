@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <glm/glm.hpp> // glm::uvec3
 
 // includes, project
 
@@ -35,11 +35,17 @@ namespace render {
     public:      
       
       virtual ~compute();
+
+      void activate() =delete;
+      void dispatch(glm::uvec3 const& = glm::uvec3(1,0,0));
       
     protected:
 
       explicit compute(context&);
 
+      virtual void do_activate();
+      virtual void do_dispatch(glm::uvec3 const&) =0;
+      
     };
       
     // variables, exported (extern)
