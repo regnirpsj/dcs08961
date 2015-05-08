@@ -35,8 +35,6 @@ namespace render {
     public:
       
       virtual ~blend();
-      
-      virtual void print_on(std::ostream&) const;
 
     protected:
       

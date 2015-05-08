@@ -35,8 +35,6 @@ namespace render {
     public:
       
       virtual ~sampler();
-      
-      virtual void print_on(std::ostream&) const;
 
     protected:
       
