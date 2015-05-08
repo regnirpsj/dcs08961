@@ -42,11 +42,15 @@ namespace field {
       explicit single(container_type&    /* container */,
                       std::string const& /* name      */,
                       value_type const&  /* init      */ = value_type());
+      explicit single(container_type&    /* container */,
+                      std::string const& /* name      */,
+                      value_type&&       /* init      */);
       virtual ~single();
     
       virtual value_type const& get() const;
       virtual value_type        set(value_type const&);
-
+      virtual value_type        set(value_type&&);
+      
       using inherited::operator*;
       using inherited::operator=;
       

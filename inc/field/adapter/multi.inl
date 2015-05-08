@@ -50,7 +50,7 @@ namespace field {
         sub_value_(f)
     {
       TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::multi(value_container_type)");
+            support::demangle(typeid(C)) + ">::multi");
     }
     
     template <typename T, typename C>
@@ -76,7 +76,7 @@ namespace field {
     multi<T,C>::set(value_container_type const& a)
     {
       TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
-            support::demangle(typeid(C)) + ">::set(value_container_type)");
+            support::demangle(typeid(C)) + ">::set");
 
       value_container_type const result(set_value_(a));
 
@@ -85,6 +85,20 @@ namespace field {
       return result;
     }
 
+    template <typename T, typename C>
+    inline /* virtual */ typename multi<T,C>::value_container_type
+    multi<T,C>::set(value_container_type&& a)
+    {
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
+            support::demangle(typeid(C)) + ">::set(move)");
+
+      value_container_type const result(set_value_(a));
+
+      inherited::changed();
+
+      return result;
+    }
+    
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     template <typename T, typename C>
     inline /* virtual */ typename multi<T,C>::value_container_type
@@ -108,6 +122,22 @@ namespace field {
     {
       TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
             support::demangle(typeid(C)) + ">::add");
+
+      bool const result(add_value_(a));
+
+      if (result) {
+        inherited::changed();
+      }
+
+      return result;
+    }
+
+    template <typename T, typename C>
+    inline /* virtual */ bool
+    multi<T,C>::add(value_type&& a)
+    {
+      TRACE("field::adapter::multi<" + support::demangle(typeid(T)) + "," +
+            support::demangle(typeid(C)) + ">::add(move)");
 
       bool const result(add_value_(a));
 

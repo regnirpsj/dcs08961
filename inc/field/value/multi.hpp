@@ -40,9 +40,12 @@ namespace field {
       using value_container_type = typename inherited::value_container_type;
       using value_type           = typename inherited::value_type;        
 
-      explicit multi(container_type&             /* container */,
-                     std::string const&          /* name */,
-                     value_container_type const& /* init */ = value_container_type());
+      explicit multi(container_type&                   /* container */,
+                     std::string const&                /* name */,
+                     value_container_type const&       /* init */ = value_container_type());
+      explicit multi(container_type&                   /* container */,
+                     std::string const&                /* name */,
+                     value_container_type&&            /* init */);
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
       explicit multi(container_type&                   /* container */,
                      std::string const&                /* name */,
@@ -52,10 +55,12 @@ namespace field {
     
       virtual value_container_type const& get() const;
       virtual value_container_type        set(value_container_type const&);
+      virtual value_container_type        set(value_container_type&&);
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
       virtual value_container_type        set(std::initializer_list<value_type>);
 #endif
       virtual bool                        add(value_type const&);
+      virtual bool                        add(value_type&&);
       virtual bool                        sub(value_type const&);
 
       using inherited::operator*;

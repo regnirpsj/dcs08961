@@ -77,6 +77,19 @@ namespace field {
 
       return result;
     }
+
+    template <typename T>
+    inline /* virtual */ typename single<T>::value_type
+    single<T>::set(value_type&& a)
+    {
+      TRACE("field::adapter::single<" + support::demangle(typeid(T)) + ">::set(move)");
+
+      value_type const result(set_value_(a));
+
+      inherited::changed();
+
+      return result;
+    }
     
   } // namespace adapter {
 
