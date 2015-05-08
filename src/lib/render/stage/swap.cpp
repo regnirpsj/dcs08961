@@ -45,7 +45,7 @@ namespace render {
   namespace stage {
       
     // variables, exported
-  
+    
     // functions, exported
 
     /* virtual */
@@ -56,7 +56,8 @@ namespace render {
 
     /* explicit */
     swap::swap(context& a)
-      : base(a)
+      : base          (a),
+        sync_to_vblank(*this, "sync_to_vblank", true)
     {
       TRACE("render::stage::swap::swap");
 

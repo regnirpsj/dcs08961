@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <GL/glew.h> // ::gl*
 
 // includes, project
 
@@ -67,6 +67,30 @@ namespace render {
       clear::do_execute()
       {
         TRACE("render::ogl::stage::clear::do_execute");
+
+        ::GLbitfield clear_mask(0);
+
+        if (*color) {
+          ::glClearColor(color_value->r, color_value->g, color_value->b, color_value->a);
+
+          clear_mask |= GL_COLOR_BUFFER_BIT;
+        }
+
+        if (*depth) {
+          ::glClearDepth(*depth_value);
+          
+          clear_mask |= GL_DEPTH_BUFFER_BIT;
+        }
+
+        if (*stencil) {
+          ::glClearStencil(*stencil_value);
+          
+          clear_mask |= GL_STENCIL_BUFFER_BIT;
+        }
+
+        if (clear_mask) {
+          ::glClear(clear_mask);
+        }
       }
       
     } // namespace stage {

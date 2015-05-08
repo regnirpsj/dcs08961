@@ -33,7 +33,9 @@ namespace render {
     class DCS08961_RENDER_EXPORT swap : public base {
 
     public:
-        
+      
+      field::value::single<bool> sync_to_vblank; //< (dflt: true)
+      
       virtual ~swap();
         
     protected:

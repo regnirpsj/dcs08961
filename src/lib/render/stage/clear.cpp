@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
@@ -56,7 +56,13 @@ namespace render {
 
     /* explicit */
     clear::clear(context& a)
-      : base(a)
+      : base         (a),
+        color        (*this, "color",         true),
+        color_value  (*this, "color_value",   glm::vec4(0,0,0,0)),
+        depth        (*this, "depth",         true),
+        depth_value  (*this, "depth_value",   1),
+        stencil      (*this, "stencil",       false),
+        stencil_value(*this, "stencil_value", 0)
     {
       TRACE("render::stage::clear::clear");
 
