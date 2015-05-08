@@ -94,6 +94,10 @@ namespace render {
       TRACE_NEVER("render::stage::base::print_on");
 
       field::container::print_on(os);
+
+      os << "\b,"
+         << ctx_
+         << ']';
     }
 
     /* explicit */
