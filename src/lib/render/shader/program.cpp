@@ -38,6 +38,23 @@ namespace {
   
   // functions, internal
 
+  template <typename T>
+  inline std::ostream&
+  operator<<(std::ostream& os, boost::intrusive_ptr<T> const& a)
+  {
+    typename std::ostream::sentry const cerberus(os);
+    
+    if (cerberus) {
+      if (a) {
+        os << *(a.get());
+      } else {
+        os << a.get();
+      }
+    }
+    
+    return os;
+  }
+  
 } // namespace {
 
 namespace render {
