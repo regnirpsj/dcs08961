@@ -18,9 +18,10 @@
 
 // includes, system
 
-#include <algorithm> // std::find<>
-#include <ostream>   // std::ostream
-#include <stdexcept> // std::logic_error
+#include <algorithm>              // std::find<>
+#include <boost/io/ios_state.hpp> // boost::io::ios_all_saver
+#include <ostream>                // std::ostream
+#include <stdexcept>              // std::logic_error
 
 // includes, project
 
@@ -88,18 +89,25 @@ namespace field {
     TRACE_NEVER("field::base::print_on");
 
     using support::ostream::operator<<;
+
+    boost::io::ios_all_saver const ias(os);
     
     os << '['
-       << std::right << std::setw(16) << name_ << '@' << this
-       << "->" << &container_ << ':' << last_change_
+       << std::right << std::setw(19) << name_
+       << '@'
+       << this
+       << "->"
+       << std::hex << &container_
+       << ':'
+       << last_change_
        << ']';
   }
   
   /* explicit */
   base::base(container_type& a, std::string const& b)
-    : container_      (a),
-      name_           (b),
-      last_change_    (support::clock::now())
+    : container_  (a),
+      name_       (b),
+      last_change_(support::clock::now())
   {
     TRACE("field::base::base");
 

@@ -18,10 +18,11 @@
 
 // includes, system
 
-#include <algorithm> // std::find<>
-#include <ostream>   // std::ostream
-#include <stdexcept> // std::logic_error
-#include <typeinfo>  // typeid
+#include <algorithm>              // std::find<>
+#include <boost/io/ios_state.hpp> // boost::io::ios_all_saver
+#include <ostream>                // std::ostream
+#include <stdexcept>              // std::logic_error
+#include <typeinfo>               // typeid
 
 // includes, project
 
@@ -42,6 +43,9 @@ namespace {
 
   class dflt_cntnr_mgr : public field::container::manager {
 
+    using lock_type  = support::simple_lock;
+    using lock_guard = support::simple_lock_guard;
+    
   public:
 
     explicit dflt_cntnr_mgr()
@@ -60,7 +64,7 @@ namespace {
     {
       TRACE_NEVER("field::container::<unnamed>::dflt_cntnr_mgr::print_on");
 
-      support::simple_lock_guard const lg(container_list_lock_);
+      lock_guard const lg(container_list_lock_);
 
       field::container::manager::print_on(os);
     }
@@ -69,7 +73,7 @@ namespace {
     {
       TRACE("field::container::<unnamed>::dflt_cntnr_mgr::evaluate");
 
-      support::simple_lock_guard const lg(container_list_lock_);
+      lock_guard const lg(container_list_lock_);
 
       return field::container::manager::evaluate();
     }
@@ -80,7 +84,7 @@ namespace {
     {
       TRACE("field::container::<unnamed>::dflt_cntnr_mgr::schedule");
 
-      support::simple_lock_guard const lg(container_list_lock_);
+      lock_guard const lg(container_list_lock_);
 
       return field::container::manager::schedule(a);
     }
@@ -89,14 +93,14 @@ namespace {
     {
       TRACE("field::container::<unnamed>::dflt_cntnr_mgr::unschedule");
 
-      support::simple_lock_guard const lg(container_list_lock_);
+      lock_guard const lg(container_list_lock_);
 
       return field::container::manager::unschedule(a);
     }
     
   private:
 
-    mutable support::simple_lock container_list_lock_;
+    mutable lock_type container_list_lock_;
     
   };
   
@@ -231,29 +235,41 @@ namespace field {
     
     touch();
   }
+
+  namespace {
+
+    thread_local unsigned indent(0);
+    
+  } // namespace {
   
   /* virtual */ void
   container::print_on(std::ostream& os) const
   {
     TRACE_NEVER("field::container::print_on");
 
-    std::string prefix(0, ' ');
+    boost::io::ios_all_saver const ias(os);
+    
+    std::string prefix(indent, '\t');
       
-    os << prefix << '['
+    os << '\n' << prefix << '['
        << support::demangle(typeid(*this)) << '@' << this
        << ":["
        << last_change_ << ':' << last_evaluate_
        << "],";
 
-    prefix += ' ';
+    ++indent;
+    {
+      prefix += ' ';
       
-    for (auto const f : field_list_) {
-      os << '\n' << prefix << std::boolalpha << *f;
+      for (auto const f : field_list_) {
+        os << '\n' << prefix << std::boolalpha << *f;
+      }
+      
+      os << '\n'
+         << prefix << "mgr:" << *mgr
+         << ']';
     }
-      
-    os << '\n'
-       << prefix << "mgr:" << *mgr
-       << ']';
+    --indent;
   }
   
   /* explicit */
