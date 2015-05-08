@@ -48,6 +48,19 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    blend::~blend()
+    {
+      TRACE("render::state::blend::~blend");
+    }    
+
+    /* explicit */
+    blend::blend(context& a)
+      : base(a)
+    {
+      TRACE("render::state::blend::blend");
+    }
+    
   } // namespace state {
   
 } // namespace render {

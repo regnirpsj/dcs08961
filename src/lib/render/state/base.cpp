@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <render/context.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -48,6 +48,35 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    base::~base()
+    {
+      TRACE("render::state::base::~base");
+    }
+    
+    /* virtual */ void
+    base::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("render::state::base::print_on");
+
+      field::container::print_on(os);
+
+      os << "\b,"
+         << ctx_
+         << ']';
+    }
+
+    /* explicit */
+    base::base(context& a)
+      : field::container   (),
+        support::refcounted(),
+        active             (*this, "active", true),
+        name               (*this, "name",   "[render::state::base]"),
+        ctx_               (a)
+    {
+      TRACE("render::state::base::base");
+    }
+    
   } // namespace state {
   
 } // namespace render {

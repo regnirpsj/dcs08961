@@ -48,6 +48,19 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    depth_stencil::~depth_stencil()
+    {
+      TRACE("render::state::depth_stencil::~depth_stencil");
+    }    
+
+    /* explicit */
+    depth_stencil::depth_stencil(context& a)
+      : base(a)
+    {
+      TRACE("render::state::depth_stencil::depth_stencil");
+    }
+    
   } // namespace state {
   
 } // namespace render {

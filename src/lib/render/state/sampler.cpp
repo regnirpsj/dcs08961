@@ -48,6 +48,19 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    sampler::~sampler()
+    {
+      TRACE("render::state::sampler::~sampler");
+    }    
+
+    /* explicit */
+    sampler::sampler(context& a)
+      : base(a)
+    {
+      TRACE("render::state::sampler::sampler");
+    }
+    
   } // namespace state {
   
 } // namespace render {

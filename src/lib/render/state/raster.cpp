@@ -48,6 +48,19 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    raster::~raster()
+    {
+      TRACE("render::state::raster::~raster");
+    }    
+
+    /* explicit */
+    raster::raster(context& a)
+      : base(a)
+    {
+      TRACE("render::state::raster::raster");
+    }
+    
   } // namespace state {
   
 } // namespace render {
