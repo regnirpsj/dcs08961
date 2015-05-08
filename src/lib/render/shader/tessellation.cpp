@@ -50,6 +50,32 @@ namespace render {
   
       // functions, exported
 
+      /* virtual */
+      control::~control()
+      {
+        TRACE("render::shader::tessellation::control::~control");
+      }
+
+      /* explicit */
+      control::control(context& a)
+        : base(a)
+      {
+        TRACE("render::shader::tessellation::control::control");
+      }
+
+      /* virtual */
+      evaluation::~evaluation()
+      {
+        TRACE("render::shader::tessellation::evaluation::~evaluation");
+      }
+
+      /* explicit */
+      evaluation::evaluation(context& a)
+        : base(a)
+      {
+        TRACE("render::shader::tessellation::evaluation::evaluation");
+      }
+      
     } // namespace tessellation {
     
   } // namespace shader {

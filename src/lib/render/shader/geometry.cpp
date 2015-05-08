@@ -48,6 +48,19 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    geometry::~geometry()
+    {
+      TRACE("render::shader::geometry::~geometry");
+    }
+
+    /* explicit */
+    geometry::geometry(context& a)
+      : base(a)
+    {
+      TRACE("render::shader::geometry::geometry");
+    }
+    
   } // namespace shader {
   
 } // namespace render {

@@ -47,7 +47,20 @@ namespace render {
     // variables, exported
   
     // functions, exported
+    
+    /* virtual */
+    fragment::~fragment()
+    {
+      TRACE("render::shader::fragment::~fragment");
+    }
 
+    /* explicit */
+    fragment::fragment(context& a)
+      : base(a)
+    {
+      TRACE("render::shader::fragment::fragment");
+    }
+    
   } // namespace shader {
   
 } // namespace render {

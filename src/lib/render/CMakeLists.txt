@@ -24,6 +24,7 @@ list(APPEND SRC "shader/base.cpp")
 list(APPEND SRC "shader/compute.cpp")
 list(APPEND SRC "shader/fragment.cpp")
 list(APPEND SRC "shader/geometry.cpp")
+list(APPEND SRC "shader/program.cpp")
 list(APPEND SRC "shader/tessellation.cpp")
 list(APPEND SRC "shader/vertex.cpp")
 

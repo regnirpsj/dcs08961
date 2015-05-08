@@ -48,6 +48,19 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    vertex::~vertex()
+    {
+      TRACE("render::shader::vertex::~vertex");
+    }
+
+    /* explicit */
+    vertex::vertex(context& a)
+      : base(a)
+    {
+      TRACE("render::shader::vertex::vertex");
+    }
+    
   } // namespace shader {
   
 } // namespace render {

@@ -48,6 +48,19 @@ namespace render {
   
     // functions, exported
 
+    /* virtual */
+    compute::~compute()
+    {
+      TRACE("render::shader::compute::~compute");
+    }
+
+    /* explicit */
+    compute::compute(context& a)
+      : base(a)
+    {
+      TRACE("render::shader::compute::compute");
+    }
+    
   } // namespace shader {
   
 } // namespace render {
