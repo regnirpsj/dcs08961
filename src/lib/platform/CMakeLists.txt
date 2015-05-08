@@ -45,11 +45,10 @@ cma_setup_export(${LIB})
 add_custom_target(${LIB}_all)
 add_custom_target(test_${LIB}_all)
 
+add_subdirectory(test EXCLUDE_FROM_ALL)
 add_subdirectory(glut)
 add_subdirectory(glx)
 add_subdirectory(oglplus)
 add_subdirectory(posix)
 add_subdirectory(win32)
 add_subdirectory(winrt)
-
-add_subdirectory(test EXCLUDE_FROM_ALL)
