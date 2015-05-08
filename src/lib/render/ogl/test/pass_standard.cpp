@@ -18,6 +18,7 @@
 
 // includes, project
 
+#include <render/ogl/context.hpp>
 #include <render/ogl/pass/standard.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -41,5 +42,14 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_render_ogl_pass_standard)
 {
-  BOOST_CHECK(true);
+  using namespace render::ogl;
+
+  context        c;
+  pass::standard p(c);
+
+  p.resize (glm::ivec2(10, 10));
+  p.execute();
+  
+  BOOST_CHECK  (true);
+  BOOST_MESSAGE(p);
 }

@@ -47,7 +47,32 @@ namespace render {
     // variables, exported
   
     // functions, exported
-        
+
+    /* explicit */
+    context::context()
+      : render::context()
+    {
+      TRACE("render::ogl::context::context");
+    }
+    
+    /* virtual */
+    context::~context()
+    {
+      TRACE("render::ogl::context::~context");
+    }
+      
+    /* virtual */ void
+    context::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("render::ogl::context::print_on");
+
+      render::context::print_on(os);
+
+      os << "\b,"
+         << "render::ogl::context"
+         << ']';
+    }
+    
   } // namespace ogl {
     
 } // namespace render {

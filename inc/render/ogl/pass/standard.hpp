@@ -23,6 +23,10 @@
 // includes, project
 
 #include <render/pass/base.hpp>
+#include <render/ogl/stage/clear.hpp>
+#include <render/ogl/stage/draw.hpp>
+#include <render/ogl/stage/setup.hpp>
+#include <render/ogl/stage/swap.hpp>
 
 namespace render {
 
@@ -40,9 +44,16 @@ namespace render {
 
         explicit standard(ogl::context&);
         virtual ~standard();
+
+        virtual void print_on(std::ostream&) const;
         
       private:
-
+        
+        stage::setup setup_;
+        stage::clear clear_;
+        stage::draw  draw_;
+        stage::swap  swap_;
+        
         virtual void do_execute();
         virtual void do_resize (glm::ivec2 const&);
       

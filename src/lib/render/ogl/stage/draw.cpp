@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <render/ogl/context.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -50,6 +50,25 @@ namespace render {
   
       // functions, exported
 
+      /* explicit */
+      draw::draw(ogl::context& a)
+        : render::stage::draw(a)
+      {
+        TRACE("render::ogl::stage::draw::draw");
+      }
+      
+      /* virtual */
+      draw::~draw()
+      {
+        TRACE("render::ogl::stage::draw::~draw");
+      }
+      
+      /* virtual */ void
+      draw::do_execute()
+      {
+        TRACE("render::ogl::stage::draw::do_execute");
+      }
+      
     } // namespace stage {
         
   } // namespace ogl {

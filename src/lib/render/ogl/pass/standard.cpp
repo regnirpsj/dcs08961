@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <render/ogl/context.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -50,6 +50,60 @@ namespace render {
   
       // functions, exported
 
+      /* explicit */
+      standard::standard(ogl::context& a)
+        : render::pass::base(a),
+          setup_            (a),
+          clear_            (a),
+          draw_             (a),
+          swap_             (a)
+      {
+        TRACE("render::ogl::pass::standard::standard");
+      }
+      
+      /* virtual */
+      standard::~standard()
+      {
+        TRACE("render::ogl::pass::standard::~standard");
+      }
+
+      /* virtual */ void
+      standard::print_on(std::ostream& os) const
+      {
+        TRACE_NEVER("render::ogl::pass::standard::print_on");
+
+        render::pass::base::print_on(os);
+
+        os << "\b,\n"
+           << setup_ << ",\n"
+           << clear_ << ",\n"
+           << draw_  << ",\n"
+           << swap_
+           << ']';
+      }
+      
+      /* virtual */ void
+      standard::do_execute()
+      {
+        TRACE("render::ogl::pass::standard::do_execute");
+
+        setup_.execute();
+        clear_.execute();
+        draw_. execute();
+        swap_. execute();
+      }
+
+      /* virtual */ void
+      standard::do_resize(glm::ivec2 const& a)
+      {
+        TRACE("render::ogl::pass::standard::do_resize");
+
+        setup_.resize(a);
+        clear_.resize(a);
+        draw_. resize(a);
+        swap_. resize(a);
+      }
+      
     } // namespace pass {
         
   } // namespace ogl {

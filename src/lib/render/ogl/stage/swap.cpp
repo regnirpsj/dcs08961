@@ -22,7 +22,7 @@
 
 // includes, project
 
-//#include <>
+#include <render/ogl/context.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -50,6 +50,25 @@ namespace render {
   
       // functions, exported
 
+      /* explicit */
+      swap::swap(ogl::context& a)
+        : render::stage::swap(a)
+      {
+        TRACE("render::ogl::stage::swap::swap");
+      }
+      
+      /* virtual */
+      swap::~swap()
+      {
+        TRACE("render::ogl::stage::swap::~swap");
+      }
+      
+      /* virtual */ void
+      swap::do_execute()
+      {
+        TRACE("render::ogl::stage::swap::do_execute");
+      }
+      
     } // namespace stage {
         
   } // namespace ogl {
