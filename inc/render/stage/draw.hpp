@@ -23,17 +23,8 @@
 // includes, project
 
 #include <render/stage/base.hpp>
-
-namespace scene {
-
-  namespace node {
-
-    class camera;
-    class group;
-    
-  } // namespace node {
-  
-} // namespace scene {
+#include <scene/node/camera.hpp>
+#include <scene/node/group.hpp>
 
 namespace render {
 

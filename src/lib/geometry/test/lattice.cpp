@@ -33,7 +33,7 @@ namespace {
 
   // variables, internal
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   constexpr
 #endif
   unsigned const dflt[3] = { 5, 3, 2 };

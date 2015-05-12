@@ -27,15 +27,10 @@
 #include <field/value/multi.hpp>
 #include <field/container.hpp>
 #include <render/export.h>
+#include <render/pass/container.hpp>
 
 namespace render {
 
-  namespace pass {
-
-    class container;
-      
-  };
-    
   // types, exported (class, enum, struct, union, typedef)
 
   class DCS08961_RENDER_EXPORT window : public field::container {

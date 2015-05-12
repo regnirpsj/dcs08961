@@ -18,7 +18,8 @@
 
 // includes, system
 
-#include <GL/glew.h> // ::gl*
+#include <GL/glew.h>      // ::gl*
+#include <glm/gtx/io.hpp> // glm::operator<<
 
 // includes, project
 
