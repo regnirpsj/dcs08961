@@ -122,13 +122,14 @@ namespace scene {
   namespace primitive {
     
     // variables, exported
-    
+
+    /* static */ unsigned const sphere::dflt_subdivision(4);
     // functions, exported
 
     /* explicit */
-    sphere::sphere()
+    sphere::sphere(unsigned a)
       : node::geometry(),
-        subdivision   (*this, "subdivision", 4)
+        subdivision   (*this, "subdivision", a)
     {
       TRACE("scene::primitive::sphere::sphere");
 
