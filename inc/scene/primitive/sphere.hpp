@@ -36,7 +36,9 @@ namespace scene {
 
       using subject_inherited = node::geometry;
 
-      explicit sphere();
+      static unsigned const dflt_subdivision; // == 4
+      
+      explicit sphere(unsigned = dflt_subdivision);
 
       field::value::single<unsigned> subdivision; ///< sub-disviion levels
       
