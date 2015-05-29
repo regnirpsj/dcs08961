@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(test_scene_primitive_sphere_ctor)
 {
   using namespace scene::primitive;
   
-  sphere const c;
+  sphere const c(0);
   
   BOOST_CHECK(true);
   BOOST_MESSAGE(c << '\n');
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(test_scene_primitive_sphere_subdiv)
 {
   using namespace scene::primitive;
   
-  sphere c;
+  sphere c(0);
 
   BOOST_MESSAGE(c << '\n');
   
