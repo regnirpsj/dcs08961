@@ -20,6 +20,9 @@
 
 #include <algorithm>      // std::remove<>
 #include <glm/gtx/io.hpp> // glm::operator<<
+#if defined(_OPENMP)
+#  include <omp.h>        // omp_*
+#endif
 #include <ostream>        // std::ostream
 
 // includes, project
@@ -40,6 +43,21 @@ namespace {
   
   // functions, internal
 
+#if !defined(_OPENMP)
+  signed
+  omp_get_thread_num()
+  {
+    return 0;
+  }
+  
+  signed
+  omp_get_num_threads()
+  {
+    return -1;
+  }
+  
+#endif
+  
 } // namespace {
 
 namespace scene {
@@ -104,7 +122,16 @@ namespace scene {
       
       std::vector<std::pair<glm::vec3, glm::vec3>> tarray(index_list_.size());
 
-      for (unsigned i(0); i < index_list_.size(); i += 3) {
+#if defined(_OPENMP)
+#  pragma omp parallel for
+#endif
+      for (unsigned i = 0; i < index_list_.size(); i += 3) {
+        TRACE_NEVER("scene::node::geometry::compute_tangents:1:" +
+                    std::to_string(i) + "/" +
+                    std::to_string(index_list_.size()) + "(" +
+                    std::to_string(omp_get_thread_num()) + "/" +
+                    std::to_string(omp_get_num_threads()) + ")");
+        
         unsigned const i1(index_list_[i+0]);
         unsigned const i2(index_list_[i+1]);
         unsigned const i3(index_list_[i+2]);
@@ -137,15 +164,25 @@ namespace scene {
                              (s1 * y2 - s2 * y1) * r,
                              (s1 * z2 - s2 * z1) * r);
         
-        for (unsigned k(i); k < i + 3; ++k) {
+        for (unsigned k = i; k < i + 3; ++k) {
           tarray[k].first  += sdir;
           tarray[k].second += tdir;
         }
       }
 
-      for (auto idx : index_list_) {
-        auto&       a(attribute_list_[idx]);
-        auto const& t(tarray[idx]);
+#if defined(_OPENMP)
+#  pragma omp parallel for
+#endif
+      for (unsigned i = 0; i < index_list_.size(); ++i) {
+        TRACE_NEVER("scene::node::geometry::compute_tangents:2:" +
+                    std::to_string(i) + "/" +
+                    std::to_string(index_list_.size()) + "(" +
+                    std::to_string(omp_get_thread_num()) + "/" +
+                    std::to_string(omp_get_num_threads()) + ")");
+        
+        auto const& idx(index_list_[i]);
+        auto&       a  (attribute_list_[idx]);
+        auto const& t  (tarray[idx]);
         
         a.tangent = glm::vec4(glm::normalize(t.first - a.normal * glm::dot(a.normal, t.first)),
                               ((0.0 > glm::dot(glm::cross(a.normal, t.first), t.second))
