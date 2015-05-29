@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -103,7 +103,7 @@ namespace scene {
       TRACE("scene::node::geometry::compute_tangents");
       
       std::vector<std::pair<glm::vec3, glm::vec3>> tarray(index_list_.size());
-        
+
       for (unsigned i(0); i < index_list_.size(); i += 3) {
         unsigned const i1(index_list_[i+0]);
         unsigned const i2(index_list_[i+1]);
@@ -152,7 +152,7 @@ namespace scene {
                                ? -1.0f : 1.0f));
       }
     }
-
+    
     /* explicit */
     geometry::geometry()
       : base           (),

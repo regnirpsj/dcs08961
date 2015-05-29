@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -47,4 +47,19 @@ BOOST_AUTO_TEST_CASE(test_scene_primitive_sphere_ctor)
   
   BOOST_CHECK(true);
   BOOST_MESSAGE(c << '\n');
+}
+
+BOOST_AUTO_TEST_CASE(test_scene_primitive_sphere_subdiv)
+{
+  using namespace scene::primitive;
+  
+  sphere c;
+
+  BOOST_MESSAGE(c << '\n');
+  
+  for (unsigned i(4); i < 11; ++i) {
+    c.subdivision = i;
+  
+    BOOST_CHECK(i == *c.subdivision);
+  }
 }
