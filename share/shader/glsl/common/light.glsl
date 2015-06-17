@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -29,16 +29,16 @@
 /* types, internal (enum, struct, union, typedef) */
 
 struct light_t {
-  vec4  position;    // [x,y,z,q] w=0:directional, w=1:positional
+  vec4  position;    // [x,y,z,w] w=0:directional, w=1:positional
   vec3  direction;   // [x,y,z]
-  bool  enabled;
+  bool  enabled;     // no default in opengl
   vec3  ambient;     // ka
   float exponent;    // [0, 128], spot exponent describes light distribution in the spot cone
   vec3  diffuse;     // kd
   float cutoff;      // [0, 90] || 180 ([0, PI/2] || PI), this is the half-angle of the spot cone
   vec3  specular;    // ks
   float pad0;
-  vec3  attenuation; // [c,l,q], for 1/(q*d^2+l*d+c)
+  vec3  attenuation; // [c,l,q], for 1/((q*d^2) + (l*d) + c)
   float pad1;
 };
 

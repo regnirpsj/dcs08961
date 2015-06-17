@@ -36,7 +36,7 @@ const light_t default_light = {
   /* ambient     */ vec3(0.0, 0.0, 0.0),
   /* exponent    */ 0.0,
   /* diffuse     */ vec3(1.0, 1.0, 1.0),
-  /* cutoff      */ const_pi,
+  /* cutoff      */ 180.0,
   /* specular    */ vec3(1.0, 1.0, 1.0),
   /* pad0        */ -1.0,
   /* attenuation */ vec3(1.0, 0.0, 0.0),
@@ -66,19 +66,19 @@ struct light_cone_parameter_t {
 };
 
 const light_cone_parameter_t default_light_cone_parameters = {
-  0.0,
-  0.0,
-  0.0,
-  false,
+  /* cos_inner_angle      */ 0.0,
+  /* cos_outer_angle      */ 0.0,
+  /* diff_inner_outer     */ 0.0,
+  /* compute_falloff_spot */ false,
 };
 
 /* variables, uniform */
 
-layout (std430) buffer light_list_t {
+layout (std430) buffer light_list_buf {
   light_t light_list[];
 };
 
-layout (std430) buffer material_list_t {
+layout (std430) buffer material_list_buf {
   material_t material_list[];
 };
 
@@ -146,7 +146,7 @@ light_accumulate(in    const light_t light, //
 
     L = normalize(L);
 
-    float NdotL = dot(N, L);
+    float NdotL = max(dot(N, L), 0.0);
 
     if (0.0 < NdotL) {
       light_cone_parameter_t lcp = setup_light_cone(light);
@@ -158,15 +158,16 @@ light_accumulate(in    const light_t light, //
         attenuation *= saturate((cos_cur_angle - lcp.cos_outer_angle) / lcp.diff_inner_outer);
       }
 
-      float exponent   = max(128.0 / material_shininess, 0.0);
-      vec3  V          = normalize(P - C[3].xyz);
-      float NdotV      = max(dot(N, V), 0.0);
-      vec4  lit_result = lit(NdotL, NdotV, exponent);
+      float exponent   = max(128.0 / min(material_shininess, 128.0), 0.0);
+      vec3  V          = normalize(C[3].xyz - P);
+      vec3  H          = normalize(L + V);
+      float NdotH      = max(dot(N, H), 0.0);
+      vec4  lit_result = lit(NdotL, NdotH, exponent);
 
       diffuse  += (attenuation * light.diffuse  * lit_result.y);
       specular += (attenuation * light.specular * lit_result.z);
     }
-
+    
     ambient += attenuation * light.ambient;
   }
 }
@@ -181,15 +182,15 @@ light_accumulate(in    const vec3  P, // fragment position (wc)
                  inout       vec3  specular)
 {
   if (0 < light_list.length()) {
-    for (uint i = 0; i < light_list.length(); ++i) {
-      light_accumulate(light_list[i], P, N, C, material_shininess, ambient, diffuse, specular);
+    for (uint idx = 0; idx < light_list.length(); ++idx) {
+      light_accumulate(light_list[idx], P, N, C, material_shininess, ambient, diffuse, specular);
     }
   } else {
     light_t tmp = default_light;
-
+    
     tmp.enabled  = true;
     tmp.position = C * vec4(-tmp.direction, 0);
-    tmp.ambient  = vec3(0.125);
+    tmp.ambient  = const_color_ambient.rgb;
     
     light_accumulate(tmp, P, N, C, material_shininess, ambient, diffuse, specular);
   }
@@ -202,8 +203,10 @@ material_get(in const int idx)
 
   if ((material_list.length() > idx) && (0 <= idx)) {
     result = material_list[idx];
+  } else {
+    result.shininess = 48.0;
   }
-
+  
   return result;
 }
 

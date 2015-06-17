@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -23,7 +23,7 @@
 #if defined(MAXIMUM_PERFORMANCE)
 #  pragma optimize(on)
 #  pragma optionNV(fastmath      on)
-#  pragma optionNV(fastprecision on)
+//#  pragma optionNV(fastprecision on)
 #  pragma optionNV(unroll        all)
 #  pragma optionNV(inline        all)
 #  pragma optionNV(ifcvt         all)
