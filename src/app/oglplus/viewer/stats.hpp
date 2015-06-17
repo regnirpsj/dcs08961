@@ -12,9 +12,9 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_APP_COMMON_STATS_HPP)
+#if !defined(UKACHULLDCS_08961_APP_OGLPLUS_VIEWER_STATS_HPP)
 
-#define UKACHULLDCS_08961_APP_COMMON_STATS_HPP
+#define UKACHULLDCS_08961_APP_OGLPLUS_VIEWER_STATS_HPP
 
 // includes, system
 
@@ -132,4 +132,4 @@ namespace stats {
   
 } // namespace stats {
 
-#endif // #if !defined(UKACHULLDCS_08961_APP_COMMON_STATS_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_VIEWER_STATS_HPP)

@@ -112,7 +112,7 @@ namespace model {
                                          bsphere.Center().y(),
                                          bsphere.Center().z()));
       if (!bsphere.Degenerate()) {
-        xform_ = glm::scale ( glm::vec3(1.0 / bsphere.Diameter())) * xform_;
+        xform_ = glm::scale(glm::vec3(1.0 / bsphere.Diameter())) * xform_;
       }
     }
 

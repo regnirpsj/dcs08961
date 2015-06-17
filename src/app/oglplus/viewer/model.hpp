@@ -12,9 +12,9 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_APP_COMMON_MODEL_HPP)
+#if !defined(UKACHULLDCS_08961_APP_OGLPLUS_VIEWER_MODEL_HPP)
 
-#define UKACHULLDCS_08961_APP_COMMON_MODEL_HPP
+#define UKACHULLDCS_08961_APP_OGLPLUS_VIEWER_MODEL_HPP
 
 // includes, system
 
@@ -71,4 +71,4 @@ namespace model {
   
 } // namespace model {
 
-#endif // #if !defined(UKACHULLDCS_08961_APP_COMMON_MODEL_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_VIEWER_MODEL_HPP)
