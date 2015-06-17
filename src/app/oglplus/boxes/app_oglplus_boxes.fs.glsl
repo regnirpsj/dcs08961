@@ -12,7 +12,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
-#version 330
+#version 430 core
 
 #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_FS_GLSL)
 
@@ -24,6 +24,10 @@
 
 /* variables, uniform */
 
+layout (std430) buffer DiffuseListBuf {
+  vec3 DiffuseList[];
+};
+
 /* variables, global */
 
 in  vec3 vertColor;
@@ -34,8 +38,13 @@ out vec3 fragColor;
 void
 main()
 {
-  fragColor      = vertColor;
-  fragColor.xyz *= 1.05;
+  fragColor = vertColor;
+
+  if (0 < DiffuseList.length()) {
+    fragColor.xyz *= DiffuseList[0];
+  } else {
+    fragColor.xyz *= 1.05;
+  }
 }
 
 #endif /* #if !defined(UKACHULLDCS_08961_APP_OGLPLUS_GLSL_APP_OGLPLUS_01_FS_GLSL) */

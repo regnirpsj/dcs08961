@@ -35,7 +35,7 @@
 #include <support/signal_handler.hpp>
 
 #define UKACHULLDCS_USE_TRACE
-//#undef UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 
 // internal unnamed namespace
@@ -44,6 +44,8 @@ namespace {
 
   // types, internal (class, enum, struct, union, typedef)
 
+  
+  
   class window : public platform::glut::window::simple {
     
     using inherited = platform::glut::window::simple;
@@ -113,7 +115,26 @@ namespace {
         attr.Setup<GLfloat>(size);
         attr.Enable();
       }
-    
+      
+      {
+        ShaderStorageBlock block(prg_, "DiffuseListBuf");
+        
+        block.Binding(0);
+
+        lights_.Bind(Buffer::Target::ShaderStorage);
+        
+        using diffuse_list_type = std::array<glm::vec3 const, 2>;
+        
+        diffuse_list_type const data = {
+          glm::vec3(0.90, 0.90, 0.10),
+          glm::vec3(0.75, 0.75, 0.75),
+        };
+        
+        Buffer::Data(Buffer::Target::ShaderStorage, data, BufferUsage::DynamicDraw);
+        
+        lights_.BindBaseShaderStorage(0);
+      }
+      
       ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
       ctx_.ClearDepth(1.0f);
       ctx_.Enable(Capability::DepthTest);
@@ -173,6 +194,7 @@ namespace {
     oglplus::VertexArray                   cube_va_;
     oglplus::Buffer                        positions_;
     oglplus::Buffer                        normals_;
+    oglplus::Buffer                        lights_;
     oglplus::Lazy<oglplus::Uniform<float>> frame_time_;
   };
   
