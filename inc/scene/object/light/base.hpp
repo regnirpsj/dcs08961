@@ -26,6 +26,7 @@
 
 #include <field/adapter/multi.hpp>
 #include <field/value/single.hpp>
+#include <glm/gtx/utilities.hpp>
 #include <scene/object/base.hpp>
 
 namespace scene {

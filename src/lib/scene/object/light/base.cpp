@@ -52,8 +52,15 @@ namespace scene {
       // functions, exported
 
       /* explicit */
-      base::rep::rep(bool a, glm::vec4 const& b, glm::vec3 const& c, glm::vec3 const& d,
-                     glm::vec3 const& e, glm::vec3 const& f, glm::vec3 const& g, float h, float i)
+      base::rep::rep(bool             a, // active
+                     glm::vec4 const& b, // position
+                     glm::vec3 const& c, // spot direction
+                     glm::vec3 const& d, // ambient
+                     glm::vec3 const& e, // diffuse
+                     glm::vec3 const& f, // specular
+                     glm::vec3 const& g, // attenuation
+                     float            h, // spot exponent
+                     float            i) // spot cutoff
         : position   (b),
           direction  (c),
           active     (a),
@@ -62,9 +69,9 @@ namespace scene {
           diffuse    (e),
           cutoff     (i),
           specular   (f),
-          pad0       (0),
+          pad0       (-1),
           attenuation(g),
-          pad1       (0)
+          pad1       (-1)
       {   
         TRACE("scene::object::light::base::rep::rep");
       } 
