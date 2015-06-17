@@ -31,6 +31,7 @@
 
 #include <platform/oglplus/application.hpp>
 #include <support/chrono_io.hpp>
+#include <support/io_utils.hpp>
 #include <support/string.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -81,6 +82,7 @@ namespace viewer {
       tex_diffuse_     (),
       tex_envmap_      (),
       model_list_      (),
+      light_list_      ("light_list_buf", prg_),
       cpu_stats_       (a.argv0 + ":cpu"),
       gpu_stats_       (a.argv0 + ":gpu"),
       camera_          ({ glm::mat4() }),
@@ -145,7 +147,7 @@ namespace viewer {
       // to avoid removal/deactivation of attributes ARB_separate_shader_objects is used
       prg_.MakeSeparable(true).BuildInclude({ b, d, }).Link().Use();
     }
-
+    
     if (!d.empty()) {
       glm::uvec3 size;
       glm::vec3  incr;
@@ -247,7 +249,7 @@ namespace viewer {
                                                glm::vec3(size - glm::uvec3(1)) * glm::vec3(0.5),
                                                glm::vec3( 0.0f, 1.0f, 0.0f)));
     }
-
+    
     {
       using namespace platform::handler;
       
@@ -282,14 +284,57 @@ namespace viewer {
 
       ctx_.Clear().ColorBuffer().DepthBuffer();
 
+      glm::mat4 xfview;
+      
       // view
       if (Uniform<glm::mat4>(prg_, "xform_view").IsActive()) {
         glm::mat4 const xlat(camera_.xform * navigation_hndlr_->translation.get());
         glm::mat4 const rotl(                navigation_hndlr_->rotation.get());
+
+        xfview = rotl * glm::inverse(xlat);
         
-        Uniform<glm::mat4>(prg_, "xform_view").Set(rotl * glm::inverse(xlat));
+        Uniform<glm::mat4>(prg_, "xform_view").Set(xfview);
       }
 
+      {
+        using light_t = light_list_type::value_type;
+      
+        std::array<light_t const, 4> const lights = {
+          {
+            light_t(true,
+                    //glm::inverse(xfview) *
+                    glm::vec4( 1.0,  0.0,  0.0,  0.0),
+                    glm::vec3(-1.0,  0.0,  0.0),
+                    glm::vec3( 0.1,  0.0,  0.0),
+                    glm::vec3( 0.3,  0.0,  0.0),
+                    glm::vec3( 0.6,  0.0,  0.0)),
+            light_t(true,
+                    //glm::inverse(xfview) *
+                    glm::vec4( 0.0,  1.0,  0.0,  0.0),
+                    glm::vec3( 0.0, -1.0,  0.0),
+                    glm::vec3( 0.0,  0.1,  0.0),
+                    glm::vec3( 0.0,  0.3,  0.0),
+                    glm::vec3( 0.0,  0.6,  0.0)),
+            light_t(true,
+                    //glm::inverse(xfview) *
+                    glm::vec4( 0.0,  0.0,  1.0,  0.0),
+                    glm::vec3( 0.0,  0.0, -1.0),
+                    glm::vec3( 0.0,  0.0,  0.1),
+                    glm::vec3( 0.0,  0.0,  0.3),
+                    glm::vec3( 0.0,  0.0,  0.6)),
+            light_t(true,
+                    (glm::inverse(xfview) * glm::vec4(0.0, 0.0,  0.0, 1.0)),
+                    (glm::inverse(xfview) * glm::vec4(0.0, 0.0, -1.0, 0.0)).xyz(),
+                    glm::vec3( 0.1,  0.1,  0.1),
+                    glm::vec3( 0.3,  0.3,  0.3),
+                    glm::vec3( 0.6,  0.6,  0.6),
+                    glm::vec3( 1.0,  0.0,  0.0), 64.0, 45.0/*_deg*/),
+          }
+        };
+      
+        light_list_.update(lights);
+      }
+      
       // model(s)
       for (auto const& m : model_list_) {
         m->draw();

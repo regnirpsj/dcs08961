@@ -25,7 +25,10 @@
 #include <platform/application/command_line.hpp>
 #include <platform/glut/window/simple.hpp>
 #include <platform/handler/navigation.hpp>
+#include <scene/object/light/base.hpp>
+
 #include <model.hpp>
+#include <ssbo.hpp>
 
 namespace viewer {
   
@@ -64,11 +67,14 @@ namespace viewer {
       glm::vec2 near_far;
     };
     
+    using light_list_type = buffer::multi_value<scene::object::light::base::rep>;
+    
     oglplus::Context     ctx_;
     oglplus::Program     prg_;
     oglplus::Texture     tex_diffuse_;
     oglplus::Texture     tex_envmap_;
     model_mesh_list_type model_list_;
+    light_list_type      light_list_;
     stats::cpu           cpu_stats_;
     stats::gpu           gpu_stats_;
     camera_info_t        camera_;
