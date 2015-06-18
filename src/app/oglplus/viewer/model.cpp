@@ -185,8 +185,8 @@ namespace model {
       Uniform<glm::mat4>(prg_, "xform_model").Set(xform_);
     }
     
-    if (Lazy<Uniform<signed>>(prg_, "mtl_id").IsActive()) {
-      Lazy<Uniform<signed>>(prg_, "mtl_id").Set(mtl_id_);
+    if (Lazy<Uniform<signed>>(prg_, "material_id").IsActive()) {
+      Lazy<Uniform<signed>>(prg_, "material_id").Set(mtl_id_);
     }
       
     vao_.Bind();

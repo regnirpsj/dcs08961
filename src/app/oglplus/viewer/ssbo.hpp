@@ -21,6 +21,10 @@
 #include <GL/glew.h>       // ::gl*
 #include <oglplus/all.hpp>
 
+#include <algorithm> // std::m[ax|in]<>
+#include <array>     // std::array<>
+#include <vector>    // std::vector<>
+
 // includes, project
 
 // #include <>
@@ -69,21 +73,21 @@ namespace buffer {
 
   template <typename T>
   class multi_value : public base {
-
+    
   public:
 
     using value_type = T;
 
-    explicit multi_value(std::string const& a, oglplus::Program& b, unsigned c = 1)
+    explicit multi_value(std::string const& a, oglplus::Program& b, unsigned c = 0)
       : base             (a, b),
-        ssb_binding_     (c)
+        ssb_binding_     (std::min(std::max(c, unsigned(0)),
+                                   unsigned(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS-1)))
     {}
     
     virtual ~multi_value()
     {}
-
-    template <template <typename> class Container>
-    void update(Container<T> const& a)
+    
+    void update(std::vector<T> const& a)
     {
       using namespace oglplus;
       
@@ -98,8 +102,8 @@ namespace buffer {
       buf_.BindBaseShaderStorage(ssb_binding_);
     }
 
-    template <template <typename, std::size_t> class Container, std::size_t N>
-    void update(Container<T const, N> const& a)
+    template <std::size_t N>
+    void update(std::array<T const, N> const& a)
     {
       using namespace oglplus;
       
@@ -121,7 +125,7 @@ namespace buffer {
   };
   
   // variables, exported (extern)
-
+  
   // functions, inlined (inline)
   
   // functions, exported (extern)

@@ -82,7 +82,8 @@ namespace viewer {
       tex_diffuse_     (),
       tex_envmap_      (),
       model_list_      (),
-      light_list_      ("light_list_buf", prg_),
+      light_list_      ("light_list_buf",    prg_, 1),
+      material_list_   ("material_list_buf", prg_, 2),
       cpu_stats_       (a.argv0 + ":cpu"),
       gpu_stats_       (a.argv0 + ":gpu"),
       camera_          ({ glm::mat4() }),
@@ -283,7 +284,7 @@ namespace viewer {
       using namespace oglplus;
 
       ctx_.Clear().ColorBuffer().DepthBuffer();
-
+      
       glm::mat4 xfview;
       
       // view
@@ -295,7 +296,7 @@ namespace viewer {
         
         Uniform<glm::mat4>(prg_, "xform_view").Set(xfview);
       }
-
+      
       {
         using light_t = light_list_type::value_type;
       
@@ -333,6 +334,26 @@ namespace viewer {
         };
       
         light_list_.update(lights);
+      }
+
+      {
+        using material_t = material_list_type::value_type;
+        
+        std::array<material_t const, 1> const materials = {
+          {
+            material_t(glm::vec3(0.2, 0.2, 0.2),
+                       glm::vec3(0.8, 0.8, 0.8),
+                       glm::vec3(0.0, 0.0, 0.0),
+                       glm::vec3(0.2, 0.2, 0.2),
+                       glm::vec3(0.0, 0.0, 0.0),
+                       1.0,
+                       64.0,
+                       1.0,
+                       true, false),
+          }
+        };
+      
+        material_list_.update(materials);
       }
       
       // model(s)
