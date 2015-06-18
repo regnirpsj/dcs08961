@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -36,10 +36,10 @@ uniform mat4x4 xform_model;
 uniform mat4x4 xform_view;
 uniform mat4x4 xform_projection;
 
-uniform int         material_id;
-uniform bool        material_tex_diffuse_enabled;
+uniform int         material_id                  = -1;
+uniform bool        material_tex_diffuse_enabled = false;
 uniform sampler2D   material_tex_diffuse;
-uniform bool        material_tex_envmap_enabled;
+uniform bool        material_tex_envmap_enabled  = false;
 uniform samplerCube material_tex_envmap;
 
 /* variables, global */

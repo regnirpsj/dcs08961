@@ -31,7 +31,7 @@
 struct light_t {
   vec4  position;    // [x,y,z,w] w=0:directional, w=1:positional
   vec3  direction;   // [x,y,z]
-  bool  enabled;     // no default in opengl
+  bool  enabled;     // 
   vec3  ambient;     // ka
   float exponent;    // [0, 128], spot exponent describes light distribution in the spot cone
   vec3  diffuse;     // kd

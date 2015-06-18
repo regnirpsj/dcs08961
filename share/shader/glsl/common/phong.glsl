@@ -74,11 +74,11 @@ const light_cone_parameter_t default_light_cone_parameters = {
 
 /* variables, uniform */
 
-layout (std430) buffer light_list_buf {
+layout (std140) buffer light_list_buf {
   light_t light_list[];
 };
 
-layout (std430) buffer material_list_buf {
+layout (std140) buffer material_list_buf {
   material_t material_list[];
 };
 
@@ -158,9 +158,10 @@ light_accumulate(in    const light_t light, //
         attenuation *= saturate((cos_cur_angle - lcp.cos_outer_angle) / lcp.diff_inner_outer);
       }
 
-      float exponent   = max(128.0 / min(material_shininess, 128.0), 0.0);
+      float exponent   = clamp(material_shininess, 0.0, 128.0);
       vec3  V          = normalize(C[3].xyz - P);
       vec3  H          = normalize(L + V);
+      float NdotV      = max(dot(N, V), 0.0);
       float NdotH      = max(dot(N, H), 0.0);
       vec4  lit_result = lit(NdotL, NdotH, exponent);
 
@@ -204,7 +205,8 @@ material_get(in const int idx)
   if ((material_list.length() > idx) && (0 <= idx)) {
     result = material_list[idx];
   } else {
-    result.shininess = 48.0;
+    result.specular  = result.diffuse * 0.66;
+    result.shininess = 64.0;
   }
   
   return result;

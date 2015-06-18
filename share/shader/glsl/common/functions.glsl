@@ -58,13 +58,8 @@ vec4
 lit(in const float NdotL, in const float NdotH, in const float exponent)
 { 
   float ambient  = 1.0;
-  float diffuse  = max(NdotL, 0.0);
-
-#if 0
-  float specular = step(0.0, NdotL) * max(NdotH * exponent, 0.0);
-#else
+  float diffuse  = NdotL;
   float specular = (min(NdotL, NdotH) < 0.0) ? 0.0 : pow(NdotH, exponent);
-#endif
   
   return vec4(ambient, diffuse, specular, 1.0);
 }
