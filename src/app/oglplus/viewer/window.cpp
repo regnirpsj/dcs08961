@@ -55,8 +55,14 @@ namespace {
     double fps() const
     {
       using namespace std::chrono;
+
+      double result(1.0);
+
+      if (!frameq_.empty()) {
+        result /= duration_cast<duration<double>>(frameq_.back().cma).count();
+      }
       
-      return (1.0 / duration_cast<duration<double>>(frameq_.back().cma).count());
+      return result;
     }
     
   } dflt_frame_handler;
@@ -65,6 +71,23 @@ namespace {
   
   // functions, internal
 
+  std::string
+  glsl_normalize_string(std::string const& a)
+  {
+    std::string result(a);
+
+    std::replace(result.begin(), result.end(), '\\', '/');
+
+    std::string const            s("C:");
+    std::string::size_type const i(result.find(s));
+
+    if (i != std::string::npos) {
+      result.replace(i, s.length(), "/c");
+    }
+
+    return result;
+  }
+  
 } // namespace {
 
 namespace viewer {
@@ -100,7 +123,7 @@ namespace viewer {
     {
       namespace bfs = boost::filesystem;
 
-      static std::string const sep(support::wstring_to_string(bfs::path("/").make_preferred().native()));
+      static std::string const sep("/");
       static std::string const dd ("..");
       
 #if defined(_WIN32)
@@ -115,38 +138,44 @@ namespace viewer {
 
       std::array<std::string const, 10> const file_names = {
         {
-          std::string(b + sep + "phong.vp.glsl"),
-          std::string(b + sep + "phong.fp.glsl"),
-          std::string(b + sep + "common/config.glsl"),
-          std::string(b + sep + "common/constants.glsl"),
-          std::string(b + sep + "common/functions.glsl"),
-          std::string(b + sep + "common/light.glsl"),
-          std::string(b + sep + "common/material.glsl"),
-          std::string(b + sep + "common/phong.glsl"),
-          std::string(b + sep + "common/pipeline.glsl"),
-          std::string(b + sep + "common/uniforms.glsl"),
+          std::string("phong.vp.glsl"),
+          std::string("phong.fp.glsl"),
+          std::string("common/config.glsl"),
+          std::string("common/constants.glsl"),
+          std::string("common/functions.glsl"),
+          std::string("common/light.glsl"),
+          std::string("common/material.glsl"),
+          std::string("common/phong.glsl"),
+          std::string("common/pipeline.glsl"),
+          std::string("common/uniforms.glsl"),
         }
       };
 
-      for (auto fn : file_names) {
-        // std::cout << "loading shader file: '" << fn << "'\n";
+      for (auto fname : file_names) {
+        auto fn(b + sep + fname);
+        
+        std::cout << "loading shader file: '" << fn << "'";
                   
         std::stringstream src;
 
         src << std::ifstream(fn).rdbuf();
 
         if (!src.str().empty()) {
-          NamedString::Set(NamedStringType::ShaderInclude, fn, src.str());
+          std::string const tmp(glsl_normalize_string(fn));
+          
+          std::cout << " as '" << tmp << "'\n";
+          
+          NamedString::Set(NamedStringType::ShaderInclude, tmp, src.str());
         } else {
           throw std::runtime_error("unable to load content for shader file '" + fn + "'");
         }
       }
 
-      prg_ << VertexShader  ().Source(NamedString::Get(file_names[0]))
-           << FragmentShader().Source(NamedString::Get(file_names[1]));
+      prg_ << VertexShader  ().Source(NamedString::Get(glsl_normalize_string(b + sep + file_names[0])))
+           << FragmentShader().Source(NamedString::Get(glsl_normalize_string(b + sep + file_names[1])));
 
       // to avoid removal/deactivation of attributes ARB_separate_shader_objects is used
-      prg_.MakeSeparable(true).BuildInclude({ b, d, }).Link().Use();
+      prg_.MakeSeparable(true).BuildInclude({ glsl_normalize_string(d), glsl_normalize_string(b) }).Link().Use();
     }
     
     if (!d.empty()) {
