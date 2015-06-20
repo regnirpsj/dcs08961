@@ -125,7 +125,7 @@ namespace scene {
 #if defined(_OPENMP)
 #  pragma omp parallel for
 #endif
-      for (unsigned i = 0; i < index_list_.size(); i += 3) {
+      for (signed i = 0; i < index_list_.size(); i += 3) {
         TRACE_NEVER("scene::node::geometry::compute_tangents:1:" +
                     std::to_string(i) + "/" +
                     std::to_string(index_list_.size()) + "(" +
@@ -173,7 +173,7 @@ namespace scene {
 #if defined(_OPENMP)
 #  pragma omp parallel for
 #endif
-      for (unsigned i = 0; i < index_list_.size(); ++i) {
+      for (signed i = 0; i < index_list_.size(); ++i) {
         TRACE_NEVER("scene::node::geometry::compute_tangents:2:" +
                     std::to_string(i) + "/" +
                     std::to_string(index_list_.size()) + "(" +
