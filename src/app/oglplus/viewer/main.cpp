@@ -44,10 +44,12 @@ int
 main(int argc, char const* argv[])
 {
   TRACE("main");
-  
+
+#if !defined(WIN32)
   support::signal_handler::instance->handler(SIGINT,  &viewer::application::terminate);
   support::signal_handler::instance->handler(SIGTERM, &viewer::application::terminate);
-
+#endif
+  
   namespace pa  = platform::application;
   namespace poa = platform::oglplus::application;
   
