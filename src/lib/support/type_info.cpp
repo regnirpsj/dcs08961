@@ -56,7 +56,7 @@ namespace support {
   std::string
   demangle(std::type_info const& tinfo)
   {
-    TRACE("support::demangle");
+    TRACE_NEVER("support::demangle");
 
     std::string result(tinfo.name());
     
@@ -93,7 +93,7 @@ namespace support {
   std::string
   demangle(std::type_info const& tinfo, std::nothrow_t const&) noexcept
   {
-    TRACE("support::demangle(std::nothrow_t)");
+    TRACE_NEVER("support::demangle(std::nothrow_t)");
     
     std::string result(tinfo.name());
     
