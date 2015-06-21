@@ -19,6 +19,7 @@
 // includes, system
 
 #include <array>    // std::array<>
+#include <cassert>
 #include <iomanip>  // std::dec, std::hex, std::setfill
 #include <memory>   // std::unique_ptr<>
 #include <ostream>  // std::ostream
@@ -55,7 +56,7 @@ namespace {
   {
     static bool initialized(false);
 
-    if (!initialized) {
+    if (!initialized || !trace_lock || !trace_timer) {
       std::ios_base::Init const _;
       
       trace_lock. reset(new support::simple_lock);
@@ -63,6 +64,23 @@ namespace {
       
       initialized = true;
     }
+
+#if 0
+    std::cout << std::setfill('0')
+              << '['
+              << "0x"
+              << std::hex << std::setw(8) << support::this_thread::get_id()
+              << ':'
+              << std::string(14, ' ')
+              << ':'
+              << std::string( 7, ' ')
+              << ']'
+              << "    support::trace::<unnamed>::init_local_statics:\n";
+#endif
+
+    assert(initialized);
+    assert(nullptr != trace_lock);
+    assert(nullptr != trace_timer);
   }
   
 } // namespace {
