@@ -25,6 +25,7 @@ set(SRC)
 list(APPEND SRC "application.cpp")
 list(APPEND SRC "main.cpp")
 list(APPEND SRC "model.cpp")
+list(APPEND SRC "ssbo.cpp")
 list(APPEND SRC "stats.cpp")
 list(APPEND SRC "window.cpp")
 

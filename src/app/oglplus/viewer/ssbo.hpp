@@ -32,24 +32,37 @@
 namespace buffer {
   
   // types, exported (class, enum, struct, union, typedef)
+
+  class slot_manager {
+
+  public:
+
+    explicit slot_manager(unsigned);
+    
+    unsigned alloc();
+    void     release(unsigned);
+    
+  private:
+
+    std::vector<bool> slots_;
+    
+  };
   
   class base {
-
+    
   public:
 
     virtual ~base() =0;
     
   protected:
 
+    static slot_manager slot_mgr;
+    
     std::string const name_;
     oglplus::Program& prg_;
     oglplus::Buffer   buf_;
     
-    explicit base(std::string const& a, oglplus::Program& b)
-      : name_(a),
-        prg_ (b),
-        buf_ ()
-    {}
+    explicit base(std::string const&, oglplus::Program&);
     
   };
 
@@ -78,14 +91,15 @@ namespace buffer {
 
     using value_type = T;
 
-    explicit multi_value(std::string const& a, oglplus::Program& b, unsigned c = 0)
-      : base             (a, b),
-        ssb_binding_     (std::min(std::max(c, unsigned(0)),
-                                   unsigned(GL_MAX_SHADER_STORAGE_BUFFER_BINDINGS-1)))
+    explicit multi_value(std::string const& a, oglplus::Program& b)
+      : base        (a, b),
+        ssb_binding_(slot_mgr.alloc())
     {}
     
     virtual ~multi_value()
-    {}
+    {
+      slot_mgr.release(ssb_binding_);
+    }
     
     void update(std::vector<T> const& a)
     {

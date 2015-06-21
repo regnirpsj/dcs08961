@@ -105,8 +105,8 @@ namespace viewer {
       tex_diffuse_     (),
       tex_envmap_      (),
       model_list_      (),
-      light_list_      ("light_list_buf",    prg_, 1),
-      material_list_   ("material_list_buf", prg_, 2),
+      light_list_      ("light_list_buf",    prg_),
+      material_list_   ("material_list_buf", prg_),
       cpu_stats_       (a.argv0 + ":cpu"),
       gpu_stats_       (a.argv0 + ":gpu"),
       camera_          ({ glm::mat4() }),
@@ -154,7 +154,7 @@ namespace viewer {
       for (auto fname : file_names) {
         auto fn(b + sep + fname);
         
-        std::cout << "loading shader file: '" << fn << "'";
+        //std::cout << "loading shader file: '" << fn << "'";
                   
         std::stringstream src;
 
@@ -163,7 +163,7 @@ namespace viewer {
         if (!src.str().empty()) {
           std::string const tmp(glsl_normalize_string(fn));
           
-          std::cout << " as '" << tmp << "'\n";
+          //std::cout << " as '" << tmp << "'\n";
           
           NamedString::Set(NamedStringType::ShaderInclude, tmp, src.str());
         } else {
@@ -291,7 +291,11 @@ namespace viewer {
     
     ctx_.ClearColor(0.95f, 0.95f, 0.95f, 0.0f);
     ctx_.ClearDepth(1.0f);
-    ctx_.Enable(smart_enums::DepthTest());
+    ctx_.Enable    (smart_enums::DepthTest());
+    
+    ctx_.BlendFunc(BlendFn::SrcAlpha, BlendFn::OneMinusSrcAlpha);
+    ctx_.Enable   (smart_enums::Blend());
+    
     ctx_.Enable(smart_enums::CullFace());
   }
 
