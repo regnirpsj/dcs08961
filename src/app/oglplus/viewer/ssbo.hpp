@@ -20,10 +20,8 @@
 
 #include <GL/glew.h>       // ::gl*
 #include <oglplus/all.hpp>
-
-#include <algorithm> // std::m[ax|in]<>
-#include <array>     // std::array<>
-#include <vector>    // std::vector<>
+#include <array>           // std::array<>
+#include <vector>          // std::vector<>
 
 // includes, project
 
