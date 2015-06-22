@@ -30,6 +30,7 @@ list(APPEND SRC "stats.cpp")
 list(APPEND SRC "window.cpp")
 
 add_definitions(${GLEW_DEFINITIONS})
+#add_definitions("-DUKACHULLDCS_ALL_TRACE")
 
 if("xClang" STREQUAL "x${CMAKE_CXX_COMPILER_ID}")
   add_definitions("-DOGLPLUS_NO_INITIALIZER_LISTS=0")
