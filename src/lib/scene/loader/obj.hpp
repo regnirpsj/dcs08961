@@ -12,9 +12,9 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_SCENE_LOADER_OBJ_HPP)
+#if !defined(UKACHULLDCS_08961_SCENE_LOADER_OBJ_HPP)
 
-#define UKACHULLDCS_SCENE_LOADER_OBJ_HPP
+#define UKACHULLDCS_08961_SCENE_LOADER_OBJ_HPP
 
 // includes, system
 
@@ -59,4 +59,4 @@ namespace scene {
   
 } // namespace scene {
 
-#endif // #if !defined(UKACHULLDCS_SCENE_LOADER_OBJ_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_SCENE_LOADER_OBJ_HPP)
