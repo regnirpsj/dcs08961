@@ -246,16 +246,16 @@ namespace scene {
       {
         TRACE("scene::file::obj::load(std::istream)");
         
-        typedef std::vector<glm::ivec3>                                  face_type;
-        typedef glm::vec3                                                normal_type;
-        typedef std::tuple<std::string, unsigned, unsigned, std::string> object_type;
-        typedef glm::vec3                                                tcoord_type;
-        typedef glm::vec4                                                vertex_type;
-        typedef std::vector<face_type>                                   face_list_type;
-        typedef std::vector<normal_type>                                 normal_list_type;
-        typedef std::vector<object_type>                                 object_list_type;
-        typedef std::vector<tcoord_type>                                 tcoord_list_type;
-        typedef std::vector<vertex_type>                                 vertex_list_type;
+        using face_type        = std::vector<glm::ivec3>;
+        using normal_type      = glm::vec3;
+        using object_type      = std::tuple<std::string, unsigned, unsigned, std::string>;
+        using tcoord_type      = glm::vec3;
+        using vertex_type      = glm::vec4;
+        using face_list_type   = std::vector<face_type>;
+        using normal_list_type = std::vector<normal_type>;
+        using object_list_type = std::vector<object_type>;
+        using tcoord_list_type = std::vector<tcoord_type>;
+        using vertex_list_type = std::vector<vertex_type>;
         
         face_list_type   face_list;
         mtl::list_type   material_list;
@@ -277,7 +277,7 @@ namespace scene {
 
           static boost::char_separator<char> const token_separator_space(" ");
           
-          typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+          using tokenizer = boost::tokenizer<boost::char_separator<char>>;
         
           tokenizer tokens(line, token_separator_space);
             
@@ -516,7 +516,7 @@ namespace scene {
               geometry::attribute_list_type attrs;
               
               for (unsigned i(std::get<1>(o)); i < (std::get<1>(o) + std::get<2>(o)); ++i) {
-                typedef geometry::attribute attribute;
+                using attribute = geometry::attribute;
 
                 static glm::vec4 const dflt(0.0);
                 
