@@ -45,7 +45,7 @@
 // #include <>
 
 #define UKACHULLDCS_USE_TRACE
-// #undef UKACHULLDCS_USE_TRACE
+#undef UKACHULLDCS_USE_TRACE
 #include <support/trace.hpp>
 #include <support/type_info.hpp>
 
@@ -215,10 +215,14 @@ namespace scene {
 
         list_type result;
 
-        result.push_back(new scene::object::material);
+        {
+          result.push_back(new scene::object::material);
+
+          (*result.rbegin())->name = "default material";
+        }
         
         std::string line;
-        
+
         while (std::getline(is, line)) {
           if (line.empty() || ('#' == line[0]) || ('!' == line[0]) || ('$' == line[0])) {
             continue;
@@ -226,7 +230,7 @@ namespace scene {
 
           static boost::char_separator<char> const token_separator_space(" ");
           
-          typedef boost::tokenizer<boost::char_separator<char>> tokenizer;
+          using tokenizer = boost::tokenizer<boost::char_separator<char>>;
         
           tokenizer tokens(line, token_separator_space);
           
@@ -327,6 +331,9 @@ namespace scene {
           
           else if ("newmtl" == *tokens.begin()) { // newmtl <string>
             result.push_back(new scene::object::material);
+
+            (*result.rbegin())->name = std::string(line.begin() + (*tokens.begin()).length() + 1,
+                                                   line.end());
           }
           
           //else if ("refl" == *tokens.begin()) { //refl -type <type> -options -args filename
