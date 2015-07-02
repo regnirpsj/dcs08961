@@ -206,7 +206,7 @@ namespace scene {
       return result;
     }
 
-    float
+    float const&
     material::cb_get_refraction() const
     {
       TRACE("scene::object::material::cb_get_refraction");
@@ -215,7 +215,7 @@ namespace scene {
     }
 
     float
-    material::cb_set_refraction(float a)
+    material::cb_set_refraction(float  const& a)
     {
       TRACE("scene::object::material::cb_set_refraction");
 
@@ -226,7 +226,7 @@ namespace scene {
       return result;
     }
     
-    float
+    float const&
     material::cb_get_shininess() const
     {
       TRACE("scene::object::material::cb_get_shininess");
@@ -235,7 +235,7 @@ namespace scene {
     }
 
     float
-    material::cb_set_shininess(float a)
+    material::cb_set_shininess(float const& a)
     {
       TRACE("scene::object::material::cb_set_shininess");
 
@@ -246,7 +246,7 @@ namespace scene {
       return result;
     }
 
-    float
+    float const&
     material::cb_get_alpha() const
     {
       TRACE("scene::object::material::cb_get_alpha");
@@ -255,7 +255,7 @@ namespace scene {
     }
 
     float
-    material::cb_set_alpha(float a)
+    material::cb_set_alpha(float const& a)
     {
       TRACE("scene::object::material::cb_set_alpha");
 
@@ -266,7 +266,7 @@ namespace scene {
       return result;
     }
 
-    bool
+    bool const&
     material::cb_get_front() const
     {
       TRACE("scene::object::material::cb_get_front");
@@ -275,7 +275,7 @@ namespace scene {
     }
 
     bool
-    material::cb_set_front(bool a)
+    material::cb_set_front(bool const& a)
     {
       TRACE("scene::object::material::cb_set_front");
 
@@ -286,7 +286,7 @@ namespace scene {
       return result;
     }
 
-    bool
+    bool const&
     material::cb_get_back() const
     {
       TRACE("scene::object::material::cb_get_back");
@@ -295,7 +295,7 @@ namespace scene {
     }
 
     bool
-    material::cb_set_back(bool a)
+    material::cb_set_back(bool const& a)
     {
       TRACE("scene::object::material::cb_set_back");
 

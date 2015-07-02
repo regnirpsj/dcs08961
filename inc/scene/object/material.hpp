@@ -94,17 +94,16 @@ namespace scene {
       glm::vec3        cb_set_specular    (glm::vec3 const&);
       glm::vec3 const& cb_get_transmission() const;
       glm::vec3        cb_set_transmission(glm::vec3 const&);
-      // FIXME: getter should return const-ref to mebr-attr
-      float            cb_get_refraction  () const;
-      float            cb_set_refraction  (float);
-      float            cb_get_shininess   () const;
-      float            cb_set_shininess   (float);
-      float            cb_get_alpha       () const;
-      float            cb_set_alpha       (float);
-      bool             cb_get_front       () const;
-      bool             cb_set_front       (bool);
-      bool             cb_get_back        () const;
-      bool             cb_set_back        (bool);
+      float const&     cb_get_refraction  () const;
+      float            cb_set_refraction  (float const&);
+      float const&     cb_get_shininess   () const;
+      float            cb_set_shininess   (float const&);
+      float const&     cb_get_alpha       () const;
+      float            cb_set_alpha       (float const&);
+      bool  const&     cb_get_front       () const;
+      bool             cb_set_front       (bool const&);
+      bool  const&     cb_get_back        () const;
+      bool             cb_set_back        (bool const&);
       
     };
     
