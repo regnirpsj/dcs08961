@@ -18,8 +18,8 @@
 
 // includes, system
 
-// altough dealing w/ lowering the noise level for boost::spirit headers, the pragmas need to be
-// here
+// altough dealing w/ lowering the noise level for boost::spirit headers,
+// the pragmas need to be here
 #if defined(_MSC_VER) && (_MSC_VER < 1800)
 // warning C4100: 'x' : unreferenced formal parameter
 #  pragma warning(disable:4100)
@@ -27,7 +27,7 @@
 #  pragma warning(disable:4127)
 #endif
 
-#include <boost/algorithm/string.hpp>                // boost::trim
+#include <boost/algorithm/string.hpp>                // boost::trim[_copy]
 #include <boost/config/warning_disable.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/spirit/include/phoenix_core.hpp>
@@ -224,7 +224,11 @@ namespace scene {
         std::string line;
 
         while (std::getline(is, line)) {
-          if (line.empty() || ('#' == line[0]) || ('!' == line[0]) || ('$' == line[0])) {
+          if (line.empty() ||
+              ('#' == line[0]) ||
+              ('!' == line[0]) ||
+              ('$' == line[0]) ||
+              ('\r' == line[0])) {
             continue;
           }
 
@@ -332,8 +336,9 @@ namespace scene {
           else if ("newmtl" == *tokens.begin()) { // newmtl <string>
             result.push_back(new scene::object::material);
 
-            (*result.rbegin())->name = std::string(line.begin() + (*tokens.begin()).length() + 1,
-                                                   line.end());
+            (*result.rbegin())->name = boost::trim_copy(std::string(line.begin() +
+                                                                    (*tokens.begin()).length(),
+                                                                    line.end()));
           }
           
           //else if ("refl" == *tokens.begin()) { //refl -type <type> -options -args filename

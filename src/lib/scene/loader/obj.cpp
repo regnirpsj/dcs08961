@@ -20,8 +20,8 @@
 
 // includes, system
 
-// altough dealing w/ lowering the noise level for boost::spirit headers, the pragmas need to be
-// here
+// altough dealing w/ lowering the noise level for boost::spirit headers,
+// the pragmas need to be here
 #if defined(_MSC_VER) && (_MSC_VER <= 1800)
 // warning C4100: 'x' : unreferenced formal parameter
 #  pragma warning(disable:4100)
@@ -30,7 +30,7 @@
 #endif
 
 #include <array>                                     // std::array<>
-#include <boost/algorithm/string.hpp>                // boost::trim
+#include <boost/algorithm/string.hpp>                // boost::trim[_copy]
 #include <boost/config/warning_disable.hpp>
 #include <boost/filesystem.hpp>                      // boost::filesystem::*
 #include <boost/fusion/include/adapt_struct.hpp>
@@ -313,7 +313,7 @@ namespace scene {
 
             while (tokens.end() != current) {
               bool        found(true);
-              std::string f(boost::trim_copy(*current));
+              std::string f    (boost::trim_copy(*current));
               
               if (!boost::filesystem::exists(boost::filesystem::path(f))) {
                 found = false;
@@ -364,11 +364,9 @@ namespace scene {
               std::get<2>(o) = face_list.size() - std::get<1>(o);
             }
 
-            std::string name(line.begin() + (*tokens.begin()).length(), line.end());
-
-            boost::trim(name);
+            std::string const name(line.begin() + (*tokens.begin()).length(), line.end());
               
-            object_list.push_back(std::make_tuple(name,
+            object_list.push_back(std::make_tuple(boost::trim_copy(name),
                                                   face_list.size(), // face list idx
                                                   0,                // face list range
                                                   current_material_name));
@@ -586,7 +584,7 @@ namespace scene {
             result->children += mg;
           }
           
-#if 0 // defined(UKACHULLDCS_USE_TRACE)
+#if defined(UKACHULLDCS_USE_TRACE)
           {
             glm::io::format_saver const iofs(std::cout);
 
@@ -627,7 +625,7 @@ namespace scene {
         TRACE("scene::file::obj::load(std::string) [" + a + "]");
 
         scene::node::group* result(nullptr);
-        std::ifstream       ifs(a, std::ios::in|std::ios::binary);
+        std::ifstream       ifs   (a, std::ios::in|std::ios::binary);
 
         if (ifs.is_open()) {
           path_list_type plist(b);
