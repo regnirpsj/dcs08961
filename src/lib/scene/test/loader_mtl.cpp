@@ -14,8 +14,8 @@
 
 // includes, system
 
-#include <array>
-#include <glm/gtx/io.hpp>
+#include <array>          // std::array<>
+#include <glm/gtx/io.hpp> // glm::io::*
 
 // includes, project
 
