@@ -28,6 +28,7 @@
 // includes, project
 
 #include <loader/obj.hpp>
+#include <loader/xform.hpp>
 #include <scene/node/group.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -42,17 +43,16 @@ namespace {
 
   struct file_handler {
 
-    typedef scene::node::group group;
-    
-    typedef std::function<group* (std::string const&)>         load_function_type;
-    typedef std::function<bool   (std::string const&, group*)> save_function_type;
+    using group              = scene::node::group;
+    using load_function_type = std::function<group* (std::string const&)>;
+    using save_function_type = std::function<bool   (std::string const&, group*)>;
     
     load_function_type load;
     save_function_type save;
     
   };
   
-  typedef std::map<std::string, file_handler> suffix_handler_map_type;
+  using suffix_handler_map_type = std::map<std::string, file_handler>;
 
   class compare_suffixes {
 
@@ -79,7 +79,6 @@ namespace {
   
   // functions, internal
   
-  // kludge to get MSVC select any overload at all!
   inline scene::node::group*
   obj_load(std::string const& a)
   {
@@ -106,9 +105,12 @@ namespace {
     typedef file_handler::load_function_type load_fun;
     typedef file_handler::save_function_type save_fun;
     
-    static std::array<std::tuple<std::string const, load_fun, save_fun>, 1> const suffixes = {
+    static std::array<std::tuple<std::string const, load_fun, save_fun>, 4> const suffixes = {
       {
-        std::make_tuple(".obj", &obj_load, &obj_save),
+        std::make_tuple(".obj",   &obj_load,                 &obj_save),
+        std::make_tuple(".rot",   &scene::file::xform::load, &scene::file::xform::save),
+        std::make_tuple(".scale", &scene::file::xform::load, &scene::file::xform::save),
+        std::make_tuple(".trans", &scene::file::xform::load, &scene::file::xform::save),
       }
     };
     
@@ -147,10 +149,10 @@ namespace scene {
 
       namespace bfs = boost::filesystem;
       
-      node::group* result(nullptr);
-      std::string  suffix(bfs::path(fname).extension().string());
-      auto const   found (std::find_if(suffix_handler_map.begin(), suffix_handler_map.end(),
-                                       compare_suffixes(suffix)));
+      node::group*      result(nullptr);
+      std::string const suffix(bfs::path(fname).extension().string());
+      auto const        found (std::find_if(suffix_handler_map.begin(), suffix_handler_map.end(),
+                                            compare_suffixes(suffix)));
       
       if (suffix_handler_map.end() != found) {
         result = found->second.load(fname);
@@ -166,10 +168,10 @@ namespace scene {
 
       namespace bfs = boost::filesystem;
       
-      bool         result(false);
-      std::string  suffix(bfs::path(fname).extension().string());
-      auto const   found (std::find_if(suffix_handler_map.begin(), suffix_handler_map.end(),
-                                       compare_suffixes(suffix)));
+      bool              result(false);
+      std::string const suffix(bfs::path(fname).extension().string());
+      auto const        found (std::find_if(suffix_handler_map.begin(), suffix_handler_map.end(),
+                                            compare_suffixes(suffix)));
       
       if (suffix_handler_map.end() != found) {
         result = found->second.save(fname, root);
