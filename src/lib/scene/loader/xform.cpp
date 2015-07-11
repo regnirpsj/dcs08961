@@ -20,6 +20,7 @@
 
 #include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
 #include <cctype>                  // std::isdigit
+#include <glm/gtx/io.hpp>
 
 // includes, project
 
