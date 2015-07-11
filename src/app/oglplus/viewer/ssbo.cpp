@@ -77,7 +77,7 @@ namespace buffer {
               << '\n';
 #endif
 
-#if 1
+#if 0
     {
 #define MKT(a) std::make_tuple(#a, a, -1)
       std::array<std::tuple<char const*, signed const, signed>, 219> limits = {
