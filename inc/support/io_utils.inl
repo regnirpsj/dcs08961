@@ -521,7 +521,7 @@ namespace support {
       return os;
     }
 #endif
-
+    
   } // namespace ostream {
   
   namespace iostream {

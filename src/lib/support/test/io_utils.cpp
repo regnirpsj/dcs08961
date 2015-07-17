@@ -86,6 +86,29 @@ namespace {
   {
     return support::string_to_wstring(demangle<char>(t));
   }
+
+  template <typename CTy, typename CTr>
+  bool
+  test_array(std::basic_ostream<CTy, CTr>& os)
+  {
+    TRACE("<unnamed>::test_sequence");
+    
+    auto const s(number_array);
+
+    support::ostream::basic_format_saver<CTy> fs(os);
+    
+    using support::ostream::operator<<;
+    
+    os << '\n'
+       << demangle<CTy>(typeid(s)) << ": formatted\n"
+       << support::ostream::formatted << s
+       << '\n'
+       << demangle<CTy>(typeid(s)) << ": unformatted\n"
+       << support::ostream::unformatted << ' ' << s
+       << std::endl;
+
+    return !s.empty();
+  }
   
   template <typename Sequence, typename CTy, typename CTr>
   bool
@@ -191,6 +214,12 @@ namespace {
 #include <boost/test/unit_test.hpp>
 #include <boost/test/test_case_template.hpp>
 #include <boost/mpl/list.hpp>
+
+BOOST_AUTO_TEST_CASE(test_support_io_utils_array)
+{
+  BOOST_CHECK(test_array(std::cout));
+  BOOST_CHECK(test_array(std::wcout));
+}
 
 typedef boost::mpl::list<std::forward_list<unsigned>,
                          std::list<unsigned>,

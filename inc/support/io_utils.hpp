@@ -29,7 +29,8 @@
 
 // includes, project
 
-// #include <>
+#include <support/export.h>
+#include <support/printable.hpp>
 
 namespace support {
 
@@ -69,6 +70,20 @@ namespace support {
     
     // types, exported (class, enum, struct, union, typedef)
 
+    class DCS08961_SUPPORT_EXPORT binary : public printable {
+
+    public:
+
+      explicit binary(unsigned);
+
+      virtual void print_on(std::ostream&) const;
+      
+    private:
+
+      unsigned value_;
+      
+    };
+    
     template <typename CTy, typename CTr>
     class position_saver : private boost::noncopyable {
     
