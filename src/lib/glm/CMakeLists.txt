@@ -16,6 +16,7 @@ include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 
 set(SRC)
 list(APPEND SRC "gtx/limits.cpp")
+list(APPEND SRC "gtx/morton.cpp")
 list(APPEND SRC "gtx/utilities.cpp")
 
 set(LIBS)
