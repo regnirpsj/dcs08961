@@ -49,7 +49,9 @@ namespace {
 #include <boost/test/test_case_template.hpp>
 #include <boost/mpl/list.hpp>
 
-typedef boost::mpl::list<signed,unsigned> array_types;
+#if defined(_MSC_VER) && (_MSC_VER > 1800)
+
+typedef boost::mpl::list<signed, unsigned> array_types;
 
 BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_gtx_morton_array1, T, array_types)
 {
@@ -183,6 +185,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_gtx_morton_array5, T, array_types)
     }
   }
 }
+#endif // #if defined(_MSC_VER) && (_MSC_VER > 1800)
 
 //glm::bvec1,
 //glm::dvec1,

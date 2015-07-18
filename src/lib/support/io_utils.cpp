@@ -18,7 +18,8 @@
 
 // includes, system
 
-#include <bitset> // std::bitset
+#include <array>  // std::array<>
+#include <bitset> // std::bitset<>
 
 // includes, project
 
