@@ -33,29 +33,130 @@ namespace {
 
   // variables, internal
 
-  std::array<std::string const, 3> const materials = {
+  std::array<std::string const, 17> const materials = {
     {
-      { "# Wavefront material file\n" },
+      { "# Wavefront material file\n"
+        "# Material examples from [http://www.fileformat.info/format/material/]\n" },
       
-      { "newmtl coating_black\n"
-        "Ka 0.150000 0.150000 0.150000\n"
-        "Kd 0.082353 0.082353 0.082353\n"
-        "Ks 0.016471 0.016471 0.016471\n"
-        "illum 2\n"
-        "Ns 8\n" },
+      { "newmtl 01_neon_green\n"
+        "Kd 0.0000 1.0000 0.0000\n"
+        "illum 0\n" },
+
+      { "newmtl 02_flat_green\n"
+        "Ka 0.0000 1.0000 0.0000\n"
+        "Kd 0.0000 1.0000 0.0000\n"
+        "illum 1\n" },
+
+      { "newmtl 03_dissolved_green\n"
+        "Ka 0.0000 1.0000 0.0000\n"
+        "Kd 0.0000 1.0000 0.0000\n"
+        "d 0.8000\n"
+        "illum 1\n" },
+
+      { "newmtl 04_shiny_green\n"
+        "Ka 0.0000 1.0000 0.0000\n"
+        "Kd 0.0000 1.0000 0.0000\n"
+        "Ks 1.0000 1.0000 1.0000\n"
+        "Ns 200.0000\n"
+        "illum 1\n" },
+
+      { "newmtl 05_green_mirror\n"
+        "Ka 0.0000 1.0000 0.0000\n"
+        "Kd 0.0000 1.0000 0.0000\n"
+        "Ks 0.0000 1.0000 0.0000\n"
+        "Ns 200.0000\n"
+        "illum 3\n" },
+
+      { "newmtl 06_fake_windshield\n"
+        "Ka 0.0000 0.0000 0.0000\n"
+        "Kd 0.0000 0.0000 0.0000\n"
+        "Ks 0.9000 0.9000 0.9000\n"
+        "d 0.1000\n"
+        "Ns 200\n"
+        "illum 4\n" },
       
-      { "newmtl seats\n"
-        "#Ka 0.150000 0.150000 0.150000\n"
-        "#Kd 0.480392 0.480392 0.431372\n"
-        "#Ks 0.096078 0.096078 0.086274\n"
-        "#illum 2\n"
-        "#Ns 8\n"
-        "Ka 0.150000 0.150000 0.150000\n"
-        "Kd 1 1 1\n"
-        "Ks 0.226471 0.226471 0.226471\n"
+      { "newmtl 07_fresnel_blue\n"
+        "Ka 0.0000 0.0000 0.0000\n"
+        "Kd 0.0000 0.0000 0.0000\n"
+        "Ks 0.6180 0.8760 0.1430\n"
+        "Ns 200\n"
+        "illum 5\n" },
+
+      { "newmtl 08_real_windshield\n"
+        "Ka 0.0000 0.0000 0.0000\n"
+        "Kd 0.0000 0.0000 0.0000\n"
+        "Ks 0.0000 0.0000 0.0000\n"
+        "Tf 1.0000 1.0000 1.0000\n"
+        "Ns 200\n"
+        "Ni 1.2000\n"
+        "illum 6\n" },
+
+      { "newmtl 09_fresnel_windshield\n"
+        "Ka 0.0000 0.0000 1.0000\n"
+        "Kd 0.0000 0.0000 1.0000\n"
+        "Ks 0.6180 0.8760 0.1430\n"
+        "Tf 1.0000 1.0000 1.0000\n"
+        "Ns 200\n"
+        "Ni 1.2000\n"
+        "illum 7\n" },
+
+      { "newmtl 10_tin\n"
+        "Ka spectral tin.rfl\n"
+        "Kd spectral tin.rfl\n"
+        "Ks spectral tin.rfl\n"
+        "Ns 200\n"
+        "illum 3\n" },
+
+      { "newmtl 11_pine_wood\n"
+        "Ka spectral ident.rfl 1\n"
+        "Kd spectral ident.rfl 1\n"
+        "illum 1\n"
+        "map_Ka pine.mpc\n"
+        "map_Kd pine.mpc\n" },
+      
+      { "newmtl 12_bumpy_leather\n"
+        "Ka spectral ident.rfl 1\n"
+        "Kd spectral ident.rfl 1\n"
+        "Ks spectral ident.rfl 1\n"
         "illum 2\n"
-        "Ns 8\n"
-        "map_Kd leather_coarse.png\n" },
+        "map_Ka brown.mpc\n"
+        "map_Kd brown.mpc\n"
+        "map_Ks brown.mpc\n"
+        "bump -bm 2.000 leath.mpb\n" },
+
+      { "newmtl 13_frosted_window\n"
+        "Ka 0.2 0.2 0.2\n"
+        "Kd 0.6 0.6 0.6\n"
+        "Ks 0.1 0.1 0.1\n"
+        "d 1\n"
+        "Ns 200\n"
+        "illum 2\n"
+        "map_d -mm 0.200 0.800 window.mps\n" },
+
+      { "newmtl 14_shifted_logo\n"
+        "Ka spectral ident.rfl 1\n"
+        "Kd spectral ident.rfl 1\n"
+        "Ks spectral ident.rfl 1\n"
+        "illum 2\n"
+        "map_Ka -o 0.200 0.000 0.000 logo.mpc\n"
+        "map_Kd -o 0.200 0.000 0.000 logo.mpc\n"
+        "map_Ks -o 0.200 0.000 0.000 logo.mpc\n" },
+
+      { "newmtl 15_scaled_logo\n"
+        "Ka spectral ident.rfl 1\n"
+        "Kd spectral ident.rfl 1\n"
+        "Ks spectral ident.rfl 1\n"
+        "illum 2\n"
+        "map_Ka -s 1.200 1.200 0.000 logo.mpc\n"
+        "map_Kd -s 1.200 1.200 0.000 logo.mpc\n"
+        "map_Ks -s 1.200 1.200 0.000 logo.mpc\n" },
+
+      { "newmtl 16_chrome_with_spherical_reflection_map\n"
+        "Ka 0 0 0\n"
+        "Kd 0 0 0\n"
+        "Ks .7 .7 .7\n"
+        "illum 1\n"
+        "refl -type sphere chrome.rla\n" },
     }
   };
   
@@ -90,9 +191,6 @@ BOOST_AUTO_TEST_CASE(test_scene_loader_mtl_properties)
 
   mtl::list_type const result(mtl::load(str));
   
-  BOOST_CHECK("coating_black"                         == result[1]->name.get());
-  BOOST_CHECK(glm::vec3(0.150000, 0.150000, 0.150000) == result[1]->ambient.get());
-  BOOST_CHECK(glm::vec3(0.082353, 0.082353, 0.082353) == result[1]->diffuse.get());
-  BOOST_CHECK(glm::vec3(0.016471, 0.016471, 0.016471) == result[1]->specular.get());
-  BOOST_CHECK(8                                       == result[1]->shininess.get());
+  BOOST_CHECK("01_neon_green"          == result[1]->name.get());
+  BOOST_CHECK(glm::vec3(0.0, 1.0, 0.0) == result[1]->diffuse.get());
 }
