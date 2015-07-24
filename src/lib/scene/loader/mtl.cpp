@@ -12,6 +12,8 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
+// TODO: sync w/ 'obj2pbrt.cpp' in pbrt-v3 [http://github.com/mmp/pbrt-v3/]
+
 // include i/f header
 
 #include "loader/mtl.hpp"
@@ -141,6 +143,28 @@ namespace {
     qi::rule<IT, float(), ascii::space_type> start;
     
   };
+
+  template <typename IT>
+  struct integer_parser : qi::grammar<IT, signed(), ascii::space_type> {
+    
+    integer_parser()
+      : integer_parser::base_type(start)
+    {
+      TRACE_NEVER("scene::file::mtl::<unnamed>::integer_parser::integer_parser");
+        
+      using qi::debug;
+      using qi::int_;
+        
+      start %=
+        int_
+        ;        
+        
+      // debug(start);
+    }
+    
+    qi::rule<IT, signed(), ascii::space_type> start;
+    
+  };
   
   // variables, internal
   
@@ -182,17 +206,33 @@ namespace {
   glm::vec3
   xyz_to_rgb(glm::vec3 const& xyz)
   {
-    static float const     a( 0.055);
-    static float const     b(12.920);
-    static glm::mat3 const c(+3.2406, -1.5372, -0.4986,
-                             -0.9689, +1.8758, +0.0415,
-                             +0.0557, -0.2040, +1.0570);
+    static float const     a  ( 0.055);
+    static float const     b  (12.920);
+    static glm::mat3 const c  (+3.2406, -1.5372, -0.4986,
+                               -0.9689, +1.8758, +0.0415,
+                               +0.0557, -0.2040, +1.0570);
+    static float const     lim(0.0031308);
+    static float const     exp(1.0/2.4);
     
     glm::vec3 result(c * (xyz / glm::vec3(100.0)));
     
-    result.r = (result.r > 0.0031308) ? ((1.0 + a) * std::pow(result.r, 1/2.4)) : (b * result.r);
-    result.g = (result.g > 0.0031308) ? ((1.0 + a) * std::pow(result.g, 1/2.4)) : (b * result.g);
-    result.b = (result.b > 0.0031308) ? ((1.0 + a) * std::pow(result.b, 1/2.4)) : (b * result.b);
+    result.r = (result.r > lim) ? ((1.0 + a) * std::pow(result.r, exp)) : (b * result.r);
+    result.g = (result.g > lim) ? ((1.0 + a) * std::pow(result.g, exp)) : (b * result.g);
+    result.b = (result.b > lim) ? ((1.0 + a) * std::pow(result.b, exp)) : (b * result.b);
+    
+    return result;
+  }
+
+  std::string
+  get_map_name(std::string const& a)
+  {
+    std::string result(a);
+
+#if 0
+    std::cout << support::trace::prefix() << "scene::file::mtl::<unnamed>::get_map_name: "
+              << "'" << a << "'"
+              << std::endl;
+#endif
     
     return result;
   }
@@ -232,17 +272,31 @@ namespace scene {
               ('\r' == line[0])) {
             continue;
           }
-
+          
           static boost::char_separator<char> const token_separator_space(" ");
           
           using tokenizer = boost::tokenizer<boost::char_separator<char>>;
         
           tokenizer tokens(line, token_separator_space);
           
-          // bump -options args filename
+          if      ("bump" == *tokens.begin()) { // bump -options args filename
+            get_map_name(std::string(line.begin() + (*tokens.begin()).length() + 1, line.end()));
+          }
           
-          if      ("d" == *tokens.begin()) { // d [-halo] f
-            std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
+          else if ("d" == *tokens.begin()) { // d [-halo] f
+            auto start(line.begin() + (*tokens.begin()).length());
+
+            {
+              auto next(tokens.begin());
+
+              ++next;
+              
+              if ("-halo" == *next) {
+                start += 1 + (*next).length() + 1; // <space> + -halo + <space>
+              }
+            }
+            
+            std::string const exp(start, line.end());
             float             d;
               
             if (parse<float_parser<std::string::const_iterator>>(exp, d)) {
@@ -250,17 +304,53 @@ namespace scene {
             }
           }
 
+          else if ("decal" == *tokens.begin()) { // decal -options args filename
+            get_map_name(std::string(line.begin() + (*tokens.begin()).length() + 1, line.end()));
+          }
+          
+          else if ("disp" == *tokens.begin()) { // disp -options args filename
+            get_map_name(std::string(line.begin() + (*tokens.begin()).length() + 1, line.end()));
+          }
+          
           else if ("illum" == *tokens.begin()) { // illum #
-            // nothing to do (yet)
+#if 0
+            std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
+            signed            illum;
+              
+            if (parse<integer_parser<std::string::const_iterator>>(exp, illum)) {
+              std::ostringstream ostr;
+              
+              switch (illum) {
+              case  0: ostr << "Color on and Ambient off"; break;
+              case  1: ostr << "Color on and Ambient on"; break;
+              case  2: ostr << "Highlight on"; break;
+              case  3: ostr << "Reflection on and Ray trace on"; break;
+              case  4: ostr << "Transparency: Glass on,      Reflection: Ray trace on"; break;
+              case  5: ostr << "Reflection:   Fresnel on and Ray trace on"; break;
+              case  6: ostr << "Transparency: Refraction on, Reflection: Fresnel off and Ray trace on"; break;
+              case  7: ostr << "Transparency: Refraction on, Reflection: Fresnel on and Ray trace on"; break;
+              case  8: ostr << "Reflection on and Ray trace off"; break;
+              case  9: ostr << "Glass on,      Reflection: Ray trace off"; break;
+              case 10: ostr << "Casts shadows onto invisible surfaces"; break;
+              default: ostr << "unknown illumination model #" << illum; break;
+              }
+
+              std::cout << support::trace::prefix() << "scene::file::mtl::load(std::istream): "
+                        << "material '" << *(*result.rbegin())->name << "': " << ostr.str()
+                        << std::endl;
+            }
+#endif
           }
           
           else if ("Ka" == *tokens.begin()) { // Ka [r g b] | [spectral file.refl f] | [xyz x y z]
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             glm::vec3         c;
               
-            if        (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
+            if      (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
               (*result.rbegin())->ambient = c;
-            } else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
+            }
+
+            else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
               (*result.rbegin())->ambient = xyz_to_rgb(c);
             }
           }
@@ -269,9 +359,11 @@ namespace scene {
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             glm::vec3         c;
               
-            if (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
+            if      (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
               (*result.rbegin())->emission = c;
-            }  else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
+            }
+
+            else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
               (*result.rbegin())->emission = xyz_to_rgb(c);
             }
           }
@@ -280,9 +372,11 @@ namespace scene {
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             glm::vec3         c;
               
-            if (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
+            if      (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
               (*result.rbegin())->diffuse = c;
-            } else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
+            }
+
+            else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
               (*result.rbegin())->diffuse = xyz_to_rgb(c);
             }
           }
@@ -291,30 +385,38 @@ namespace scene {
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
             glm::vec3         c;
               
-            if (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
+            if      (parse<rgb_parser<std::string::const_iterator>>(exp, c)) {
               (*result.rbegin())->specular = c;
-            } else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
+            }
+
+            else if (parse<xyz_parser<std::string::const_iterator>>(exp, c)) {
               (*result.rbegin())->specular = xyz_to_rgb(c);
             }
           }
           
-          // else if ("map_d" == *tokens.begin()) { // map_d -options args filename
-          // }
+          else if ("map_d" == *tokens.begin()) { // map_d -options args filename
+            get_map_name(std::string(line.begin() + (*tokens.begin()).length() + 1, line.end()));
+          }
 
-          // else if ("map_Ka" == *tokens.begin()) { // map_Ka -options args filenam
-          // }
+          else if ("map_Ka" == *tokens.begin()) { // map_Ka -options args filename
+            get_map_name(std::string(line.begin() + (*tokens.begin()).length() + 1, line.end()));
+          }
 
-          // else if ("map_Ke" == *tokens.begin()) { // map_Ka -options args filenam
-          // }
+          else if ("map_Ke" == *tokens.begin()) { // map_Ka -options args filename
+            get_map_name(std::string(line.begin() + (*tokens.begin()).length() + 1, line.end()));
+          }
           
-          // else if ("map_Kd" == *tokens.begin()) { // map_Kd -options args filename
-          // }
+          else if ("map_Kd" == *tokens.begin()) { // map_Kd -options args filename
+            get_map_name(std::string(line.begin() + (*tokens.begin()).length() + 1, line.end()));
+          }
           
-          // else if ("map_Ks" == *tokens.begin()) { // map_Ks -options args filename
-          // }
+          else if ("map_Ks" == *tokens.begin()) { // map_Ks -options args filename
+            get_map_name(std::string(line.begin() + (*tokens.begin()).length() + 1, line.end()));
+          }
 
-          // else if ("map_Ns" == *tokens.begin()) { // map_Ns -options args filename
-          // }
+          else if ("map_Ns" == *tokens.begin()) { // map_Ns -options args filename
+            get_map_name(std::string(line.begin() + (*tokens.begin()).length() + 1, line.end()));
+          }
           
           else if ("Ni" == *tokens.begin()) { // Ni f
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
@@ -342,8 +444,30 @@ namespace scene {
                                                                     line.end()));
           }
           
-          //else if ("refl" == *tokens.begin()) { //refl -type <type> -options -args filename
-          //}
+          else if ("refl" == *tokens.begin()) { //refl -type <type> -options -args filename
+            auto start(line.begin() + (*tokens.begin()).length());
+
+            {
+              auto next(tokens.begin());
+
+              ++next;
+
+              // <type>: [sphere|cube_[back|bottom|front|left|right|top]]
+              if ("-type" == *next) {
+                start += 1 + (*next).length() + 1; // <space> + -type + <space>
+
+                ++next;
+
+                start += (*next).length() + 1;     // <type> + <space>
+              }
+            }
+
+            get_map_name(std::string(start, line.end()));
+          }
+
+          else if ("sharpness" == *tokens.begin()) { // sharpness f
+            // nothing to do (yet)
+          }
           
           else if ("Tf" == *tokens.begin()) { // Tf [r g b] | [spectral file.refl f] | [xyz x y z]
             std::string const exp(line.begin() + (*tokens.begin()).length(), line.end());
@@ -370,7 +494,7 @@ namespace scene {
             (*result.rbegin())->back  = true;
           }
 
-#if 0 // defined(UKACHULLDCS_USE_TRACE)
+#if 1 // defined(UKACHULLDCS_USE_TRACE)
           else {
             std::cout << support::trace::prefix() << "scene::file::mtl::load(std::istream): "
                       << "unhandled token '" << *tokens.begin() << "'; skipping "
