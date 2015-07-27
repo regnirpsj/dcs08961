@@ -38,6 +38,23 @@ namespace {
   
   // functions, internal
 
+  template <typename T>
+  inline std::ostream&
+  operator<<(std::ostream& os, boost::intrusive_ptr<T> const& a)
+  {
+    typename std::ostream::sentry const cerberus(os);
+    
+    if (cerberus) {
+      if (a) {
+        os << *(a.get());
+      } else {
+        os << a.get();
+      }
+    }
+    
+    return os;
+  }
+  
 } // namespace {
 
 namespace render {
@@ -56,7 +73,12 @@ namespace render {
 
     /* explicit */
     setup::setup(context& a)
-      : base(a)
+      : base               (a),
+        state_blend        (*this, "state_blend",         nullptr),
+        state_depth_stencil(*this, "state_depth_stencil", nullptr),
+        state_raster       (*this, "state_raster",        nullptr),
+        state_sampler      (*this, "state_sampler",       nullptr),
+        shader_program     (*this, "shader_program",      nullptr)
     {
       TRACE("render::stage::setup::setup");
 

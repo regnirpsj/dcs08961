@@ -22,7 +22,12 @@
 
 // includes, project
 
+#include <render/shader/program.hpp>
 #include <render/stage/base.hpp>
+#include <render/state/blend.hpp>
+#include <render/state/depth_stencil.hpp>
+#include <render/state/raster.hpp>
+#include <render/state/sampler.hpp>
 
 namespace render {
 
@@ -33,7 +38,24 @@ namespace render {
     class DCS08961_RENDER_EXPORT setup : public base {
 
     public:
-        
+
+      using blend_state_field_type         =
+        field::value::single<boost::intrusive_ptr<state::blend>>;
+      using depth_stencil_state_field_type =
+        field::value::single<boost::intrusive_ptr<state::depth_stencil>>;
+      using raster_state_field_type        =
+        field::value::single<boost::intrusive_ptr<state::raster>>;
+      using sampler_state_field_type       =
+        field::value::single<boost::intrusive_ptr<state::sampler>>;
+      using shader_program_field_type      =
+        field::value::single<boost::intrusive_ptr<shader::program>>;
+
+      blend_state_field_type         state_blend;         //<
+      depth_stencil_state_field_type state_depth_stencil; //<
+      raster_state_field_type        state_raster;        //<
+      sampler_state_field_type       state_sampler;       //<
+      shader_program_field_type      shader_program;      //<
+      
       virtual ~setup();
         
     protected:
