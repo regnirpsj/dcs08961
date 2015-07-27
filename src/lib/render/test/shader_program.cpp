@@ -40,7 +40,9 @@ namespace {
     
     explicit shader(render::context& a)
       : inherited(a)
-    {}
+    {
+      inherited::name = "[" + support::demangle(typeid(T)) + "]";
+    }
 
   private:
 
@@ -74,13 +76,6 @@ namespace {
   };
   
   class context : public render::context {
-
-  public:
-
-    explicit context()
-      : render::context()
-    {}
-    
   };
   
   // variables, internal
