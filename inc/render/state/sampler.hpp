@@ -6,7 +6,7 @@
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
-/*  module     :  render/state/sampler.hpp                                                          */
+/*  module     :  render/state/sampler.hpp                                                        */
 /*  project    :                                                                                  */
 /*  description:                                                                                  */
 /*                                                                                                */
