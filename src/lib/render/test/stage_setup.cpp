@@ -31,7 +31,47 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class context : public render::context {
+  template <typename T>
+  class state : public T {
+
+  public:
+
+    using inherited = T;
+
+    explicit state(render::context& a)
+      : inherited(a)
+    {
+      inherited::name = "[" + support::demangle(typeid(T)) + "]";
+    }
+
+  private:
+
+    virtual void do_activate()
+    {}
+
+  };
+
+  using blend         = state<render::state::blend>;
+  using depth_stencil = state<render::state::depth_stencil>;
+  using raster        = state<render::state::raster>;
+  using sampler       = state<render::state::sampler>;
+  
+  class program : public render::shader::program {
+
+  public:
+
+    explicit program(render::context& a)
+      : render::shader::program(a)
+    {}
+
+  private:
+
+    virtual void do_compile()
+    {}
+    
+    virtual void do_link()
+    {}
+    
   };
   
   class setup_stage : public render::stage::setup {
@@ -51,6 +91,9 @@ namespace {
     {}
     
   };
+
+  class context : public render::context {
+  };
   
   // variables, internal
   
@@ -63,8 +106,14 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_stage_setup_ctor)
 {
-  context           c;
-  setup_stage const s(c);
+  context     c;
+  setup_stage s(c);
+
+  s.state_blend         = new blend        (c);
+  s.state_depth_stencil = new depth_stencil(c);
+  s.state_raster        = new raster       (c);
+  s.state_sampler       = new sampler      (c);
+  s.shader_program      = new program      (c);
   
   BOOST_CHECK  (true);
   BOOST_MESSAGE(s);
