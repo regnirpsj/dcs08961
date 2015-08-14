@@ -53,7 +53,13 @@ namespace {
     {
       using namespace std::chrono;
       
-      return (1.0 / duration_cast<duration<double>>(frameq_.back().cma).count());
+      unsigned result(0);
+
+      if (!frameq_.empty()) {
+        result = (1.0 / duration_cast<duration<double>>(frameq_.back().cma).count());
+      }
+
+      return result;
     }
     
   } dflt_frame_handler;
