@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_bfs)
     
     g->accept(pv);
 
-#if 1
+#if 0
     visitor::print pv1(std::cout, visitor::print::order::bfs);
     g->accept(pv1);
 #endif
