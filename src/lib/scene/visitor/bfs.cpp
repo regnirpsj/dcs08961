@@ -52,7 +52,6 @@ namespace {
 
     for (auto c : l) {
       if (nullptr == dynamic_cast<T const*>(c.get())) {
-        c->add_ref();
         q.push(c);
       } else {
         lq.push(c);
@@ -114,7 +113,6 @@ namespace scene {
       
       while (!node_queue_.empty()) {
         node_queue_.front()->accept(*this);
-        node_queue_.front()->sub_ref();
         node_queue_.pop();
       }
     }
