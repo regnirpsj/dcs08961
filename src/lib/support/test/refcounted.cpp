@@ -15,6 +15,9 @@
 // includes, system
 
 #include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
+#include <condition_variable>      // std::condition_variable
+#include <mutex>                   // std::mutex
+#include <thread>                  // std::thread
 
 // includes, project
 
@@ -78,6 +81,46 @@ BOOST_AUTO_TEST_CASE(test_support_refcounted_sub_ref)
   a.sub_ref();
   
   BOOST_CHECK(1 == a.get_ref());
+}
+
+BOOST_AUTO_TEST_CASE(test_support_refcounted_async)
+{
+  std::array<std::thread*, 10> const tpool = {
+    { }
+  };
+
+  refcounted_test a;
+  std::mutex      m;
+  
+  for (auto t : tpool) {
+    t = new std::thread([&]{        
+        a.add_ref();
+        a.add_ref();
+        a.sub_ref();
+
+#if 0
+        {
+          std::lock_guard<std::mutex> lk(m);
+          
+          BOOST_MESSAGE(std::this_thread::get_id() << ':' << a.get_ref());
+        }
+#endif
+      });
+    
+    t->detach();
+  }
+  
+  std::this_thread::sleep_for(std::chrono::seconds(1));
+  
+  for (auto t : tpool) {    
+    delete t;
+  }
+  
+  BOOST_CHECK  (tpool.size() == a.get_ref());
+
+#if 0
+  BOOST_MESSAGE(a.get_ref());
+#endif
 }
 
 BOOST_AUTO_TEST_CASE(test_support_refcounted_user)
