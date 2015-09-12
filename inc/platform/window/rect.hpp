@@ -65,6 +65,8 @@ namespace platform {
     DCS08961_PLATFORM_EXPORT bool operator==(rect const&, rect const&);
     DCS08961_PLATFORM_EXPORT bool operator< (rect const&, rect const&);
 
+    DCS08961_PLATFORM_EXPORT void swap(rect&, rect&);
+    
     DCS08961_PLATFORM_EXPORT std::ostream& operator<<(std::ostream&, rect const&);
 
   } // namespace window {

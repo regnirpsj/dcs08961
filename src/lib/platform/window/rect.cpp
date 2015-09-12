@@ -71,11 +71,13 @@ namespace platform {
     rect::swap(rect& a)
     {
       TRACE("platform::window::rect::swap");
+
+      using std::swap;
       
-      std::swap(x, a.x);
-      std::swap(y, a.y);
-      std::swap(w, a.w);
-      std::swap(h, a.h);
+      swap(x, a.x);
+      swap(y, a.y);
+      swap(w, a.w);
+      swap(h, a.h);
     }
 
     bool
@@ -106,6 +108,14 @@ namespace platform {
       return ((lhs.w * lhs.h) < (rhs.w * rhs.h));
     }
 
+    void
+    swap(rect& a, rect& b)
+    {
+      TRACE("platform::window::swap(rect, rect)");
+      
+      a.swap(b);
+    }
+    
     std::ostream&
     operator<<(std::ostream& os, rect const& a)
     {
