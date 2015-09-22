@@ -173,7 +173,7 @@ namespace support {
     
     std::ostringstream ostr;
     
-    ostr << std::setfill('0')
+    ostr << std::setfill(' ')
          << '['
          << "0x"
          << std::hex << std::setw(8) << support::this_thread::get_id()
@@ -200,7 +200,7 @@ namespace support {
 
       using std::chrono::nanoseconds;
       
-      double     duration(double(duration_cast<nanoseconds>(ctx->stop_ - ctx->start_).count()));
+      double   duration(double(duration_cast<nanoseconds>(ctx->stop_ - ctx->start_).count()));
       unsigned idx     (0);
       
       while ((idx < suffixes.size()) && (suffixes[idx].first < duration)) {
@@ -209,9 +209,8 @@ namespace support {
         ++idx;
       }
       
-      ostr << std::setfill(' ') << std::setprecision(1)
-           << std::fixed << std::right << std::setw(5) << duration
-           << suffixes[idx].second;
+      ostr << std::setfill(' ') << std::setprecision(1) << std::fixed << std::right << std::setw(5)
+           << duration << suffixes[idx].second;
     } else {
       ostr << std::string(5 /* width */ + 2 /* suffix */, ' ');
     }
