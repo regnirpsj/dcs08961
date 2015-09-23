@@ -305,6 +305,18 @@ namespace support {
   {
     return clock::now() - start_;
   }
+
+  /* explicit */
+  timer_guard::timer_guard(duration& a)
+    : boost::noncopyable(),
+      duration_         (a),
+      timer_            ()
+  {}
+  
+  timer_guard::~timer_guard()
+  {
+    duration_ = timer_.lapse();
+  }
   
   void
   sleep(clock::duration const& a)

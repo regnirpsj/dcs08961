@@ -65,6 +65,22 @@ namespace support {
     time_point start_;
 
   };
+
+  class DCS08961_SUPPORT_EXPORT timer_guard : private boost::noncopyable {
+
+  public:
+
+    using duration = clock::duration;
+    
+    explicit timer_guard(duration&);
+            ~timer_guard();
+    
+  private:
+    
+    duration& duration_;
+    timer     timer_;
+
+  };
   
   // variables, exported (extern)
 

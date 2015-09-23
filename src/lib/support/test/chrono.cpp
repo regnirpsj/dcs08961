@@ -78,6 +78,30 @@ BOOST_AUTO_TEST_CASE(test_support_timer)
   BOOST_CHECK(d2 >= d1);
 }
 
+BOOST_AUTO_TEST_CASE(test_support_timer_guard)
+{
+  using namespace support;
+  using namespace std::chrono;
+
+  clock::duration const d1(milliseconds(100));
+  clock::duration       d2;
+  
+  {
+    timer_guard const tg(d2);
+    
+    sleep(d1);
+  }
+
+  BOOST_CHECK(d2 >= d1);
+
+  using dsec = duration<double>;
+  
+  BOOST_TEST_MESSAGE("sleep: "
+                     << std::fixed << std::right << std::setfill(' ') << duration_cast<dsec>(d1)
+                     << ", timer: "
+                     << std::fixed << std::right << std::setfill(' ') << duration_cast<dsec>(d2));
+}
+
 BOOST_AUTO_TEST_CASE(test_support_sleep)
 {
   using namespace support;
@@ -110,7 +134,7 @@ BOOST_AUTO_TEST_CASE(test_support_sleep)
 
   timer t;
 
-  typedef duration<double> dsec;
+  using dsec = duration<double>;
 
   BOOST_MESSAGE(duration_fmt(symbol));
   
