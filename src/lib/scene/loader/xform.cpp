@@ -86,8 +86,10 @@ namespace {
             }
           }
         }
+
+        using std::swap;
         
-        std::swap(tmp, dots);
+        swap(tmp, dots);
       }
     }
     
@@ -114,7 +116,7 @@ namespace {
         values.push_back(f);
       }
 
-#if 0
+#if 1
       std::cout << support::trace::prefix()
                 << ranges[i] << ":'" << tmp << "' -> " << f
                 << '\n';
@@ -161,8 +163,6 @@ namespace {
   }
   
 } // namespace {
-
-//dummy.suffix.1.0,2.0,3.0,4.0.rot
                                                                                
 namespace scene {
 
