@@ -45,7 +45,7 @@ namespace {
   std::array<unsigned long const, 5> const size = {
     {
 #if 1
-      1048576, 1024, 101, 32, 16,
+      1048576, 1024, 102, 32, 16,
 #else
       unsigned(std::pow(2, 31)) - 1,
       unsigned(std::pow(2, 16)) - 1,

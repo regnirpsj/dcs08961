@@ -18,7 +18,8 @@
 
 // includes, system
 
-//#include <>
+#include <glm/glm.hpp>      // glm::?vec[2-4]
+#include <glm/gtc/vec1.hpp> // glm::?vec1
 
 // includes, project
 
@@ -228,26 +229,6 @@ namespace glm {
       
       return result;
     }
-    
-#if 0
-    template <typename T>
-    inline T
-    decode(typename T::value_type const&)
-    {
-      static_assert(false, "unimplemented generic version 'glm::morton::decode'");
-
-      return T();
-    }
-
-    template <typename T>
-    inline typename T::value_type
-    encode(T const&)
-    {
-      static_assert(false, "unimplemented generic version 'glm::morton::encode'");
-      
-      return typename T::value_type();
-    }
-#endif
 
     // tvec1<T,P>
     
@@ -384,6 +365,26 @@ namespace glm {
     {
       return encode<4, uvec4::value_type>({a.x, a.y, a.z, a.w});
     }
+
+#if 0
+    template <typename T>
+    inline T
+    decode(typename T::value_type const&)
+    {
+      static_assert(false, "unimplemented generic version 'glm::morton::decode'");
+
+      return T();
+    }
+
+    template <typename T>
+    inline typename T::value_type
+    encode(T const&)
+    {
+      static_assert(false, "unimplemented generic version 'glm::morton::encode'");
+      
+      return typename T::value_type();
+    }
+#endif
     
   } // namespace morton {
   

@@ -18,9 +18,8 @@
 
 // includes, system
 
-#include <array>            // std::array<>
-#include <glm/glm.hpp>      // glm::?vec[2-4]
-#include <glm/gtc/vec1.hpp> // glm::?vec1
+#include <array> // std::array<>
+#include <glm/fwd.hpp>
 
 // includes, project
 
@@ -41,7 +40,7 @@ namespace glm {
     
     template <unsigned N, typename T>
     T                      encode(std::array<T, N> const&);
-    
+
     template <typename T>
     T                      decode(typename T::value_type const&);
 
