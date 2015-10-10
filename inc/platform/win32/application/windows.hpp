@@ -33,6 +33,19 @@ namespace platform {
       // types, exported (class, enum, struct, union, typedef)
 
       class DCS08961_PLATFORM_EXPORT windows : public base {
+
+      public:
+
+	virtual signed run();
+	
+      protected:
+
+	bool const peekmessage_;
+	
+	explicit windows(platform::application::command_line const&, bool /* peekmessage */ = true);
+	
+	virtual void update();
+	
       };
       
       // variables, exported (extern)
