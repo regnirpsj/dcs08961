@@ -66,10 +66,9 @@ namespace {
     }
 
 #if 0
-    std::cout << std::setfill('0')
-              << '['
+    std::cout << '['
               << "0x"
-              << std::hex << std::setw(8) << support::this_thread::get_id()
+	      << std::setfill('0') << std::hex << std::setw(8) << support::this_thread::get_id()
               << ':'
               << std::string(14, ' ')
               << ':'
@@ -173,12 +172,13 @@ namespace support {
     
     std::ostringstream ostr;
     
-    ostr << std::setfill(' ')
-         << '['
+    ostr << '['
          << "0x"
-         << std::hex << std::setw(8) << support::this_thread::get_id()
+         << std::setfill('0') << std::hex << std::setw(8)
+	 << support::this_thread::get_id()
          << ':'
-         << std::dec << std::setw(12) << duration_cast<microseconds>(stamp).count()
+         << std::setfill(' ') << std::dec << std::setw(12)
+	 << duration_cast<microseconds>(stamp).count()
          << "us:";
     
     if (ctx && show_duration) {
