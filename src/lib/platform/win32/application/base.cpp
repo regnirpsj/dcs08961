@@ -52,9 +52,9 @@ namespace platform {
       
       /* explicit */
       base::base(platform::application::command_line const& a)
-	: platform::application::single_instance(a)
+        : platform::application::single_instance(a)
       {
-	TRACE("platform::win32::application::base");
+        TRACE("platform::win32::application::base");
       }
       
     } // namespace application {
