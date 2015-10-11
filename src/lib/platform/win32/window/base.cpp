@@ -312,6 +312,20 @@ namespace platform {
       {
         TRACE("platform::win32::window::base::cb_window_proc_default");
 
+#if defined(UKACHULLDCS_USE_TRACE)
+        {
+          using platform::win32::operator<<;
+          
+          std::cout << support::trace::prefix()
+                    << "platform::win32::window::base::cb_window_proc_default: "
+                    << "hWnd:"   << hWnd   << ','
+                    << "msg:"    << wm_message_string(msg) << ','
+                    << "wParam:" << wParam << ','
+                    << "lParam:" << lParam
+                    << std::endl;
+        }
+#endif
+        
         switch (msg) {
         case WM_NCCREATE:
         case WM_NCDESTROY:
@@ -331,20 +345,6 @@ namespace platform {
         default:
           break;
         }
-
-#if defined(UKACHULLDCS_USE_TRACE)
-        {
-          using platform::win32::operator<<;
-
-          std::cout << support::trace::prefix()
-                    << "platform::win32::window::base::cb_window_proc_default: "
-                    << "hWnd:"   << hWnd   << ','
-                    << "msg:"    << msg    << ','
-                    << "wParam:" << wParam << ','
-                    << "lParam:" << lParam
-                    << std::endl;
-        }
-#endif
 
         LRESULT result(0);
         base*   w(window_long_ptr<base>(hWnd, user_data_flag));
