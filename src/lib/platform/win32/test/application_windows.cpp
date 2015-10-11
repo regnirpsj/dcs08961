@@ -14,11 +14,16 @@
 
 // includes, system
 
-//#include <>
+#include <glm/gtx/io.hpp> // glm::operator<<
+#include <memory>         // std::unique_ptr<>
+#include <windows.h>
 
 // includes, project
 
 #include <platform/win32/application/windows.hpp>
+#include <platform/win32/window/simple.hpp>
+#include <platform/window/manager.hpp>
+#include <support/chrono.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -33,12 +38,13 @@ namespace {
   class app : public platform::win32::application::windows {
 
     using inherited = platform::win32::application::windows;
+    using win_type  = platform::win32::window::simple;
     
   public:
 
     explicit app(platform::application::command_line const& a)
-      : inherited(a)
-        // ,window_  (new win(a.argv0, 2))
+      : inherited(a),
+        window_  (new win_type(a.argv0))
     {
       TRACE("<unnamed>::app::app");
     }
@@ -63,7 +69,21 @@ namespace {
 
   private:
 
-    // std::unique_ptr<win> window_;
+    std::unique_ptr<win_type> window_;
+
+    virtual void update()
+    {
+      TRACE_NEVER("<unnamed>::app::update");
+
+      using namespace support;
+      using namespace std::chrono;
+
+      static clock::time_point start(support::clock::now());
+
+      if (milliseconds(250) < (support::clock::now() - start)) {
+        ::PostQuitMessage(0);
+      }
+    }
     
   };
   
