@@ -49,6 +49,7 @@ namespace platform {
 
     // functions, exported (extern)
 
+    std::string wm_message_string(unsigned);
     std::string module_path(HMODULE module);
     std::string last_error_message();
     
