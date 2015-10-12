@@ -18,13 +18,13 @@
 
 // includes, system
 
-#include <array>    // std::array<>
-#include <cassert>
-#include <iomanip>  // std::dec, std::hex, std::setfill
-#include <memory>   // std::unique_ptr<>
-#include <ostream>  // std::ostream
-#include <sstream>  // std::ostringstream
-#include <utility>  // std::pair<>
+#include <array>   // std::array<>
+#include <cassert> // assert
+#include <iomanip> // std::dec, std::hex, std::right, std::setfill, std::setprocision
+#include <memory>  // std::unique_ptr<>
+#include <ostream> // std::ostream
+#include <sstream> // std::ostringstream
+#include <utility> // std::pair<>
 
 // includes, project
 
@@ -66,15 +66,20 @@ namespace {
     }
 
 #if 0
-    std::cout << '['
-              << "0x"
-	      << std::setfill('0') << std::hex << std::setw(8) << support::this_thread::get_id()
-              << ':'
-              << std::string(14, ' ')
-              << ':'
-              << std::string( 7, ' ')
-              << ']'
-              << "    support::trace::<unnamed>::init_local_statics:\n";
+    {
+      std::cout << '['
+                << "0x"
+                << std::setfill('0')
+                << std::setw(8)
+                << std::hex
+                << support::this_thread::get_id()
+                << ':'
+                << std::string(14, ' ')
+                << ':'
+                << std::string( 7, ' ')
+                << ']'
+                << "    support::trace::<unnamed>::init_local_statics:\n";
+    }
 #endif
 
     assert(initialized);
@@ -174,12 +179,19 @@ namespace support {
     
     ostr << '['
          << "0x"
-         << std::setfill('0') << std::hex << std::setw(8)
-	 << support::this_thread::get_id()
+         << std::setfill('0')
+         << std::setw(8)
+         << std::hex
+         << support::this_thread::get_id()
          << ':'
-         << std::setfill(' ') << std::dec << std::setw(12)
-	 << duration_cast<microseconds>(stamp).count()
+         << std::setfill(' ')
+         << std::setw(12)
+         << std::dec
+         << duration_cast<microseconds>(stamp).count()
          << "us:";
+
+    static unsigned duration_width(5);
+    static unsigned suffix_width  (2);
     
     if (ctx && show_duration) {
       static std::array<std::pair<double const, std::string const>, 11> const suffixes = {
@@ -208,11 +220,17 @@ namespace support {
 
         ++idx;
       }
-      
-      ostr << std::setfill(' ') << std::setprecision(1) << std::fixed << std::right << std::setw(5)
-           << duration << suffixes[idx].second;
+
+      // corrected duration w/ unit as suffix and no space delimter (e.g. 1234ns)
+      ostr << std::setfill(' ')
+           << std::setw(duration_width)
+           << std::setprecision(1)
+           << std::fixed
+           << std::right
+           << duration 
+           << suffixes[idx].second;
     } else {
-      ostr << std::string(5 /* width */ + 2 /* suffix */, ' ');
+      ostr << std::string(duration_width + suffix_width, ' ');
     }
     
     ostr << ']'
