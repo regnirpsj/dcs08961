@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE(test_support_sleep)
 
   using dsec = duration<double>;
 
-  BOOST_MESSAGE(duration_fmt(symbol));
+  BOOST_TEST_MESSAGE(duration_fmt(symbol));
   
   for (auto d : duration_list) {
     BOOST_TEST_MESSAGE(std::string(10, '-') << " start testing "

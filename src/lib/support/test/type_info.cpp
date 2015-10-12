@@ -63,5 +63,5 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_support_type_info_demangle, T, types)
 {
   BOOST_CHECK(typeid(T) == typeid(T));
 
-  BOOST_MESSAGE(support::demangle(typeid(T)) << "\t: " << typeid(T).name());
+  BOOST_TEST_MESSAGE(support::demangle(typeid(T)) << "\t: " << typeid(T).name());
 }

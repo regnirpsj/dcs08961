@@ -58,10 +58,12 @@ namespace {
 
   typedef int clockid_t;
   
+#  if defined(_MSC_VER) && (_MSC_VER < 1900)
   struct timespec {
     time_t tv_sec;
     long   tv_nsec;
   };
+#  endif // #  if defined(_MSC_VER) && (_MSC_VER < 1900)
 #endif // #if defined(_WIN32)
   
   // variables, internal
@@ -277,7 +279,7 @@ namespace support {
   /* static */ clock::time_point
   clock::now() throw()
   {
-    timespec now = { 0, 0 };
+	timespec now = { 0, 0 };
 
     ::clock_gettime(CLOCK_MONOTONIC, &now);
     

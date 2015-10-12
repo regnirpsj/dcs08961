@@ -252,5 +252,5 @@ BOOST_AUTO_TEST_CASE(test_support_io_utils_std_unique_ptr)
   std::unique_ptr<unsigned> p(new unsigned(42));
   
   BOOST_CHECK  (nullptr != p.get());
-  BOOST_MESSAGE("\nstd::unique_ptr<unsigned>:" << p << ':' << *p);
+  BOOST_TEST_MESSAGE("\nstd::unique_ptr<unsigned>:" << p << ':' << *p);
 }

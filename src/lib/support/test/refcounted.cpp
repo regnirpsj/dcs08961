@@ -14,6 +14,7 @@
 
 // includes, system
 
+#include <array>                   // std::array<>
 #include <boost/intrusive_ptr.hpp> // boost::intrusive_ptr<>
 #include <condition_variable>      // std::condition_variable
 #include <mutex>                   // std::mutex
@@ -116,7 +117,7 @@ BOOST_AUTO_TEST_CASE(test_support_refcounted_async)
     delete t;
   }
   
-  BOOST_CHECK  (tpool.size() == a.get_ref());
+  BOOST_CHECK(tpool.size() == a.get_ref());
 
 #if 0
   BOOST_MESSAGE(a.get_ref());
