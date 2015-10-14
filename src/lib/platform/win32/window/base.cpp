@@ -244,6 +244,7 @@ namespace platform {
           wc.hIcon         = ::LoadIcon  (0, IDI_APPLICATION);
           wc.hIconSm       = ::LoadIcon  (0, IDI_APPLICATION);
           wc.hCursor       = ::LoadCursor(0, IDC_ARROW);
+          wc.hbrBackground = static_cast<HBRUSH>(::GetStockObject(WHITE_BRUSH));
           wc.lpszMenuName  = nullptr;
           wc.lpszClassName = class_name.c_str();
         
