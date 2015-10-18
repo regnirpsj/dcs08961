@@ -43,8 +43,6 @@
 namespace {
 
   // types, internal (class, enum, struct, union, typedef)
-
-  
   
   class window : public platform::glut::window::simple {
     
