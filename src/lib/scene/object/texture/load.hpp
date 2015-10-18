@@ -26,7 +26,7 @@
 
 namespace gli {
 
-  class storage;
+  class texture;
   
 } // namespace gli {
 
@@ -44,7 +44,7 @@ namespace scene {
       
       // functions, exported (extern)
 
-      gli::storage load(std::string const& /* file name */);
+      gli::texture load(std::string const& /* file name */);
       
     } // namespace texture {
     

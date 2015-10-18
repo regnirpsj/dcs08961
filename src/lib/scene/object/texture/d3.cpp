@@ -53,7 +53,7 @@ namespace scene {
       /* explicit */
       d3::d3(glm::uvec3 const& a, glm::uvec4 const& b)
         : base  (),
-          tdata_(1, gli::RGBA8_UNORM, gli::texture3D::dim_type(a.x, a.y, a.z))
+          tdata_(gli::FORMAT_RGBA8_UNORM, gli::texture3D::texelcoord_type(a.x, a.y, a.z))
       {   
         TRACE("scene::object::d3::d3");
       

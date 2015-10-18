@@ -66,17 +66,18 @@ namespace scene {
   
       // functions, exported
 
-      gli::storage
+      gli::texture
       load(std::string const& fname)
       {
         TRACE("scene::object::texture::<unnamed>::load");
-        
+
+#if 0
         typedef std::function<gli::storage (char const*)> load_function_type;
         typedef std::unordered_map<std::string const,
                                    load_function_type>    suffix_map_type;
 
         // see [https://stackoverflow.com/questions/12500411]
-        typedef gli::storage (*load_function_ctype)(char const*);
+        typedef gli::texture (*load_function_ctype)(char const*);
         
         static std::array<suffix_map_type::value_type, 1> const suffix_array = {
           {
@@ -86,7 +87,7 @@ namespace scene {
         };
         static suffix_map_type const suffix_map(suffix_array.begin(), suffix_array.end());
     
-        gli::storage result(1, 1, 1, gli::RGBA8_UNORM, gli::storage::dim_type(1, 1, 1));
+        gli::texture result(gli::FORMAT_RGBA8_UNORM, gli::texture::texelcoord_type(1, 1, 1));
 
         try {
           namespace bfs = boost::filesystem;
@@ -102,6 +103,9 @@ namespace scene {
         catch (std::exception&) { /* */ }
                                
         return result;
+#else
+        return gli::load(fname);
+#endif
       }
       
     } // namespace texture {
