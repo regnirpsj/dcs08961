@@ -160,6 +160,11 @@ namespace support {
     indent<CTy>::indent(unsigned a, CTy b)
       : value(a, b)
     {}
+
+    inline /* explicit */
+    remove::remove(unsigned a)
+      : value(a)
+    {}
     
     template <typename FTy, typename CTy, typename CTr>
     inline FTy const&
@@ -212,6 +217,20 @@ namespace support {
       fmt.indent = a.value;
 
       return os;
+    }
+
+    template <typename CTy, typename CTr>
+    inline std::basic_ostream<CTy, CTr>&
+    operator<<(std::basic_ostream<CTy, CTr>& os, remove const& a)
+    {
+      using pos_type = typename std::basic_ostream<CTy, CTr>::pos_type;
+      
+      pos_type const current(os.tellp());
+      
+      return os.seekp(std::min(std::max(pos_type(0),
+                                        pos_type(current - pos_type(a.value))),
+                               current),
+                      std::ios_base::beg);
     }
     
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))

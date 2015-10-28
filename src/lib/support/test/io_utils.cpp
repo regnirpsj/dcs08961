@@ -215,6 +215,32 @@ namespace {
 #include <boost/test/test_case_template.hpp>
 #include <boost/mpl/list.hpp>
 
+BOOST_AUTO_TEST_CASE(test_support_io_utils_manipulator_remove)
+{
+  using support::ostream::remove;
+  
+  {
+    std::ostringstream ostr;
+
+    ostr << "Hello, Monde!" << remove(6) << "World!";
+
+    BOOST_CHECK(ostr.good() && !ostr.bad());
+    
+    std::cout << ostr.str() << std::endl;
+
+    BOOST_CHECK(std::cout.good() && !std::cout.bad());
+  }
+
+  if (false) {
+    std::cout << "hello, monde!" << remove(6) << "world!";
+
+    BOOST_CHECK(std::cout.good() && !std::cout.bad());
+
+    std::cout << std::endl;
+  }
+  
+}
+
 BOOST_AUTO_TEST_CASE(test_support_io_utils_array)
 {
   BOOST_CHECK(test_array(std::cout));

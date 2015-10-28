@@ -193,10 +193,18 @@ namespace support {
     template <typename CTy>
     struct indent { 
     
-      std::basic_string<CTy> value;
+      std::basic_string<CTy> const value;
 
       explicit indent(std::basic_string<CTy> const& = "");
       explicit indent(unsigned /* #chars */, CTy /* char proto */ = '\0');
+      
+    };
+
+    struct remove { 
+
+      unsigned const value;
+
+      explicit remove(unsigned /* #chars */);
       
     };
     
@@ -218,7 +226,10 @@ namespace support {
 
     template <typename CTy, typename CTr = std::char_traits<CTy>>
     std::basic_ostream<CTy, CTr>& operator<<(std::basic_ostream<CTy, CTr>&, indent<CTy> const&);
-    
+
+    template <typename CTy, typename CTr = std::char_traits<CTy>>
+    std::basic_ostream<CTy, CTr>& operator<<(std::basic_ostream<CTy, CTr>&, remove const&);
+
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
     template <typename CTy, typename CTr,
               typename ResultTy, typename... ArgTy>
