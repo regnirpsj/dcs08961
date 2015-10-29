@@ -57,7 +57,17 @@ namespace scene {
         TRACE("scene::object::camera::frustum::frustum");
       }
 
-      std::ostream&
+      bool
+      frustum::contains(glm::vec3 const& a) const
+      {
+        TRACE("scene::object::camera::frustum::contains");
+
+        return ((  left <= a.x) && (right >= a.x) &&
+                (bottom <= a.y) && (  top >= a.y) &&
+                (  near <= a.z) && (  far >= a.z));
+      }
+
+            std::ostream&
       operator<<(std::ostream& os, frustum const& a)
       {
         TRACE_NEVER("scene::object::camera::operator<<(frustum)");
@@ -76,16 +86,6 @@ namespace scene {
         }
 
         return os;
-      }
-
-      bool
-      frustum::contains(glm::vec3 const&) const
-      {
-        TRACE("scene::object::camera::frustum::contains");
-
-        bool result(false);
-
-        return result;
       }
       
     } // namespace camera {
