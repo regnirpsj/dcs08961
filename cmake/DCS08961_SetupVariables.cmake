@@ -30,12 +30,12 @@ if(CMAKE_HOST_WIN32)
 endif()
 
 # GL[I|M]
-set(GLI_MINIMUM_VERSION "0.6.0")
+set(GLI_MINIMUM_VERSION "0.8.0")
 set(GLM_MINIMUM_VERSION "0.9.7")
 if(CMAKE_HOST_WIN32)
   set(GLI_ROOT_DIR "C:/Tools/gli/gli-git")
   set(GLM_ROOT_DIR "C:/Tools/glm/glm-git")
-elseif(UNIX)
+elseif(CMAKE_HOST_UNIX)
   set(GLI_ROOT_DIR "~/Projects/others/gli-git")
   set(GLM_ROOT_DIR "~/Projects/others/glm-git")
 endif()
@@ -43,7 +43,7 @@ endif()
 # OGLplus
 if(CMAKE_HOST_WIN32)
   set(OGLplus_ROOT_DIR "C:/Tools/oglplus/oglplus-develop-git/_install")
-elseif(UNIX)
+elseif(CMAKE_HOST_UNIX)
   # set(OGLplus_ROOT_DIR "~/Projects/others/oglplus-master-git/_install")
   set(OGLplus_ROOT_DIR "~/Projects/others/oglplus-develop-git/_install")
   # set(OGLplus_ROOT_DIR "~/Projects/others/oglplus-regnirpsj-git/_install")
@@ -51,7 +51,7 @@ endif()
 
 # WindowsSDK
 if(CMAKE_HOST_WIN32)
-  set(WINSDK_MINIMUM_VERSION 8.1)
+  set(WINSDK_MINIMUM_VERSION 8.0)
 endif()
 
 if(DCS08961_TRACE_ALL)
