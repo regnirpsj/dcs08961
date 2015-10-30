@@ -27,6 +27,12 @@
 
 // internal unnamed namespace
 
+#if defined(_MSC_VER)
+#  pragma warning(push)
+    // warning C4127: conditional expression is constant
+#  pragma warning(disable:4127) 
+#endif
+
 namespace {
   
   // types, internal (class, enum, struct, union, typedef)
@@ -50,7 +56,7 @@ namespace {
 
       return EXIT_SUCCESS;
     }
-
+    
   };
 
   using appmin = app_skeleton<platform::application::multi_instance,  false>;
@@ -66,6 +72,10 @@ namespace {
   // functions, internal
 
 } // namespace {
+
+#if defined(_MSC_VER)
+#  pragma warning(pop)
+#endif
 
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
