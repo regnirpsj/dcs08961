@@ -32,6 +32,12 @@
 #include <support/chrono_io.hpp> // std::chrono::operator<<
 #include <support/thread.hpp>    // support::lock_guard<>, support::mutex, thread_local
 
+#define DUKACHULLDCS_USE_UNIQUE_PTR
+
+#if defined(_MSC_VER) // M$ sucks, including their handling of statics!
+#  undef DUKACHULLDCS_USE_UNIQUE_PTR
+#endif
+
 // internal unnamed namespace
 
 namespace {
@@ -44,10 +50,18 @@ namespace {
   thread_local unsigned                 trace_depth(0);
 
   // intra-thread output lock
+#if defined(DUKACHULLDCS_USE_UNIQUE_PTR)
   std::unique_ptr<support::simple_lock> trace_lock (nullptr);
+#else
+  support::simple_lock*                 trace_lock (nullptr);
+#endif
 
   // global time tagged to process start
+#if defined(DUKACHULLDCS_USE_UNIQUE_PTR)
   std::unique_ptr<support::timer>       trace_timer(nullptr);
+#else
+  support::timer*                       trace_timer(nullptr);
+#endif
   
   // functions, internal
 
@@ -58,9 +72,14 @@ namespace {
 
     if (!initialized || !trace_lock || !trace_timer) {
       std::ios_base::Init const _;
-      
+
+#if defined(DUKACHULLDCS_USE_UNIQUE_PTR)
       trace_lock. reset(new support::simple_lock);
       trace_timer.reset(new support::timer);
+#else
+      trace_lock  = new support::simple_lock;
+      trace_timer = new support::timer;
+#endif
       
       initialized = true;
     }
