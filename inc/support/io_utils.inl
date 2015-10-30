@@ -88,8 +88,8 @@ namespace support {
     scoped_redirect<CTy,CTr>::scoped_redirect(std::basic_ostream<CTy,CTr>& a,
                                               std::basic_ostream<CTy,CTr>& b)
       : boost::noncopyable(),
-        s_              (a),
-        b_              (s_.rdbuf(b.rdbuf()))
+        s_                (a),
+        b_                (s_.rdbuf(b.rdbuf()))
     {}
 
     template <typename CTy, typename CTr>
@@ -141,13 +141,15 @@ namespace support {
 
     template <typename CTy>
     inline /* explicit */
+    delimeter<CTy>::delimeter(std::array<CTy, 3> const& a)
+      : value(a)
+    {}
+    
+    template <typename CTy>
+    inline /* explicit */
     delimeter<CTy>::delimeter(CTy a, CTy b, CTy c)
-      : value()
-    { 
-      value[0] = a;
-      value[1] = b;
-      value[2] = c;
-    }
+      : value({ a, b, c, })
+    {}
 
     template <typename CTy>
     inline /* explicit */
@@ -223,6 +225,7 @@ namespace support {
     inline std::basic_ostream<CTy, CTr>&
     operator<<(std::basic_ostream<CTy, CTr>& os, remove const& a)
     {
+#if 0
       using pos_type = typename std::basic_ostream<CTy, CTr>::pos_type;
       
       pos_type const current(os.tellp());
@@ -231,6 +234,9 @@ namespace support {
                                         pos_type(current - pos_type(a.value))),
                                current),
                       std::ios_base::beg);
+#else
+      return os << std::basic_string<CTy>(a.value, '\b');
+#endif
     }
     
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1700))
@@ -347,7 +353,7 @@ namespace support {
           }
 
           if (!a.empty()) {
-            os << '\b';
+            os << remove(1);
           }
         
           os << fmt.delim_right;
@@ -379,7 +385,7 @@ namespace support {
           }
       
           if (!a.empty()) {
-            os << '\b';
+            os << remove(1);
           }
         
           os << fmt.delim_right;
@@ -411,7 +417,7 @@ namespace support {
           }
       
           if (!a.empty()) {
-            os << '\b';
+            os << remove(1);
           }
         
           os << fmt.delim_right;
@@ -451,7 +457,7 @@ namespace support {
           }
       
           if (!a.empty()) {
-            os << '\b';
+            os << remove(1);
           }
         
           os << fmt.delim_right;
@@ -490,7 +496,7 @@ namespace support {
           }
       
           if (!a.empty()) {
-            os << '\b';
+            os << remove(1);
           }
         
           os << fmt.delim_right;
@@ -526,7 +532,7 @@ namespace support {
           }
           
           if (a.size()) {
-            os << '\b';
+            os << remove(1);
           }
         
           os << fmt.delim_right;

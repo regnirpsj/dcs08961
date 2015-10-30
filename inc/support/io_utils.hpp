@@ -18,6 +18,7 @@
 
 // includes, system
 
+#include <array>                 // std::array<>
 #include <boost/io_fwd.hpp>      // basic_ios_all_saver<> (fwd)
 #include <boost/noncopyable.hpp> // boost::noncopyable
 #include <functional>            // std::function<>
@@ -184,8 +185,9 @@ namespace support {
     template <typename CTy>
     struct delimeter { 
     
-      CTy value[3];
+      std::array<CTy, 3> const value;
 
+      explicit delimeter(std::array<CTy, 3> const& = {'[', ']', ','});
       explicit delimeter(CTy /* left */, CTy /* right */, CTy /* separator */ = ',');
 
     };
@@ -205,7 +207,7 @@ namespace support {
       unsigned const value;
 
       explicit remove(unsigned /* #chars */);
-      
+
     };
     
     // variables, exported (extern)
