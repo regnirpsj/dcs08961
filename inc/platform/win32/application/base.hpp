@@ -33,10 +33,10 @@ namespace platform {
       // types, exported (class, enum, struct, union, typedef)
 
       class DCS08961_PLATFORM_EXPORT base : public platform::application::single_instance {
-
+        
       protected:
 
-	explicit base(platform::application::command_line const&);
+        explicit base(platform::application::command_line const&);
 	
       };
       

@@ -38,7 +38,10 @@ namespace {
   using monitor_list_type = platform::win32::window::manager::monitor_list_type;
   
   // variables, internal
-  
+
+  std::vector<platform::win32::window::manager::id_type> ids_list;
+  bool                                                   ids_changed(false);
+
   // functions, internal
 
   display_list_type
@@ -174,9 +177,14 @@ namespace platform {
       /* static */ std::vector<manager::id_type> const&
       manager::all()
       {
-        TRACE_NEVER("platform::win32::window::manager::all");
+        TRACE("platform::win32::window::manager::all");
 
-        return platform::window::manager::all(window_type::win32);
+        if (ids_changed) {
+          ids_list    = platform::window::manager::all(window_type::win32);
+          ids_changed = false;
+        }
+        
+        return ids_list;
       }
 
       /* static */ manager::display_list_type const&
@@ -208,6 +216,8 @@ namespace platform {
       {
         TRACE("platform::win32::window::manager::add");
 
+        ids_changed = true;
+        
         return platform::window::manager::add(window_type::win32, a, b);
       }
 
@@ -216,6 +226,8 @@ namespace platform {
       {
         TRACE("platform::win32::window::manager::sub(base*)");
 
+        ids_changed = true;
+        
         return platform::window::manager::sub(window_type::win32, a);
       }
 
@@ -224,11 +236,13 @@ namespace platform {
       {
         TRACE("platform::win32::window::manager::sub(signed)");
 
+        ids_changed = true;
+        
         return platform::window::manager::sub(window_type::win32, a);
       }
-  
+      
     } // namespace window {
-
+    
   } // namespace win32 {
   
 } // namespace platform {

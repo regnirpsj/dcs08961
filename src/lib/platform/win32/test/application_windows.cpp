@@ -73,7 +73,7 @@ namespace {
 
     virtual void update()
     {
-      TRACE_NEVER("<unnamed>::app::update");
+      TRACE("<unnamed>::app::update");
 
       using namespace support;
       using namespace std::chrono;

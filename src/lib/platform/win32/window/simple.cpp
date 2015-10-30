@@ -170,7 +170,7 @@ namespace platform {
       }
 
       /* virtual */ bool
-      simple::resize(glm::ivec2 const& a, bool b)
+      simple::resize(glm::ivec2 const&, bool)
       {
         TRACE("platform::win32::window::simple::resize");
 
