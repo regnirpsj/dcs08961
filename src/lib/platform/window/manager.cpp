@@ -76,7 +76,7 @@ namespace platform {
     private:
 
       id_type const id_;
-      base const*  inst_;
+      base const*   inst_;
     
     };
 
@@ -189,7 +189,7 @@ namespace platform {
     /* static */ base*
     manager::get(window_type a, id_type b)
     {
-      TRACE_NEVER("platform::window::manager::get");
+      TRACE("platform::window::manager::get");
 
       base* result(nullptr);
       auto  found(std::find_if(window_type_map_[a].begin(),
@@ -206,7 +206,7 @@ namespace platform {
     /* static */ std::vector<manager::id_type>
     manager::all(window_type a)
     {
-      TRACE_NEVER("platform::window::manager::all");
+      TRACE("platform::window::manager::all:" + std::to_string(window_type_map_[a].size()));
 
       std::vector<id_type> result;
       
