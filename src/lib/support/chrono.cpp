@@ -354,16 +354,23 @@ namespace support {
     }
 #endif // #if defined(_WIN32)
   }
+
+#if defined(_MSC_VER)
+#  pragma warning(push)
+  // warning C4996: 'localtime': This function or variable may be unsafe. Consider using
+  // localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS.
+#  pragma warning(disable:4996) 
+#endif
   
   std::string
   date_time_iso8601()
   {
     std::locale::global(std::locale()); // "C" locale
     
-    std::time_t const  tme(std::time(nullptr));
-    char               buf[32];
-    std::size_t        len(0);
-    std::string        result("YYYYMMDDTHHMMSS");
+    std::time_t const tme   (std::time(nullptr));
+    char              buf[32];
+    std::size_t       len   (0);
+    std::string       result("YYYYMMDDTHHMMSS");
     
     // "%Y%m%dT%H%M%S" -> "yyyymmddThhmmss\0"
     // on windows '%Z' does not work correctly, so we leave it out here
@@ -373,6 +380,10 @@ namespace support {
 
     return result;
   }
+
+#if defined(_MSC_VER)
+#  pragma warning(pop)
+#endif
   
   namespace {
 
