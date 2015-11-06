@@ -18,7 +18,8 @@
 
 // includes, system
 
-#include <vector> // std::vector<>
+#include <initializer_list> // std::initializer_list<>
+#include <vector>           // std::vector<>
 
 // includes, project
 
