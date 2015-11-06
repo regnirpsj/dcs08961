@@ -112,7 +112,7 @@ namespace field {
     TRACE("field::base::base");
 
     if (name_.empty()) {
-      throw std::logic_error("field names cannot be empty!");
+      throw std::logic_error("field::base::base: field names cannot be empty!");
     }
     
     container_.add(this);

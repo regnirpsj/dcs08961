@@ -160,7 +160,7 @@ namespace field {
     TRACE("field::container::manager::schedule");
 
     bool       result(false);
-    auto const found(std::find(container_list_.begin(), container_list_.end(), a));
+    auto const found (std::find(container_list_.begin(), container_list_.end(), a));
 
     if (container_list_.end() == found) {
       container_list_.push_back(a);
@@ -177,7 +177,7 @@ namespace field {
     TRACE("field::container::manager::unschedule");
 
     bool       result(false);
-    auto const found(std::find(container_list_.begin(), container_list_.end(), a));
+    auto const found (std::find(container_list_.begin(), container_list_.end(), a));
 
     if (container_list_.end() != found) {
       container_list_.erase(found);
@@ -318,7 +318,7 @@ namespace field {
     if (field_list_.end() == found) {
       field_list_.push_back(a);
     } else {
-      throw std::logic_error("unable to register the same field twice!");
+      throw std::logic_error("field::container::add: unable to register the same field twice!");
     }
   }
   
@@ -332,7 +332,7 @@ namespace field {
     if (field_list_.end() != found) {
       field_list_.erase(found);
     } else {
-      throw std::logic_error("unable to unregister non-existent field!");
+      throw std::logic_error("field::container::sub: unable to unregister non-existent field!");
     }
   }
   
