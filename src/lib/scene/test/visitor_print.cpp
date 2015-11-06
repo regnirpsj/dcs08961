@@ -15,6 +15,7 @@
 // includes, system
 
 #include <iostream> // std::cout
+#include <memory>   // std::unique_ptr<>
 
 // includes, project
 
@@ -71,30 +72,27 @@ BOOST_AUTO_TEST_CASE(test_scene_visitor_print_simple_bfs)
 {
   using namespace scene;
   
-  node::group* g(test::make_scene());
+  std::unique_ptr<node::group> g(test::make_scene());
   
-  BOOST_CHECK(nullptr != g);
+  BOOST_CHECK(nullptr != g.get());
 
   simple_bfs v;
   
   g->accept(v);
-    
-  delete g;
 }
 
 BOOST_AUTO_TEST_CASE(test_scene_visitor_print_simple_dfs)
 {
   using namespace scene;
   
-  node::group* g(test::make_scene());
+  std::unique_ptr<node::group> g(test::make_scene());
   
-  BOOST_CHECK(nullptr != g);
+  BOOST_CHECK(nullptr != g.get());
 
   simple_dfs v;
 
   g->accept(v);
   
-  delete g;
 }
 
 BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_bfs)
@@ -105,9 +103,9 @@ BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_bfs)
     // needs to be in a scope to ensure bfs' dtor is run to flush
     using namespace scene;
   
-    node::group* g(test::make_scene());
+    std::unique_ptr<node::group> g(test::make_scene());
   
-    BOOST_CHECK(nullptr != g);
+    BOOST_CHECK(nullptr != g.get());
   
     visitor::print pv(output, visitor::print::order::bfs);
     
@@ -117,12 +115,10 @@ BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_bfs)
     visitor::print pv1(std::cout, visitor::print::order::bfs);
     g->accept(pv1);
 #endif
-    
-    delete g;
   }
 
-  BOOST_CHECK(!output.is_empty(false));
-  // BOOST_CHECK( output.check_length(6356, false));
+  BOOST_CHECK  (!output.is_empty(false));
+  BOOST_MESSAGE(output.str());
 }
 
 BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_dfs)
@@ -131,9 +127,9 @@ BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_dfs)
   
   using namespace scene;
   
-  node::group* g(test::make_scene());
+  std::unique_ptr<node::group> g(test::make_scene());
   
-  BOOST_CHECK(nullptr != g);
+  BOOST_CHECK(nullptr != g.get());
   
   visitor::print pv(output, visitor::print::order::dfs);
   g->accept(pv);
@@ -143,8 +139,6 @@ BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_dfs)
   g->accept(pv1);
 #endif
     
-  BOOST_CHECK(!output.is_empty(false));
-  // BOOST_CHECK( output.check_length(6356, false));
-  
-  delete g;
+  BOOST_CHECK  (!output.is_empty(false));
+  BOOST_MESSAGE(output.str());
 }
