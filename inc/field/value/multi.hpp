@@ -63,10 +63,10 @@ namespace field {
       virtual bool                        add(value_type&&);
       virtual bool                        sub(value_type const&);
 
-      using inherited::operator*;
+      //using inherited::operator*;
       using inherited::operator=;
-      using inherited::operator+=;
-      using inherited::operator-=;
+      //using inherited::operator+=;
+      //using inherited::operator-=;
       
     private:
 

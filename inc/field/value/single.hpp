@@ -51,7 +51,7 @@ namespace field {
       virtual value_type        set(value_type const&);
       virtual value_type        set(value_type&&);
       
-      using inherited::operator*;
+      //using inherited::operator*;
       using inherited::operator=;
       
     private:
