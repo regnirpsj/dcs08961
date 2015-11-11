@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -63,18 +63,14 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_scene_object_texture_ctor_file, T, tex_types_
 #if defined(WIN32)
   static std::string const prefix("c:/tools/gli/gli-git");
 #else
-  static std::string const prefix("/home/jsd/Projects/others/gli-regnirpsj-git");
+  static std::string const prefix("/home/jsd/Projects/others/gli-git");
 #endif
   
-  std::array<std::string const, 7> const file_list = {
+  std::array<std::string const, 3> const file_list = {
     {
-      prefix + "/data/array.dds",
-      prefix + "/data/cube.dds",
-      prefix + "/data/test-rgb8-256a.dds",
-      prefix + "/data/test-rgb8-256b.dds",
-      prefix + "/data/test_bc1.dds",
-      prefix + "/data/test_dxt1.dds",
-      prefix + "/data/test_rgb8.dds",
+      prefix + "/data/array_r8_unorm.dds",
+      prefix + "/data/cube_rgba8_unorm.dds",
+      prefix + "/data/test.dds",
     }
   };
 
