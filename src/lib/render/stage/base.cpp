@@ -102,13 +102,13 @@ namespace render {
 
     /* explicit */
     base::base(context& a)
-      : field::container   (),
-        support::refcounted(),
-        active             (*this, "active",        true),
-        name               (*this, "name",          "[render::stage::base]"),
-        stats_execute      (*this, "stats_execute", nullptr),
-        stats_resize       (*this, "stats_resize",  nullptr),
-        ctx_               (a)
+      : field::container         (),
+        support::refcounted<base>(),
+        active                   (*this, "active",        true),
+        name                     (*this, "name",          "[render::stage::base]"),
+        stats_execute            (*this, "stats_execute", nullptr),
+        stats_resize             (*this, "stats_resize",  nullptr),
+        ctx_                     (a)
     {
       TRACE("render::stage::base::base");
     }

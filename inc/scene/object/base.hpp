@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -34,7 +34,7 @@ namespace scene {
     // types, exported (class, enum, struct, union, typedef)
 
     class DCS08961_SCENE_EXPORT base : public field::container,
-                                       public support::refcounted {
+                                       public support::refcounted<base> {
 
     public:
 

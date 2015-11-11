@@ -115,16 +115,16 @@ namespace render {
 
     /* explicit */
     program::program(context& a)
-      : field::container   (),
-        support::refcounted(),
-        active             (*this, "active",           true),
-        name               (*this, "name",             "[render::shader::program]"),
-        vertex_shader      (*this, "vertex_shader",    nullptr),
-        tess_ctrl_shader   (*this, "tess_ctrl_shader", nullptr),
-        tess_eval_shader   (*this, "tess_eval_shader", nullptr),
-        geometry_shader    (*this, "geometry_shader",  nullptr),
-        fragment_shader    (*this, "fragment_shader",  nullptr),
-        ctx_               (a)
+      : field::container            (),
+        support::refcounted<program>(),
+        active                      (*this, "active",           true),
+        name                        (*this, "name",             "[render::shader::program]"),
+        vertex_shader               (*this, "vertex_shader",    nullptr),
+        tess_ctrl_shader            (*this, "tess_ctrl_shader", nullptr),
+        tess_eval_shader            (*this, "tess_eval_shader", nullptr),
+        geometry_shader             (*this, "geometry_shader",  nullptr),
+        fragment_shader             (*this, "fragment_shader",  nullptr),
+        ctx_                        (a)
     {
       TRACE("render::shader::program::program");
     }

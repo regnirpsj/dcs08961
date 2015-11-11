@@ -68,11 +68,11 @@ namespace render {
 
     /* explicit */
     base::base(context& a)
-      : field::container   (),
-        support::refcounted(),
-        active             (*this, "active", true),
-        name               (*this, "name",   "[render::state::base]"),
-        ctx_               (a)
+      : field::container         (),
+        support::refcounted<base>(),
+        active                   (*this, "active", true),
+        name                     (*this, "name",   "[render::state::base]"),
+        ctx_                     (a)
     {
       TRACE("render::state::base::base");
     }
