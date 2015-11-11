@@ -18,6 +18,7 @@
 
 // includes, system
 
+#include <cstdlib>        // ::getenv
 #include <glm/gtx/io.hpp> // glm::operator<< (field::container::print_on)
 #include <stdexcept>      // std::runtime_error
 
@@ -37,6 +38,9 @@ namespace {
   // types, internal (class, enum, struct, union, typedef)
 
   // variables, internal
+
+  std::string const env_dpy_name (::getenv("DISPLAY"));
+  std::string const dflt_dpy_name(":0");
   
   // functions, internal
 
@@ -62,7 +66,9 @@ namespace platform {
                                                                         GLX_DEPTH_SIZE, 24,
                                                                         GLX_DOUBLEBUFFER,
                                                                         None };
-      /* static */ std::string const          base::dflt_display_name(":0.0");
+      /* static */ std::string const          base::dflt_display_name((!env_dpy_name.empty()) ?
+                                                                      env_dpy_name :
+                                                                      dflt_dpy_name);
       
       // functions, exported
 
@@ -128,7 +134,7 @@ namespace platform {
       /* explicit */
       base::base(std::string const& a, rect const& b, std::string const& c, attribute_list const& d)
         : platform::window::base(a, b),
-          display_              (::XOpenDisplay((c.empty()) ? nullptr : c.c_str())),
+          display_              (nullptr),
           colormap_             (0),
           window_               (0),
           vinfo_                (nullptr),
@@ -136,16 +142,24 @@ namespace platform {
       {
         TRACE("platform::glx::window::base::base");
 
+        if (c.empty()) {
+          display_ = ::XOpenDisplay(c.c_str());
+        }
+
+        if (!display_) {
+          display_ = ::XOpenDisplay(nullptr);
+        }
+        
         if (!display_) {
           std::runtime_error("platform::glx::window::base: 'XOpenDisplay'");
         }
-
+        
         signed dummy;
 
         if (!::glXQueryExtension(display_, &dummy, &dummy)) {
           std::runtime_error("platform::glx::window::base: 'glXQueryExtension'");
         }
-
+          
         vinfo_ = ::glXChooseVisual(display_, DefaultScreen(display_),
                                    const_cast<signed*>(&(d[0])));
 
