@@ -43,7 +43,7 @@ namespace {
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_CASE(test_glm_utilities_deg2rad)
+BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_deg2rad)
 {
   BOOST_CHECK(glm::pi<double>() == glm::deg2rad(180.0));
 
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_deg2rad)
                 << " =?= deg2rad(180.0):" << glm::deg2rad(180.0));
 }
 
-BOOST_AUTO_TEST_CASE(test_glm_utilities_rad2deg)
+BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_rad2deg)
 {
   BOOST_CHECK(180.0 == glm::rad2deg(glm::pi<double>()));
 
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_rad2deg)
                 << glm::rad2deg(glm::pi<double>()));
 }
 
-BOOST_AUTO_TEST_CASE(test_glm_utilities_op_literal_deg)
+BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_op_literal_deg)
 {
 #if defined(_MSC_VER) && (_MSC_VER <= 1800)
   BOOST_CHECK(glm::pi<double>() == 180.0 _deg);
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_op_literal_deg)
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(test_glm_utilities_op_literal_rad)
+BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_op_literal_rad)
 {
 #if defined(_MSC_VER) && (_MSC_VER <= 1800)
   BOOST_CHECK(glm::pi<double>() == 180.0 _deg);
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_op_literal_rad)
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(test_glm_utilities_convert_transform)
+BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_convert_transform)
 {
   typedef std::pair<glm::mat4 const, glm::mat4 const> matrix_pair;
   
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE(test_glm_utilities_convert_transform)
                     << i.second << ':' << std::string(47 - i.second.length(), ' ')
                     << e.second << ':' << p << '\n');
 
-      static float const epsilon(37 * std::numeric_limits<float>::epsilon());
+      static float const epsilon(177 * std::numeric_limits<float>::epsilon());
       
       for (unsigned i(0); i < 4; ++i) {
         for (unsigned j(0); j < 4; ++j) {
