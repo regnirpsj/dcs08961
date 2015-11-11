@@ -44,6 +44,8 @@ namespace {
   // functions, internal
 
 #if !defined(_OPENMP)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-function"
   signed
   omp_get_thread_num()
   {
@@ -55,7 +57,7 @@ namespace {
   {
     return -1;
   }
-  
+#  pragma clang diagnostic pop
 #endif
   
 } // namespace {
@@ -98,7 +100,7 @@ namespace scene {
       bounds b(bounds::invalid);
       
       if (!attributes.get().empty()) {
-        for (auto a : attributes.get()) {
+        for (auto const& a : attributes.get()) {
           // glm::m[ax|in] return component-wise max/min, i.e. min([1,0,0], [0,1,-1]) -> [0,0,-1]
           b.min = glm::min(a.position, b.min);
           b.max = glm::max(a.position, b.max);
@@ -112,7 +114,7 @@ namespace scene {
       bbox = b;
     }
 
-    /*
+    /**
      * see [http://www.terathon.com/code/tangent.html]
      */
     void
@@ -125,7 +127,7 @@ namespace scene {
 #if defined(_OPENMP)
 #  pragma omp parallel for
 #endif
-      for (signed i = 0; i < index_list_.size(); i += 3) {
+      for (index_list_type::size_type i = 0; i < index_list_.size(); i += 3) {
         TRACE_NEVER("scene::node::geometry::compute_tangents:1:" +
                     std::to_string(i) + "/" +
                     std::to_string(index_list_.size()) + "(" +
@@ -173,7 +175,7 @@ namespace scene {
 #if defined(_OPENMP)
 #  pragma omp parallel for
 #endif
-      for (signed i = 0; i < index_list_.size(); ++i) {
+      for (index_list_type::size_type i = 0; i < index_list_.size(); ++i) {
         TRACE_NEVER("scene::node::geometry::compute_tangents:2:" +
                     std::to_string(i) + "/" +
                     std::to_string(index_list_.size()) + "(" +
@@ -244,7 +246,8 @@ namespace scene {
     {
       TRACE("scene::node::geometry::cb_sub_attribute");
 
-      attribute_list_.erase(std::remove(attribute_list_.begin(), attribute_list_.end(), a),
+      attribute_list_.erase(std::remove(attribute_list_.begin(),
+                                        attribute_list_.end(), a),
                             attribute_list_.end());
 
       return true;
@@ -285,7 +288,8 @@ namespace scene {
     {
       TRACE("scene::node::geometry::cb_sub_index");
 
-      index_list_.erase(std::remove(index_list_.begin(), index_list_.end(), a),
+      index_list_.erase(std::remove(index_list_.begin(),
+                                    index_list_.end(), a),
                         index_list_.end());
 
       return true;
