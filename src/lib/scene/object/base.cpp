@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -64,15 +64,15 @@ namespace scene {
       field::container::print_on(os);
 
       os << ','
-         << "rc:" << get_ref()
+         << "rc:" << use_count()
          << ']';
     }
     
     /* explicit */
     base::base()
-      : field::container   (),
-        support::refcounted(),
-        name               (*this, "name", "")
+      : field::container         (),
+        support::refcounted<base>(),
+        name                     (*this, "name", "")
     {
       TRACE("scene::object::base::base");
     }
