@@ -114,7 +114,7 @@ namespace {
       }
     };
     
-    for (auto s : suffixes) {
+    for (auto const& s : suffixes) {
       file_handler fh;
 
       fh.load = std::get<1>(s);

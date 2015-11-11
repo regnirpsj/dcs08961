@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE(test_scene_loader_obj_cube)
 {
   std::stringstream str;
 
-  for (auto s : cube) {
+  for (auto const& s : cube) {
     str << s << '\n';
   }
   
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE(test_scene_loader_obj_squares)
 {
   std::stringstream str;
 
-  for (auto s : squares) {
+  for (auto const& s : squares) {
     str << s << '\n';
   }
   

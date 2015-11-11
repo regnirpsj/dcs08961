@@ -124,6 +124,7 @@ namespace scene {
     // variables, exported
 
     /* static */ unsigned const sphere::dflt_subdivision(4);
+    
     // functions, exported
 
     /* explicit */
@@ -151,11 +152,11 @@ namespace scene {
       
       if (&f == &subdivision) {
         attribute_list_.clear();
-        index_list_.clear();
+        index_list_    .clear();
 
-        octahedron oct;
+        octahedron const oct;
         
-        for (auto a : *oct.attributes) {
+        for (auto const& a : oct.attributes.get()) { // why doesn't '*oct.attributes' work here?
           add_point(a.position, attribute_list_);
         }
 

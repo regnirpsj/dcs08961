@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -80,7 +80,7 @@ namespace {
     
     unsigned idx_count(0);
 
-    for (auto idx : indices) {
+    for (auto const& idx : indices) {
       glm::vec3 const& p1(points[idx[0]]);
       glm::vec3 const& p2(points[idx[1]]);
       glm::vec3 const& p3(points[idx[2]]);

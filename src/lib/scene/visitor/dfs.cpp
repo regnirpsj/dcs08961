@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -48,7 +48,7 @@ namespace {
   {
     TRACE("<unnamed>::scene::visitor::dfs::visit_helper(" + support::demangle(typeid(l)) + ")");
 
-    for (auto c : l) {
+    for (auto& c : l) {
       c->accept(v);
     }
   }

@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -101,7 +101,7 @@ namespace test {
           }
         };
         
-        for (auto l : lights) {
+        for (auto const& l : lights) {
           g->children += l;
         }
       }
@@ -121,7 +121,7 @@ namespace test {
           }
         };
 
-        for (auto t : transforms) {
+        for (auto const& t : transforms) {
           {
             std::array<material_group*, 3> const materials = {
               {
@@ -131,7 +131,7 @@ namespace test {
               }
             };
             
-            for (auto m : materials) {
+            for (auto const& m : materials) {
               {
                 std::array<geometry*, 3> const primitives = {
                   {
@@ -141,7 +141,7 @@ namespace test {
                   }
                 };
                 
-                for (auto p : primitives) {
+                for (auto const& p : primitives) {
                   m->children += p;
                 }
               }

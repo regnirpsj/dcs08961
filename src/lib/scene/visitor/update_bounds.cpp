@@ -2,7 +2,7 @@
 
 /**************************************************************************************************/
 /*                                                                                                */
-/* Copyright (C) 2014 University of Hull                                                          */
+/* Copyright (C) 2014-2015 University of Hull                                                     */
 /*                                                                                                */
 /**************************************************************************************************/
 /*                                                                                                */
@@ -84,7 +84,7 @@ namespace scene {
 
         auto result(node::base::bounds::invalid);
 
-        for (auto const c : a.children.get()) {
+        for (auto const& c : a.children.get()) {
           auto const& b(c->bbox.get());
 
           // std::cout << "result:" << result << ", other:" << b << std::endl;
@@ -126,7 +126,7 @@ namespace scene {
         
         auto result(node::base::bounds::invalid);
         
-        for (auto c : corners) {
+        for (auto const& c : corners) {
           glm::vec3 const tmp((m * glm::vec4(c, 1.0f)).xyz());
           
           // std::cout << "result:" << result << ", other:" << tmp << std::endl;

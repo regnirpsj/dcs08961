@@ -171,7 +171,7 @@ BOOST_AUTO_TEST_CASE(test_scene_loader_mtl_size)
 {
   std::stringstream str;
 
-  for (auto m : materials) {
+  for (auto const& m : materials) {
     str << m << '\n';
   }
 
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE(test_scene_loader_mtl_properties)
 {
   std::stringstream str;
 
-  for (auto m : materials) {
+  for (auto const& m : materials) {
     str << m << '\n';
   }
 

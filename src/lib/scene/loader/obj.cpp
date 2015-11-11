@@ -318,7 +318,7 @@ namespace scene {
               if (!boost::filesystem::exists(boost::filesystem::path(f))) {
                 found = false;
                 
-                for (auto e : path_list) {
+                for (auto const& e : path_list) {
                   boost::filesystem::path p(e);
 
                   p /= f;
