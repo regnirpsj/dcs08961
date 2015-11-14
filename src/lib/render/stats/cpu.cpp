@@ -71,7 +71,7 @@ namespace render {
     }
 
     /* explicit */
-    cpu::cpu(context& a)
+    cpu::cpu(device::context& a)
       : base        (a),
         rate_timer_ (),
         rate_       (rate_timer_.lapse()),

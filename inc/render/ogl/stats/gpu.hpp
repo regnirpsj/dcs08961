@@ -28,6 +28,8 @@
 namespace render {
 
   namespace ogl {
+
+    class context;
     
     namespace stats {
   
@@ -52,7 +54,7 @@ namespace render {
         
         };
         
-        explicit gpu(context&);
+        explicit gpu(ogl::context&);
         virtual ~gpu();
 
         virtual std::unique_ptr<base::data> fetch() const;
@@ -60,13 +62,11 @@ namespace render {
         virtual void print_on(std::ostream&) const;
 
       protected:
-
-        using timer = support::timer;
       
-        timer           rate_timer_;
-        timer::duration rate_;
-        timer           stamp_timer_;
-        timer::duration stamp_;
+        support::timer           rate_timer_;
+        support::timer::duration rate_;
+        support::timer           stamp_timer_;
+        support::timer::duration stamp_;
         
         virtual void start ();
         virtual void stop  ();

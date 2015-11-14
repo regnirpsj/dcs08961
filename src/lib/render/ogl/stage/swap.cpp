@@ -64,7 +64,7 @@ namespace render {
       }
       
       /* virtual */ void
-      swap::do_execute()
+      swap::do_execute(render::swap::context&)
       {
         TRACE("render::ogl::stage::swap::do_execute");
       }

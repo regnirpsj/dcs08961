@@ -60,7 +60,7 @@ namespace render {
         
     protected:
         
-      explicit setup(context&);
+      explicit setup(device::context&);
         
     };
       

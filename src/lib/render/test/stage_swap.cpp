@@ -31,20 +31,20 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class context : public render::context {
+  class context : public render::device::context {
   };
   
   class swap_stage : public render::stage::swap {
 
   public:
 
-    explicit swap_stage(render::context& a)
+    explicit swap_stage(render::device::context& a)
       : render::stage::swap(a)
     {}
 
   private:
 
-    virtual void do_execute()
+    virtual void do_execute(render::swap::context&)
     {}
     
   };

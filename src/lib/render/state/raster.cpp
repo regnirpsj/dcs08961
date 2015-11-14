@@ -55,7 +55,7 @@ namespace render {
     }    
 
     /* explicit */
-    raster::raster(context& a)
+    raster::raster(device::context& a)
       : base(a)
     {
       TRACE("render::state::raster::raster");

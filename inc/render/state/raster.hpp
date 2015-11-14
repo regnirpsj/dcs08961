@@ -38,7 +38,7 @@ namespace render {
 
     protected:
       
-      explicit raster(context&);
+      explicit raster(device::context&);
 
     };
       

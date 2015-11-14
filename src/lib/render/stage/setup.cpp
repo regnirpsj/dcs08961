@@ -72,7 +72,7 @@ namespace render {
     }
 
     /* explicit */
-    setup::setup(context& a)
+    setup::setup(device::context& a)
       : base               (a),
         state_blend        (*this, "state_blend",         nullptr),
         state_depth_stencil(*this, "state_depth_stencil", nullptr),

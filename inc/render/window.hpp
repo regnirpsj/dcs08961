@@ -26,11 +26,12 @@
 
 #include <field/value/multi.hpp>
 #include <field/container.hpp>
+#include <render/context.hpp>
 #include <render/export.h>
 #include <render/pass/container.hpp>
 
 namespace render {
-
+  
   // types, exported (class, enum, struct, union, typedef)
 
   class DCS08961_RENDER_EXPORT window : public field::container {
@@ -38,16 +39,21 @@ namespace render {
   public:
 
     using pass_field_type = field::value::multi<boost::intrusive_ptr<pass::container>>;
-      
-    pass_field_type passes;
+
+    field::value::single<std::string> title; //< window base title
+    pass_field_type                   passes; //< pass(es)/stage(s) list (dflt: empty)
       
     virtual ~window() =0;
 
   protected:
 
-    explicit window();
+    boost::intrusive_ptr<device::context> dev_ctx_;
+    boost::intrusive_ptr<swap::context>   swp_ctx_;
+    
+    explicit window(std::string const& /* win title */,
+                    device::context*   /* dev ctx   */ = nullptr);
 
-    virtual void render();
+    virtual void render(unsigned /* frames */ = 1);
     virtual void resize(glm::ivec2 const&);
       
   };

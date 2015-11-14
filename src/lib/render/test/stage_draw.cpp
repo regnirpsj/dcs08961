@@ -40,7 +40,7 @@ namespace {
 
   public:
 
-    explicit draw_stage(render::context& a)
+    explicit draw_stage(render::device::context& a)
       : render::stage::draw(a),
         stats_exec_        (new render::stats::cpu(ctx_)),
         stats_resz_        (new render::stats::cpu(ctx_))
@@ -56,14 +56,24 @@ namespace {
     std::unique_ptr<render::stats::base> stats_exec_;
     std::unique_ptr<render::stats::base> stats_resz_;
     
-    virtual void do_execute()
+    virtual void do_execute(render::swap::context&)
     {
       TRACE("<unnamed>::draw_stage::do_execute");
     }
     
   };
 
-  class context : public render::context {
+  class context : public render::device::context,
+                  public render::swap::context {
+
+  public:
+
+    virtual void print_on(std::ostream& os) const
+    {
+      render::device::context::print_on(os);
+      render::swap::context::print_on  (os);
+    }
+    
   };
   
   // variables, internal
@@ -115,7 +125,7 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_stage_draw_execute)
                 << *((*d.stats_resize)->fetch().get()));
   
   for (unsigned i(0); i < 9; ++i) {
-    d.execute();
+    d.execute(c);
     BOOST_MESSAGE(std::fixed
                   << "exec" << std::setfill('0') << std::setw(2) << (i+1) << ':'
                   << std::setfill(' ') << std::setw(9) << std::setprecision(2)

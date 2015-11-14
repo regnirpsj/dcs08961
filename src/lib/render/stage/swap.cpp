@@ -55,7 +55,7 @@ namespace render {
     }
 
     /* explicit */
-    swap::swap(context& a)
+    swap::swap(device::context& a)
       : base          (a),
         sync_to_vblank(*this, "sync_to_vblank", true)
     {

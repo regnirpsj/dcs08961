@@ -38,7 +38,7 @@ namespace render {
       
     protected:
 
-      explicit vertex(context&);
+      explicit vertex(device::context&);
 
     };
       

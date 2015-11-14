@@ -64,7 +64,7 @@ namespace render {
       }
       
       /* virtual */ void
-      draw::do_execute()
+      draw::do_execute(render::swap::context&)
       {
         TRACE("render::ogl::stage::draw::do_execute");
       }

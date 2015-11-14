@@ -53,20 +53,27 @@ namespace render {
     }
     
     /* explicit */
-    window::window()
+    window::window(std::string const& a, device::context* b)
       : field::container(),
-        passes          (*this, "passes")
+        title           (*this, "title", a),
+        passes          (*this, "passes"),
+        dev_ctx_        (b),
+        swp_ctx_        (nullptr)
     {
       TRACE("render::window::window");
     }
     
     /* virtual */ void
-    window::render()
+    window::render(unsigned frames)
     {
       TRACE("render::window::render");
 
-      for (auto p : passes.get()) {
-        p->execute();
+      while (0 < frames) {
+        for (auto& p : passes.get()) {
+          p->execute(*swp_ctx_);
+        }
+
+        --frames;
       }
     }
     
@@ -75,7 +82,7 @@ namespace render {
     {
       TRACE("render::window::resize");
 
-      for (auto p : passes.get()) {
+      for (auto& p : passes.get()) {
         p->resize(a);
       }
     }

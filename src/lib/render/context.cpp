@@ -41,33 +41,69 @@ namespace {
 } // namespace {
 
 namespace render {
-    
-  // variables, exported
+
+  namespace device {
+      
+    // variables, exported
   
-  // functions, exported
+    // functions, exported
 
-  /* virtual */
-  context::~context()
-  {
-    TRACE("render::context::~context");
-  }
+    /* virtual */
+    context::~context()
+    {
+      TRACE("render::device::context::~context");
+    }
     
-  /* virtual */ void
-  context::print_on(std::ostream& os) const
-  {
-    TRACE_NEVER("render::context::print_on");
+    /* virtual */ void
+    context::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("render::device::context::print_on");
 
-    boost::io::ios_all_saver const ias(os);
+      boost::io::ios_all_saver const ias(os);
     
-    os << "[render::context@" << std::hex << this << ']';
-  }
+      os << "[render::device::context@" << std::hex << this << ']';
+    }
 
-  /* explicit */
-  context::context()
-    : boost::noncopyable(),
-      support::printable()
-  {
-    TRACE("render::context::context");
-  }
+    /* explicit */
+    context::context()
+      : support::printable(),
+        support::refcounted<context>()
+    {
+      TRACE("render::device::context::context");
+    }
+
+  } // namespace device {
   
+  namespace swap {
+      
+    // variables, exported
+  
+    // functions, exported
+
+    /* virtual */
+    context::~context()
+    {
+      TRACE("render::swap::context::~context");
+    }
+    
+    /* virtual */ void
+    context::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("render::swap::context::print_on");
+
+      boost::io::ios_all_saver const ias(os);
+    
+      os << "[render::swap::context@" << std::hex << this << ']';
+    }
+
+    /* explicit */
+    context::context()
+      : support::printable(),
+        support::refcounted<context>()
+    {
+      TRACE("render::swap::context::context");
+    }
+
+  } // namespace swap {
+
 } // namespace render {

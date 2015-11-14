@@ -31,20 +31,20 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class context : public render::context {
+  class context : public render::device::context {
   };
   
   class clear_stage : public render::stage::clear {
 
   public:
 
-    explicit clear_stage(render::context& a)
+    explicit clear_stage(render::device::context& a)
       : render::stage::clear(a)
     {}
 
   private:
 
-    virtual void do_execute()
+    virtual void do_execute(render::swap::context&)
     {}
     
   };

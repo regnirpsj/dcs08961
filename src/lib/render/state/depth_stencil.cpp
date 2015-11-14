@@ -55,7 +55,7 @@ namespace render {
     }    
 
     /* explicit */
-    depth_stencil::depth_stencil(context& a)
+    depth_stencil::depth_stencil(device::context& a)
       : base(a)
     {
       TRACE("render::state::depth_stencil::depth_stencil");

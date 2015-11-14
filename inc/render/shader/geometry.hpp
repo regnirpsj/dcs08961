@@ -38,7 +38,7 @@ namespace render {
       
     protected:
 
-      explicit geometry(context&);
+      explicit geometry(device::context&);
 
     };
       

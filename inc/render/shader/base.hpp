@@ -28,8 +28,12 @@
 #include <support/refcounted.hpp>
 
 namespace render {
-
-  class context;
+  
+  namespace device {
+    
+    class context;
+    
+  } // namespace device {
   
   namespace shader {
       
@@ -40,8 +44,8 @@ namespace render {
 
     public:
 
-      field::value::single<bool>         active; //<
-      field::value::single<std::string>  name;   //<
+      field::value::single<bool>        active; //<
+      field::value::single<std::string> name;   //<
       
       virtual ~base();
 
@@ -51,9 +55,9 @@ namespace render {
 
     protected:
 
-      context& ctx_;
+      device::context& ctx_;
       
-      explicit base(context&);
+      explicit base(device::context&);
 
       virtual void do_activate() =0;
 

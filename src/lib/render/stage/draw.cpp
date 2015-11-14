@@ -56,7 +56,7 @@ namespace render {
     }
 
     /* explicit */
-    draw::draw(context& a)
+    draw::draw(device::context& a)
       : base  (a),
         camera(*this, "camera", nullptr),
         scene (*this, "scene",  nullptr)

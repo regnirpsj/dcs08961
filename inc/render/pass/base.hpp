@@ -38,7 +38,7 @@ namespace render {
         
     protected:
         
-      explicit base(context&);
+      explicit base(device::context&);
 
     };
       

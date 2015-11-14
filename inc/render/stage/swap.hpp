@@ -40,7 +40,7 @@ namespace render {
         
     protected:
         
-      explicit swap(context&);
+      explicit swap(device::context&);
         
       virtual void do_resize(glm::ivec2 const&);
         

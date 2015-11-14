@@ -18,7 +18,7 @@
 
 // includes, system
 
-#include <stdexcept> // std::logic_error
+//#include <>
 
 // includes, project
 
@@ -55,7 +55,7 @@ namespace render {
     }
       
     /* explicit */
-    base::base(context& a)
+    base::base(device::context& a)
       : stage::base(a)
     {
       TRACE("render::pass::base::base");

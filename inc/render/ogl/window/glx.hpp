@@ -12,9 +12,9 @@
 /*                                                                                                */
 /**************************************************************************************************/
 
-#if !defined(UKACHULLDCS_08961_RENDER_WINDOW_GLX_HPP)
+#if !defined(UKACHULLDCS_08961_RENDER_OGL_WINDOW_GLX_HPP)
 
-#define UKACHULLDCS_08961_RENDER_WINDOW_GLX_HPP
+#define UKACHULLDCS_08961_RENDER_OGL_WINDOW_GLX_HPP
 
 // includes, system
 
@@ -59,4 +59,4 @@ namespace render {
     
 } // namespace render {
 
-#endif // #if !defined(UKACHULLDCS_08961_RENDER_WINDOW_GLX_HPP)
+#endif // #if !defined(UKACHULLDCS_08961_RENDER_OGL_WINDOW_GLX_HPP)

@@ -55,7 +55,7 @@ namespace render {
     }
 
     /* explicit */
-    clear::clear(context& a)
+    clear::clear(device::context& a)
       : base         (a),
         color        (*this, "color",         true),
         color_value  (*this, "color_value",   glm::vec4(0,0,0,0)),

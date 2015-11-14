@@ -18,10 +18,11 @@
 
 // includes, system
 
-//#include <>
+//#included <>
 
 // includes, project
 
+#include <render/context.hpp>
 #include <render/stats/cpu.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -95,9 +96,10 @@ namespace render {
     }
 
     /* explicit */
-    base::base(context&)
+    base::base(device::context& a)
       : boost::noncopyable(),
         support::printable(),
+        ctx_              (a),
         updated_          (true)
     {
       TRACE("render::stats::base::base");
@@ -151,7 +153,7 @@ namespace render {
       TRACE("render::stats::guard::~guard");
 
       if (enabled_) {
-        static bool force_update(true);
+        static bool const force_update(true);
           
         stats_.stop  ();
         stats_.update(force_update);

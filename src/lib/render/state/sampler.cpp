@@ -55,7 +55,7 @@ namespace render {
     }    
 
     /* explicit */
-    sampler::sampler(context& a)
+    sampler::sampler(device::context& a)
       : base(a)
     {
       TRACE("render::state::sampler::sampler");

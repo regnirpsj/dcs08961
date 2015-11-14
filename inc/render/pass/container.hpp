@@ -39,12 +39,12 @@ namespace render {
       
       stage_field_type stages;
       
-      explicit container(context&);
+      explicit container(device::context&);
       virtual ~container();      
 
     protected:
 
-      virtual void do_execute();
+      virtual void do_execute(swap::context&);
       virtual void do_resize (glm::ivec2 const&);
         
     };

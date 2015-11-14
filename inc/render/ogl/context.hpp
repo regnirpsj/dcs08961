@@ -30,7 +30,8 @@ namespace render {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class DCS08961_RENDER_EXPORT context : public render::context {
+    class DCS08961_RENDER_EXPORT context : public render::device::context,
+                                           public render::swap::context {
 
     public:
 

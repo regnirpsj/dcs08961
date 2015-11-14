@@ -65,7 +65,7 @@ namespace render {
       }
       
       /* virtual */ void
-      clear::do_execute()
+      clear::do_execute(render::swap::context&)
       {
         TRACE("render::ogl::stage::clear::do_execute");
 

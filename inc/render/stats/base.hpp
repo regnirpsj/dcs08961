@@ -23,12 +23,17 @@
 
 // includes, project
 
-#include <render/context.hpp>
 #include <render/export.h>
 #include <support/printable.hpp>
 
 namespace render {
 
+  namespace device {
+
+    class context;
+    
+  } // namespace device
+  
   namespace stats {
     
     // types, exported (class, enum, struct, union, typedef)
@@ -62,9 +67,10 @@ namespace render {
 
       friend class stats::guard;
 
-      bool updated_;
-        
-      explicit base(context&);
+      device::context& ctx_;
+      bool             updated_;
+      
+      explicit base(device::context&);
 
       virtual void start ();
       virtual void stop  ();

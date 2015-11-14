@@ -29,7 +29,11 @@
 
 namespace render {
 
-  class context;
+  namespace device {
+    
+    class context;
+    
+  } // namespace device {
   
   namespace shader {
       
@@ -49,13 +53,13 @@ namespace render {
       using geometry_shader_field_type  = field::value::single<boost::intrusive_ptr<geometry>>;
       using fragment_shader_field_type  = field::value::single<boost::intrusive_ptr<fragment>>;
       
-      field::value::single<bool>         active;           //<
-      field::value::single<std::string>  name;             //<
-      vertex_shader_field_type           vertex_shader;    //<
-      tess_ctrl_shader_field_type        tess_ctrl_shader; //<
-      tess_eval_shader_field_type        tess_eval_shader; //<
-      geometry_shader_field_type         geometry_shader;  //<
-      fragment_shader_field_type         fragment_shader;  //<
+      field::value::single<bool>        active;           //<
+      field::value::single<std::string> name;             //<
+      vertex_shader_field_type          vertex_shader;    //<
+      tess_ctrl_shader_field_type       tess_ctrl_shader; //<
+      tess_eval_shader_field_type       tess_eval_shader; //<
+      geometry_shader_field_type        geometry_shader;  //<
+      fragment_shader_field_type        fragment_shader;  //<
       
       virtual ~program();
 
@@ -67,9 +71,9 @@ namespace render {
 
     protected:
 
-      context& ctx_;
+      device::context& ctx_;
       
-      explicit program(context&);
+      explicit program(device::context&);
 
       virtual void do_activate();
       virtual void do_compile () =0;

@@ -30,13 +30,23 @@
 
 namespace render {
 
-  class context;
-
+  namespace device {
+    
+    class context;
+    
+  } // namespace device {
+  
   namespace stats {
 
     class base;
     
   } // namespace stats {
+
+  namespace swap {
+    
+    class context;
+    
+  } // namespace swap {
   
   namespace stage {
       
@@ -54,18 +64,18 @@ namespace render {
       
       virtual ~base();
 
-      void execute();
-      void resize (glm::ivec2 const&);
+      void execute(swap::context&    /* swp ctx */);
+      void resize (glm::ivec2 const& /* w/h */);
          
       virtual void print_on(std::ostream&) const;
 
     protected:
 
-      context& ctx_;
+      device::context& ctx_;
       
-      explicit base(context&);
+      explicit base(device::context& /* dev ctx*/);
 
-      virtual void do_execute()                  =0;
+      virtual void do_execute(swap::context&)    =0;
       virtual void do_resize (glm::ivec2 const&) =0;
 
     };

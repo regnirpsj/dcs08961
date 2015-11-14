@@ -83,14 +83,14 @@ namespace render {
       }
       
       /* virtual */ void
-      standard::do_execute()
+      standard::do_execute(render::swap::context& a)
       {
         TRACE("render::ogl::pass::standard::do_execute");
 
-        setup_.execute();
-        clear_.execute();
-        draw_. execute();
-        swap_. execute();
+        setup_.execute(a);
+        clear_.execute(a);
+        draw_ .execute(a);
+        swap_ .execute(a);
       }
 
       /* virtual */ void
@@ -100,8 +100,8 @@ namespace render {
 
         setup_.resize(a);
         clear_.resize(a);
-        draw_. resize(a);
-        swap_. resize(a);
+        draw_ .resize(a);
+        swap_ .resize(a);
       }
       
     } // namespace pass {

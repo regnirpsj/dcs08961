@@ -33,10 +33,27 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class context : public render::context {
+  class context : public render::device::context,
+                  public render::swap::context {
+
+  public:
+
+    virtual void print_on(std::ostream& os) const
+    {
+      render::device::context::print_on(os);
+      render::swap::context::print_on  (os);
+    }
+    
   };
 
   class window : public render::window {
+
+  public:
+
+    explicit window(std::string const& a = "<unnamed>::window")
+      : render::window(a)
+    {}
+    
   };
   
   // variables, internal

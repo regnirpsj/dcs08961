@@ -55,7 +55,7 @@ namespace render {
     }    
 
     /* explicit */
-    blend::blend(context& a)
+    blend::blend(device::context& a)
       : base(a)
     {
       TRACE("render::state::blend::blend");

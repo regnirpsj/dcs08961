@@ -29,7 +29,11 @@
 
 namespace render {
 
-  class context;
+  namespace device {
+    
+    class context;
+
+  } // namespace device
   
   namespace state {
       
@@ -40,8 +44,8 @@ namespace render {
 
     public:
 
-      field::value::single<bool>         active; //< (dflt: true)
-      field::value::single<std::string>  name;   //< 
+      field::value::single<bool>        active; //< (dflt: true)
+      field::value::single<std::string> name;   //< 
       
       virtual ~base() =0;
       
@@ -49,9 +53,9 @@ namespace render {
 
     protected:
 
-      context& ctx_;
+      device::context& ctx_;
       
-      explicit base(context&);
+      explicit base(device::context&);
 
     };
       

@@ -22,6 +22,7 @@
 
 // includes, project
 
+#include <render/context.hpp>
 #include <render/stats/cpu.hpp>
 #include <support/io_utils.hpp>
 
@@ -56,7 +57,7 @@ namespace render {
     }
       
     void
-    base::execute()
+    base::execute(swap::context& a)
     {
       TRACE("render::stage::base::execute");
 
@@ -66,9 +67,9 @@ namespace render {
         if (nullptr != s) {
           stats::guard const sg(*s);
       
-          do_execute();
+          do_execute(a);
         } else {
-          do_execute();
+          do_execute(a);
         }
       }
     }
@@ -101,7 +102,7 @@ namespace render {
     }
 
     /* explicit */
-    base::base(context& a)
+    base::base(device::context& a)
       : field::container         (),
         support::refcounted<base>(),
         active                   (*this, "active",        true),
@@ -114,7 +115,7 @@ namespace render {
     }
 
     /* virtual */ void
-    base::do_execute()
+    base::do_execute(swap::context&)
     {
       TRACE("render::stage::base::do_execute");
 

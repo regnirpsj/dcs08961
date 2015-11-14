@@ -49,7 +49,7 @@ namespace render {
     // functions, exported
 
     /* explicit */
-    container::container(context& a)
+    container::container(device::context& a)
       : base  (a),
         stages(*this, "stages")
     {
@@ -65,12 +65,12 @@ namespace render {
     }
       
     /* virtual */ void
-    container::do_execute()
+    container::do_execute(swap::context& a)
     {
       TRACE("render::pass::container::do_execute");
 
-      for (auto s : stages.get()) {
-        s->execute();
+      for (auto& s : stages.get()) {
+        s->execute(a);
       }
     }
 
@@ -79,7 +79,7 @@ namespace render {
     {
       TRACE("render::pass::container::do_resize");
 
-      for (auto s : stages.get()) {
+      for (auto& s : stages.get()) {
         s->resize(a);
       }
     }

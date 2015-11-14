@@ -43,7 +43,7 @@ namespace render {
         
       protected:
 
-        virtual void do_execute();
+        virtual void do_execute(render::swap::context&);
         
       };
       

@@ -55,7 +55,7 @@ namespace render {
     }
 
     /* explicit */
-    fragment::fragment(context& a)
+    fragment::fragment(device::context& a)
       : base(a)
     {
       TRACE("render::shader::fragment::fragment");

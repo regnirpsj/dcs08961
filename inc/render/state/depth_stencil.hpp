@@ -38,7 +38,7 @@ namespace render {
 
     protected:
       
-      explicit depth_stencil(context&);
+      explicit depth_stencil(device::context&);
 
     };
       

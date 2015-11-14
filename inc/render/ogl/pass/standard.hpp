@@ -54,7 +54,7 @@ namespace render {
         stage::draw  draw_;
         stage::swap  swap_;
         
-        virtual void do_execute();
+        virtual void do_execute(render::swap::context&);
         virtual void do_resize (glm::ivec2 const&);
       
       };

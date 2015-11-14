@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE(test_render_ogl_pass_standard)
   pass::standard p(c);
 
   p.resize (glm::ivec2(10, 10));
-  p.execute();
+  p.execute(c);
   
   BOOST_CHECK  (true);
   BOOST_MESSAGE(p);

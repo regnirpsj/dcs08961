@@ -114,7 +114,7 @@ namespace render {
     }
 
     /* explicit */
-    program::program(context& a)
+    program::program(device::context& a)
       : field::container            (),
         support::refcounted<program>(),
         active                      (*this, "active",           true),

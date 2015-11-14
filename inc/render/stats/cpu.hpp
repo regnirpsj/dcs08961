@@ -41,7 +41,7 @@ namespace render {
 
         float  rate_in_hz;
         double time_in_ns;
-          
+        
         virtual ~data();
         
         virtual data& operator+=(data const&);
@@ -50,7 +50,7 @@ namespace render {
         
       };
         
-      explicit cpu(context&);
+      explicit cpu(device::context&);
       virtual ~cpu();
 
       virtual std::unique_ptr<base::data> fetch() const;
@@ -58,13 +58,11 @@ namespace render {
       virtual void print_on(std::ostream&) const;
 
     protected:
-
-      using timer = support::timer;
       
-      timer           rate_timer_;
-      timer::duration rate_;
-      timer           stamp_timer_;
-      timer::duration stamp_;
+      support::timer           rate_timer_;
+      support::timer::duration rate_;
+      support::timer           stamp_timer_;
+      support::timer::duration stamp_;
         
       virtual void start ();
       virtual void stop  ();
