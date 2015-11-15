@@ -19,6 +19,7 @@
 // includes, system
 
 #include <algorithm> // std::find<>
+#include <stdexcept> // std::runtime_error
 
 // includes, project
 
@@ -65,16 +66,6 @@ namespace scene {
     group::~group()
     {
       TRACE("scene::node::group::~group");
-
-#if 1
-      while (!children_list_.empty()) {
-        cb_sub_child(*(children_list_.rbegin()));
-      }
-#else
-      { // alternative way: pro:consistent, con:wasted return value
-        cb_set_children({});
-      }
-#endif
     }
     
     /* virtual */ void
@@ -119,22 +110,28 @@ namespace scene {
       bool result(false);
 
       if (nullptr != a) {
-        auto const found(std::find(children_list_.begin(), children_list_.end(), a));
+        if (this != a.get()) {
+          auto const found(std::find(children_list_.begin(), children_list_.end(), a));
 
-        if (children_list_.end() == found) {
-          children_list_.push_back(a);
-          {
-            group* p(dynamic_cast<group*>(a->parent_));
+          if (children_list_.end() == found) {
+            children_list_.push_back(a);
+            {
+              group* p(dynamic_cast<group*>(a->parent_));
           
-            if (nullptr != p) {
-              p->cb_sub_child(a);
+              if (nullptr != p) {
+                p->cb_sub_child(a);
+              }
             }
-          }
-          a->parent_ = this;
+            a->parent_ = this;
 
-          invalidate_bounds();
+            invalidate_bounds();
         
-          result = true;
+            result = true;
+          }
+        } else {
+          throw std::runtime_error("'scene::node::group::cb_add_child': "
+                                   "adding a 'scene::node::group' instance to its own 'children' "
+                                   "field is not supported");
         }
       }
       
@@ -151,7 +148,7 @@ namespace scene {
       if (nullptr != a) {
         auto const found(std::find(children_list_.begin(), children_list_.end(), a));
 
-        if (children_list_.end() != found) {
+        if (children_list_.end() != found) {          
           a->parent_ = nullptr;
           
           children_list_.erase(found);

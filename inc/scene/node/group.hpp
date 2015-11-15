@@ -56,8 +56,8 @@ namespace scene {
       
       children_list_type const& cb_get_children() const;
       children_list_type        cb_set_children(children_list_type const&);
-      bool                      cb_add_child(children_type const&);
-      bool                      cb_sub_child(children_type const&);
+      bool                      cb_add_child   (children_type const&);
+      bool                      cb_sub_child   (children_type const&);
       
     };
     
