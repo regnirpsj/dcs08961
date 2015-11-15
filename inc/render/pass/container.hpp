@@ -22,7 +22,7 @@
 
 // includes, project
 
-#include <field/value/multi.hpp>
+#include <field/adapter/multi.hpp>
 #include <render/pass/base.hpp>
 
 namespace render {
@@ -35,18 +35,30 @@ namespace render {
 
     public:
 
-      using stage_field_type = field::value::multi<boost::intrusive_ptr<stage::base>>;
+      using stage_field_type = field::adapter::multi<boost::intrusive_ptr<stage::base>>;
       
-      stage_field_type stages;
+      stage_field_type stages; ///< stage/pass list (dflt: empty)
       
       explicit container(context::device&);
       virtual ~container();      
 
     protected:
 
+      using stage_list_type = stage_field_type::value_container_type;
+      using stage_type      = stage_field_type::value_type;
+      
+      stage_list_type stage_list_;
+      
       virtual void do_execute(context::swap&);
       virtual void do_resize (glm::ivec2 const&);
-        
+
+    private:
+      
+      stage_list_type const& cb_get_stages() const;
+      stage_list_type        cb_set_stages(stage_list_type const&);
+      bool                   cb_add_stage (stage_type const&);
+      bool                   cb_sub_stage (stage_type const&);
+
     };
       
     // variables, exported (extern)
