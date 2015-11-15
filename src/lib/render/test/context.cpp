@@ -30,40 +30,41 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class dcontext : public render::device::context {
+  class dcontext : public render::context::device {
 
   public:
 
     explicit dcontext()
-      : render::device::context()
+      : render::context::device()
     {}
     
   };
 
-  class scontext : public render::swap::context {
+  class scontext : public render::context::swap {
 
   public:
 
     explicit scontext()
-      : render::swap::context()
+      : render::context::swap()
     {}
     
   };
 
-  class dscontext : public render::device::context,
-                    public render::swap::context {
+  class dscontext : public render::context::device,
+                    public render::context::swap {
 
   public:
 
     explicit dscontext()
-      : render::device::context(),
-        render::swap::context  ()
+      : render::context::base  (),
+        render::context::device(),
+        render::context::swap  ()
     {}
 
     virtual void print_on(std::ostream& os) const
     {
-      render::device::context::print_on(os);
-      render::swap::context::print_on  (os);
+      render::context::device::print_on(os);
+      render::context::swap::print_on  (os);
     }
     
   };

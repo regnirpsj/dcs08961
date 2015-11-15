@@ -50,7 +50,7 @@ namespace render {
         
       };
         
-      explicit cpu(device::context&);
+      explicit cpu(context::device&);
       virtual ~cpu();
 
       virtual std::unique_ptr<base::data> fetch() const;

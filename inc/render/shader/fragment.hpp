@@ -38,7 +38,7 @@ namespace render {
       
     protected:
 
-      explicit fragment(device::context&);
+      explicit fragment(context::device&);
 
     };
       

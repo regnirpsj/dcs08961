@@ -28,11 +28,11 @@
 
 namespace render {
 
-  namespace device {
+  namespace context {
 
-    class context;
+    class device;
     
-  } // namespace device
+  } // namespace context
   
   namespace stats {
     
@@ -67,10 +67,10 @@ namespace render {
 
       friend class stats::guard;
 
-      device::context& ctx_;
+      context::device& ctx_;
       bool             updated_;
       
-      explicit base(device::context&);
+      explicit base(context::device&);
 
       virtual void start ();
       virtual void stop  ();

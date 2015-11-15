@@ -83,7 +83,7 @@ namespace render {
       }
       
       /* virtual */ void
-      standard::do_execute(render::swap::context& a)
+      standard::do_execute(render::context::swap& a)
       {
         TRACE("render::ogl::pass::standard::do_execute");
 

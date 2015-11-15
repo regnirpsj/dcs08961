@@ -34,13 +34,13 @@ namespace render {
 
     public:
       
-      field::value::single<bool> sync_to_vblank; //< (dflt: true)
+      field::value::single<bool> sync_to_vblank; ///< (dflt: true)
       
       virtual ~swap();
         
     protected:
         
-      explicit swap(device::context&);
+      explicit swap(context::device&);
         
       virtual void do_resize(glm::ivec2 const&);
         

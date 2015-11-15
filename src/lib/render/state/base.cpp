@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <stdexcept> // std::logic_error
 
 // includes, project
 
@@ -53,6 +53,16 @@ namespace render {
     {
       TRACE("render::state::base::~base");
     }
+
+    /* virtual */ void
+    base::apply() const
+    {
+      TRACE("render::state::base::apply");
+
+      if (*active) {
+        do_apply();
+      }
+    }
     
     /* virtual */ void
     base::print_on(std::ostream& os) const
@@ -67,7 +77,7 @@ namespace render {
     }
 
     /* explicit */
-    base::base(device::context& a)
+    base::base(context::device& a)
       : field::container         (),
         support::refcounted<base>(),
         active                   (*this, "active", true),
@@ -75,6 +85,14 @@ namespace render {
         ctx_                     (a)
     {
       TRACE("render::state::base::base");
+    }
+
+    /* virtual */ void
+    base::do_apply() const
+    {
+      TRACE("render::state::base::do_apply");
+      
+      throw std::logic_error("pure virtual function 'render::state::base::do_apply' called");
     }
     
   } // namespace state {

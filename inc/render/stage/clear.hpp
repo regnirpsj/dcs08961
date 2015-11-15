@@ -34,18 +34,18 @@ namespace render {
 
     public:
 
-      field::value::single<bool>      color;         //< clear color buffer(s) (dflt: true)
-      field::value::single<glm::vec4> color_value;   //< clear value           (dflt: [0,0,0,0])
-      field::value::single<bool>      depth;         //< clear depth buffer    (dflt: true)
-      field::value::single<float>     depth_value;   //< clear vaue            (dflt: [1])
-      field::value::single<bool>      stencil;       //< clear stencil buffer  (dflt: false)
-      field::value::single<signed>    stencil_value; //< clear value           (dflt: 0)
+      field::value::single<bool>      color;         ///< clear color buffer(s) (dflt: true)
+      field::value::single<glm::vec4> color_value;   ///< clear value           (dflt: [0,0,0,0])
+      field::value::single<bool>      depth;         ///< clear depth buffer    (dflt: true)
+      field::value::single<float>     depth_value;   ///< clear vaue            (dflt: [1])
+      field::value::single<bool>      stencil;       ///< clear stencil buffer  (dflt: false)
+      field::value::single<signed>    stencil_value; ///< clear value           (dflt: 0)
       
       virtual ~clear();
         
     protected:
         
-      explicit clear(device::context&);
+      explicit clear(context::device&);
         
       virtual void do_resize(glm::ivec2 const&);
         

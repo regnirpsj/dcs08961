@@ -40,7 +40,7 @@ namespace {
 
   public:
 
-    explicit draw_stage(render::device::context& a)
+    explicit draw_stage(render::context::device& a)
       : render::stage::draw(a),
         stats_exec_        (new render::stats::cpu(ctx_)),
         stats_resz_        (new render::stats::cpu(ctx_))
@@ -56,22 +56,22 @@ namespace {
     std::unique_ptr<render::stats::base> stats_exec_;
     std::unique_ptr<render::stats::base> stats_resz_;
     
-    virtual void do_execute(render::swap::context&)
+    virtual void do_execute(render::context::swap&)
     {
       TRACE("<unnamed>::draw_stage::do_execute");
     }
     
   };
 
-  class context : public render::device::context,
-                  public render::swap::context {
+  class context : public render::context::device,
+                  public render::context::swap {
 
   public:
 
     virtual void print_on(std::ostream& os) const
     {
-      render::device::context::print_on(os);
-      render::swap::context::print_on  (os);
+      render::context::device::print_on(os);
+      render::context::swap::print_on  (os);
     }
     
   };

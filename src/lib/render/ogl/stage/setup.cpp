@@ -64,7 +64,7 @@ namespace render {
       }
       
       /* virtual */ void
-      setup::do_execute(render::swap::context&)
+      setup::do_execute(render::context::swap&)
       {
         TRACE("render::ogl::stage::setup::do_execute");
       }

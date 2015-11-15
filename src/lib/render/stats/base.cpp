@@ -96,7 +96,7 @@ namespace render {
     }
 
     /* explicit */
-    base::base(device::context& a)
+    base::base(context::device& a)
       : boost::noncopyable(),
         support::printable(),
         ctx_              (a),

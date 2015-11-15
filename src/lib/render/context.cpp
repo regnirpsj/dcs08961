@@ -42,68 +42,82 @@ namespace {
 
 namespace render {
 
-  namespace device {
+  namespace context {
       
     // variables, exported
   
     // functions, exported
 
     /* virtual */
-    context::~context()
+    base::~base()
     {
-      TRACE("render::device::context::~context");
+      TRACE("render::context::base::~base");
     }
     
     /* virtual */ void
-    context::print_on(std::ostream& os) const
+    base::print_on(std::ostream& os) const
     {
-      TRACE_NEVER("render::device::context::print_on");
+      TRACE_NEVER("render::context::base::print_on");
 
       boost::io::ios_all_saver const ias(os);
     
-      os << "[render::device::context@" << std::hex << this << ']';
+      os << "[render::context::base@" << std::hex << this << ']';
     }
 
     /* explicit */
-    context::context()
-      : support::printable(),
-        support::refcounted<context>()
+    base::base()
+      : support::printable       (),
+        support::refcounted<base>()
     {
-      TRACE("render::device::context::context");
+      TRACE("render::context::base::base");
     }
-
-  } // namespace device {
-  
-  namespace swap {
-      
-    // variables, exported
-  
-    // functions, exported
 
     /* virtual */
-    context::~context()
+    device::~device()
     {
-      TRACE("render::swap::context::~context");
+      TRACE("render::context::device::~device");
     }
     
     /* virtual */ void
-    context::print_on(std::ostream& os) const
+    device::print_on(std::ostream& os) const
     {
-      TRACE_NEVER("render::swap::context::print_on");
+      TRACE_NEVER("render::context::device::print_on");
 
       boost::io::ios_all_saver const ias(os);
     
-      os << "[render::swap::context@" << std::hex << this << ']';
+      os << "[render::context::device@" << std::hex << this << ']';
     }
 
     /* explicit */
-    context::context()
-      : support::printable(),
-        support::refcounted<context>()
+    device::device()
+      : base()
     {
-      TRACE("render::swap::context::context");
+      TRACE("render::context::device::device");
     }
 
-  } // namespace swap {
+    /* virtual */
+    swap::~swap()
+    {
+      TRACE("render::context::swap::~swap");
+    }
+    
+    /* virtual */ void
+    swap::print_on(std::ostream& os) const
+    {
+      TRACE_NEVER("render::context::swap::print_on");
+
+      boost::io::ios_all_saver const ias(os);
+    
+      os << "[render::context::swap@" << std::hex << this << ']';
+    }
+
+    /* explicit */
+    swap::swap()
+      : base()
+    {
+      TRACE("render::context::swap::swap");
+    }
+
+  } // namespace context {
 
 } // namespace render {

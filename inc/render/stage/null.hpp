@@ -34,12 +34,12 @@ namespace render {
 
     public:
 
-      explicit null(device::context&);
+      explicit null(context::device&);
       virtual ~null();
         
     protected:
 
-      virtual void do_execute(swap::context&);
+      virtual void do_execute(context::swap&);
       virtual void do_resize (glm::ivec2 const&);
 
     };

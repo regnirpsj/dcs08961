@@ -53,7 +53,7 @@ namespace render {
     }
     
     /* explicit */
-    window::window(std::string const& a, device::context* b)
+    window::window(std::string const& a, context::device* b)
       : field::container(),
         title           (*this, "title", a),
         passes          (*this, "passes"),

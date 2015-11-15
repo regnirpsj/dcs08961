@@ -29,11 +29,11 @@
 
 namespace render {
   
-  namespace device {
+  namespace context {
     
-    class context;
+    class device;
     
-  } // namespace device {
+  } // namespace context {
   
   namespace shader {
       
@@ -44,8 +44,8 @@ namespace render {
 
     public:
 
-      field::value::single<bool>        active; //<
-      field::value::single<std::string> name;   //<
+      field::value::single<bool>        active; ///<
+      field::value::single<std::string> name;   ///<
       
       virtual ~base();
 
@@ -55,9 +55,9 @@ namespace render {
 
     protected:
 
-      device::context& ctx_;
+      context::device& ctx_;
       
-      explicit base(device::context&);
+      explicit base(context::device&);
 
       virtual void do_activate() =0;
 

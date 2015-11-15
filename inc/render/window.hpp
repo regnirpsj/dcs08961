@@ -47,11 +47,11 @@ namespace render {
 
   protected:
 
-    boost::intrusive_ptr<device::context> dev_ctx_;
-    boost::intrusive_ptr<swap::context>   swp_ctx_;
+    boost::intrusive_ptr<context::device> dev_ctx_;
+    boost::intrusive_ptr<context::swap>   swp_ctx_;
     
     explicit window(std::string const& /* win title */,
-                    device::context*   /* dev ctx   */ = nullptr);
+                    context::device*   /* dev ctx   */ = nullptr);
 
     virtual void render(unsigned /* frames */ = 1);
     virtual void resize(glm::ivec2 const&);

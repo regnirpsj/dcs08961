@@ -41,7 +41,7 @@ namespace render {
       
     protected:
 
-      explicit compute(device::context&);
+      explicit compute(context::device&);
 
       virtual void do_activate();
       virtual void do_dispatch(glm::uvec3 const&) =0;

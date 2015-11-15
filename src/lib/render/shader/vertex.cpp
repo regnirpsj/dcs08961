@@ -55,7 +55,7 @@ namespace render {
     }
 
     /* explicit */
-    vertex::vertex(device::context& a)
+    vertex::vertex(context::device& a)
       : base(a)
     {
       TRACE("render::shader::vertex::vertex");

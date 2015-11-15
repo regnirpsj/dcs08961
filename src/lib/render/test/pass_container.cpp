@@ -32,7 +32,7 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class context : public render::device::context {
+  class context : public render::context::device {
   };
   
   // variables, internal

@@ -43,7 +43,7 @@ namespace render {
 
       protected:
 
-        virtual void do_execute(render::swap::context&);
+        virtual void do_execute(render::context::swap&);
         virtual void do_resize (glm::ivec2 const&);
         
       };

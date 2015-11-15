@@ -55,7 +55,7 @@ namespace render {
     }
 
     /* explicit */
-    geometry::geometry(device::context& a)
+    geometry::geometry(context::device& a)
       : base(a)
     {
       TRACE("render::shader::geometry::geometry");

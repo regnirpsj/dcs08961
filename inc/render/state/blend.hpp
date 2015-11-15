@@ -38,7 +38,7 @@ namespace render {
 
     protected:
       
-      explicit blend(device::context&);
+      explicit blend(context::device&);
 
     };
       

@@ -40,7 +40,7 @@ namespace render {
       
       protected:
 
-        explicit control(device::context&);
+        explicit control(context::device&);
 
       };
 
@@ -52,7 +52,7 @@ namespace render {
       
       protected:
 
-        explicit evaluation(device::context&);
+        explicit evaluation(context::device&);
 
       };
     

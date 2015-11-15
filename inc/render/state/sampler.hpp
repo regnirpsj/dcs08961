@@ -38,7 +38,7 @@ namespace render {
 
     protected:
       
-      explicit sampler(device::context&);
+      explicit sampler(context::device&);
 
     };
       

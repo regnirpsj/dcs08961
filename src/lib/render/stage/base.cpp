@@ -57,7 +57,7 @@ namespace render {
     }
       
     void
-    base::execute(swap::context& a)
+    base::execute(context::swap& a)
     {
       TRACE("render::stage::base::execute");
 
@@ -102,7 +102,7 @@ namespace render {
     }
 
     /* explicit */
-    base::base(device::context& a)
+    base::base(context::device& a)
       : field::container         (),
         support::refcounted<base>(),
         active                   (*this, "active",        true),
@@ -115,7 +115,7 @@ namespace render {
     }
 
     /* virtual */ void
-    base::do_execute(swap::context&)
+    base::do_execute(context::swap&)
     {
       TRACE("render::stage::base::do_execute");
 

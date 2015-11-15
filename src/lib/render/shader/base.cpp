@@ -77,7 +77,7 @@ namespace render {
     }
 
     /* explicit */
-    base::base(device::context& a)
+    base::base(context::device& a)
       : field::container         (),
         support::refcounted<base>(),
         active                   (*this, "active", true),

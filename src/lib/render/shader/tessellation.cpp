@@ -57,7 +57,7 @@ namespace render {
       }
 
       /* explicit */
-      control::control(device::context& a)
+      control::control(context::device& a)
         : base(a)
       {
         TRACE("render::shader::tessellation::control::control");
@@ -70,7 +70,7 @@ namespace render {
       }
 
       /* explicit */
-      evaluation::evaluation(device::context& a)
+      evaluation::evaluation(context::device& a)
         : base(a)
       {
         TRACE("render::shader::tessellation::evaluation::evaluation");

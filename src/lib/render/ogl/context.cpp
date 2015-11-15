@@ -50,8 +50,8 @@ namespace render {
 
     /* explicit */
     context::context()
-      : render::device::context(),
-        render::swap::context  ()
+      : render::context::device(),
+        render::context::swap  ()
     {
       TRACE("render::ogl::context::context");
     }
@@ -67,8 +67,8 @@ namespace render {
     {
       TRACE_NEVER("render::ogl::context::print_on");
 
-      render::device::context::print_on(os);
-      render::swap::context::print_on  (os);
+      render::context::device::print_on(os);
+      render::context::swap::print_on  (os);
       
       os << "\b,"
          << "render::ogl::context"

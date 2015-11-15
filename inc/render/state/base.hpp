@@ -29,11 +29,11 @@
 
 namespace render {
 
-  namespace device {
+  namespace context {
     
-    class context;
+    class device;
 
-  } // namespace device
+  } // namespace context
   
   namespace state {
       
@@ -44,19 +44,23 @@ namespace render {
 
     public:
 
-      field::value::single<bool>        active; //< (dflt: true)
-      field::value::single<std::string> name;   //< 
+      field::value::single<bool>        active; ///< (dflt: true)
+      field::value::single<std::string> name;   ///< 
       
       virtual ~base() =0;
+
+      virtual void apply() const;
       
       virtual void print_on(std::ostream&) const;
 
     protected:
 
-      device::context& ctx_;
+      context::device& ctx_;
       
-      explicit base(device::context&);
+      explicit base(context::device&);
 
+      virtual void do_apply() const =0;
+      
     };
       
     // variables, exported (extern)

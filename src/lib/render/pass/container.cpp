@@ -49,7 +49,7 @@ namespace render {
     // functions, exported
 
     /* explicit */
-    container::container(device::context& a)
+    container::container(context::device& a)
       : base  (a),
         stages(*this, "stages")
     {
@@ -65,7 +65,7 @@ namespace render {
     }
       
     /* virtual */ void
-    container::do_execute(swap::context& a)
+    container::do_execute(context::swap& a)
     {
       TRACE("render::pass::container::do_execute");
 

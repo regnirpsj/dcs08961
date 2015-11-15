@@ -38,7 +38,7 @@ namespace {
 
     using inherited = T;
     
-    explicit shader(render::device::context& a)
+    explicit shader(render::context::device& a)
       : inherited(a)
     {
       inherited::name = "[" + support::demangle(typeid(T)) + "]";
@@ -61,7 +61,7 @@ namespace {
 
   public:
 
-    explicit program(render::device::context& a)
+    explicit program(render::context::device& a)
       : render::shader::program(a)
     {}
 
@@ -75,7 +75,7 @@ namespace {
     
   };
   
-  class context : public render::device::context {
+  class context : public render::context::device {
   };
   
   // variables, internal

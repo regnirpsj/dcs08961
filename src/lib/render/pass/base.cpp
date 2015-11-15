@@ -55,7 +55,7 @@ namespace render {
     }
       
     /* explicit */
-    base::base(device::context& a)
+    base::base(context::device& a)
       : stage::base(a)
     {
       TRACE("render::pass::base::base");

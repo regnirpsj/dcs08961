@@ -63,7 +63,7 @@ namespace render {
     }
     
     /* explicit */
-    compute::compute(device::context& a)
+    compute::compute(context::device& a)
       : base(a)
     {
       TRACE("render::shader::compute::compute");

@@ -38,7 +38,7 @@ namespace {
 
     using inherited = T;
 
-    explicit state(render::device::context& a)
+    explicit state(render::context::device& a)
       : inherited(a)
     {
       inherited::name = "[" + support::demangle(typeid(T)) + "]";
@@ -46,7 +46,7 @@ namespace {
 
   private:
 
-    virtual void do_activate()
+    virtual void do_apply() const
     {}
 
   };
@@ -60,7 +60,7 @@ namespace {
 
   public:
 
-    explicit program(render::device::context& a)
+    explicit program(render::context::device& a)
       : render::shader::program(a)
     {}
 
@@ -78,13 +78,13 @@ namespace {
 
   public:
 
-    explicit setup_stage(render::device::context& a)
+    explicit setup_stage(render::context::device& a)
       : render::stage::setup(a)
     {}
 
   private:
 
-    virtual void do_execute(render::swap::context&)
+    virtual void do_execute(render::context::swap&)
     {}
 
     virtual void do_resize(glm::ivec2 const&)
@@ -92,7 +92,7 @@ namespace {
     
   };
 
-  class context : public render::device::context {
+  class context : public render::context::device {
   };
   
   // variables, internal

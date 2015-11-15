@@ -41,14 +41,14 @@ namespace render {
       using scene_field_type  =
         field::value::single<boost::intrusive_ptr<scene::node::group const>>;
 
-      camera_field_type camera; //< camera (view, projection, viewport)
-      scene_field_type  scene;  //< scene (geo, lights, etc)
+      camera_field_type camera; ///< camera (view, projection, viewport)
+      scene_field_type  scene;  ///< scene (geo, lights, etc)
       
       virtual ~draw();
         
     protected:
       
-      explicit draw(device::context&);
+      explicit draw(context::device&);
 
       virtual void do_resize(glm::ivec2 const&);
         

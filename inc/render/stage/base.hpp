@@ -30,11 +30,12 @@
 
 namespace render {
 
-  namespace device {
+  namespace context {
     
-    class context;
+    class device;
+    class swap;
     
-  } // namespace device {
+  } // namespace context {
   
   namespace stats {
 
@@ -57,25 +58,25 @@ namespace render {
 
     public:
 
-      field::value::single<bool>         active;
-      field::value::single<std::string>  name;
-      field::value::single<stats::base*> stats_execute;
-      field::value::single<stats::base*> stats_resize;
+      field::value::single<bool>         active;        ///<
+      field::value::single<std::string>  name;          ///<
+      field::value::single<stats::base*> stats_execute; ///<
+      field::value::single<stats::base*> stats_resize;  ///<
       
       virtual ~base();
 
-      void execute(swap::context&    /* swp ctx */);
+      void execute(context::swap&    /* swp ctx */);
       void resize (glm::ivec2 const& /* w/h */);
          
       virtual void print_on(std::ostream&) const;
 
     protected:
 
-      device::context& ctx_;
+      context::device& ctx_;
       
-      explicit base(device::context& /* dev ctx*/);
+      explicit base(context::device& /* dev ctx*/);
 
-      virtual void do_execute(swap::context&)    =0;
+      virtual void do_execute(context::swap&)    =0;
       virtual void do_resize (glm::ivec2 const&) =0;
 
     };

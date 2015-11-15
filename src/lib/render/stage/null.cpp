@@ -49,7 +49,7 @@ namespace render {
     // functions, exported
 
     /* explicit */
-    null::null(device::context& a)
+    null::null(context::device& a)
       : base(a)
     {
       TRACE("render::stage::null::null");
@@ -64,7 +64,7 @@ namespace render {
     }
       
     /* virtual */ void
-    null::do_execute(swap::context&)
+    null::do_execute(context::swap&)
     {
       TRACE("render::stage::null::do_execute");
     }

@@ -28,59 +28,60 @@
 
 namespace render {
 
-  namespace device {
+  namespace context {
     
     // types, exported (class, enum, struct, union, typedef)
 
-    class DCS08961_RENDER_EXPORT context : virtual public support::printable,
-                                           public support::refcounted<context> {
+    class DCS08961_RENDER_EXPORT base : public support::printable,
+                                        public support::refcounted<base> {
 
     public:
 
-      virtual ~context() =0;
+      virtual ~base() =0;
       
       virtual void print_on(std::ostream&) const;
 
     protected:
 
-      explicit context();
+      explicit base();
+      
+    };
+      
+    class DCS08961_RENDER_EXPORT device : virtual public base {
+
+    public:
+
+      virtual ~device() =0;
+      
+      virtual void print_on(std::ostream&) const;
+
+    protected:
+
+      explicit device();
     
     };
-  
+
+    class DCS08961_RENDER_EXPORT swap : virtual public base {
+
+    public:
+
+      virtual ~swap() =0;
+      
+      virtual void print_on(std::ostream&) const;
+
+    protected:
+
+      explicit swap();
+    
+    };
+    
     // variables, exported (extern)
 
     // functions, inlined (inline)
   
     // functions, exported (extern)
     
-  } // namespace device {
-  
-  namespace swap {
-    
-    // types, exported (class, enum, struct, union, typedef)
-
-    class DCS08961_RENDER_EXPORT context : virtual public support::printable,
-                                           public support::refcounted<context> {
-
-    public:
-
-      virtual ~context() =0;
-      
-      virtual void print_on(std::ostream&) const;
-
-    protected:
-
-      explicit context();
-    
-    };
-  
-    // variables, exported (extern)
-
-    // functions, inlined (inline)
-  
-    // functions, exported (extern)
-    
-  } // namespace swap {
+  } // namespace context {
 
 } // namespace render {
 

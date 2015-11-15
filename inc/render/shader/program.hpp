@@ -71,9 +71,9 @@ namespace render {
 
     protected:
 
-      device::context& ctx_;
+      context::device& ctx_;
       
-      explicit program(device::context&);
+      explicit program(context::device&);
 
       virtual void do_activate();
       virtual void do_compile () =0;
