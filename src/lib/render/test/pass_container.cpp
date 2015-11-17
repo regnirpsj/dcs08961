@@ -72,7 +72,11 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_pass_container_add_stage)
   
   BOOST_CHECK(2 == p->stages->size());
 
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   p->stages = {};
+#else
+  p->stages.set(pass::container::stage_field_type::value_container_type());
+#endif
 
   BOOST_REQUIRE_THROW(p->stages += p.get(), std::runtime_error);
 

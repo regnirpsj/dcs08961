@@ -59,8 +59,12 @@ BOOST_AUTO_TEST_CASE(test_scene_node_group_add_child)
 
   BOOST_CHECK(2 == g->children.get().size());
 
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   g->children = {};
-  
+#else
+  g->children.set(group::children_field_type::value_container_type());
+#endif
+    
   BOOST_REQUIRE_THROW(g->children += g.get(), std::runtime_error);
 
   BOOST_CHECK(true == g->children.get().empty());

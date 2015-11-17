@@ -127,7 +127,7 @@ namespace scene {
 #if defined(_OPENMP)
 #  pragma omp parallel for
 #endif
-      for (index_list_type::size_type i = 0; i < index_list_.size(); i += 3) {
+      for (signed i = 0; i < signed(index_list_.size()); i += 3) {
         TRACE_NEVER("scene::node::geometry::compute_tangents:1:" +
                     std::to_string(i) + "/" +
                     std::to_string(index_list_.size()) + "(" +
@@ -166,7 +166,7 @@ namespace scene {
                              (s1 * y2 - s2 * y1) * r,
                              (s1 * z2 - s2 * z1) * r);
         
-        for (unsigned k = i; k < i + 3; ++k) {
+        for (signed k = i; k < i + 3; ++k) {
           tarray[k].first  += sdir;
           tarray[k].second += tdir;
         }
@@ -175,7 +175,7 @@ namespace scene {
 #if defined(_OPENMP)
 #  pragma omp parallel for
 #endif
-      for (index_list_type::size_type i = 0; i < index_list_.size(); ++i) {
+      for (signed i = 0; i < signed(index_list_.size()); ++i) {
         TRACE_NEVER("scene::node::geometry::compute_tangents:2:" +
                     std::to_string(i) + "/" +
                     std::to_string(index_list_.size()) + "(" +
@@ -298,7 +298,7 @@ namespace scene {
     std::ostream&
     operator<<(std::ostream& os, geometry::attribute const& a)
     {
-      TRACE_NEVER("scene::node::operator<<(geometry::attribute const&)");
+      TRACE_NEVER("scene::node::operator<<(geometry::attribute)");
       
       std::ostream::sentry const cerberus(os);
 
