@@ -20,12 +20,12 @@
 
 #include <boost/io/ios_state.hpp> // boost::io::ios_flags_saver
 #include <cmath>                  // std::* math
-#include <glm/gtc/constants.hpp>  // glm::pi<>
 #include <iomanip>                // std::fixed, std::setfill, std::setw, std::setprecision
 #include <ostream>                // std::ostream
 
 // includes, project
 
+#include <glm/gtx/utilities.hpp> // glm::sgn<>, glm::rev<>
 #include <support/type_info.hpp>
 
 #define UKACHULLDCS_USE_TRACE
@@ -41,19 +41,6 @@ namespace {
   // variables, internal
   
   // functions, internal
-
-  double
-  rev(double a)
-  {
-    return a - std::floor(a / glm::two_pi<double>()) * glm::two_pi<double>();
-  }
-  
-  // http://stackoverflow.com/questions/1903954
-  template <typename T> signed
-  sgn(T val)
-  {
-    return (val > T(0)) - (val < T(0));
-  }
   
   double
   adjusted_time_from_gmt(boost::posix_time::ptime const& dtime)
@@ -78,7 +65,7 @@ namespace {
   double
   adjusted_time_from_local(boost::posix_time::ptime const& dtime, double lon)
   {
-    double const tz(sgn(lon) * std::floor(std::abs(lon) / glm::radians(15.0)));
+    double const tz(glm::sgn(lon) * std::floor(std::abs(lon) / glm::radians(15.0)));
 
     return adjusted_time_from_gmt(dtime - boost::posix_time::hours(tz));
   }
@@ -109,7 +96,7 @@ namespace celestial {
       double const xv(a * (std::cos(E1) - e));
       double const yv(a * std::sqrt(1.0 - (e * e)) * std::sin(E1));
       
-      return glm::vec2(rev(std::atan2(yv, xv)),           // r
+      return glm::vec2(glm::rev(std::atan2(yv, xv)),           // r
                        std::sqrt((xv * xv) + (yv * yv))); // v
     }
     

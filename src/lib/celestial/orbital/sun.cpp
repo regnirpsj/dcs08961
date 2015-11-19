@@ -23,7 +23,7 @@
 
 // includes, project
 
-//#include <>
+#include <glm/gtx/utilities.hpp> // glm::rev<>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -38,12 +38,6 @@ namespace {
   // variables, internal
   
   // functions, internal
-
-  double
-  rev(double a)
-  {
-    return a - std::floor(a / glm::two_pi<double>()) * glm::two_pi<double>();
-  }
   
 } // namespace {
 
@@ -87,7 +81,7 @@ namespace celestial {
       TRACE("celestial::orbital::sun::coord_ecliptic_rect_geo");
       
       glm::vec2 const rv  (distance_and_anomaly());
-      double const    slon(rev(rv.y + w));
+      double const    slon(glm::rev(rv.y + w));
       
       return glm::vec3(rv.x * std::cos(slon),
                        rv.x * std::sin(slon),
