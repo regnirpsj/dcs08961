@@ -59,49 +59,17 @@ namespace glm {
     
   } // namespace convert {
   
-  // functions, inlined (inline)
-  
-  /**
-   * \brief converts the input value from (assumed) degrees to radians
-   *
-   * \return argument in radians
-   */
-  template <typename T>
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
-  constexpr
-#endif
-  T deg2rad(T);
-  
-  /**
-   * \brief converts the input value from (assumed) radians to degrees
-   *
-   * \return argument in degrees
-   */
-  template <typename T>
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
-  constexpr
-#endif
-  T rad2deg(T);
+  // functions, inlined (inline)  
   
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   /**
    * \brief user-defined literals for distinguishing degrees and radians
    *
-   * float a1(90_deg);                  // 90 degree in radians
-   * float a2(glm::pi<float>() / 4.0);  // 90 degree in radians
-   *
-   * these operators respect the GLM_FORCE_RADIANS define, i.e
-   *
-   * #if defined(GLM_FORCE_RADIANS)
-   *   180_deg -> pi
-   *   pi_rad  -> pi
-   * #else
-   *   180_deg -> 180
-   *   pi_rad  -> 180
-   * #endif
+   * float const a1(90_deg);                  // 90 degree in radians
+   * float const a2(glm::pi<float>() / 4.0);  // 90 degree in radians
    */
   //@{
-  constexpr double operator "" _deg(unsigned long long);  
+  constexpr double operator "" _deg(unsigned long long);
   constexpr double operator "" _deg(long double);
   constexpr double operator "" _rad(unsigned long long);
   constexpr double operator "" _rad(long double);
@@ -110,6 +78,15 @@ namespace glm {
 #  pragma message("Note: user-defined string literal operators not supported ")
 #  pragma message("      using (unreliable) macro workaround for _deg/_rad")
 #endif // !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+
+  /**
+   * \brief compute T - floor(T / (2 * pi) * (2 * pi)
+   *
+   * \param  T
+   *
+   * \return rev(T)
+   */
+  template <typename T> T rev(T);
   
   /**
    * \brief compute the signum of T
@@ -142,10 +119,11 @@ namespace glm {
      *
      * \return converted matrix as well as rotation, scale, and translation parts
      */
-    DCS08961_GLM_EXPORT mat4 transform(mat4 const&, decompose::order,
-                                       mat4& /* rotation */,
-                                       mat4& /* scale */,
-                                       mat4& /* translation */);
+    DCS08961_GLM_EXPORT mat4 transform(mat4 const&      /* input            */,
+                                       decompose::order /* output order     */,
+                                       mat4&            /* rotation part    */,
+                                       mat4&            /* scale part       */,
+                                       mat4&            /* translation part */);
     
   } // namespace convert {
 
@@ -158,13 +136,8 @@ using glm::operator "" _rad;
 #else
 // poor solution to still keep _deg/_rad around, so '180.0_deg' should still work, well actually it
 // must then be '180.0 _deg'; will possible break at the most inconvenient of times
-#  if defined(GLM_FORCE_RADIANS)
-#    define _deg *(3.14159265358979323846264338327950288/180.0)
-#    define _rad
-#  else
-#    define _deg
-#    define _rad *(180.0/3.14159265358979323846264338327950288)
-#  endif // if defined(GLM_FORCE_RADIANS)
+# define _deg * (3.14159265358979323846264338327950288 / 180.0)
+# define _rad
 #endif // !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
 
 #include <glm/gtx/utilities.inl>

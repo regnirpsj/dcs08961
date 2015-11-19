@@ -18,7 +18,7 @@
 
 // includes, system
 
-//#include <>
+#include <glm/gtc/constants.hpp> // glm::pi<>
 
 // includes, project
 
@@ -28,70 +28,39 @@ namespace glm {
   
   // functions, inlined (inline)
 
-  template <typename T>
-  inline
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
-  constexpr
-#endif
-  T
-  deg2rad(T a)
-  {
-    return T(3.14159265358979323846264338327950288 / 180.0) * a;
-  }
-
-  template <typename T>
-  inline
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
-  constexpr
-#endif
-  T
-  rad2deg(T a)
-  {
-    return T(180.0 / 3.14159265358979323846264338327950288) * a;
-  }
-
 #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
   inline constexpr double
   operator "" _deg(unsigned long long a)
   {
-#  if defined(GLM_FORCE_RADIANS)
-    return a * (3.14159265358979323846264338327950288 / 180.0);
-#  else
-    return a;
-#  endif
+    return radians(double(a));
   }
   
   inline constexpr double
   operator "" _deg(long double a)
   {
-#  if defined(GLM_FORCE_RADIANS)
-    return a * (3.14159265358979323846264338327950288 / 180.0);
-#  else
-    return a;
-#  endif
+    return radians(a);
   }
   
   inline constexpr double
   operator "" _rad(unsigned long long a)
   {
-#  if defined(GLM_FORCE_RADIANS)
     return a;
-#  else
-    return a * (180.0 / 3.14159265358979323846264338327950288);
-#  endif
   }
-  
+   
   inline constexpr double
   operator "" _rad(long double a)
   {
-#  if defined(GLM_FORCE_RADIANS)
     return a;
-#  else
-    return a * (180.0 / 3.14159265358979323846264338327950288);
-#  endif
   }
 #endif // #if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
 
+  template <typename T>
+  inline T
+  rev(T a)
+  {
+    return a - glm::floor(a / glm::two_pi<T>()) * glm::two_pi<T>();
+  }
+  
   // http://stackoverflow.com/questions/1903954
   template <typename T>
   inline signed

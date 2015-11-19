@@ -17,6 +17,7 @@
 #include <array>                 // std::array<>
 #include <glm/gtc/constants.hpp> // glm::pi
 #include <glm/gtc/random.hpp>    // glm::*Rand
+#include <glm/gtc/vec1.hpp>      // glm::vec1
 #include <glm/gtx/io.hpp>        // glm::operator<<
 #include <glm/gtx/transform.hpp> // glm::rotate, glm::scale, glm::translate>
 
@@ -42,24 +43,8 @@ namespace {
 
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
-
-BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_deg2rad)
-{
-  BOOST_CHECK(glm::pi<double>() == glm::deg2rad(180.0));
-
-  BOOST_MESSAGE(std::setprecision(12)
-                << "glm::pi<double>():"   << glm::pi<double>()
-                << " =?= deg2rad(180.0):" << glm::deg2rad(180.0));
-}
-
-BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_rad2deg)
-{
-  BOOST_CHECK(180.0 == glm::rad2deg(glm::pi<double>()));
-
-  BOOST_MESSAGE(std::setprecision(12)
-                << 180.0 << " =?= rad2deg(glm::pi<double>():"
-                << glm::rad2deg(glm::pi<double>()));
-}
+#include <boost/test/test_case_template.hpp>
+#include <boost/mpl/list.hpp>
 
 BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_op_literal_deg)
 {
@@ -93,6 +78,20 @@ BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_op_literal_rad)
                 << "180.0_deg:"              << 180.0_deg
                 << " =?= glm::pi<double>():" << glm::pi<double>());
 #endif
+}
+
+typedef boost::mpl::list<glm::vec1,  glm::vec2,  glm::vec3,  glm::vec4,
+                         glm::dvec1, glm::dvec2, glm::dvec3, glm::dvec4> rev_types;
+
+BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_gtx_utilities_rev, T, rev_types)
+{
+  BOOST_CHECK(glm::rev(T(glm::two_pi<typename T::value_type>())) == T(0.0));
+}
+
+BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_sgn)
+{
+  BOOST_CHECK(glm::sgn(-1) < 0);
+  BOOST_CHECK(glm::sgn(+1) > 0);
 }
 
 BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_convert_transform)
