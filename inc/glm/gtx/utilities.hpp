@@ -18,7 +18,7 @@
 
 // includes, system
 
-#include <glm/glm.hpp> // glm::mat4, glm::vec3
+#include <glm/glm.hpp> // glm::*
 
 // includes, project
 
@@ -47,8 +47,8 @@ namespace glm {
   namespace convert {
 
     /**
-     * \brief transformtion to be left multiplied to an opengl projection matrix for in a
-     *        d3d11 pipeline
+     * \brief transformtion to be left multiplied to an opengl projection matrix for use in a
+     *        D3D11 pipeline
      */
     extern DCS08961_GLM_EXPORT mat4 const opengl_to_d3d;
 
@@ -80,20 +80,20 @@ namespace glm {
 #endif // !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
 
   /**
-   * \brief compute T - floor(T / (2 * pi) * (2 * pi)
+   * \brief convert the input angle (in radians) to be between [0, 2*pi]
    *
    * \param  T
    *
-   * \return rev(T)
+   * \return T -> [0, 2*pi]
    */
   template <typename T> T rev(T);
   
   /**
-   * \brief compute the signum of T
+   * \brief compute the sign[um] of T
    *
    * \param  T
    *
-   * \return signum(T)
+   * \return sign(T) + identity(T)
    */
   template <typename T> signed sgn(T);
   
