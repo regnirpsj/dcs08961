@@ -63,8 +63,8 @@ BOOST_AUTO_TEST_CASE(test_celestial_orbital_moon)
   celestial::orbital::moon const m(dtime, 0.0);
   
   BOOST_CHECK(60.2666 == m.a);
-  BOOST_CHECK(0.0549  == m.e);
-  BOOST_CHECK(5.1454  == m.i);
+  BOOST_CHECK( 0.0549  == m.e);
+  BOOST_CHECK( 5.1454  == m.i);
 
   print_orbital(m);
 }
