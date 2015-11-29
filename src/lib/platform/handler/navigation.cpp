@@ -440,7 +440,7 @@ namespace platform {
       {
         TRACE("platform::handler::navigation::simple::apply_rotation");
 
-        rotation_ *= glm::rotate(glm::deg2rad(a.w), glm::vec3(a.x, a.y, a.z));
+        rotation_ *= glm::rotate(a.w, glm::vec3(a.x, a.y, a.z));
 
         update();
         
