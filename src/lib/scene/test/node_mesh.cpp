@@ -41,6 +41,6 @@ BOOST_AUTO_TEST_CASE(test_scene_node_mesh_ctor)
   
   //mesh const m;
   
-  BOOST_CHECK(true);
-  //BOOST_MESSAGE(m << '\n');
+  BOOST_CHECK       (true);
+  //BOOST_TEST_MESSAGE(m);
 }

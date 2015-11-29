@@ -42,6 +42,6 @@ BOOST_AUTO_TEST_CASE(test_scene_node_camera_ctor)
   
   node::camera const m(new object::camera::orthographic);
   
-  BOOST_CHECK(true);
-  BOOST_MESSAGE(m << '\n');
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(m);
 }

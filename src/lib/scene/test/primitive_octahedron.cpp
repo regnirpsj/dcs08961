@@ -45,6 +45,6 @@ BOOST_AUTO_TEST_CASE(test_scene_primitive_octahedron_ctor)
   
   octahedron const c;
   
-  BOOST_CHECK(true);
-  BOOST_MESSAGE(c << '\n');
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(c);
 }

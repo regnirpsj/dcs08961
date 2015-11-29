@@ -117,8 +117,8 @@ BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_bfs)
 #endif
   }
 
-  BOOST_CHECK  (!output.is_empty(false));
-  BOOST_MESSAGE(output.str());
+  BOOST_CHECK       (!output.is_empty(false));
+  BOOST_TEST_MESSAGE(output.str());
 }
 
 BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_dfs)
@@ -139,6 +139,6 @@ BOOST_AUTO_TEST_CASE(test_scene_visitor_print_graph_dfs)
   g->accept(pv1);
 #endif
     
-  BOOST_CHECK  (!output.is_empty(false));
-  BOOST_MESSAGE(output.str());
+  BOOST_CHECK       (!output.is_empty(false));
+  BOOST_TEST_MESSAGE(output.str());
 }

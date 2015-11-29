@@ -41,6 +41,6 @@ BOOST_AUTO_TEST_CASE(test_scene_node_rotor_ctor)
   
   rotor const r;
   
-  BOOST_CHECK(true == r.children.get().empty());
-  BOOST_MESSAGE(r << '\n');
+  BOOST_CHECK       (true == r.children.get().empty());
+  BOOST_TEST_MESSAGE(r);
 }

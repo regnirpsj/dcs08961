@@ -41,6 +41,6 @@ BOOST_AUTO_TEST_CASE(test_scene_node_select_ctor)
   
   node::select const s;
   
-  BOOST_CHECK(true == s.children.get().empty());
-  BOOST_MESSAGE(s << '\n');
+  BOOST_CHECK       (true == s.children.get().empty());
+  BOOST_TEST_MESSAGE(s);
 }

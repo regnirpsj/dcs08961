@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(test_scene_visitor_cull)
   
   g->accept(v);
 
-  BOOST_MESSAGE("visible geometry: " << l.size());
+  BOOST_TEST_MESSAGE("visible geometry: " << l.size());
   
   delete g;
 }

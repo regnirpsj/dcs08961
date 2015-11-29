@@ -41,6 +41,6 @@ BOOST_AUTO_TEST_CASE(test_scene_node_local_light_ctor)
   
   local_light const l;
   
-  BOOST_CHECK(true == l.children.get().empty());
-  BOOST_MESSAGE(l << '\n');
+  BOOST_CHECK       (true == l.children.get().empty());
+  BOOST_TEST_MESSAGE(l);
 }

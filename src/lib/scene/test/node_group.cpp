@@ -41,9 +41,8 @@ BOOST_AUTO_TEST_CASE(test_scene_node_group_ctor)
   
   group const g;
   
-  BOOST_CHECK  (true == g.children.get().empty());
-  BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(1 + 1 + 1 + 1)
-                << g << '\n');
+  BOOST_CHECK       (true == g.children.get().empty());
+  BOOST_TEST_MESSAGE(glm::io::precision(1) << glm::io::width(1 + 1 + 1 + 1) << g);
 }
 
 BOOST_AUTO_TEST_CASE(test_scene_node_group_add_child)
@@ -87,9 +86,9 @@ BOOST_AUTO_TEST_CASE(test_scene_node_group_set_children)
   g0.children += g2;
 #endif
   
-  BOOST_CHECK  (2 == g0.children.get().size());
-  BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(1 + 1 + 1 + 1)
-                << g0 << '\n' << *g1 << '\n' << *g2 << '\n');
+  BOOST_CHECK       (2 == g0.children.get().size());
+  BOOST_TEST_MESSAGE(glm::io::precision(1) << glm::io::width(1 + 1 + 1 + 1)
+                     << g0 << '\n' << *g1 << '\n' << *g2);
   
   group* g3(new group);
   group* g4(new group);
@@ -102,9 +101,9 @@ BOOST_AUTO_TEST_CASE(test_scene_node_group_set_children)
   g0.children += g2;
 #endif
   
-  BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(1 + 0 + 1 + 1)
-                << g0 << '\n' << *g1 << '\n' << *g2 << '\n' << *g3 << '\n' << *g4 << '\n');
-  BOOST_CHECK  (2 == g0.children.get().size());
-  BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(0 + 0 + 1 + 1)
-                << g0 << '\n' << *g3 << '\n' << *g4 << '\n');
+  BOOST_TEST_MESSAGE(glm::io::precision(1) << glm::io::width(1 + 0 + 1 + 1)
+                     << g0 << '\n' << *g1 << '\n' << *g2 << '\n' << *g3 << '\n' << *g4);
+  BOOST_CHECK       (2 == g0.children.get().size());
+  BOOST_TEST_MESSAGE(glm::io::precision(1) << glm::io::width(0 + 0 + 1 + 1)
+                     << g0 << '\n' << *g3 << '\n' << *g4);
 }

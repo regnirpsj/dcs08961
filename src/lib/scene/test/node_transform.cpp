@@ -41,6 +41,6 @@ BOOST_AUTO_TEST_CASE(test_scene_node_transform_ctor)
   
   transform const x;
   
-  BOOST_CHECK(true == x.children.get().empty());
-  BOOST_MESSAGE(x << '\n');
+  BOOST_CHECK       (true == x.children.get().empty());
+  BOOST_TEST_MESSAGE(x);
 }

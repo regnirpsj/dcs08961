@@ -41,6 +41,6 @@ BOOST_AUTO_TEST_CASE(test_scene_node_translator_ctor)
   
   translator const t;
   
-  BOOST_CHECK(true == t.children.get().empty());
-  BOOST_MESSAGE(t << '\n');
+  BOOST_CHECK       (true == t.children.get().empty());
+  BOOST_TEST_MESSAGE(t);
 }

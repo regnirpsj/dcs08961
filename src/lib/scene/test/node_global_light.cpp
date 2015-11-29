@@ -41,6 +41,6 @@ BOOST_AUTO_TEST_CASE(test_scene_node_global_light_ctor)
   
   global_light const l;
   
-  BOOST_CHECK(true);
-  BOOST_MESSAGE(l << '\n');
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(l);
 }

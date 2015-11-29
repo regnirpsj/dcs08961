@@ -64,8 +64,8 @@ BOOST_AUTO_TEST_CASE(test_scene_file_load)
   for (auto f : file_names) {
     std::string const& from(std::get<0>(f));
 
-    BOOST_MESSAGE("loading from '" << from << "'");
-    BOOST_CHECK(nullptr != (std::get<2>(f) = handler::load(from)));
+    BOOST_TEST_MESSAGE("loading from '" << from << "'");
+    BOOST_CHECK       (nullptr != (std::get<2>(f) = handler::load(from)));
   }
 }
 
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(test_scene_file_save)
   for (auto f : file_names) {
     std::string const& to(std::get<1>(f));
 
-    BOOST_MESSAGE("saving to '" << to << "'");
-    BOOST_CHECK(handler::save(to, std::get<2>(f)));
+    BOOST_TEST_MESSAGE("saving to '" << to << "'");
+    BOOST_CHECK       (handler::save(to, std::get<2>(f)));
   }
 }

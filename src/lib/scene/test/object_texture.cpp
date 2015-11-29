@@ -51,9 +51,8 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_scene_object_texture_ctor_fill, T, tex_types_
 {
   T const t;
 
-  BOOST_CHECK(true);
-  
-  BOOST_MESSAGE(support::demangle(typeid(T)) << ':' << t);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(support::demangle(typeid(T)) << ':' << t);
 }
 
 typedef boost::mpl::list<scene::object::texture::d2> tex_types_file;
@@ -77,8 +76,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_scene_object_texture_ctor_file, T, tex_types_
   for (auto const& f : file_list) {
     T const t(f);
     
-    BOOST_CHECK(!t.empty());
-    
-    BOOST_MESSAGE(support::demangle(typeid(T)) << ':' << t);
+    BOOST_CHECK       (!t.empty());
+    BOOST_TEST_MESSAGE(support::demangle(typeid(T)) << ':' << t);
   }
 }
