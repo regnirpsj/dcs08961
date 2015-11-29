@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(test_field_connection_manager_print)
   connection::manager::lease cml;
   
   BOOST_CHECK(&cml);
-  BOOST_MESSAGE(cml->status());
+  BOOST_TEST_MESSAGE(cml->status());
   
   {
     test::container_single<unsigned> c;
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE(test_field_connection_manager_print)
 
     f1.touch();
     
-    BOOST_MESSAGE(cml->status());
+    BOOST_TEST_MESSAGE(cml->status());
     
     {
       BOOST_CHECK(!connect(&f3, &f3));
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE(test_field_connection_manager_print)
       f3.touch();
       f5.touch();
       
-      BOOST_MESSAGE(cml->status());
+      BOOST_TEST_MESSAGE(cml->status());
     }
 
     {
@@ -101,11 +101,11 @@ BOOST_AUTO_TEST_CASE(test_field_connection_manager_print)
 
       f6.touch();
       
-      BOOST_MESSAGE(cml->status());
+      BOOST_TEST_MESSAGE(cml->status());
     }
 
-    BOOST_MESSAGE(cml->status());
+    BOOST_TEST_MESSAGE(cml->status());
   }
   
-  BOOST_MESSAGE(cml->status());
+  BOOST_TEST_MESSAGE(cml->status());
 }

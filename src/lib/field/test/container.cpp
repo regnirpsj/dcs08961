@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE(test_field_container_print_on)
   
   BOOST_CHECK(true == *c.svf_bool);
   BOOST_CHECK(std::string("abcdefghijklmnopqrstuvwxyz").length() == c.svf_string.get().length());
-  BOOST_MESSAGE(std::boolalpha << c);
+  BOOST_TEST_MESSAGE(std::boolalpha << c);
 }
 
 BOOST_AUTO_TEST_CASE(test_field_container_mgr)
@@ -172,7 +172,7 @@ BOOST_AUTO_TEST_CASE(test_field_container_mgr)
     BOOST_CHECK(true == *a.svf_bool);
   }
   
-  BOOST_MESSAGE(std::boolalpha << c[c.size()-1]);
+  BOOST_TEST_MESSAGE(std::boolalpha << c[c.size()-1]);
 }
 
 BOOST_AUTO_TEST_CASE(test_field_container_fields)
@@ -184,8 +184,8 @@ BOOST_AUTO_TEST_CASE(test_field_container_fields)
   container::field_list_type const& flist(c.fields());
   
   for (unsigned i(0); i < flist.size(); ++i){
-    BOOST_MESSAGE(std::right << std::setw(2) << i << ':' << *(flist[i]));
+    BOOST_TEST_MESSAGE(std::right << std::setw(2) << i << ':' << *(flist[i]));
   }
   
-  BOOST_MESSAGE("evalmgr: " << c.eval_manager());
+  BOOST_TEST_MESSAGE("evalmgr: " << c.eval_manager());
 }
