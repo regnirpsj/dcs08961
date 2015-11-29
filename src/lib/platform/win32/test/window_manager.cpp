@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE(test_platform_win32_window_manager_all)
     
     ostr << reinterpret_cast<HWND>(i);
     
-    BOOST_MESSAGE(ostr.str() << '\n');
+    BOOST_TEST_MESSAGE(ostr.str() << '\n');
   }
 }
 
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(test_platform_win32_window_manager_displays)
 
     ostr << ']';
     
-    BOOST_MESSAGE(ostr.str() << '\n');
+    BOOST_TEST_MESSAGE(ostr.str() << '\n');
   }
 }
 
@@ -116,6 +116,6 @@ BOOST_AUTO_TEST_CASE(test_platform_win32_window_manager_monitors)
     
     ostr << '[' << i << ']';
     
-    BOOST_MESSAGE(ostr.str() << '\n');
+    BOOST_TEST_MESSAGE(ostr.str() << '\n');
   }
 }

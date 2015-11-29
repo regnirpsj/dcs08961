@@ -46,6 +46,6 @@ BOOST_AUTO_TEST_CASE(test_platform_win32_window_simple)
   
   std::unique_ptr<window::simple> s(new window::simple("test_platform_win32_window_simple"));
   
-  BOOST_CHECK  (s);
-  BOOST_MESSAGE(*s);
+  BOOST_CHECK       (s);
+  BOOST_TEST_MESSAGE(*s);
 }
