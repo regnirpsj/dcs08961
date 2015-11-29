@@ -231,14 +231,15 @@ BOOST_AUTO_TEST_CASE(test_support_io_utils_manipulator_remove)
     BOOST_CHECK(std::cout.good() && !std::cout.bad());
   }
 
-  if (false) {
+#if 0
+  {
     std::cout << "hello, monde!" << remove(6) << "world!";
 
     BOOST_CHECK(std::cout.good() && !std::cout.bad());
 
     std::cout << std::endl;
   }
-  
+#endif
 }
 
 BOOST_AUTO_TEST_CASE(test_support_io_utils_array)

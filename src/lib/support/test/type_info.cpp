@@ -28,13 +28,11 @@ namespace {
   
   // types, internal (class, enum, struct, union, typedef)
 
-  class udt_base {
-  };
+  class udt_base { /* ... */ };
 
-  class udt_derived : public udt_base {
-  };
+  class udt_derived : public udt_base { /* ... */ };
 
-  typedef std::vector<std::string> string_list_type;
+  using string_list_type = std::vector<std::string>;
   
   // variables, internal
   

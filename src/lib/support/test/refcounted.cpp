@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(test_support_refcounted_async)
         {
           std::lock_guard<std::mutex> lk(m);
           
-          BOOST_MESSAGE(std::this_thread::get_id() << ':' << a.get_ref());
+          BOOST_TEST_MESSAGE(std::this_thread::get_id() << ':' << a.get_ref());
         }
 #endif
       });
@@ -121,7 +121,7 @@ BOOST_AUTO_TEST_CASE(test_support_refcounted_async)
   BOOST_CHECK(tpool.size() == unsigned(a.get_ref()));
 
 #if 0
-  BOOST_MESSAGE(a.get_ref());
+  BOOST_TEST_MESSAGE(a.get_ref());
 #endif
 }
 
