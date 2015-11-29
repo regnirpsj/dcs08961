@@ -18,7 +18,7 @@
 
 // includes, system
 
-#include <boost/test/test_tools.hpp> // BOOST_MESSAGE
+#include <boost/test/test_tools.hpp> // BOOST_TEST_MESSAGE
 #include <glm/gtx/io.hpp>            // glm::operator<<
 #include <iomanip>                   // std::fixed, std::right, std::setfill
 #include <sstream>                   // std::ostringstream
@@ -133,15 +133,15 @@ namespace platform {
           TRACE("platform::glut::window::test::window::print_state");
 
 #if 0
-          BOOST_MESSAGE("<unnamed>::win::print_state: "
+          BOOST_TEST_MESSAGE("<unnamed>::win::print_state: "
                         << '\n'
                         << "window::manager: ");
           platform::window::manager::print_on(boost::unit_test::lazy_ostream::instance()());
 #endif
-          BOOST_MESSAGE('\n'
-                        << "window         : "
-                        << *this
-                        << '\n');
+          BOOST_TEST_MESSAGE('\n'
+                             << "window         : "
+                             << *this
+                             << '\n');
         }
         
       } // namespace test {

@@ -130,8 +130,8 @@ BOOST_AUTO_TEST_CASE(test_platform_glut_application_glut_version)
   
   ::glutInit(&argc, const_cast<char**>(argv));
     
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(::glutGet(GLUT_VERSION));
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(::glutGet(GLUT_VERSION));
   
   ::glutExit();
 }
