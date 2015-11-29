@@ -35,10 +35,6 @@ namespace {
   
   // functions, internal
 
-#if defined(_MSC_VER)
-  DCS08961_SUPPORT_EXPORT void getRidOfLNK4221(){}
-#endif
-
 } // namespace {
 
 // variables, exported
@@ -73,3 +69,7 @@ DEFAULT_FIELD_TYPES_FOR(         std::wstring);
 #undef DEFAULT_FIELD_TYPES_FOR
 
 #endif // #if defined(UKACHULLDCS_08961_FIELD_DEFAULT_SPECIALIZATIONS)
+
+#if defined(_MSC_VER)
+DCS08961_SUPPORT_EXPORT void getRidOfLNK4221FieldDefaults(){}
+#endif

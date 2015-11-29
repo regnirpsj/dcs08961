@@ -37,7 +37,7 @@ namespace {
   // variables, internal
 
   // functions, internal
-
+  
 } // namespace {
 
 namespace support {
@@ -47,3 +47,7 @@ namespace support {
   // functions, exported
   
 } // namespace support {
+
+#if defined(_MSC_VER)
+DCS08961_SUPPORT_EXPORT void getRidOfLNK4221SupportRefcounted(){}
+#endif

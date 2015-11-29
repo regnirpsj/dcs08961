@@ -34,10 +34,6 @@ namespace {
   
   // functions, internal
 
-#if defined(_MSC_VER)
-  DCS08961_SUPPORT_EXPORT void getRidOfLNK4221(){}
-#endif
-
 } // namespace {
 
 namespace field {
@@ -51,3 +47,7 @@ namespace field {
   } // namespace value {
   
 } // namespace field {
+
+#if defined(_MSC_VER)
+DCS08961_SUPPORT_EXPORT void getRidOfLNK4221FieldValueMulti(){}
+#endif

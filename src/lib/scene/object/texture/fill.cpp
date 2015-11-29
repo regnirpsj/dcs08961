@@ -38,10 +38,6 @@ namespace {
   
   // functions, internal
 
-#if defined(_MSC_VER)
-  DCS08961_SCENE_EXPORT void getRidOfLNK4221(){}
-#endif
-
 } // namespace {
 
 namespace scene {
@@ -59,3 +55,7 @@ namespace scene {
   } // namespace object {
   
 } // namespace scene {
+
+#if defined(_MSC_VER)
+DCS08961_SCENE_EXPORT void getRidOfLNK4221SceneObjectTextureFill(){}
+#endif
