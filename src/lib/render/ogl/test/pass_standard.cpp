@@ -50,6 +50,6 @@ BOOST_AUTO_TEST_CASE(test_render_ogl_pass_standard)
   p.resize (glm::ivec2(10, 10));
   p.execute(c);
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(p);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(p);
 }
