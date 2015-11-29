@@ -9,7 +9,7 @@
 cma_print_current_directory()
 
 find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED
-             COMPONENTS date_time filesystem program_options system thread)
+             COMPONENTS chrono date_time filesystem program_options system thread)
 
 include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 
