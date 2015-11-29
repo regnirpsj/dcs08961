@@ -48,35 +48,35 @@ namespace {
 
 BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_op_literal_deg)
 {
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
+#if defined(_MSC_VER) && (_MSC_VER <= 1900)
   BOOST_CHECK(glm::pi<double>() == 180.0 _deg);
 
-  BOOST_MESSAGE(std::setprecision(12)
-                << "glm::pi<double>():" << glm::pi<double>()
-                << " =?= 180.0_deg:"    << 180.0 _deg);
+  BOOST_TEST_MESSAGE(std::setprecision(12)
+                     << "glm::pi<double>():" << glm::pi<double>()
+                     << " =?= 180.0_deg:"    << 180.0 _deg);
 #else
   BOOST_CHECK(glm::pi<double>() == 180.0_deg);
 
-  BOOST_MESSAGE(std::setprecision(12)
-                << "glm::pi<double>():" << glm::pi<double>()
-                << " =?= 180.0_deg:"    << 180.0_deg);
+  BOOST_TEST_MESSAGE(std::setprecision(12)
+                     << "glm::pi<double>():" << glm::pi<double>()
+                     << " =?= 180.0_deg:"    << 180.0_deg);
 #endif
 }
 
 BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_op_literal_rad)
 {
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
+#if defined(_MSC_VER) && (_MSC_VER <= 1900)
   BOOST_CHECK(glm::pi<double>() == 180.0 _deg);
 
-  BOOST_MESSAGE(std::setprecision(12)
-                << "glm::pi<double>():" << glm::pi<double>()
-                << " =?= 180.0_deg:"    << 180.0 _deg);
+  BOOST_TEST_MESSAGE(std::setprecision(12)
+                     << "glm::pi<double>():" << glm::pi<double>()
+                     << " =?= 180.0_deg:"    << 180.0 _deg);
 #else
   BOOST_CHECK(180.0_deg == glm::pi<double>());
 
-  BOOST_MESSAGE(std::setprecision(12)
-                << "180.0_deg:"              << 180.0_deg
-                << " =?= glm::pi<double>():" << glm::pi<double>());
+  BOOST_TEST_MESSAGE(std::setprecision(12)
+                     << "180.0_deg:"              << 180.0_deg
+                     << " =?= glm::pi<double>():" << glm::pi<double>());
 #endif
 }
 
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_convert_transform)
 {
   typedef std::pair<glm::mat4 const, glm::mat4 const> matrix_pair;
   
-#if defined(_MSC_VER) && (_MSC_VER <= 1800)
+#if defined(_MSC_VER) && (_MSC_VER <= 1900)
   glm::vec3::value_type const angle(float(45 _deg));
 #else
   glm::vec3::value_type const angle(float(45_deg));
@@ -144,9 +144,9 @@ BOOST_AUTO_TEST_CASE(test_glm_gtx_utilities_convert_transform)
       glm::mat4 const   x(glm::convert::transform(i.first, e.first, r, s, t));
       matrix_pair const p(std::make_pair(i.first, x));
 
-      BOOST_MESSAGE(glm::io::precision(7) << glm::io::width(1 + 1 + 1 + 7)
-                    << i.second << ':' << std::string(47 - i.second.length(), ' ')
-                    << e.second << ':' << p << '\n');
+      BOOST_TEST_MESSAGE(glm::io::precision(7) << glm::io::width(1 + 1 + 1 + 7)
+                         << i.second << ':' << std::string(47 - i.second.length(), ' ')
+                         << e.second << ':' << p << '\n');
 
       static float const epsilon(177 * std::numeric_limits<float>::epsilon());
       

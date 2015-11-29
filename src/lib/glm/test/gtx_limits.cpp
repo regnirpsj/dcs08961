@@ -49,14 +49,14 @@ namespace {
 
     std::string const prefix(support::demangle(typeid(numlimits_t)) + "::epsilon:");
     
-    BOOST_MESSAGE(prefix
-                  << std::string(100 - prefix.length(), ' ')
-                  << std::fixed
-                  << std::right
-                  << std::setfill(' ')
-                  << std::setprecision(max_precision)
-                  << std::setw(2 + max_precision)
-                  << numlimits_t::epsilon());
+    BOOST_TEST_MESSAGE(prefix
+                       << std::string(100 - prefix.length(), ' ')
+                       << std::fixed
+                       << std::right
+                       << std::setfill(' ')
+                       << std::setprecision(max_precision)
+                       << std::setw(2 + max_precision)
+                       << numlimits_t::epsilon());
   }
   
   // variables, internal

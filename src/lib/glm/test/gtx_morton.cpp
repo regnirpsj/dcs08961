@@ -69,7 +69,7 @@ namespace {
          << std::left
          << ": array<" + support::demangle(typeid(T)) << ',' << N << '>';
     
-    BOOST_MESSAGE(ostr.str());
+    BOOST_TEST_MESSAGE(ostr.str());
   }
 
   template <typename V>
@@ -85,7 +85,7 @@ namespace {
          << std::left
          << ": " << support::demangle(typeid(V));
     
-    BOOST_MESSAGE(ostr.str());
+    BOOST_TEST_MESSAGE(ostr.str());
   }
   
 } // namespace {
@@ -93,7 +93,7 @@ namespace {
 #include <boost/test/test_case_template.hpp>
 #include <boost/mpl/list.hpp>
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1900))
 
 typedef boost::mpl::list<signed, unsigned> array_types;
 
@@ -249,9 +249,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_gtx_morton_vec1, T, vec1_types)
     BOOST_CHECK(v == e);
 
 #if defined(UKACHULLDCS_GLM_GTX_MORTON_VERBOSE)
-    BOOST_MESSAGE(   "v:" << glm::io::width(2) << v << ", "
-                  << "c:" << std::setw(2)      << c << ", "
-                  << "e:" << glm::io::width(2) << e);
+    BOOST_TEST_MESSAGE("v:" << glm::io::width(2) << v << ", "
+                       << "c:" << std::setw(2)      << c << ", "
+                       << "e:" << glm::io::width(2) << e);
 #endif
   }
 }
@@ -276,9 +276,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_gtx_morton_vec2, T, vec2_types)
       BOOST_CHECK(v == e);
 
 #if defined(UKACHULLDCS_GLM_GTX_MORTON_VERBOSE)
-      BOOST_MESSAGE(   "v:" << glm::io::width(2) << v << ", "
-                    << "c:" << std::setw(3)      << c << ", "
-                    << "e:" << glm::io::width(2) << e);
+      BOOST_TEST_MESSAGE("v:" << glm::io::width(2) << v << ", "
+                         << "c:" << std::setw(3)      << c << ", "
+                         << "e:" << glm::io::width(2) << e);
 #endif
     }
   }
@@ -305,9 +305,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_gtx_morton_vec3, T, vec3_types)
         BOOST_CHECK(v == e);
         
 #if defined(UKACHULLDCS_GLM_GTX_MORTON_VERBOSE)
-        BOOST_MESSAGE(   "v:" << glm::io::width(2) << v << ", "
-                      << "c:" << std::setw(3)      << c << ", "
-                      << "e:" << glm::io::width(2) << e);
+        BOOST_TEST_MESSAGE("v:" << glm::io::width(2) << v << ", "
+                           << "c:" << std::setw(3)      << c << ", "
+                           << "e:" << glm::io::width(2) << e);
 #endif
       }
     }
@@ -336,9 +336,9 @@ BOOST_AUTO_TEST_CASE_TEMPLATE(test_glm_gtx_morton_vec4, T, vec4_types)
           BOOST_CHECK(v == e);
 
 #if defined(UKACHULLDCS_GLM_GTX_MORTON_VERBOSE)
-          BOOST_MESSAGE(   "v:" << glm::io::width(2) << v << ", "
-                        << "c:" << std::setw(3)      << c << ", "
-                        << "e:" << glm::io::width(2) << e);
+          BOOST_TEST_MESSAGE("v:" << glm::io::width(2) << v << ", "
+                             << "c:" << std::setw(3)      << c << ", "
+                             << "e:" << glm::io::width(2) << e);
 #endif
         }
       }
