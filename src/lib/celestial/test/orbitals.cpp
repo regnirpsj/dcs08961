@@ -44,12 +44,12 @@ namespace {
   {
     boost::io::ios_flags_saver const ifs(std::cout);
     
-    BOOST_MESSAGE(o << " @"
-                  << glm::io::precision(2) << glm::io::width(1+2+1+2)
-                  << o.distance_and_anomaly() << ':'
-                  << glm::io::precision(2) << glm::io::width(1+1+1+2)
-                  << o.coord_ecliptic_rect_geo() << ':'
-                  << o.coord_equatorial_rect_geo());
+    BOOST_TEST_MESSAGE(o << " @"
+                       << glm::io::precision(2) << glm::io::width(1+2+1+2)
+                       << o.distance_and_anomaly() << ':'
+                       << glm::io::precision(2) << glm::io::width(1+1+1+2)
+                       << o.coord_ecliptic_rect_geo() << ':'
+                       << o.coord_equatorial_rect_geo());
   }
   
 } // namespace {
