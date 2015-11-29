@@ -82,22 +82,22 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_device_context_ctor)
 {
   dcontext const c;
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(c);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(c);
 }
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_swap_context_ctor)
 {
   scontext const c;
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(c);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(c);
 }
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_device_and_swap_context_ctor)
 {
   dscontext const c;
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(c);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(c);
 }

@@ -97,9 +97,9 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_stage_draw_ctor)
     d.scene  = new node::group;
   }
   
-  BOOST_CHECK  (nullptr != d.camera.get());
-  BOOST_CHECK  (nullptr != d.scene. get());
-  BOOST_MESSAGE(d);
+  BOOST_CHECK       (nullptr != d.camera.get());
+  BOOST_CHECK       (nullptr != d.scene. get());
+  BOOST_TEST_MESSAGE(d);
 }
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_stage_draw_execute)
@@ -114,23 +114,23 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_stage_draw_execute)
     d.scene  = new node::group;
   }
   
-  BOOST_CHECK  (nullptr != d.camera.get());
-  BOOST_CHECK  (nullptr != d.scene. get());
+  BOOST_CHECK(nullptr != d.camera.get());
+  BOOST_CHECK(nullptr != d.scene. get());
 
   d.resize (glm::ivec2(10, 10));
 
-  BOOST_MESSAGE(std::fixed
-                << "resize:"
-                << std::setw(9) << std::setprecision(2)
-                << *((*d.stats_resize)->fetch().get()));
+  BOOST_TEST_MESSAGE(std::fixed
+                     << "resize:"
+                     << std::setw(9) << std::setprecision(2)
+                     << *((*d.stats_resize)->fetch().get()));
   
   for (unsigned i(0); i < 9; ++i) {
     d.execute(c);
-    BOOST_MESSAGE(std::fixed
+    BOOST_TEST_MESSAGE(std::fixed
                   << "exec" << std::setfill('0') << std::setw(2) << (i+1) << ':'
                   << std::setfill(' ') << std::setw(9) << std::setprecision(2)
                   << *((*d.stats_execute)->fetch().get()));
   }
   
-  // BOOST_MESSAGE(d);
+  // BOOST_TEST_MESSAGE(d);
 }

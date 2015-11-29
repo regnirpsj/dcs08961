@@ -55,8 +55,8 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_pass_container_ctor)
   p.stages += new stage::null(c);
   p.stages += new stage::null(c);
   
-  BOOST_CHECK  (2 == p.stages->size());
-  BOOST_MESSAGE(p);
+  BOOST_CHECK       (2 == p.stages->size());
+  BOOST_TEST_MESSAGE(p);
 }
 
 BOOST_AUTO_TEST_CASE(test_render_base_test_pass_container_add_stage)
@@ -102,8 +102,8 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_pass_container_set_stages)
   p0.stages += p2;
 #endif
   
-  BOOST_CHECK  (2 == p0.stages.get().size());
-  BOOST_MESSAGE(p0 << '\n' << *p1 << '\n' << *p2 << '\n');
+  BOOST_CHECK       (2 == p0.stages.get().size());
+  BOOST_TEST_MESSAGE(p0 << '\n' << *p1 << '\n' << *p2 << '\n');
   
   pass::container* p3(new pass::container(c));
   pass::container* p4(new pass::container(c));
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_pass_container_set_stages)
   p0.stages += p2;
 #endif
   
-  BOOST_MESSAGE(p0 << '\n' << *p1 << '\n' << *p2 << '\n' << *p3 << '\n' << *p4 << '\n');
-  BOOST_CHECK  (2 == p0.stages.get().size());
-  BOOST_MESSAGE(p0 << '\n' << *p3 << '\n' << *p4 << '\n');
+  BOOST_TEST_MESSAGE(p0 << '\n' << *p1 << '\n' << *p2 << '\n' << *p3 << '\n' << *p4 << '\n');
+  BOOST_CHECK       (2 == p0.stages.get().size());
+  BOOST_TEST_MESSAGE(p0 << '\n' << *p3 << '\n' << *p4 << '\n');
 }

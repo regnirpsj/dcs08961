@@ -63,6 +63,6 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_stage_swap_ctor)
   context           c;
   swap_stage const s(c);
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(s);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(s);
 }

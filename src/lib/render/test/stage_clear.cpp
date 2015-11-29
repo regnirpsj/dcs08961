@@ -63,6 +63,6 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_stage_clear_ctor)
   context           c;
   clear_stage const s(c);
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(s);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(s);
 }

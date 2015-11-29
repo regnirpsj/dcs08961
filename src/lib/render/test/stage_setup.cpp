@@ -115,6 +115,6 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_stage_setup_ctor)
   s.state_sampler       = new sampler      (c);
   s.shader_program      = new program      (c);
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(s);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(s);
 }

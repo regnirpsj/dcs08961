@@ -48,6 +48,6 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_stage_null_ctor)
   context                   c;
   render::stage::null const n(c);
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(n);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(n);
 }

@@ -86,6 +86,6 @@ BOOST_AUTO_TEST_CASE(test_render_base_test_window_ctor)
 
   w.passes += p;
   
-  BOOST_CHECK  (1 == w.passes->size());
-  BOOST_MESSAGE(w);
+  BOOST_CHECK       (1 == w.passes->size());
+  BOOST_TEST_MESSAGE(w);
 }

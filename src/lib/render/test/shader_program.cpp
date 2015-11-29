@@ -98,6 +98,6 @@ BOOST_AUTO_TEST_CASE(test_render_test_shader_program_ctor)
   p.geometry_shader  = new gs (c);
   p.fragment_shader  = new fs (c);
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(p);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(p);
 }
