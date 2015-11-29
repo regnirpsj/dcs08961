@@ -53,7 +53,7 @@ namespace scene {
       /* explicit */
       d1::d1(unsigned const& a, glm::uvec4 const& b)
         : base  (),
-          tdata_(gli::FORMAT_RGBA8_UNORM, gli::texture1D::texelcoord_type(a))
+          tdata_(gli::FORMAT_RGBA8_UNORM_PACK32, gli::texture1D::texelcoord_type(a))
       {   
         TRACE("scene::object::d1::d1");
       
