@@ -47,6 +47,6 @@ BOOST_AUTO_TEST_CASE(test_platform_glx_window_simple)
   std::unique_ptr<window::base>
     s(new window::test::window("test_platform_glx_window_simple"));
   
-  BOOST_CHECK  (s);
-  BOOST_MESSAGE(*s);
+  BOOST_CHECK       (s);
+  BOOST_TEST_MESSAGE(*s);
 }

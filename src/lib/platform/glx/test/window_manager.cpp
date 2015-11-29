@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(test_platform_glx_window_manager_count)
     
     platform::window::manager::print_on(ostr);
     
-    BOOST_MESSAGE(ostr.str());
+    BOOST_TEST_MESSAGE(ostr.str());
   }
 }
 
@@ -78,6 +78,6 @@ BOOST_AUTO_TEST_CASE(test_platform_glx_window_manager_all)
     
     ostr << "[@" << reinterpret_cast<GLXContext const>(i) << ']';
     
-    BOOST_MESSAGE(ostr.str());
+    BOOST_TEST_MESSAGE(ostr.str());
   }
 }
