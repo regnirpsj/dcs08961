@@ -61,8 +61,8 @@ BOOST_AUTO_TEST_CASE(test_geometry_lattice_print_on)
 
   ltype const l;
   
-  BOOST_CHECK  (true);
-  BOOST_MESSAGE(glm::io::precision(1) << glm::io::width(3) << l);
+  BOOST_CHECK       (true);
+  BOOST_TEST_MESSAGE(glm::io::precision(1) << glm::io::width(3) << l);
 }
 
 BOOST_AUTO_TEST_CASE(test_geometry_lattice_at)
