@@ -155,14 +155,15 @@ namespace celestial {
     base::base(boost::posix_time::ptime const& a, double b,
                constant_pair const& mp, constant_pair const& np, constant_pair const& ap,
                constant_pair const& ep, constant_pair const& ip, constant_pair const& wp)
-      : d  (adjusted_time_from_local(a, b)),
-        M  (mp.first + (mp.second * d)),
-        N  (np.first + (np.second * d)),
-        a  (ap.first + (ap.second * d)),
-        e  (ep.first + (ep.second * d)),
-        i  (ip.first + (ip.second * d)),
-        w  (wp.first + (wp.second * d)),
-        ecl(glm::radians(23.4393) - (glm::radians(3.563E-7) * d))
+      : support::printable(),
+        d                 (adjusted_time_from_local(a, b)),
+        M                 (mp.first + (mp.second * d)),
+        N                 (np.first + (np.second * d)),
+        a                 (ap.first + (ap.second * d)),
+        e                 (ep.first + (ep.second * d)),
+        i                 (ip.first + (ip.second * d)),
+        w                 (wp.first + (wp.second * d)),
+        ecl               (glm::radians(23.4393) - (glm::radians(3.563E-7) * d))
     {
       TRACE("celestial::orbital::base::base");
     }
