@@ -83,8 +83,8 @@ BOOST_AUTO_TEST_CASE(test_platform_handler_keyboard_ascii)
   h.press  (key::ascii::three);
   h.release(key::ascii::four);
 
-  BOOST_CHECK  (4 == h.qsize());
-  BOOST_MESSAGE(h);
+  BOOST_CHECK       (4 == h.qsize());
+  BOOST_TEST_MESSAGE(h);
 }
 
 BOOST_AUTO_TEST_CASE(test_platform_handler_keyboard_code)
@@ -101,6 +101,6 @@ BOOST_AUTO_TEST_CASE(test_platform_handler_keyboard_code)
   h.press  (key::code::F3);
   h.release(key::code::F4);
 
-  BOOST_CHECK  (4 == h.qsize());
-  BOOST_MESSAGE(h);
+  BOOST_CHECK       (4 == h.qsize());
+  BOOST_TEST_MESSAGE(h);
 }

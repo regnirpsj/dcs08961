@@ -94,6 +94,6 @@ BOOST_AUTO_TEST_CASE(test_platform_handler_frame_update)
     }
   }
   
-  BOOST_CHECK  (qmax == h.qsize());
-  BOOST_MESSAGE(h);
+  BOOST_CHECK       (qmax == h.qsize());
+  BOOST_TEST_MESSAGE(h);
 }

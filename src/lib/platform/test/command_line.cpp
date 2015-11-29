@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE(test_platform_application_command_line_process)
   command_line c(argc, argv);
 
   c.descriptions.add(description());
-  c.process();
+  BOOST_REQUIRE_THROW(c.process(), std::exception);
   
   BOOST_CHECK(argv[0] == c.argv0);
   BOOST_TEST_MESSAGE(c);

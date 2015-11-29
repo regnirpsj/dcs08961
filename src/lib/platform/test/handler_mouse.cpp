@@ -78,8 +78,8 @@ BOOST_AUTO_TEST_CASE(test_platform_handler_mouse_motion)
     h.motion();
   }
 
-  BOOST_CHECK  (4 == h.qsize());
-  BOOST_MESSAGE(h);
+  BOOST_CHECK       (4 == h.qsize());
+  BOOST_TEST_MESSAGE(h);
 }
 
 BOOST_AUTO_TEST_CASE(test_platform_handler_mouse_press_release)
@@ -96,8 +96,8 @@ BOOST_AUTO_TEST_CASE(test_platform_handler_mouse_press_release)
     h.release(button::left);
   }
 
-  BOOST_CHECK  (4 == h.qsize());
-  BOOST_MESSAGE(h);
+  BOOST_CHECK       (4 == h.qsize());
+  BOOST_TEST_MESSAGE(h);
 }
 
 BOOST_AUTO_TEST_CASE(test_platform_handler_mouse_scroll)
@@ -113,6 +113,6 @@ BOOST_AUTO_TEST_CASE(test_platform_handler_mouse_scroll)
     h.scroll(1.0, direction::up);
   }
 
-  BOOST_CHECK  (4 == h.qsize());
-  BOOST_MESSAGE(h);
+  BOOST_CHECK       (4 == h.qsize());
+  BOOST_TEST_MESSAGE(h);
 }
