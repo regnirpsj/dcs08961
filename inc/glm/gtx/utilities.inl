@@ -28,7 +28,7 @@ namespace glm {
   
   // functions, inlined (inline)
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1900))
   inline constexpr double
   operator "" _deg(unsigned long long a)
   {

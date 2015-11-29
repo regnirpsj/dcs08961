@@ -61,7 +61,7 @@ namespace glm {
   
   // functions, inlined (inline)  
   
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1900))
   /**
    * \brief user-defined literals for distinguishing degrees and radians
    *
@@ -129,7 +129,7 @@ namespace glm {
 
 } // namespace glm {
 
-#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1800))
+#if !defined(_MSC_VER) || (defined(_MSC_VER) && (_MSC_VER > 1900))
 // for convenience, to avoid cumbersome lines like 'using glm::operator "" _deg;'
 using glm::operator "" _deg;
 using glm::operator "" _rad;
