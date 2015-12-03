@@ -38,6 +38,7 @@ namespace scene {
 
         explicit d1(unsigned const&   /* size */  = default_size.x,
                     glm::uvec4 const& /* color */ = default_color);
+        explicit d1(std::string const& /* file */);
         virtual ~d1();
 
         virtual bool empty() const;

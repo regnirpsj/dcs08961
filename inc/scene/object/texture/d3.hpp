@@ -38,6 +38,7 @@ namespace scene {
 
         explicit d3(glm::uvec3 const& /* size */  = default_size.xyz(),
                     glm::uvec4 const& /* color */ = default_color);
+        explicit d3(std::string const& /* file */);
         virtual ~d3();
 
         virtual bool empty() const;

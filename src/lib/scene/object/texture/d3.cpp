@@ -23,6 +23,7 @@
 // includes, project
 
 #include <object/texture/fill.hpp>
+#include <object/texture/load.hpp>
 
 #define UKACHULLDCS_USE_TRACE
 #undef UKACHULLDCS_USE_TRACE
@@ -60,6 +61,18 @@ namespace scene {
         fill(tdata_, glm::u8vec4(b));
       } 
     
+      /* explicit */
+      d3::d3(std::string const& a)
+        : base  (),
+          tdata_(load(a))
+      {   
+        TRACE("scene::object::d3::d3(file)");
+      
+        if (!empty()) {
+          name = a;
+        } 
+      }
+      
       /* virtual */
       d3::~d3()
       {
