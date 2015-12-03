@@ -99,7 +99,11 @@ BOOST_AUTO_TEST_CASE(test_platform_application_command_line_process)
   command_line c(argc, argv);
 
   c.descriptions.add(description());
+#if defined(WIN32)
   BOOST_REQUIRE_THROW(c.process(), std::exception);
+#else
+  c.process();
+#endif
   
   BOOST_CHECK(argv[0] == c.argv0);
   BOOST_TEST_MESSAGE(c);
