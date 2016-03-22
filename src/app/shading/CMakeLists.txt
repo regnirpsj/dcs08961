@@ -6,4 +6,4 @@
 #                                                                                                  #
 ####################################################################################################
 
-cma_print_current_directory()
+add_subdirectory(sperical_harmonics)

@@ -7,7 +7,7 @@
 ####################################################################################################
 
 add_subdirectory(celestial)
-#add_subdirectory(event)
+add_subdirectory(event)
 add_subdirectory(field)
 add_subdirectory(geometry)
 add_subdirectory(gli)

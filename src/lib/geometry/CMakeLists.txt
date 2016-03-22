@@ -15,6 +15,7 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIR})
 include_directories(SYSTEM ${GLM_INCLUDE_DIR})
 
 set(SRC)
+list(APPEND SRC "kd_tree.cpp")
 list(APPEND SRC "lattice.cpp")
 list(APPEND SRC "triangle.cpp")
 

@@ -8,3 +8,4 @@
 
 add_subdirectory(boxes)
 add_subdirectory(viewer)
+add_subdirectory(voxels)

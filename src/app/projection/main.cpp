@@ -85,11 +85,11 @@ namespace ogl {
   {
     glm::vec3 result;
     
-#if 0
+#if 1
     // glspec43.core20120806:13.6.1
-    result.x  = ((p.x + 1) * (v.w / 2.0f))      +                    v.x;
-    result.y  = ((p.y + 1) * (v.h / 2.0f))      +                    v.y;
-    result.z  =  (p.z * ((v.df - v.dn) / 2.0f)) + ((v.dn + v.df) / 2.0f);
+    result.x  = ((p.x + 1) * (v.width  / 2.0f))    +                       v.x;
+    result.y  = ((p.y + 1) * (v.height / 2.0f))    +                       v.y;
+    result.z  =  (p.z * ((v.far - v.near) / 2.0f)) + ((v.near + v.far) / 2.0f);
 #else
     // assuming v.df:1 and v.dn:0
     result    = p * 0.5f + 0.5f;
@@ -152,18 +152,18 @@ namespace {
   
   // variables, internal
 
-  float const      fov     (80.0);
-  viewport_t const viewport( 0, 0, 500, 500, 0,     1   );
-  frustum_t const  frustum (-1, 1,  -1,   1, 0.1f, 10.0f);
+  float const      fov     (glm::radians(80.0));
+  viewport_t const viewport( 0, 0, 500, 500, 0,      1   );
+  frustum_t const  frustum (-1, 1,  -1,   1, 0.1f, 100.0f);
   
   std::array<glm::vec3, 3> const box = {
     {
-      glm::vec3( 0.0,  0.0,  0.0),
-      //glm::vec3(-0.5, -0.5,  0.5),
-      //glm::vec3( 0.5, -0.5,  0.5),
-      glm::vec3( 0.5,  0.5,  0.5), 
+      glm::vec3( 0.0,  0.0,   0.0),
+      glm::vec3( 0.0,  0.0,  50.5),
+      glm::vec3( 0.0,  0.0, -50.5),
+      //glm::vec3( 0.5,  0.5,  0.5), 
       //glm::vec3(-0.5,  0.5,  0.5),
-      glm::vec3(-0.5, -0.5, -0.5),
+      //glm::vec3(-0.5, -0.5, -0.5),
       //glm::vec3( 0.5, -0.5, -0.5),
       //glm::vec3( 0.5,  0.5, -0.5),
       //glm::vec3(-0.5,  0.5, -0.5),
